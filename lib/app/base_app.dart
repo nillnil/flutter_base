@@ -1,6 +1,6 @@
 
 import 'package:base/base_stateless_widget.dart' show BaseStatelessWidget;
-import 'package:flutter/cupertino.dart' show CupertinoApp, CupertinoTheme, CupertinoThemeData;
+import 'package:flutter/cupertino.dart' show CupertinoApp, CupertinoTextThemeData, CupertinoThemeData, LocaleListResolutionCallback;
 import 'package:flutter/material.dart' show BuildContext, Color, GenerateAppTitle, Key, Locale, LocaleResolutionCallback, LocalizationsDelegate, MaterialApp, NavigatorObserver, RouteFactory, Theme, ThemeData, TransitionBuilder, Widget, WidgetBuilder;
 
 /// 基础App
@@ -25,6 +25,7 @@ class BaseApp extends BaseStatelessWidget{
 	final Color color;
 	final Locale locale;
 	final Iterable<LocalizationsDelegate<dynamic>> localizationsDelegates;
+  final LocaleListResolutionCallback localeListResolutionCallback;
 	final LocaleResolutionCallback localeResolutionCallback;
 	final Iterable<Locale> supportedLocales;
 	final bool showPerformanceOverlay;
@@ -33,10 +34,10 @@ class BaseApp extends BaseStatelessWidget{
 	final bool showSemanticsDebugger;
 	final bool debugShowCheckedModeBanner;
 	final CupertinoThemeData cupertinoTheme;
-	final bool useMaterialTheme;
 
 	// materialApp
 	final ThemeData materialTheme;
+	final ThemeData dartTheme;
 	final bool debugShowMaterialGrid;
 
 	final Map<String, Object> cupertino;
@@ -57,6 +58,7 @@ class BaseApp extends BaseStatelessWidget{
 		this.color,
 		this.locale,
 		this.localizationsDelegates,
+    this.localeListResolutionCallback,
 		this.localeResolutionCallback,
 		this.supportedLocales = const <Locale>[Locale('en', 'US')],
 		this.showPerformanceOverlay = false,
@@ -65,9 +67,9 @@ class BaseApp extends BaseStatelessWidget{
 		this.showSemanticsDebugger = false,
 		this.debugShowCheckedModeBanner = true,
 		this.cupertinoTheme,
-		this.useMaterialTheme = false,
 
 		this.materialTheme,
+		this.dartTheme,
 		this.debugShowMaterialGrid = false,
 		this.cupertino,
 		this.material
@@ -75,33 +77,7 @@ class BaseApp extends BaseStatelessWidget{
 
 	@override
   Widget buildByCupertino(BuildContext context) {
-		// CupertinoApp没有theme参数, 所以使用Theme作为其父组件使其使用theme功能
-		return useMaterialTheme ? Theme(
-			data: materialTheme ?? Theme.of(context),
-			child: CupertinoApp(
-				key: valueFromCupertino('key', key),
-				navigatorKey: valueFromCupertino('navigatorKey', navigatorKey),
-				home: valueFromCupertino('home', home),
-				routes: valueFromCupertino('routes', routes),
-				initialRoute: valueFromCupertino('initialRoute', initialRoute),
-				onGenerateRoute: valueFromCupertino('onGenerateRoute', onGenerateRoute),
-				onUnknownRoute: valueFromCupertino('onUnknownRoute', onUnknownRoute),
-				navigatorObservers: valueFromCupertino('navigatorObservers', navigatorObservers),
-				builder: valueFromCupertino('builder', builder),
-				title: valueFromCupertino('title', title),
-				onGenerateTitle: valueFromCupertino('onGenerateTitle', onGenerateTitle),
-				color: valueFromCupertino('color', color),
-				locale: valueFromCupertino('locale', locale),
-				localizationsDelegates: valueFromCupertino('localizationsDelegates', localizationsDelegates),
-				localeResolutionCallback: valueFromCupertino('localeResolutionCallback', localeResolutionCallback),
-				supportedLocales: valueFromCupertino('supportedLocales', supportedLocales),
-				showPerformanceOverlay: valueFromCupertino('showPerformanceOverlay', showPerformanceOverlay),
-				checkerboardRasterCacheImages: valueFromCupertino('checkerboardRasterCacheImages', checkerboardRasterCacheImages),
-				checkerboardOffscreenLayers: valueFromCupertino('checkerboardOffscreenLayers', checkerboardOffscreenLayers),
-				showSemanticsDebugger: valueFromCupertino('showSemanticsDebugger', showSemanticsDebugger),
-				debugShowCheckedModeBanner: valueFromCupertino('debugShowCheckedModeBanner', debugShowCheckedModeBanner)
-			)
-		) : CupertinoApp(
+		return CupertinoApp(
 			key: valueFromCupertino('key', key),
 			navigatorKey: valueFromCupertino('navigatorKey', navigatorKey),
 			home: valueFromCupertino('home', home),
@@ -117,6 +93,7 @@ class BaseApp extends BaseStatelessWidget{
 			color: valueFromCupertino('color', color),
 			locale: valueFromCupertino('locale', locale),
 			localizationsDelegates: valueFromCupertino('localizationsDelegates', localizationsDelegates),
+			localeListResolutionCallback: valueFromCupertino('localeListResolutionCallback', localeListResolutionCallback),
 			localeResolutionCallback: valueFromCupertino('localeResolutionCallback', localeResolutionCallback),
 			supportedLocales: valueFromCupertino('supportedLocales', supportedLocales),
 			showPerformanceOverlay: valueFromCupertino('showPerformanceOverlay', showPerformanceOverlay),
@@ -142,8 +119,11 @@ class BaseApp extends BaseStatelessWidget{
 			title: valueFromMaterial('title', title),
 			onGenerateTitle: valueFromMaterial('onGenerateTitle', onGenerateTitle),
 			color: valueFromMaterial('color', color),
+      theme: valueFromMaterial('theme', materialTheme),
+      darkTheme: dartTheme,
 			locale: valueFromMaterial('locale', locale),
 			localizationsDelegates: valueFromMaterial('localizationsDelegates', localizationsDelegates),
+			localeListResolutionCallback: valueFromMaterial('localeListResolutionCallback', localeListResolutionCallback),
 			localeResolutionCallback: valueFromMaterial('localeResolutionCallback', localeResolutionCallback),
 			supportedLocales: valueFromMaterial('supportedLocales', supportedLocales),
 			showPerformanceOverlay: valueFromMaterial('showPerformanceOverlay', showPerformanceOverlay),
@@ -151,8 +131,6 @@ class BaseApp extends BaseStatelessWidget{
 			checkerboardOffscreenLayers: valueFromMaterial('checkerboardOffscreenLayers', checkerboardOffscreenLayers),
 			showSemanticsDebugger: valueFromMaterial('showSemanticsDebugger', showSemanticsDebugger),
 			debugShowCheckedModeBanner: valueFromMaterial('debugShowCheckedModeBanner', debugShowCheckedModeBanner),
-
-			theme: valueFromMaterial('theme', materialTheme),
 			debugShowMaterialGrid: valueFromMaterial('debugShowMaterialGrid', debugShowMaterialGrid)
 		);
   }

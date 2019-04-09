@@ -1,7 +1,7 @@
 
 import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/cupertino.dart' show CupertinoAlertDialog, ScrollController;
-import 'package:flutter/material.dart' show AlertDialog, Animation, BuildContext, Builder, Color, Colors, CurvedAnimation, Curves, EdgeInsets, EdgeInsetsGeometry, FadeTransition, Key, RouteTransitionsBuilder, SafeArea, ShapeBorder, Theme, ThemeData, Widget, showDialog, showGeneralDialog;
+import 'package:flutter/material.dart' show AlertDialog, BuildContext, EdgeInsets, EdgeInsetsGeometry, Key, ShapeBorder, Widget, showDialog;
 
 /// 基础弹出框
 /// cupertino，使用CupertinoAlertDialog

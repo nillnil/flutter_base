@@ -64,4 +64,11 @@ class BaseRoute extends BaseObject {
 		Navigator.of(context, rootNavigator: rootNavigator, nullOk: nullOk).push(this.build(context));
 	}
 
+  pushAndRemoveUntil(BuildContext context, {
+		bool rootNavigator = false,
+		bool nullOk = false
+	}) {
+		Navigator.of(context, rootNavigator: rootNavigator, nullOk: nullOk).pushAndRemoveUntil(this.build(context), null);
+	}
+
 }

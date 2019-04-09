@@ -1,8 +1,9 @@
 
 import 'package:base/base_stateless_widget.dart';
 import 'package:base/utils/bsae_utils.dart';
-import 'package:flutter/cupertino.dart' show Container, CupertinoColors, CupertinoNavigationBar, CupertinoTheme, DefaultTextStyle, ObstructingPreferredSizeWidget, Size, StatelessWidget;
-import 'package:flutter/material.dart' show AppBar, Border, BorderSide, BorderStyle, Brightness, BuildContext, Color, Column, EdgeInsetsDirectional, IconThemeData, Key, NavigationToolbar, PreferredSizeWidget, TextTheme, Theme, Widget;
+import 'package:base/flutter/flutter_modify.dart';
+import 'package:flutter/cupertino.dart' show Container, CupertinoColors, CupertinoTheme, DefaultTextStyle, ObstructingPreferredSizeWidget, Size, StatelessWidget;
+import 'package:flutter/material.dart' show Border, BorderSide, BorderStyle, Brightness, BuildContext, Color, Column, EdgeInsetsDirectional, IconThemeData, Key, NavigationToolbar, PreferredSizeWidget, TextTheme, Theme, Widget;
 import 'package:flutter/services.dart';
 
 /// 基础导航栏
@@ -40,6 +41,7 @@ class BaseNavBar extends BaseStatelessWidget {
 	final bool fullScreen;
 	final double height;
 
+  // 是否添加高斯模糊效果，默认true（即使背景色为透明的）
 	final bool useBackdropFilter;
 
 	// material

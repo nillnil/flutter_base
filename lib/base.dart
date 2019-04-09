@@ -14,6 +14,9 @@
 
 library base;
 
+/// modify from flutter
+export 'flutter/flutter_modify.dart';
+
 export 'app/base_app.dart';
 export 'baritem/base_bar_item.dart';
 export 'base_stateless_widget.dart';
@@ -27,6 +30,7 @@ export 'dialog/base_dialog_action.dart';
 export 'dialog/base_general_dialog.dart';
 export 'icon/base_icon.dart';
 export 'icon/base_icon_button.dart';
+export 'indicator/base_indicator.dart';
 export 'navbar/base_navbar.dart';
 export 'page/base_page.dart';
 export 'page/base_tab_page.dart';
@@ -40,4 +44,3 @@ export 'section/base_tile.dart';
 export 'tabbar/base_tabbar.dart';
 export 'tabbar/base_tab.dart';
 export 'tabbar/base_bottom_bar.dart';
-export 'indicator/base_indicator.dart';

@@ -1,7 +1,7 @@
 
 import 'package:base/base_constants.dart';
 import 'package:base/platform/platform.dart';
-import 'package:flutter/widgets.dart' show BuildContext, Container, Key, State, StatefulElement, StatefulWidget, Widget;
+import 'package:flutter/widgets.dart' show BuildContext, Container, Key, State, StatefulWidget, Widget;
 
 /// 基础组件
 class BaseStatefulWidget extends StatefulWidget {

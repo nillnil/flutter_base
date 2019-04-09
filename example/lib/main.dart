@@ -1,111 +1,139 @@
+import 'dart:io' show Platform;
+
+import 'package:example/demos/app_bar_demo.dart';
+import 'package:example/demos/button_demo.dart';
+import 'package:example/demos/demo.dart';
+import 'package:example/demos/dialog_demo.dart';
+import 'package:example/demos/page_demo.dart';
+import 'package:example/demos/route_demo.dart';
+import 'package:example/demos/section/section_demo.dart';
+import 'package:example/demos/tab_demo.dart';
+import 'package:example/iconfont/iconfont.dart';
+import 'package:example/settings.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart' show debugDefaultTargetPlatformOverride;
 import 'package:flutter/material.dart';
+import 'package:base/base.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  _setTargetPlatformForDesktop();
+  SystemChrome.setPreferredOrientations([ DeviceOrientation.portraitUp ]).then((_) {
+    runApp(App());
+  });
+}
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+/// 适配桌面客户端，mac用ios，windows，linux用android
+void _setTargetPlatformForDesktop() {
+  TargetPlatform targetPlatform;
+  if (Platform.isMacOS) {
+    targetPlatform = TargetPlatform.iOS;
+  } else if (Platform.isLinux || Platform.isWindows) {
+    targetPlatform = TargetPlatform.android;
+  }
+  if (targetPlatform != null) {
+    debugDefaultTargetPlatformOverride = targetPlatform;
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class App extends StatelessWidget {
+  
+  @override
+  Widget build(BuildContext context) {
+    Color _backgroundColor = Color.fromRGBO(231, 231, 231, 1.0);
+    return BaseApp(
+      title: 'Base Example',
+      cupertinoTheme: CupertinoThemeData(
+        primaryColor: Colors.black87,
+        barBackgroundColor: Colors.black87,
+        scaffoldBackgroundColor: _backgroundColor
+      ),
+      materialTheme: ThemeData(
+        primaryColor: Colors.indigoAccent,
+        scaffoldBackgroundColor: _backgroundColor
+      ),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      locale: Locale('en', 'US'),
+      supportedLocales: [ Locale('zh', 'CN'), Locale('en', 'US')],
+      home: Home(title: 'Base Example')
+    );
+  }
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+}
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+class Home extends StatelessWidget {
+
+  Home({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+    List<Widget> _children = [
+      Demo(
+        icon: BaseIcon(icon: IconFont.rows, size: 40, color: Colors.redAccent),
+        title: Text('Section', style: TextStyle(color: Colors.redAccent)),
+        page: SectionDemo()
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
+      Demo(
+        icon: BaseIcon(icon: IconFont.nav, size: 40, color: Colors.orangeAccent),
+        title: Text('AppBar', style: TextStyle(color: Colors.orangeAccent)),
+        page: AppBarDemo()
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      Demo(
+        icon: BaseIcon(icon: IconFont.page, size: 40, color: Colors.blueAccent),
+        title: Text('Page', style: TextStyle(color: Colors.blueAccent)),
+        page: PageDemo()
+      ),
+      Demo(
+        icon: BaseIcon(icon: IconFont.tab, size: 40, color: Colors.pinkAccent),
+        title: Text('Tab', style: TextStyle(color: Colors.pinkAccent)),
+        page: TabDemo()
+      ),
+      Demo(
+        icon: BaseIcon(icon: IconFont.dialog, size: 40, color: Colors.purpleAccent),
+        title: Text('Dialog', style: TextStyle(color: Colors.purpleAccent)),
+        page: DialogDemo()
+      ),
+      Demo(
+        icon: BaseIcon(icon: IconFont.buttons, size: 40, color: Colors.greenAccent),
+        title: Text('Button', style: TextStyle(color: Colors.greenAccent)),
+        page: ButtonDemo()
+      ),
+      Demo(
+        icon: BaseIcon(icon: IconFont.routes, size: 40, color: Colors.deepOrangeAccent),
+        title: Text('Routes', style: TextStyle(color: Colors.deepOrangeAccent)),
+        page: RouteDemo()
+      )
+    ];
+    return BasePage(
+      appBar: BaseNavBar(
+        title: Text(title),
+        border: null,
+        padding: EdgeInsetsDirectional.only(start: 5.0, end: 5.0),
+        actions: [
+          BaseButton(
+            padding: EdgeInsets.zero,
+            child: Icon(IconFont.settings, size: 20),
+            onPressed: () {
+              BaseRoute(Settings()).push(context);
+            }
+          )
+        ],
+      ),
+      body: Container(
+        color: Colors.white,
+        child: GridView.count(
+          crossAxisCount: 3,
+          children: _children,
+          mainAxisSpacing: 2.0,
+          crossAxisSpacing: 2.0
+        )
+      )
     );
   }
 }

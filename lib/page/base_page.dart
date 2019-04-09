@@ -27,14 +27,16 @@ class BasePage extends BaseStatelessWidget {
   // cupertino
   final bool resizeToAvoidBottomInset;
   final Map<String, WidgetBuilder> routes;
-  // 自动添加包括状态栏，导航栏的顶部高度的padding
+
+  // 自动添加包括状态栏，导航栏的顶部高度的padding，默认false
   // 因为如果导航栏的背景颜色是半透明的话，默认是不会加上这padding的，
-  // 这里默认为true，自动添加高度padding
   // 注意: 如果autoAddTopPadding = true时，已经自动添加padding，此时再使用BoxScrollView时没有padding参数，会默认加上padding，而本来就已经加了padding了，到导致加了2此padding了
   // 解决办法是: autoAddTopPadding=true，且使用了BoxScrollView，需要在BoxScrollView加上padding参数。
   final bool autoAddTopPadding;
+
   // 默认false，当有tabBar时的tabbarView页面需要设为true才会自动添加bottomPadding
   final bool autoAddBottomPadding;
+
   // 重置MediaQuery.of(context).padding.top的值为0
   // 当导航栏背景色不是透明的时候，body里是不用加top padding的，而BoxScrollView的padding为null时，还是会加上原来状态栏的高度padding，导致会出现多余的top padding
   // 当导航栏背景色为透明的时候，body默认是在导航栏下方的，此时MediaQuery.of(context).padding.top的值已经自动处理好了，为状态栏跟导航栏的高度之和。
@@ -70,7 +72,7 @@ class BasePage extends BaseStatelessWidget {
 
     this.resizeToAvoidBottomInset = true,
     this.routes = const {},
-    this.autoAddTopPadding = true,
+    this.autoAddTopPadding = false,
     this.autoAddBottomPadding = false,
     this.resetMediaPaddingTop = true,
 
@@ -197,15 +199,10 @@ class BasePage extends BaseStatelessWidget {
           padding: MediaQuery.of(context).padding?.copyWith(top: 0.0)
         );
       }
-      // 没有backgroundColor使用Theme里的scaffoldBackgroundColor，
-      // 还没有则以原生默认白色作为背景色
-      Color _backgroundColor = valueFromCupertino('backgroundColor', backgroundColor)
-        ?? CupertinoTheme.of(context).scaffoldBackgroundColor
-        ?? Theme.of(context).scaffoldBackgroundColor ?? Colors.white;
       return CupertinoPageScaffold(
         key: valueFromCupertino('key', key),
         navigationBar: navBarWidget,
-        backgroundColor: _backgroundColor,
+        backgroundColor: valueFromCupertino('backgroundColor', backgroundColor),
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         child: fullObstruction ? (
           _mediaQueryData != null ? MediaQuery(
