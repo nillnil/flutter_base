@@ -1,7 +1,7 @@
 
 import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/cupertino.dart' show CupertinoAlertDialog, ScrollController;
-import 'package:flutter/material.dart' show AlertDialog, BuildContext, EdgeInsets, EdgeInsetsGeometry, Key, ShapeBorder, Widget, showDialog;
+import 'package:flutter/material.dart' show AlertDialog, BuildContext, Color, EdgeInsets, EdgeInsetsGeometry, Key, ShapeBorder, TextStyle, Widget, showDialog;
 
 /// 基础弹出框
 /// cupertino，使用CupertinoAlertDialog
@@ -21,14 +21,13 @@ class BaseAlertDialog extends BaseStatelessWidget {
 
 	// material
 	final EdgeInsetsGeometry titlePadding;
+  final TextStyle titleTextStyle;
 	final EdgeInsetsGeometry contentPadding;
+  final TextStyle contentTextStyle;
+  final Color backgroundColor;
+  final double elevation;
 	final String semanticLabel;
 	final ShapeBorder shape;
-
-	// 个性化cupertino配置
-	final Map<String, Object> cupertino;
-	// 个性化material配置
-	final Map<String, Object> material;
 
 	BaseAlertDialog({
 		// general
@@ -43,12 +42,16 @@ class BaseAlertDialog extends BaseStatelessWidget {
 
 		// material
 		this.titlePadding,
+    this.titleTextStyle,
 		this.contentPadding = const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
+    this.contentTextStyle,
+    this.backgroundColor,
+    this.elevation,
 		this.semanticLabel,
 		this.shape,
 
-		this.cupertino,
-		this.material
+	  Map<String, Object> cupertino,
+		Map<String, Object> material
 	}) : super(key: key, cupertino: cupertino, material: material);
 
 	@override
@@ -68,11 +71,16 @@ class BaseAlertDialog extends BaseStatelessWidget {
 		return AlertDialog(
 			key: valueFromMaterial('key', key),
 			title: valueFromMaterial('title', title),
+      titleTextStyle: titleTextStyle,
 			titlePadding: titlePadding,
 			content: valueFromMaterial('content', content),
 			contentPadding: contentPadding,
+      contentTextStyle: contentTextStyle,
 			actions: valueFromMaterial('actions', actions),
-			semanticLabel: semanticLabel
+      backgroundColor: backgroundColor,
+      elevation: elevation,
+			semanticLabel: semanticLabel,
+      shape: shape
 		);
 	}
 

@@ -1,9 +1,10 @@
 
 import 'package:base/base_stateless_widget.dart';
+import 'package:base/platform/platform.dart';
 import 'package:base/utils/bsae_utils.dart';
-import 'package:base/flutter/flutter_modify.dart';
-import 'package:flutter/cupertino.dart' show Container, CupertinoColors, CupertinoTheme, DefaultTextStyle, ObstructingPreferredSizeWidget, Size, StatelessWidget;
-import 'package:flutter/material.dart' show Border, BorderSide, BorderStyle, Brightness, BuildContext, Color, Column, EdgeInsetsDirectional, IconThemeData, Key, NavigationToolbar, PreferredSizeWidget, TextTheme, Theme, Widget;
+import 'package:base/flutter/flutter_modify.dart' show AppBar, CupertinoNavigationBar;
+import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoTheme, DefaultTextStyle, ObstructingPreferredSizeWidget, Size, StatelessWidget;
+import 'package:flutter/material.dart' show Border, BorderSide, BorderStyle, Brightness, BuildContext, Color, Column, EdgeInsetsDirectional, IconThemeData, Key, NavigationToolbar, PreferredSizeWidget, TextTheme, Theme, Widget, kToolbarHeight;
 import 'package:flutter/services.dart';
 
 /// 基础导航栏
@@ -11,13 +12,14 @@ import 'package:flutter/services.dart';
 /// *** 可使用 cupertino = { forceUseMaterial: true } 参数强制使用AppBar
 /// material，使用AppBar
 /// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoNavigationBar
-class BaseNavBar extends BaseStatelessWidget {
+class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSizeWidget {
 
 	// general
 	final Widget leading;
 	final bool automaticallyImplyLeading;
 	final bool automaticallyImplyMiddle;
 	final Color backgroundColor;
+	final double height;
 
 	// cupertino
 	final String previousPageTitle;
@@ -28,6 +30,9 @@ class BaseNavBar extends BaseStatelessWidget {
 	final Color actionsForegroundColor;
 	final bool transitionBetweenRoutes;
 	final Object heroTag;
+  // 修改源码添加是否加入高斯模糊效果，默认true（即使背景色为透明的）
+  // 当背景色透明时默认为false，想加入请设置useBackdropFilter == true
+	final bool useBackdropFilter;
 
 	// 标题跟随背景亮度自动改变黑白色, 默认true
 	final bool middleColorAutoSet;
@@ -37,12 +42,6 @@ class BaseNavBar extends BaseStatelessWidget {
 	final bool trailingColorAutoSet;
 	// bottom跟随背景亮度自动改变黑白色, 默认true
 	final bool bottomColorAutoSet;
-
-	final bool fullScreen;
-	final double height;
-
-  // 是否添加高斯模糊效果，默认true（即使背景色为透明的）
-	final bool useBackdropFilter;
 
 	// material
 	final Widget title;
@@ -59,15 +58,7 @@ class BaseNavBar extends BaseStatelessWidget {
 	final double toolbarOpacity;
 	final double bottomOpacity;
 
-	final Map<String, Object> cupertino;
-	final Map<String, Object> material;
-
-	// page里会用到这2个参数
-	Color finalBackgroundColor;
-	Widget finalTitle;
-	Color titleTextColor;
-
-	BaseNavBar({
+	BaseAppBar({
 		Key key,
 		this.leading,
 		this.trailing,
@@ -87,15 +78,14 @@ class BaseNavBar extends BaseStatelessWidget {
 		this.actionsForegroundColor = CupertinoColors.activeBlue,
 		this.transitionBetweenRoutes = true,
 		this.heroTag,
+		this.useBackdropFilter = true,
 
 		this.middleColorAutoSet = true,
 		this.leadingColorAutoSet = true,
 		this.trailingColorAutoSet = true,
 		this.bottomColorAutoSet = true,
-		this.fullScreen = false,
 
 		this.height,
-		this.useBackdropFilter = true,
 
 		this.title,
 		this.actions,
@@ -110,71 +100,9 @@ class BaseNavBar extends BaseStatelessWidget {
 		this.titleSpacing = NavigationToolbar.kMiddleSpacing,
 		this.toolbarOpacity = 1.0,
 		this.bottomOpacity = 1.0,
-		this.cupertino,
-		this.material
+		Map<String, Object> cupertino,
+		Map<String, Object> material
 	}) : super(key: key, cupertino: cupertino, material: material);
-
-	BaseNavBar copyWith({
-		PreferredSizeWidget bottom,
-		Widget middle,
-		Widget title,
-	}) {
-		return BaseNavBar(
-			key: key,
-			leading: leading,
-			trailing: trailing,
-			automaticallyImplyLeading: automaticallyImplyLeading,
-			automaticallyImplyMiddle: automaticallyImplyMiddle,
-			backgroundColor: backgroundColor,
-			previousPageTitle: previousPageTitle,
-			middle: middle ?? this.middle,
-			border: border,
-			padding: padding,
-			actionsForegroundColor: actionsForegroundColor,
-			transitionBetweenRoutes: transitionBetweenRoutes,
-			heroTag: heroTag,
-			middleColorAutoSet: middleColorAutoSet,
-			leadingColorAutoSet: leadingColorAutoSet,
-			trailingColorAutoSet: trailingColorAutoSet,
-			bottomColorAutoSet: bottomColorAutoSet,
-			fullScreen: fullScreen,
-			height: height,
-			useBackdropFilter: useBackdropFilter,
-			title: title ?? this.title,
-			actions: actions,
-			flexibleSpace: flexibleSpace,
-			bottom: bottom ?? this.bottom,
-			elevation: elevation,
-			brightness: brightness,
-			iconTheme: iconTheme,
-			textTheme: textTheme,
-			primary: primary,
-			centerTitle: centerTitle,
-			titleSpacing: titleSpacing,
-			toolbarOpacity: toolbarOpacity,
-			bottomOpacity: bottomOpacity,
-			cupertino: cupertino,
-			material: material
-		);
-	}
-
-	@override
-	void buildByCupertinoBefore(BuildContext context) {
-    super.buildByCupertinoBefore(context);
-		// 没有backgroundColor使用Theme里的primaryColor，还没有使用原生的
-		finalBackgroundColor = valueFromCupertino('backgroundColor', backgroundColor)
-			?? CupertinoTheme.of(context).barBackgroundColor
-			?? Theme.of(context).primaryColor
-			?? Color(0xCCF8F8F8);
-		finalTitle = valueFromCupertino('middle', middle) ?? valueFromCupertino('title', title);
-	}
-
-	@override
-	void buildByMaterialBefore(BuildContext context) {
-    super.buildByMaterialBefore(context);
-		finalBackgroundColor = valueFromMaterial('backgroundColor', backgroundColor) ?? Theme.of(context).primaryColor;
-		finalTitle = valueFromMaterial('title', title) ?? valueFromMaterial('middle', middle);
-  }
 
 	@override
   Widget buildByCupertino(BuildContext context) {
@@ -186,16 +114,18 @@ class BaseNavBar extends BaseStatelessWidget {
 		if (_actions != null && _actions.length > 0 && _trailing == null) {
 			_trailing = _actions[0];
 		}
-		Brightness brightness = colorBrightness(finalBackgroundColor);
-		if (brightness != null) {
-			titleTextColor =
-			isLight(finalBackgroundColor) ? CupertinoColors.black : CupertinoColors
-				.white;
+    Widget _title = valueFromCupertino('middle', middle) ?? valueFromCupertino('title', title);
+		// 没有backgroundColor使用Theme里的primaryColor，还没有使用原生的
+		Color _backgroundColor = valueFromCupertino('backgroundColor', backgroundColor)
+			?? CupertinoTheme.of(context).barBackgroundColor
+			?? Color(0xCCF8F8F8);
+		if (_backgroundColor != null) {
+			Color titleTextColor = isLight(_backgroundColor) ? CupertinoColors.black : CupertinoColors.white;
 			// middle字体颜色随背景色亮度改变
-			if (finalTitle != null) {
-				finalTitle = DefaultTextStyle(
+			if (_title != null) {
+				_title = DefaultTextStyle(
 					style: DefaultTextStyle.of(context).style.copyWith(color: titleTextColor),
-					child: finalTitle
+					child: _title
 				);
 			}
 			if (leadingColorAutoSet || trailingColorAutoSet) {
@@ -218,51 +148,59 @@ class BaseNavBar extends BaseStatelessWidget {
 				_actionsForegroundColor = titleTextColor;
 			}
 		}
-		bool fullObstruction = finalBackgroundColor.alpha == 0xFF;
+    // 当背景颜色为透明的，默认不加入高斯模糊，想加入请设置useBackdropFilter == true
+    bool _useBackdropFilter = useBackdropFilter;
+    if (_backgroundColor.alpha == 0xFF && _useBackdropFilter == null) {
+      _useBackdropFilter = false;
+    }
 		CupertinoNavigationBar child = heroTag != null ? CupertinoNavigationBar(
 			key: key,
 			leading: _leading,
 			automaticallyImplyLeading: valueFromCupertino('automaticallyImplyLeading', automaticallyImplyLeading),
 			automaticallyImplyMiddle: automaticallyImplyMiddle,
 			previousPageTitle: previousPageTitle,
-			middle: finalTitle,
+			middle: _title,
 			trailing: _trailing,
 			border: border,
-			backgroundColor: finalBackgroundColor,
+			backgroundColor: _backgroundColor,
 			padding: padding,
 			actionsForegroundColor: _actionsForegroundColor,
 			transitionBetweenRoutes: transitionBetweenRoutes,
 			heroTag: heroTag,
 
-			useBackdropFilter: useBackdropFilter
+			useBackdropFilter: _useBackdropFilter,
+      navBarPersistentHeight: valueFromCupertino('height', height),
+      bottom: bottom,
+      bottomOpacity: bottomOpacity,
 		) : CupertinoNavigationBar(
 			key: key,
 			leading: _leading,
 			automaticallyImplyLeading: valueFromCupertino('automaticallyImplyLeading', automaticallyImplyLeading),
 			automaticallyImplyMiddle: automaticallyImplyMiddle,
 			previousPageTitle: previousPageTitle,
-			middle: finalTitle,
+			middle: _title,
 			trailing: _trailing,
 			border: border,
-			backgroundColor: finalBackgroundColor,
+			backgroundColor: _backgroundColor,
 			padding: padding,
 			actionsForegroundColor: _actionsForegroundColor,
 			transitionBetweenRoutes: transitionBetweenRoutes,
-			useBackdropFilter: useBackdropFilter
-		);
 
-		return fullScreen ? _CupertinoNavBar(
-			child: child,
-			backgroundColor: finalBackgroundColor,
-		) : child;
+			useBackdropFilter: _useBackdropFilter,
+      navBarPersistentHeight: valueFromCupertino('height', height),
+      bottom: bottom,
+      bottomOpacity: bottomOpacity,
+		);
+		return child;
 	}
 
 	@override
   Widget buildByMaterial(BuildContext context) {
+		Widget _title = valueFromMaterial('title', title) ?? valueFromMaterial('middle', middle);
 		Widget _bottom = bottom;
 		if (bottom != null) {
-			if (finalTitle == null) {
-				finalTitle = bottom;
+			if (_title == null) {
+				_title = bottom;
 				_bottom = null;
 			}
 		}
@@ -272,81 +210,45 @@ class BaseNavBar extends BaseStatelessWidget {
 		if (_actions == null && _trailing != null) {
 			_actions = [ _trailing ];
 		}
-		if (height != null) {
-			return _MaterialAppBar(
-				key: key,
-				leading: leading,
-				automaticallyImplyLeading: valueFromMaterial('automaticallyImplyLeading', automaticallyImplyLeading),
-				title: finalTitle,
-				actions: _actions,
-				flexibleSpace: flexibleSpace,
-				bottom: _bottom,
-				elevation: elevation,
-				backgroundColor: finalBackgroundColor,
-				brightness: brightness,
-				iconTheme: iconTheme,
-				textTheme: textTheme,
-				primary: primary,
-				centerTitle: centerTitle,
-				titleSpacing: titleSpacing,
-				toolbarOpacity: toolbarOpacity,
-				bottomOpacity: bottomOpacity,
-				height: height,
-			);
-		} else {
-			return AppBar(
-				key: key,
-				leading: leading,
-				automaticallyImplyLeading: valueFromMaterial('automaticallyImplyLeading', automaticallyImplyLeading),
-				title: finalTitle,
-				actions: _actions,
-				flexibleSpace: flexibleSpace,
-				bottom: _bottom,
-				elevation: elevation,
-				backgroundColor: finalBackgroundColor,
-				brightness: brightness,
-				iconTheme: iconTheme,
-				textTheme: textTheme,
-				primary: primary,
-				centerTitle: centerTitle,
-				titleSpacing: titleSpacing,
-				toolbarOpacity: toolbarOpacity,
-				bottomOpacity: bottomOpacity
-			);
-		}
+		Color _backgroundColor = valueFromMaterial('backgroundColor', backgroundColor) 
+      ?? Theme.of(context).appBarTheme.color
+      ?? Theme.of(context).primaryColor;
+    return AppBar(
+      key: key,
+      leading: leading,
+      automaticallyImplyLeading: valueFromMaterial('automaticallyImplyLeading', automaticallyImplyLeading),
+      title: _title,
+      actions: _actions,
+      flexibleSpace: flexibleSpace,
+      bottom: _bottom,
+      elevation: elevation,
+      backgroundColor: _backgroundColor,
+      brightness: brightness,
+      iconTheme: iconTheme,
+      textTheme: textTheme,
+      primary: primary,
+      centerTitle: centerTitle,
+      titleSpacing: titleSpacing,
+      toolbarOpacity: toolbarOpacity,
+      bottomOpacity: bottomOpacity,
+      toolbarHeight: valueFromMaterial('height', height) ?? kToolbarHeight
+    );
+  }
+
+  @override
+  bool get fullObstruction => backgroundColor == null ? null : backgroundColor.alpha == 0xFF;
+
+  @override
+  Size get preferredSize {
+    double _height = height != null ? height: (useCupertino ? 44.0 : kToolbarHeight);
+    _height += bottom != null ? bottom.preferredSize.height : 0;
+    return Size.fromHeight(_height);
   }
 
 }
 
-class _CupertinoNavBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
-
-	final CupertinoNavigationBar child;
-	final Color backgroundColor;
-
-  _CupertinoNavBar({this.child, this.backgroundColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-			children: <Widget>[
-				Container(
-					height: 20,
-					color: fullObstruction ? backgroundColor: backgroundColor.withAlpha(backgroundColor.alpha ~/ 2)
-				),
-				child
-			]
-		);
-  }
-
-	@override
-	Size get preferredSize => Size(child.preferredSize.width, child.preferredSize.height + 20.0);
-
-  @override
-  bool get fullObstruction => backgroundColor.alpha == 0xFF;
-
-}
-
-/// 实现自定义appBar高度
+/// 实现自定义appBar高度(不会居中), 已改用直接修改AppBar源码实现
+@deprecated
 class _MaterialAppBar extends AppBar {
 
 	final Widget leading;

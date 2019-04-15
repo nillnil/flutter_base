@@ -1,162 +1,57 @@
 
-import 'package:example/demos/section/section_demo2.dart';
-import 'package:example/iconfont/iconfont.dart';
-import 'package:flutter/rendering.dart';
+import 'package:example/demos/demo_page.dart';
+import 'package:example/demos/demo_tile.dart';
+import 'package:example/demos/section/wechat_profile.dart';
+import 'package:example/demos/utils/color_block.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:base/base.dart';
+import 'package:flutter/widgets.dart';
 
+/// section 文档说明
 class SectionDemo extends StatelessWidget {
 
-	@override
-	Widget build(BuildContext context) {
-		return BasePage(
-			appBar: BaseNavBar(
-				backgroundColor: Colors.white,
-        border: null,
-        automaticallyImplyLeading: false,
-        actions: <Widget>[
-          BaseIcon(icon: IconFont.camera, size: 20)
-        ],
-			),
-			body: Container(
-				child: ListView.builder(
-					itemCount: 1,
-					itemBuilder: (context, index) {
-						return Column(
-							children: <Widget>[
-								BaseSection(
-									margin: EdgeInsets.only(top: 0.0, bottom: 10.0),
-                  divider: null,
-									children: <Widget>[
-										BaseTile(
-											useInkWell: true,
-											isThreeLine: false,
-											title: Text('张三', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0)),
-											subtitle: Text('WeChat ID: Flutter', style: TextStyle(color: Colors.grey)),
-											contentPadding: EdgeInsets.only(
-                        top: 10.0,
-                        right: 10.0,
-                        bottom: 30.0,
-                        left: 10.0
-                      ),
-											leading: FlutterLogo(
-                        size: 65.0,
-                      ),
-											trailing: Row(
-												children: <Widget>[
-													Padding(
-                            padding: EdgeInsets.only(right: 10.0),
-                            child: Icon(IconFont.qrcode, size: 15, color: Colors.grey)
-                          ),
-													Icon(CupertinoIcons.right_chevron, color: Colors.grey)
-												],
-											)
-										)
-									]
-								),
-								BaseSection(
-									children: <Widget>[
-										BaseTile(
-											contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
-											leading: Padding(
-												padding: EdgeInsets.only(right: 20.0, left: 10.0),
-												child: BaseIcon(
-													icon: IconFont.pay,
-													color: Colors.lightBlue
-												)
-											),
-											title: Text('支付'),
-											trailing: Icon(CupertinoIcons.right_chevron, color: Colors.grey)
-										)
-									]
-								),
-								BaseSection(
-									margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
-									children: <Widget>[
-										BaseTile(
-											contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
-											leading: Padding(
-												padding: EdgeInsets.only(right: 20.0, left: 10.0),
-												child: Icon(
-													IconFont.collection,
-													color: Colors.redAccent
-												)
-											),
-											title: Text('收藏'),
-											trailing: Icon(CupertinoIcons.right_chevron, color: Colors.grey)
-										),
-										BaseTile(
-											contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
-											leading: Padding(
-												padding: EdgeInsets.only(right: 20.0, left: 10.0),
-												child: Icon(
-													IconFont.photo,
-													color: Colors.blueAccent
-												)
-											),
-											title: Text('相册'),
-											trailing: Icon(CupertinoIcons.right_chevron, color: Colors.grey)
-										),
-										BaseTile(
-											contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
-											leading: Padding(
-												padding: EdgeInsets.only(right: 20.0, left: 10.0),
-												child: Icon(
-													IconFont.card,
-													color: Colors.green
-												)
-											),
-											title: Text('卡包'),
-											trailing: Icon(CupertinoIcons.right_chevron, color: Colors.grey)
-										),
-										BaseTile(
-											contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
-											leading: Padding(
-												padding: EdgeInsets.only(right: 20.0, left: 10.0),
-												child: Icon(
-													IconFont.emotion,
-													color: Colors.orangeAccent
-												)
-											),
-											title: Text('表情'),
-											trailing: Icon(
-												CupertinoIcons.right_chevron, color: Colors.grey)
-										)
-									]
-								),
-								BaseSection(
-									children: <Widget>[
-										BaseTile(
-											contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
-											leading: Padding(
-												padding: EdgeInsets.only(right: 20.0, left: 10.0),
-												child: Icon(
-													IconFont.settings,
-													color: Colors.blueGrey
-												)
-											),
-											title: Text('设置'),
-											trailing: Row(
-                        children: <Widget>[
-                          Text('点我', style: TextStyle(color: Colors.grey)),
-                          Icon(CupertinoIcons.right_chevron, color: Colors.grey)
-                        ],
-                      ),
-                      onTap: () {
-                        BaseRoute(
-                          SectionDemo2(),
-                        ).push(context, rootNavigator: true);
-                      }
-										)
-									]
-								)
-							]
-						);
-					}
-				)
-			)
-		);
-	}
+  final List<DemoTile> _demos = [
+    DemoTile(
+      title: Text('仿微信我的页面'),
+      page: WechatProfile()
+    )
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return DemoPage(
+      title: 'Section & Tile',
+      doc: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(bottom: 5.0),
+            child: Text('BaseSection相当于多个BaseTile组成一块\nBseTile相当于ListTile', 
+              style: TextStyle(
+                fontWeight: FontWeight.bold
+              )
+            ),
+          ),
+          Row(
+            children: <Widget>[
+              ColorBlock.material(),
+              Expanded(
+                child: Text('Material：使用ListTile组装'),
+              )
+            ]
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ColorBlock.cupertino(),
+              Expanded(
+                child: Text('Cupertino：因使用自定义无法解决滚动时取消高亮状态，所以改用InkWell，去除水波纹效果，按住时会有200ms延迟高亮'),
+              )
+            ]
+          )
+        ]
+      ),
+      demos: _demos
+    );
+  }
 
 }

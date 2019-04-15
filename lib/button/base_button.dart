@@ -40,11 +40,6 @@ class BaseButton extends BaseStatelessWidget {
   final double minWidth;
   final double height;
 
-  // 个性化cupertino配置
-  final Map<String, Object> cupertino;
-  // 个性化material配置
-  final Map<String, Object> material;
-
   BaseButton({
     @required this.child,
     this.padding,
@@ -74,8 +69,8 @@ class BaseButton extends BaseStatelessWidget {
     this.minWidth,
     this.height,
 
-    this.cupertino,
-    this.material
+    Map<String, Object> cupertino,
+    final Map<String, Object> material
   }) : assert(pressedOpacity == null || (pressedOpacity >= 0.0 && pressedOpacity <= 1.0)),
        super(key: key);
 

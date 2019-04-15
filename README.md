@@ -1,6 +1,6 @@
 # flutter_base
 
-实现一套代码，2种风格，ios使用Cupertino风格组件，andriod、fuchsia使用Material风格组件
+实现一套代码，2种模式，ios使用Cupertino风格组件，andriod、fuchsia使用Material风格组件
 
 ## Getting Started
 

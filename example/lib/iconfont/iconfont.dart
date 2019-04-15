@@ -49,4 +49,6 @@ class IconFont {
 
 	static const IconData pay = const IconData(0xe657, fontFamily: _kFontFam);
 
+	static const IconData info = const IconData(0xe6e5, fontFamily: _kFontFam);
+
 }

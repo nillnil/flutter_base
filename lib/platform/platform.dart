@@ -1,65 +1,40 @@
-import 'package:flutter/foundation.dart';
-import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform;
 
-enum AppPlatform {
-	iOS,
-	android,
-	linux,
-	macOS,
-	windows,
-	fuchsia,
-	none
+TargetPlatform basePlatform = defaultTargetPlatform;
+bool withoutSplashOnCupertino = true;
+
+setPlatform({ 
+  TargetPlatform targetPlatform,
+  bool withoutSplashOnCupertino
+}) {
+	basePlatform = targetPlatform ?? defaultTargetPlatform;
+  withoutSplashOnCupertino = withoutSplashOnCupertino;
 }
 
-AppPlatform appPlatform;
-
-setPlatform({ AppPlatform platform }) {
-	appPlatform = platform != null ? platform
-		: Platform.isIOS ? AppPlatform.iOS
-		: Platform.isAndroid ? AppPlatform.android
-		: Platform.isFuchsia ? AppPlatform.fuchsia
-		: Platform.isWindows ? AppPlatform.windows
-		: Platform.isLinux ? AppPlatform.linux
-		: Platform.isMacOS ? AppPlatform.macOS
-		: AppPlatform.none;
-}
-
+@deprecated
 void changePlatform() {
-	if (appPlatform == AppPlatform.iOS) {
+	if (basePlatform == TargetPlatform.iOS) {
 		changeToMaterial();
-	} else if (appPlatform == AppPlatform.android || appPlatform == AppPlatform.fuchsia) {
+	} else if (basePlatform == TargetPlatform.android || basePlatform == TargetPlatform.fuchsia) {
 		changeToCupertino();
 	} else {
-		print('Still not supporting the platform yet. ');
+		print('The platform is = $basePlatform, it not support yet.');
 	}
 }
 
+@deprecated
 void changeToCupertino() {
-	appPlatform = AppPlatform.iOS;
+	basePlatform = TargetPlatform.iOS;
 }
 
+@deprecated
 void changeToMaterial() {
-	appPlatform = AppPlatform.android;
+	basePlatform = TargetPlatform.android;
 }
 
-bool get isCupertino {
-	if (appPlatform == null) {
-		return debugDefaultTargetPlatformOverride != null ? debugDefaultTargetPlatformOverride == TargetPlatform.iOS
-			: defaultTargetPlatform == TargetPlatform.iOS;
-	} else {
-		return appPlatform == AppPlatform.iOS || appPlatform == AppPlatform.macOS;
-	}
-}
+/// 使用Cupertino模式构建
+bool get useCupertino => basePlatform != null ? basePlatform == TargetPlatform.iOS : defaultTargetPlatform  == TargetPlatform.iOS;
 
-bool get isMaterial {
-	if (appPlatform == null) {
-		return debugDefaultTargetPlatformOverride != null ? debugDefaultTargetPlatformOverride == TargetPlatform.android
-			: (defaultTargetPlatform == TargetPlatform.android ||
-			defaultTargetPlatform == TargetPlatform.fuchsia);
-	} else {
-		return appPlatform == AppPlatform.android
-			|| appPlatform == AppPlatform.fuchsia
-			|| appPlatform == AppPlatform.windows
-			|| appPlatform == AppPlatform.linux;
-	}
-}
+/// 使用Material模式构建
+bool get useMaterial => basePlatform != null ? (basePlatform == TargetPlatform.android || basePlatform == TargetPlatform.fuchsia)
+  : (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.fuchsia);

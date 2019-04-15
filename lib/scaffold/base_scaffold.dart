@@ -1,22 +1,22 @@
 
 import 'package:base/base_stateless_widget.dart';
-import 'package:base/navbar/base_navbar.dart';
-import 'package:base/tabbar/base_tabbar.dart';
-import 'package:base/tabbar/cupertino_top_bar.dart';
-import 'package:base/utils/bsae_utils.dart';
-import 'package:flutter/cupertino.dart' show Alignment, Border, BorderRadius, BoxDecoration, CupertinoColors, CupertinoPageScaffold, CupertinoTabScaffold, CupertinoTabView, CupertinoTheme, Expanded, GlobalKey, ObstructingPreferredSizeWidget, Opacity, ShapeBorder, SizedBox, StatelessWidget, TextStyle;
-import 'package:flutter/material.dart' show Brightness, BuildContext, Color, Colors, Column, Container, DefaultTabController, DefaultTextStyle, EdgeInsets, FloatingActionButtonAnimator, FloatingActionButtonLocation, Key, Material, MaterialType, MediaQuery, MediaQueryData, Padding, PageView, Scaffold, TabBar, TabBarTheme, TabBarView, Theme, Widget, WidgetBuilder;
+import 'package:base/appbar/base_app_bar.dart';
+import 'package:base/platform/platform.dart';
+// import 'package:base/flutter/flutter_modify.dart' show CupertinoPageScaffold;
+import 'package:base/tabbar/base_tab_bar.dart';
+import 'package:flutter/cupertino.dart' show CupertinoPageScaffold, CupertinoTabScaffold, CupertinoTabView, CupertinoTheme, ObstructingPreferredSizeWidget;
+import 'package:flutter/material.dart' show BuildContext, Color, DefaultTabController, EdgeInsets, FloatingActionButtonAnimator, FloatingActionButtonLocation, Key, MediaQuery, MediaQueryData, Padding, Scaffold, TabBarView, Theme, Widget, WidgetBuilder;
 
 /// 基础页面
 /// cupertino，单页面使用CupertinoPageScaffold，Tab页面使用CupertinoTabScaffold
 /// *** 可使用 cupertino = { forceUseMaterial: true } 参数强制使用Scaffold
 /// material，使用Scaffold
 /// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoPageScaffold / CupertinoTabScaffold
-class BasePage extends BaseStatelessWidget {
+class BaseScaffold extends BaseStatelessWidget {
 
   // general
-  final BaseNavBar appBar;
-  final BaseNavBar navBar;
+  final BaseAppBar appBar;
+  final BaseAppBar navBar;
   final Color backgroundColor;
   // 只有一个页面取body
   final Widget body;
@@ -60,7 +60,7 @@ class BasePage extends BaseStatelessWidget {
   final Map<String, Object> cupertino;
   final Map<String, Object> material;
 
-  BasePage({
+  BaseScaffold({
     Key key,
     this.appBar,
     this.navBar,
@@ -108,9 +108,16 @@ class BasePage extends BaseStatelessWidget {
         }
       );
     } else {
-      BaseNavBar navBar = valueFromCupertino('navBar', this.navBar) ?? valueFromCupertino('appBar', this.appBar);
-      Widget navBarWidget = navBar?.build(context) ?? null;
-      bool fullObstruction = navBar?.finalBackgroundColor?.alpha == 0xFF ?? false;
+      BaseAppBar navBar = valueFromCupertino('navBar', this.navBar) ?? valueFromCupertino('appBar', this.appBar);
+      Color appBarBackgroundColor = navBar?.backgroundColor;
+      if (appBarBackgroundColor == null) {
+        if (useCupertino) {
+          appBarBackgroundColor = CupertinoTheme.of(context).barBackgroundColor ?? Color(0xCCF8F8F8);
+        } else {
+          appBarBackgroundColor = Theme.of(context).appBarTheme.color ?? Theme.of(context).primaryColor;
+        }
+      }
+      bool fullObstruction = appBarBackgroundColor?.alpha == 0xFF ?? false;
       double topPadding = 0.0;
       MediaQueryData mediaQueryData = MediaQuery.of(context);
       MediaQueryData _mediaQueryData;
@@ -119,8 +126,8 @@ class BasePage extends BaseStatelessWidget {
           padding: MediaQuery.of(context).padding?.copyWith(top: 0.0)
         );
       }
-      if (navBarWidget != null) {
-        topPadding = mediaQueryData.padding.top + (navBarWidget as ObstructingPreferredSizeWidget).preferredSize.height;
+      if (navBar != null) {
+        topPadding = mediaQueryData.padding.top + navBar.preferredSize.height;
       }
       EdgeInsets padding;
       if (autoAddTopPadding && autoAddBottomPadding) {
@@ -131,69 +138,6 @@ class BasePage extends BaseStatelessWidget {
         padding = EdgeInsets.only(bottom: mediaQueryData.padding.bottom);
       }
       Widget body = valueFromCupertino('body', this.body);
-      Widget bottom = navBar?.bottom;
-      if (navBar != null && bottom != null) {
-        Color navFinalBackgroundColor = navBar?.finalBackgroundColor;
-        if (navFinalBackgroundColor != null && navBar.bottomColorAutoSet) {
-          Color titleTextColor = navBar.titleTextColor;
-          if (bottom is TabBar) {
-            TabBarTheme tabBarTheme = Theme.of(context).tabBarTheme ?? TabBarTheme();
-            bottom = Theme(
-              data: Theme.of(context).copyWith(
-                highlightColor: Colors.transparent,
-                tabBarTheme: tabBarTheme.copyWith(
-                  labelColor: titleTextColor
-                )
-              ),
-              child: bottom,
-            );
-          } else {
-            bottom = DefaultTextStyle(
-              style: DefaultTextStyle.of(context).style.copyWith(color: titleTextColor),
-              child: bottom
-            );
-          }
-        }
-        if (navBar?.finalTitle != null) {
-          Widget column = Column(
-            children: <Widget>[
-              Material(
-                color: navBar?.finalBackgroundColor,
-                shadowColor: Colors.transparent,
-                borderRadius: BorderRadius.zero,
-                animationDuration: Duration(milliseconds: 0),
-                child: Container(
-                  child: bottom
-                )
-              ),
-              Expanded(
-                child: body
-              )
-            ]
-          );
-          _mediaQueryData = mediaQueryData.copyWith(
-            padding: MediaQuery.of(context).padding?.copyWith(top: 0.0)
-          );
-          body = Container(
-            padding: fullObstruction ? EdgeInsets.zero : EdgeInsets.only(top: topPadding),
-            child: column
-          );
-          if (!fullObstruction) {
-            padding = padding.copyWith(top: 0);
-          }
-        } else {
-          navBarWidget = navBar.copyWith(
-            middle: Material(
-              color: navBar?.finalBackgroundColor,
-              type: MaterialType.transparency,
-              animationDuration: Duration(milliseconds: 0),
-              child: Container(
-                child: bottom
-              )
-            )
-          ).build(context);
-        }
-      }
       if (!fullObstruction && autoAddTopPadding && resetMediaPaddingTop) {
         _mediaQueryData = mediaQueryData.copyWith(
           padding: MediaQuery.of(context).padding?.copyWith(top: 0.0)
@@ -201,7 +145,7 @@ class BasePage extends BaseStatelessWidget {
       }
       return CupertinoPageScaffold(
         key: valueFromCupertino('key', key),
-        navigationBar: navBarWidget,
+        navigationBar: navBar,
         backgroundColor: valueFromCupertino('backgroundColor', backgroundColor),
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         child: fullObstruction ? (
@@ -250,7 +194,7 @@ class BasePage extends BaseStatelessWidget {
         primary: primary
       );
     } else {
-      BaseNavBar appBar = valueFromMaterial('appBar', this.appBar) ?? valueFromMaterial('navBar', navBar);
+      BaseAppBar appBar = valueFromMaterial('appBar', this.appBar) ?? valueFromMaterial('navBar', navBar);
       return Scaffold(
         key: valueFromMaterial('key', key),
         appBar: appBar?.build(context),

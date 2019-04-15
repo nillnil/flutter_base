@@ -1,6 +1,6 @@
 
 
-import 'package:base/base_object.dart';
+import 'package:base/base_class.dart';
 import 'package:flutter/cupertino.dart' show CupertinoPageRoute;
 import 'package:flutter/material.dart' show BuildContext, MaterialPageRoute, Navigator, RouteSettings;
 
@@ -9,7 +9,7 @@ import 'package:flutter/material.dart' show BuildContext, MaterialPageRoute, Nav
 /// *** 可使用 cupertino = { forceUseMaterial: true } 参数强制使用MaterialPageRoute
 /// material，使用MaterialPageRoute
 /// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoPageRoute
-class BaseRoute extends BaseObject {
+class BaseRoute extends BaseClass {
 
 	// general
 	final Object page;

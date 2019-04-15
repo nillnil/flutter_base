@@ -1,7 +1,7 @@
 
 import 'package:base/base_stateless_widget.dart';
-import 'package:base/navbar/base_navbar.dart';
-import 'package:base/tabbar/base_tabbar.dart';
+import 'package:base/appbar/base_app_bar.dart';
+import 'package:base/tabbar/base_tab_bar.dart';
 import 'package:flutter/cupertino.dart' show CupertinoTabScaffold, CupertinoTabView;
 import 'package:flutter/material.dart' show BuildContext, Color, Colors, FloatingActionButtonAnimator, FloatingActionButtonLocation, Key, Scaffold, TabController, Widget, WidgetBuilder;
 
@@ -13,8 +13,8 @@ import 'package:flutter/material.dart' show BuildContext, Color, Colors, Floatin
 class BaseTabPage extends BaseStatelessWidget {
 
 	// general
-	final BaseNavBar appBar;
-	final BaseNavBar navBar;
+	final BaseAppBar appBar;
+	final BaseAppBar navBar;
 	final Color backgroundColor;
 
 	// 多个页面取tabViews，同时tab不能为空

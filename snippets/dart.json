@@ -1,0 +1,199 @@
+{
+  "StatelessWidget": {
+    "prefix": "sl",
+    "body": [
+      "class ${1:WidgetName} extends StatelessWidget {",
+      "\n\t@override",
+      "\tWidget build(BuildContext context) {",
+      "\t\treturn ${2:Container}();",
+      "\t}\n",
+      "}"
+    ],
+    "description": "StatelessWidget"
+  },
+  "StatefulWidget": {
+    "prefix": "sf",
+    "body": [
+      "class ${1:WidgetName} extends StatefulWidget {",
+      "\n\t@override",
+      "\t_${1:WidgetName}State createState() => _${1:WidgetName}State();",
+      "}\n",
+      "class _${1:WidgetName}State extends State<${1:WidgetName}> {",
+      "\t@override",
+      "\tWidget build(BuildContext context) {",
+      "\t\treturn ${2:Container}();",
+      "\t}\n",
+      "}"
+    ],
+    "description": "StatefulWidget"
+  },
+  "StatelessWidget with Scaffold": {
+    "prefix": "sls",
+    "body": [
+      "class ${1:WidgetName} extends StatelessWidget {",
+      "\n\t@override",
+      "\tWidget build(BuildContext context) {",
+      "\t\treturn ${Scaffold}(",
+      "\t\t\tappBar: AppBar(",
+      "\t\t\t\ttitle: Text('${1:WidgetName}'),",
+      "\t\t\t\televation: 0.0,",
+      "\t\t\t),${2}",
+      "\t\t);",
+      "\t}\n",
+      "}"
+    ],
+    "description": "StatelessWidget with Scaffold"
+  },  
+  "StatefulWidget with Scaffold": {
+    "prefix": "sfs",
+    "body": [
+      "class ${1:WidgetName} extends StatefulWidget {",
+      "\n\t@override",
+      "\t_${1:WidgetName}State createState() => _${1:WidgetName}State();",
+      "}\n",
+      "class _${1:WidgetName}State extends State<${1:WidgetName}> {",
+      "\t@override",
+      "\tWidget build(BuildContext context) {",
+      "\t\treturn ${Scaffold}(",
+      "\t\t\tappBar: AppBar(",
+      "\t\t\t\ttitle: Text('${1:WidgetName}'),",
+      "\t\t\t\televation: 0.0,",
+      "\t\t\t),${2}",
+      "\t\t);",
+      "\t}\n",
+      "}"
+    ],
+    "description": "StatefulWidget with Scaffold"
+  },
+  "InheritedWidget": {
+    "prefix": "ih",
+    "body": [
+      "class ${1:WidgetName} extends InheritedWidget {",
+      "\n\tfinal Widget child;",
+      "\t${2}",
+      "\t${1:WidgetName}({",
+      "\t\tthis.child,",
+      "\t\t${2}",
+      "\t}) : super(child: child);\n",
+      "\tstatic ${1:WidgetName} of(BuildContext context) =>",
+      "\t\t\tcontext.inheritFromWidgetOfExactType(${1:WidgetName});\n",
+      "\t@override",
+      "\tbool updateShouldNotify(${1:WidgetName} oldWidget) {",
+      "\t\treturn true;",
+      "\t}\n",
+      "}"
+    ],
+    "description": "InheritedWidget"
+  },
+  "setState": {
+    "prefix": "ss",
+    "body": [
+      "setState(() {${1}});",
+    ],
+    "description": "setState"
+  },
+  "build": {
+    "prefix": "build",
+    "body": [
+      "\n@override",
+      "Widget build(BuildContext context) {",
+      "\treturn ${1:Container}(${2});",
+      "}\n",
+    ],
+    "description": "Build Method"
+	},
+
+
+	"StatelessWidget with BaseScaffold": {
+    "prefix": "slbs",
+    "body": [
+      "class ${1:WidgetName} extends StatelessWidget {",
+      "\n\t@override",
+      "\tWidget build(BuildContext context) {",
+			"\t\treturn BaseScaffold(",
+			"\t\t\tappBar: BaseAppBar(",
+			"\t\t\t\ttitle: Text('${2:WidgetName}')",
+			"\t\t\t),",
+			"\t\t\tbody: ${3:Container()}",
+			"\t\t);",
+      "\t}\n",
+      "}\n"
+    ],
+    "description": "StatelessWidget with BaseScaffold"
+	},
+	"StatelessWidgetClass with BaseScaffold": {
+    "prefix": "slbsc",
+    "body": [
+			"import 'package:base/base.dart';",
+			"import 'package:flutter/widgets.dart';",
+      "\nclass ${1:WidgetName} extends StatelessWidget {",
+      "\n\t@override",
+      "\tWidget build(BuildContext context) {",
+			"\t\treturn BaseScaffold(",
+			"\t\t\tappBar: BaseAppBar(",
+			"\t\t\t\ttitle: Text('${2:WidgetName}')",
+			"\t\t\t),",
+			"\t\t\tbody: ${3:Container()}",
+			"\t\t);",
+      "\t}\n",
+      "}\n"
+    ],
+    "description": "StatelessWidgetClass with BaseScaffold，包括import部分，适用于全新文件。"
+	},
+	"StatefulWidget with BaseScaffold": {
+    "prefix": "sfbs",
+    "body": [
+      "class ${1:WidgetName} extends StatefulWidget {",
+      "\n\t@override",
+      "\t_${1:WidgetName}State createState() => _${1:WidgetName}State();",
+      "\n}\n",
+      "class _${1:WidgetName}State extends State<${1:WidgetName}> {",
+      "\n\t@override",
+      "\tWidget build(BuildContext context) {",
+      "\t\treturn ${BaseScaffold}(",
+      "\t\t\tappBar: BaseAppBar(",
+      "\t\t\t\ttitle: Text('${1:WidgetName}'),",
+			"\t\t\t),",
+			"\t\t\t\tbody: ${2:Container()}",
+      "\t\t);",
+      "\t}\n",
+      "}"
+    ],
+    "description": "StatefulWidget with BaseScaffold"
+	},
+	"StatefulWidgetClass with BaseScaffold": {
+    "prefix": "sfbsc",
+    "body": [
+			"import 'package:base/base.dart';",
+			"import 'package:flutter/widgets.dart';",
+      "\nclass ${1:WidgetName} extends StatefulWidget {",
+      "\n\t@override",
+      "\t_${1:WidgetName}State createState() => _${1:WidgetName}State();",
+      "\n}\n",
+      "class _${1:WidgetName}State extends State<${1:WidgetName}> {",
+      "\n\t@override",
+      "\tWidget build(BuildContext context) {",
+      "\t\treturn ${BaseScaffold}(",
+      "\t\t\tappBar: BaseAppBar(",
+      "\t\t\t\ttitle: Text('${1:WidgetName}'),",
+			"\t\t\t),",
+			"\t\t\t\tbody: ${2:Container()}",
+      "\t\t);",
+      "\t}\n",
+      "}"
+    ],
+    "description": "StatefulWidgetClass with BaseScaffold，包括import部分，适用于全新文件。"
+  },
+	"BaseScaffold": {
+    "prefix": "bs",
+    "body": [
+      "BaseScaffold(",
+			"\tappBar: BaseAppBar(",
+			"\t\ttitle: Text('${2:title}')",
+			"\t),",
+			"\tbody: ${3:Container()}",
+			");",
+    ],
+    "description": "BaseScaffold"
+  },
+}

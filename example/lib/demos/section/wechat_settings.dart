@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/cupertino.dart';
 
-class SectionDemo2 extends StatelessWidget {
+class WechatSettings extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
@@ -19,12 +19,14 @@ class SectionDemo2 extends StatelessWidget {
 		EdgeInsets margin = EdgeInsets.only(top: 5.0, bottom: 5.0);
 		Icon trailingIcon = Icon(CupertinoIcons.right_chevron, color: Colors.grey);
 
-  	return BasePage(
-      appBar: BaseNavBar(
+  	return BaseScaffold(
+      appBar: BaseAppBar(
         title: Text('设置'),
         backgroundColor: defaultTargetPlatform == TargetPlatform.iOS ?
           CupertinoTheme.of(context).scaffoldBackgroundColor : Theme.of(context).scaffoldBackgroundColor,
         border: null,
+        elevation: 0.0,
+        transitionBetweenRoutes: false,
       ),
       body: Container(
         child: ListView.builder(
@@ -46,6 +48,8 @@ class SectionDemo2 extends StatelessWidget {
                 ),
                 BaseSection(
                   margin: margin,
+                  backgroundColor: Colors.white,
+                  dividerIndent: 20.0,
                   children: <Widget>[
                     BaseTile(
                       title: Text('新消息通知', style: style),
@@ -77,6 +81,8 @@ class SectionDemo2 extends StatelessWidget {
                 ),
                 BaseSection(
                   margin: margin,
+                  backgroundColor: Colors.white,
+                  dividerIndent: 20.0,
                   children: [
                     BaseTile(
                       title: Text('帮助与反馈'),

@@ -28,6 +28,10 @@ dependencies:
 
   base:
     path: ../
+  
+  flutter_redux: ^0.5.3
+  cached_network_image: ^0.7.0
+  url_launcher: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -46,7 +50,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+     - data/news/
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 

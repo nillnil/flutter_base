@@ -10,7 +10,9 @@
 import 'dart:math' as math;
 import 'dart:ui' show ImageFilter;
 
+import 'package:base/utils/cupertino_splash_factory.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' show Colors, Material, MaterialType, TabBarTheme, Theme;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -110,8 +112,9 @@ Widget _wrapWithBackground({
     child: result,
   );
 
-  if (backgroundColor.alpha == 0xFF || !useBackdropFilter)
+  if (!useBackdropFilter) {
     return childWithBackground;
+  }
 
   return ClipRect(
     child: BackdropFilter(
@@ -202,7 +205,11 @@ class CupertinoNavigationBar extends StatefulWidget implements ObstructingPrefer
     this.actionsForegroundColor,
     this.transitionBetweenRoutes = true,
     this.heroTag = _defaultHeroTag,
+
     this.useBackdropFilter = true,
+    this.navBarPersistentHeight = _kNavBarPersistentHeight,
+    this.bottom,
+    this.bottomOpacity = 1.0,
   }) : assert(automaticallyImplyLeading != null),
        assert(automaticallyImplyMiddle != null),
        assert(transitionBetweenRoutes != null),
@@ -366,13 +373,37 @@ class CupertinoNavigationBar extends StatefulWidget implements ObstructingPrefer
   /// effective only backgroundColor is transparent.
   final bool useBackdropFilter;
 
+  /// custom navBarPersistentHeight
+  final double navBarPersistentHeight;
+
+  /// This widget appears across the bottom of the app bar.
+  ///
+  /// Typically a [TabBar]. Only widgets that implement [PreferredSizeWidget] can
+  /// be used at the bottom of an app bar.
+  ///
+  /// See also:
+  ///
+  ///  * [AppBar], which can be used to give an arbitrary widget a preferred size.
+  final PreferredSizeWidget bottom;
+
+  /// How opaque the bottom part of the app bar is.
+  ///
+  /// A value of 1.0 is fully opaque, and a value of 0.0 is fully transparent.
+  ///
+  /// Typically, this value is not changed from its default value (1.0). It is
+  /// used by [SliverAppBar] to animate the opacity of the toolbar when the app
+  /// bar is scrolled.
+  final double bottomOpacity;
+
   /// True if the navigation bar's background color has no transparency.
   @override
   bool get fullObstruction => backgroundColor == null ? null : backgroundColor.alpha == 0xFF;
 
   @override
   Size get preferredSize {
-    return const Size.fromHeight(_kNavBarPersistentHeight);
+    double _height = navBarPersistentHeight ?? _kNavBarPersistentHeight;
+    _height += bottom != null ? bottom.preferredSize.height : 0;
+    return Size.fromHeight(_height);
   }
 
   @override
@@ -411,7 +442,6 @@ class _CupertinoNavigationBarState extends State<CupertinoNavigationBar> {
       userLargeTitle: null,
       large: false,
     );
-
     final Widget navBar = _wrapWithBackground(
       border: widget.border,
       backgroundColor: backgroundColor,
@@ -420,6 +450,10 @@ class _CupertinoNavigationBarState extends State<CupertinoNavigationBar> {
         child: _PersistentNavigationBar(
           components: components,
           padding: widget.padding,
+          navBarPersistentHeight: widget.navBarPersistentHeight ?? _kNavBarPersistentHeight,
+          bottom: widget.bottom,
+          backgroundColor: widget.backgroundColor,
+          bottomOpacity: widget.bottomOpacity,
         ),
       ),
       useBackdropFilter: widget.useBackdropFilter
@@ -529,7 +563,8 @@ class CupertinoSliverNavigationBar extends StatefulWidget {
     this.transitionBetweenRoutes = true,
     this.heroTag = _defaultHeroTag,
     this.navBarLargeTitleHeightExtension = _kNavBarLargeTitleHeightExtension,
-    this.useBackdropFilter = true
+    this.useBackdropFilter = true,
+    this.navBarPersistentHeight,
   }) : assert(automaticallyImplyLeading != null),
        assert(automaticallyImplyTitle != null),
        assert(
@@ -621,7 +656,11 @@ class CupertinoSliverNavigationBar extends StatefulWidget {
   /// custom navBarLargeTitleHeight
   final double navBarLargeTitleHeightExtension;
 
+  /// custom
   final bool useBackdropFilter;
+  
+  /// custom height
+  final double navBarPersistentHeight;
 
   /// True if the navigation bar's background color has no transparency.
   bool get opaque => backgroundColor.alpha == 0xFF;
@@ -660,7 +699,6 @@ class _CupertinoSliverNavigationBarState extends State<CupertinoSliverNavigation
       padding: widget.padding,
       large: true,
     );
-
     return _wrapActiveColor(
       // Lint ignore to maintain backward compatibility.
       widget.actionsForegroundColor, // ignore: deprecated_member_use_from_same_package
@@ -677,10 +715,11 @@ class _CupertinoSliverNavigationBarState extends State<CupertinoSliverNavigation
           actionsForegroundColor: actionsForegroundColor,
           transitionBetweenRoutes: widget.transitionBetweenRoutes,
           heroTag: widget.heroTag,
-          persistentHeight: _kNavBarPersistentHeight + MediaQuery.of(context).padding.top,
+          persistentHeight: (widget.navBarPersistentHeight ?? _kNavBarPersistentHeight) + MediaQuery.of(context).padding.top,
           alwaysShowMiddle: widget.middle != null,
           navBarLargeTitleHeightExtension: widget.navBarLargeTitleHeightExtension,
-          useBackdropFilter: widget.useBackdropFilter
+          useBackdropFilter: widget.useBackdropFilter,
+          navBarPersistentHeight: widget.navBarPersistentHeight ?? _kNavBarPersistentHeight
         ),
       ),
     );
@@ -703,6 +742,7 @@ class _LargeTitleNavigationBarSliverDelegate
     @required this.alwaysShowMiddle,
     @required this.navBarLargeTitleHeightExtension,
     @required this.useBackdropFilter,
+    @required this.navBarPersistentHeight
   }) : assert(persistentHeight != null),
        assert(alwaysShowMiddle != null),
        assert(transitionBetweenRoutes != null);
@@ -719,7 +759,9 @@ class _LargeTitleNavigationBarSliverDelegate
   final double persistentHeight;
   final bool alwaysShowMiddle;
   final double navBarLargeTitleHeightExtension;
+  /// custom
   final bool useBackdropFilter;
+  final double navBarPersistentHeight;
 
   @override
   double get minExtent => persistentHeight;
@@ -738,6 +780,7 @@ class _LargeTitleNavigationBarSliverDelegate
       // If a user specified middle exists, always show it. Otherwise, show
       // title when sliver is collapsed.
       middleVisible: alwaysShowMiddle ? null : !showLargeTitle,
+      navBarPersistentHeight: navBarPersistentHeight ?? _kNavBarPersistentHeight,
     );
 
     final Widget navBar = _wrapWithBackground(
@@ -841,7 +884,8 @@ class _LargeTitleNavigationBarSliverDelegate
         || alwaysShowMiddle != oldDelegate.alwaysShowMiddle
         || heroTag != oldDelegate.heroTag
         || navBarLargeTitleHeightExtension != oldDelegate.navBarLargeTitleHeightExtension
-        || useBackdropFilter != oldDelegate.useBackdropFilter;
+        || useBackdropFilter != oldDelegate.useBackdropFilter
+        || navBarPersistentHeight != oldDelegate.navBarPersistentHeight;
   }
 }
 
@@ -856,6 +900,10 @@ class _PersistentNavigationBar extends StatelessWidget {
     this.components,
     this.padding,
     this.middleVisible,
+    this.navBarPersistentHeight,
+    this.bottom,
+    this.backgroundColor,
+    this.bottomOpacity
   }) : super(key: key);
 
   final _NavigationBarStaticComponents components;
@@ -864,6 +912,18 @@ class _PersistentNavigationBar extends StatelessWidget {
   /// Whether the middle widget has a visible animated opacity. A null value
   /// means the middle opacity will not be animated.
   final bool middleVisible;
+
+  /// custom height
+  final double navBarPersistentHeight;
+
+  // like AppBar's bottom
+  final PreferredSizeWidget bottom;
+
+  // NavBar's backgroundColor
+  final Color backgroundColor;
+
+  // NavBar's bottomOpacity
+  final double bottomOpacity;
 
   @override
   Widget build(BuildContext context) {
@@ -914,8 +974,44 @@ class _PersistentNavigationBar extends StatelessWidget {
       );
     }
 
+    if (bottom != null) {
+      TabBarTheme tabBarTheme = Theme.of(context).tabBarTheme ?? TabBarTheme();
+      Color _backgroundColor = backgroundColor ?? CupertinoTheme.of(context).barBackgroundColor;
+      paddedToolbar = Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Flexible(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: navBarPersistentHeight),
+              child: paddedToolbar,
+            ),
+          ),
+          Material(
+            type: MaterialType.transparency,
+            color: Colors.transparent,
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                splashFactory: CupertinoSplashFactory(),
+                highlightColor: Colors.transparent,
+                tabBarTheme: tabBarTheme.copyWith(
+                  labelColor: _backgroundColor.computeLuminance() < 0.179 ? Colors.white: Colors.black
+                )
+              ),
+              child: bottomOpacity == 1.0 ? bottom : Opacity(
+                opacity: const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn).transform(bottomOpacity),
+                child: bottom,
+              ),
+            )
+          )
+        ],
+      );
+    }
+    double height = (navBarPersistentHeight ?? _kNavBarPersistentHeight) + MediaQuery.of(context).padding.top;
+    if (bottom != null) {
+      height += bottom.preferredSize.height;
+    }
     return SizedBox(
-      height: _kNavBarPersistentHeight + MediaQuery.of(context).padding.top,
+      height: height,
       child: SafeArea(
         bottom: false,
         child: paddedToolbar,

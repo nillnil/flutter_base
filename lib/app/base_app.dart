@@ -1,6 +1,9 @@
 
 import 'package:base/base_stateless_widget.dart' show BaseStatelessWidget;
-import 'package:flutter/cupertino.dart' show CupertinoApp, CupertinoTextThemeData, CupertinoThemeData, LocaleListResolutionCallback;
+import 'package:base/platform/platform.dart';
+import 'package:base/theme/base_theme.dart';
+import 'package:flutter/cupertino.dart' show CupertinoApp, CupertinoTheme, CupertinoThemeData, LocaleListResolutionCallback;
+import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter/material.dart' show BuildContext, Color, GenerateAppTitle, Key, Locale, LocaleResolutionCallback, LocalizationsDelegate, MaterialApp, NavigatorObserver, RouteFactory, Theme, ThemeData, TransitionBuilder, Widget, WidgetBuilder;
 
 /// 基础App
@@ -33,7 +36,12 @@ class BaseApp extends BaseStatelessWidget{
 	final bool checkerboardOffscreenLayers;
 	final bool showSemanticsDebugger;
 	final bool debugShowCheckedModeBanner;
+  final TargetPlatform targetPlatform;
+
+  // cupertino
 	final CupertinoThemeData cupertinoTheme;
+  // 在cupertino模式下是否禁用水波纹效果，默认true
+  final bool withoutSplashOnCupertino;
 
 	// materialApp
 	final ThemeData materialTheme;
@@ -66,7 +74,10 @@ class BaseApp extends BaseStatelessWidget{
 		this.checkerboardOffscreenLayers = false,
 		this.showSemanticsDebugger = false,
 		this.debugShowCheckedModeBanner = true,
+    this.targetPlatform,
+
 		this.cupertinoTheme,
+    this.withoutSplashOnCupertino = true,
 
 		this.materialTheme,
 		this.dartTheme,
@@ -75,64 +86,83 @@ class BaseApp extends BaseStatelessWidget{
 		this.material
 	}) : super(key: key);
 
+  @override
+  void buildBefore(BuildContext context) {
+    super.buildBefore(context);
+    // 设置目标平台
+    if (targetPlatform != null) {
+      setPlatform(
+        targetPlatform: targetPlatform
+      );
+    }
+  }
+
 	@override
   Widget buildByCupertino(BuildContext context) {
-		return CupertinoApp(
-			key: valueFromCupertino('key', key),
-			navigatorKey: valueFromCupertino('navigatorKey', navigatorKey),
-			home: valueFromCupertino('home', home),
-			theme: cupertinoTheme,
-			routes: valueFromCupertino('routes', routes),
-			initialRoute: valueFromCupertino('initialRoute', initialRoute),
-			onGenerateRoute: valueFromCupertino('onGenerateRoute', onGenerateRoute),
-			onUnknownRoute: valueFromCupertino('onUnknownRoute', onUnknownRoute),
-			navigatorObservers: valueFromCupertino('navigatorObservers', navigatorObservers),
-			builder: valueFromCupertino('builder', builder),
-			title: valueFromCupertino('title', title),
-			onGenerateTitle: valueFromCupertino('onGenerateTitle', onGenerateTitle),
-			color: valueFromCupertino('color', color),
-			locale: valueFromCupertino('locale', locale),
-			localizationsDelegates: valueFromCupertino('localizationsDelegates', localizationsDelegates),
-			localeListResolutionCallback: valueFromCupertino('localeListResolutionCallback', localeListResolutionCallback),
-			localeResolutionCallback: valueFromCupertino('localeResolutionCallback', localeResolutionCallback),
-			supportedLocales: valueFromCupertino('supportedLocales', supportedLocales),
-			showPerformanceOverlay: valueFromCupertino('showPerformanceOverlay', showPerformanceOverlay),
-			checkerboardRasterCacheImages: valueFromCupertino('checkerboardRasterCacheImages', checkerboardRasterCacheImages),
-			checkerboardOffscreenLayers: valueFromCupertino('checkerboardOffscreenLayers', checkerboardOffscreenLayers),
-			showSemanticsDebugger: valueFromCupertino('showSemanticsDebugger', showSemanticsDebugger),
-			debugShowCheckedModeBanner: valueFromCupertino('debugShowCheckedModeBanner', debugShowCheckedModeBanner)
-		);
+		return BaseTheme(
+      materialTheme: materialTheme ?? Theme.of(context),
+      cupertinoTheme: cupertinoTheme ?? CupertinoTheme.of(context),
+      child: CupertinoApp(
+        key: valueFromCupertino('key', key),
+        navigatorKey: valueFromCupertino('navigatorKey', navigatorKey),
+        home: valueFromCupertino('home', home),
+        theme: cupertinoTheme,
+        routes: valueFromCupertino('routes', routes),
+        initialRoute: valueFromCupertino('initialRoute', initialRoute),
+        onGenerateRoute: valueFromCupertino('onGenerateRoute', onGenerateRoute),
+        onUnknownRoute: valueFromCupertino('onUnknownRoute', onUnknownRoute),
+        navigatorObservers: valueFromCupertino('navigatorObservers', navigatorObservers),
+        builder: valueFromCupertino('builder', builder),
+        title: valueFromCupertino('title', title),
+        onGenerateTitle: valueFromCupertino('onGenerateTitle', onGenerateTitle),
+        color: valueFromCupertino('color', color),
+        locale: valueFromCupertino('locale', locale),
+        localizationsDelegates: valueFromCupertino('localizationsDelegates', localizationsDelegates),
+        localeListResolutionCallback: valueFromCupertino('localeListResolutionCallback', localeListResolutionCallback),
+        localeResolutionCallback: valueFromCupertino('localeResolutionCallback', localeResolutionCallback),
+        supportedLocales: valueFromCupertino('supportedLocales', supportedLocales),
+        showPerformanceOverlay: valueFromCupertino('showPerformanceOverlay', showPerformanceOverlay),
+        checkerboardRasterCacheImages: valueFromCupertino('checkerboardRasterCacheImages', checkerboardRasterCacheImages),
+        checkerboardOffscreenLayers: valueFromCupertino('checkerboardOffscreenLayers', checkerboardOffscreenLayers),
+        showSemanticsDebugger: valueFromCupertino('showSemanticsDebugger', showSemanticsDebugger),
+        debugShowCheckedModeBanner: valueFromCupertino('debugShowCheckedModeBanner', debugShowCheckedModeBanner)
+      ),
+    );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
-		return MaterialApp(
-			key: valueFromMaterial('key', key),
-			navigatorKey: valueFromMaterial('navigatorKey', navigatorKey),
-			home: valueFromMaterial('home', home),
-			routes: valueFromMaterial('routes', routes),
-			initialRoute: valueFromMaterial('initialRoute', initialRoute),
-			onGenerateRoute: valueFromMaterial('onGenerateRoute', onGenerateRoute),
-			onUnknownRoute: valueFromMaterial('onUnknownRoute', onUnknownRoute),
-			navigatorObservers: valueFromMaterial('navigatorObservers', navigatorObservers),
-			builder: valueFromMaterial('builder', builder),
-			title: valueFromMaterial('title', title),
-			onGenerateTitle: valueFromMaterial('onGenerateTitle', onGenerateTitle),
-			color: valueFromMaterial('color', color),
-      theme: valueFromMaterial('theme', materialTheme),
-      darkTheme: dartTheme,
-			locale: valueFromMaterial('locale', locale),
-			localizationsDelegates: valueFromMaterial('localizationsDelegates', localizationsDelegates),
-			localeListResolutionCallback: valueFromMaterial('localeListResolutionCallback', localeListResolutionCallback),
-			localeResolutionCallback: valueFromMaterial('localeResolutionCallback', localeResolutionCallback),
-			supportedLocales: valueFromMaterial('supportedLocales', supportedLocales),
-			showPerformanceOverlay: valueFromMaterial('showPerformanceOverlay', showPerformanceOverlay),
-			checkerboardRasterCacheImages: valueFromMaterial('checkerboardRasterCacheImages', checkerboardRasterCacheImages),
-			checkerboardOffscreenLayers: valueFromMaterial('checkerboardOffscreenLayers', checkerboardOffscreenLayers),
-			showSemanticsDebugger: valueFromMaterial('showSemanticsDebugger', showSemanticsDebugger),
-			debugShowCheckedModeBanner: valueFromMaterial('debugShowCheckedModeBanner', debugShowCheckedModeBanner),
-			debugShowMaterialGrid: valueFromMaterial('debugShowMaterialGrid', debugShowMaterialGrid)
-		);
+		return BaseTheme(
+      materialTheme: materialTheme ?? Theme.of(context),
+      cupertinoTheme: cupertinoTheme ?? CupertinoTheme.of(context),
+      child: MaterialApp(
+        key: valueFromMaterial('key', key),
+        navigatorKey: valueFromMaterial('navigatorKey', navigatorKey),
+        home: valueFromMaterial('home', home),
+        routes: valueFromMaterial('routes', routes),
+        initialRoute: valueFromMaterial('initialRoute', initialRoute),
+        onGenerateRoute: valueFromMaterial('onGenerateRoute', onGenerateRoute),
+        onUnknownRoute: valueFromMaterial('onUnknownRoute', onUnknownRoute),
+        navigatorObservers: valueFromMaterial('navigatorObservers', navigatorObservers),
+        builder: valueFromMaterial('builder', builder),
+        title: valueFromMaterial('title', title),
+        onGenerateTitle: valueFromMaterial('onGenerateTitle', onGenerateTitle),
+        color: valueFromMaterial('color', color),
+        theme: valueFromMaterial('theme', materialTheme),
+        darkTheme: dartTheme,
+        locale: valueFromMaterial('locale', locale),
+        localizationsDelegates: valueFromMaterial('localizationsDelegates', localizationsDelegates),
+        localeListResolutionCallback: valueFromMaterial('localeListResolutionCallback', localeListResolutionCallback),
+        localeResolutionCallback: valueFromMaterial('localeResolutionCallback', localeResolutionCallback),
+        supportedLocales: valueFromMaterial('supportedLocales', supportedLocales),
+        showPerformanceOverlay: valueFromMaterial('showPerformanceOverlay', showPerformanceOverlay),
+        checkerboardRasterCacheImages: valueFromMaterial('checkerboardRasterCacheImages', checkerboardRasterCacheImages),
+        checkerboardOffscreenLayers: valueFromMaterial('checkerboardOffscreenLayers', checkerboardOffscreenLayers),
+        showSemanticsDebugger: valueFromMaterial('showSemanticsDebugger', showSemanticsDebugger),
+        debugShowCheckedModeBanner: valueFromMaterial('debugShowCheckedModeBanner', debugShowCheckedModeBanner),
+        debugShowMaterialGrid: valueFromMaterial('debugShowMaterialGrid', debugShowMaterialGrid)
+      )
+    );
   }
 
 }

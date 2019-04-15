@@ -1,9 +1,25 @@
 
 import 'package:base/base_constants.dart';
+import 'package:base/base_mixin.dart';
 import 'package:base/platform/platform.dart';
+import 'package:base/utils/custom_material_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart' show BuildContext, Container, Key, State, StatefulWidget, Widget;
 
-/// 基础组件
+/// 基础状态组件
+/// cupertino使用buildByCupertino方法构建，material使用buildByMaterial方法构建
+/// *** 参数
+/// 1、cupertino模式：从cupertino里取对应的值，取不到则取公共参数
+/// 2、material模式：从material里取对应的值，取不到则取公共参数
+/// 3、cupertino模式下可以使用 cupertino = { forceUseMaterial: true } 强制使用material模式构建
+///   使用 cupertino = { disabled: true } 禁止构建
+/// 4、material模式下可以使用 material = { forceUseCupertino: true } 强制使用cupertino模式构建
+///   使用 material = { disabled: true } 禁止构建
+/// ***
+/// *** Flutter禁用运行时反射，所以取值由子组件各自获取，
+/// *** cupertino模式使用 valueFromCupertino(key, value) 获取，
+/// *** material模式使用 valueFromMaterial(key, value) 获取
+/// ***
 class BaseStatefulWidget extends StatefulWidget {
 
 	final Map<String, Object> cupertino;
@@ -20,7 +36,7 @@ class BaseStatefulWidget extends StatefulWidget {
 
 }
 
-class BaseState<T extends BaseStatefulWidget> extends State<T> {
+class BaseState<T extends BaseStatefulWidget> extends State<T> with BaseMixin {
 
 	@override
 	T get widget => super.widget;
@@ -34,43 +50,40 @@ class BaseState<T extends BaseStatefulWidget> extends State<T> {
 	@override
 	Widget build(BuildContext context) {
 		buildBefore(context);
-		if (isCupertino) {
+		if (useCupertino) {
 			// cupertino模式，ios下使用
-			// forceUseMaterial = true 强制使用material样式
-			if (widget.cupertino != null && widget.cupertino[BaseConstants.FORCE_USE_MATERIAL] != null && widget.cupertino[BaseConstants.FORCE_USE_MATERIAL]) {
-				return buildByMaterial(context);
+			// forceUseMaterial = true 强制使用material模式
+			if (widget.cupertino != null && widget.cupertino[forceUseMaterial] != null && widget.cupertino[forceUseMaterial]) {
+				// *** 请注意，此时BaseApp上的theme参数是不生效的 ***
+        // 默认套多一层 Material
+			  buildByMaterialBefore(context);
+        // 去除水波纹效果
+        if (withoutSplashOnCupertino) {
+          return CustomSplashFactoryWidget.withoutSplash(
+            child: buildByMaterial(context), 
+            theme: Theme.of(context),
+          );
+        }
+        return CustomMaterialWidget(
+          child: buildByMaterial(context)
+        );
 			}
 			buildByCupertinoBefore(context);
 			return buildByCupertino(context);
-		} else if (isMaterial) {
+		} else if (useMaterial) {
 			// material模式，android跟fuchsia下使用
-			// forceUseCupertino = true 强制使用cupertino样式
-			if (widget.material != null && widget.material[BaseConstants.FORCE_USE_CUPERTINO] != null && widget.material[BaseConstants.FORCE_USE_CUPERTINO]) {
+			// forceUseCupertino = true 强制使用cupertino模式
+			if (widget.material != null && widget.material[forceUseCupertino] != null && widget.material[forceUseCupertino]) {
+        // *** 请注意，此时BaseApp上的cupertinoTheme参数是不生效的 ***
+			  buildByCupertinoBefore(context);
 				return buildByCupertino(context);
 			}
 			buildByMaterialBefore(context);
 			return buildByMaterial(context);
 		} else {
-			print('The platform is = $appPlatform, it not support yet.');
+			print('The platform is = $basePlatform, it not support yet.');
 			return null;
 		}
-	}
-
-	// build之前调用
-	void buildBefore(BuildContext context) {}
-
-	// buildByMaterial之前调用
-	void buildByMaterialBefore(BuildContext context) {}
-
-	// buildByCupertino之前调用
-	void buildByCupertinoBefore(BuildContext context) {}
-
-	Widget buildByCupertino(BuildContext context) {
-		return Container();
-	}
-
-	Widget buildByMaterial(BuildContext context) {
-		return Container();
 	}
 
 	/// 从cupertino获取key对应的值，
@@ -78,15 +91,11 @@ class BaseState<T extends BaseStatefulWidget> extends State<T> {
 	/// 如果还是null则取material里的值
 	Object valueFromCupertino(String key, Object value) {
 		Object newValue;
-		if (this.widget.cupertino != null) {
-			newValue = this.widget.cupertino[key] ?? value;
+		if (widget.cupertino != null) {
+			newValue = widget.cupertino[key] ?? value;
 		} else {
 			newValue = value;
 		}
-		// cupertino, material2种的默认值可能会不一样，所以这里就不查找另一种风格的值了
-//		if (newValue == null && this.material != null) {
-//			newValue = this.material[key];
-//		}
 		return newValue;
 	}
 
@@ -95,16 +104,20 @@ class BaseState<T extends BaseStatefulWidget> extends State<T> {
 	/// 如果还是null则取cupertino里的值
 	Object valueFromMaterial(String key, Object value) {
 		Object newValue;
-		if (this.widget.material != null) {
-			newValue = this.widget.material[key] ?? value;
+		if (widget.material != null) {
+			newValue = widget.material[key] ?? value;
 		} else {
 			newValue = value;
 		}
-		// cupertino, material2种的默认值可能会不一样，所以这里就不查找另一种风格的值了
-//		if (newValue == null && this.cupertino != null) {
-//			newValue = this.cupertino[key];
-//		}
 		return newValue;
+	}
+
+	Widget buildByCupertino(BuildContext context) {
+		return Container();
+	}
+
+	Widget buildByMaterial(BuildContext context) {
+		return Container();
 	}
 
 }

@@ -1,8 +1,8 @@
 name: base
-description: 实现一套代码，2种风格，ios使用Cupertino风格组件，andriod、fuchsia使用Material风格组件
+description: 实现一套代码，2种模式，ios使用Cupertino风格组件，andriod、fuchsia使用Material风格组件
 version: 0.0.1
-author:
-homepage:
+author: Nil <2073582423@qq.com>
+homepage: https://github.com/nillnil/flutter_base
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart' show BottomNavigationBarItem, BuildContext, Color, Widget;
-import 'package:base/base_object.dart';
+import 'package:base/base_class.dart';
 
 /// 基础baritem
 /// cupertino，使用BottomNavigationBarItem
 /// material，使用BottomNavigationBarItem
-class BaseBarItem extends BaseObject{
+class BaseBarItem extends BaseClass{
 
 	// general
 	final Widget icon;
