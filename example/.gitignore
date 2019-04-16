@@ -23,7 +23,7 @@
 .dart_tool/
 .flutter-plugins
 .metadata
-.pubspec.lock
+pubspec.lock
 .packages
 .pub-cache/
 .pub/
@@ -51,6 +51,7 @@
 **/ios/**/DerivedData/
 **/ios/**/Icon?
 **/ios/**/Pods/
+**/ios/**/Podfile.lock
 **/ios/**/.symlinks/
 **/ios/**/profile
 **/ios/**/xcuserdata

@@ -10,9 +10,8 @@
 import 'dart:math' as math;
 import 'dart:ui' show ImageFilter;
 
-import 'package:base/utils/cupertino_splash_factory.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' show Colors, Material, MaterialType, TabBarTheme, Theme;
+import 'package:flutter/material.dart' show Colors, InkSplash, InteractiveInkFeature, InteractiveInkFeatureFactory, Material, MaterialInkController, MaterialType, RectCallback, TabBarTheme, Theme;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -991,7 +990,7 @@ class _PersistentNavigationBar extends StatelessWidget {
             color: Colors.transparent,
             child: Theme(
               data: Theme.of(context).copyWith(
-                splashFactory: CupertinoSplashFactory(),
+                splashFactory: WithoutSplashFactory(),
                 highlightColor: Colors.transparent,
                 tabBarTheme: tabBarTheme.copyWith(
                   labelColor: _backgroundColor.computeLuminance() < 0.179 ? Colors.white: Colors.black
@@ -2348,3 +2347,39 @@ final HeroFlightShuttleBuilder _navBarHeroFlightShuttleBuilder = (
       );
   }
 };
+
+/// 去除水波纹效果，但还是有200毫秒的延迟高亮
+class WithoutSplashFactory extends InteractiveInkFeatureFactory {
+
+  WithoutSplashFactory();
+
+  @override
+  InteractiveInkFeature create({
+    MaterialInkController controller,
+    RenderBox referenceBox,
+    Offset position,
+    Color color,
+    TextDirection textDirection,
+    bool containedInkWell = false,
+    RectCallback rectCallback,
+    BorderRadius borderRadius,
+    ShapeBorder customBorder,
+    double radius,
+    VoidCallback onRemoved
+  }) {
+    return InkSplash(
+      controller: controller,
+      referenceBox: referenceBox,
+      position: position,
+      color: color,
+      containedInkWell: false,
+      rectCallback: rectCallback,
+      borderRadius: BorderRadius.zero,
+      customBorder: Border(),
+      radius: 0.0,
+      onRemoved: onRemoved,
+      textDirection: textDirection,
+    );
+  }
+
+}
