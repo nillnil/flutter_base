@@ -2,7 +2,7 @@
 
 One code, two model, use cupertino's widgets on ios, use material's widget on android or fuchsia.
 
-## [中文说明](./README_CN.MD)
+## [中文说明](./README_CN.md)
 
 ## Getting Started
 
