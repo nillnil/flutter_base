@@ -1,6 +1,5 @@
 
 import 'package:base/base.dart';
-import 'package:example/iconfont/iconfont.dart';
 import 'package:example/store/action.dart';
 import 'package:example/store/app_state.dart';
 import 'package:example/theme_page.dart';
@@ -71,23 +70,26 @@ class Settings extends StatelessWidget {
                     ),
                     children: <Widget>[
                       BaseTile(
-                        contentPadding: EdgeInsets.symmetric(vertical: 13.0, horizontal: 10.0),
+                        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                         title: Text('切换主题颜色'),
-                        trailing: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Container(
-                              color: vm.primaryColor,
-                              width: 20,
-                              height: 20,
-                            ),
-                            BaseIcon(
-                              icon: CupertinoIcons.right_chevron,
-                              size: 25,
-                              color: Colors.grey,
-                            )
-                          ],
+                        trailing: Container(
+                          width: 50,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Container(
+                                color: vm.primaryColor,
+                                width: 20,
+                                height: 20,
+                              ),
+                              BaseIcon(
+                                icon: CupertinoIcons.right_chevron,
+                                size: 25,
+                                color: Colors.grey,
+                              )
+                            ],
+                          ),
                         ),
                         onTap: () {
                           BaseRoute(ThemePage()).push(context);

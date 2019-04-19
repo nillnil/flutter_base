@@ -9,11 +9,6 @@ import 'package:flutter/material.dart';
 
 final List<Widget> _children = [
   _Item(
-    icon: BaseIcon(icon: IconFont.rows, size: 40, color: Colors.redAccent),
-    title: Text('Section & Tile', style: TextStyle(color: Colors.redAccent)),
-    page: SectionDemo()
-  ),
-  _Item(
     icon: BaseIcon(icon: IconFont.nav, size: 40, color: Colors.orangeAccent),
     title: Text('AppBar', style: TextStyle(color: Colors.orangeAccent)),
     page: AppBarDemo()
@@ -22,6 +17,11 @@ final List<Widget> _children = [
     icon: BaseIcon(icon: IconFont.page, size: 40, color: Colors.blueAccent),
     title: Text('Scaffold', style: TextStyle(color: Colors.blueAccent)),
     page: ScaffoldDemo()
+  ),
+  _Item(
+    icon: BaseIcon(icon: IconFont.rows, size: 40, color: Colors.redAccent),
+    title: Text('Section & Tile', style: TextStyle(color: Colors.redAccent)),
+    page: SectionDemo()
   ),
   _Item(
     icon: BaseIcon(icon: IconFont.tab, size: 40, color: Colors.pinkAccent),
@@ -92,19 +92,21 @@ class Home extends StatelessWidget {
           )
         },
         actions: [
-          BaseButton(
-            padding: EdgeInsets.zero,
-            minWidth: 60,
-            child: BaseIcon(
-              icon: IconFont.settings,
-              size: 20,
-              material: {
-                'color': Colors.white,
+          ClipOval(
+            child: BaseButton(
+              padding: EdgeInsets.zero,
+              minWidth: 60,
+              child: BaseIcon(
+                icon: IconFont.settings,
+                size: 20,
+                material: {
+                  'color': Colors.white,
+                },
+              ),
+              onPressed: () {
+                BaseRoute(Settings()).push(context);
               },
             ),
-            onPressed: () {
-              BaseRoute(Settings()).push(context);
-            },
           )
         ],
       ),

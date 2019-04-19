@@ -1,0 +1,54 @@
+
+import 'package:base/base.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
+class UseBackdropFilterPage extends StatefulWidget {
+
+  @override
+  _UseBackdropFilterPageState createState() => _UseBackdropFilterPageState();
+
+}
+
+class _UseBackdropFilterPageState extends State<UseBackdropFilterPage> {
+
+  bool _backdropFilter = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseScaffold(
+      appBar: BaseAppBar(
+        title: Text('useBackdropFilter'),
+        backgroundColor: Colors.white.withOpacity(0.0),
+        backdropFilter: _backdropFilter,
+        border: null,
+      ),
+      backgroundColor: Colors.deepPurple,
+      body: ListView(
+        padding: EdgeInsets.only(top: 0.0),
+        children: <Widget>[
+          Container(
+            height: 88.0,
+            child: Center(
+              child: Text('Now you can see me.'),
+            ),
+          ),
+          Container(
+            child: BaseTile(
+              titleText: 'useBackdropFilter',
+              trailing: BaseSwitch(
+                value: _backdropFilter,
+                onChanged: (value) {
+                  setState(() {
+                    _backdropFilter = value;
+                  });
+                },
+              ),
+            ),
+          )
+        ],
+      )
+    );
+  }
+
+}

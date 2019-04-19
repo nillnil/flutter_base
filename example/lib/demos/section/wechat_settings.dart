@@ -15,7 +15,7 @@ class WechatSettings extends StatelessWidget {
   	TextStyle trailingStyle = TextStyle(
 			color: Colors.grey
 		);
-		EdgeInsets contentPadding = EdgeInsets.only(top: 12.0, bottom: 12.0, left: 20.0, right: 10.0);
+		EdgeInsets contentPadding = EdgeInsets.only(left: 20.0, right: 10.0);
 		EdgeInsets margin = EdgeInsets.only(top: 5.0, bottom: 5.0);
 		Icon trailingIcon = Icon(CupertinoIcons.right_chevron, color: Colors.grey);
 
@@ -40,9 +40,7 @@ class WechatSettings extends StatelessWidget {
                     BaseTile(
                       title: Text('账号与安全', style: style),
                       contentPadding: contentPadding,
-                      trailing: Row(
-                        children: <Widget>[ trailingIcon]
-                      )
+                      trailing: trailingIcon
                     )
                   ]
                 ),
@@ -54,11 +52,7 @@ class WechatSettings extends StatelessWidget {
                     BaseTile(
                       title: Text('新消息通知', style: style),
                       contentPadding: contentPadding,
-                      trailing: Row(
-                        children: <Widget>[
-                          trailingIcon
-                        ]
-                      ),
+                      trailing: trailingIcon,
                       onTap: () {
                         // BaseRoute(ThemePage()).push(context);
                       }
@@ -66,16 +60,12 @@ class WechatSettings extends StatelessWidget {
                     BaseTile(
                       title: Text('隐私', style: style),
                       contentPadding: contentPadding,
-                      trailing: Row(
-                        children: <Widget>[ trailingIcon]
-                      )
+                      trailing: trailingIcon
                     ),
                     BaseTile(
                       title: Text('通用', style: style),
                       contentPadding: contentPadding,
-                      trailing: Row(
-                        children: <Widget>[ trailingIcon]
-                      )
+                      trailing: trailingIcon
                     )
                   ]
                 ),
@@ -87,20 +77,20 @@ class WechatSettings extends StatelessWidget {
                     BaseTile(
                       title: Text('帮助与反馈'),
                       contentPadding: contentPadding,
-                      trailing: Row(
-                        children: <Widget>[
-                          trailingIcon
-                        ]
-                      ),
+                      trailing: trailingIcon,
                     ),
                     BaseTile(
                       title: Text('关于', style: style),
                       contentPadding: contentPadding,
-                      trailing: Row(
-                        children: <Widget>[
-                          Text('版本1.0.0', style: trailingStyle),
-                          trailingIcon
-                        ]
+                      trailing: Container(
+                        width: 100,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Text('版本1.0.0', style: trailingStyle),
+                            trailingIcon
+                          ]
+                        ),
                       )
                     )
                   ]
@@ -111,11 +101,7 @@ class WechatSettings extends StatelessWidget {
                     BaseTile(
                       title: Text('插件', style: style),
                       contentPadding: contentPadding,
-                      trailing: Row(
-                        children: <Widget>[
-                          trailingIcon
-                        ]
-                      )
+                      trailing: trailingIcon
                     )
                   ],
                 ),
@@ -127,7 +113,6 @@ class WechatSettings extends StatelessWidget {
                       title: Center(
                         child: Text('切换账号', style: style),
                       ),
-                      contentPadding: EdgeInsets.only(top: 12.0, bottom: 12.0)
                     )
                   ],
                 ),
@@ -143,7 +128,6 @@ class WechatSettings extends StatelessWidget {
                           )
                         )
                       ),
-                      contentPadding: EdgeInsets.only(top: 12.0, bottom: 12.0),
                       onTap: () {
                         BaseAlertDialog(
                           content: Text('确定退出吗？', style: TextStyle(fontWeight: FontWeight.w600)),

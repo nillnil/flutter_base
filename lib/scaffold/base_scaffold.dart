@@ -1,11 +1,9 @@
 
 import 'package:base/base_stateless_widget.dart';
 import 'package:base/appbar/base_app_bar.dart';
-import 'package:base/platform/platform.dart';
-// import 'package:base/flutter/flutter_modify.dart' show CupertinoPageScaffold;
 import 'package:base/tabbar/base_tab_bar.dart';
-import 'package:flutter/cupertino.dart' show CupertinoPageScaffold, CupertinoTabScaffold, CupertinoTabView, CupertinoTheme, ObstructingPreferredSizeWidget;
-import 'package:flutter/material.dart' show BuildContext, Color, DefaultTabController, EdgeInsets, FloatingActionButtonAnimator, FloatingActionButtonLocation, Key, MediaQuery, MediaQueryData, Padding, Scaffold, TabBarView, Theme, Widget, WidgetBuilder;
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 /// 基础页面
 /// cupertino，单页面使用CupertinoPageScaffold，Tab页面使用CupertinoTabScaffold
@@ -28,23 +26,13 @@ class BaseScaffold extends BaseStatelessWidget {
   final bool resizeToAvoidBottomInset;
   final Map<String, WidgetBuilder> routes;
 
-  // 自动添加包括状态栏，导航栏的顶部高度的padding，默认false
-  // 因为如果导航栏的背景颜色是半透明的话，默认是不会加上这padding的，
-  // 注意: 如果autoAddTopPadding = true时，已经自动添加padding，此时再使用BoxScrollView时没有padding参数，会默认加上padding，而本来就已经加了padding了，到导致加了2此padding了
-  // 解决办法是: autoAddTopPadding=true，且使用了BoxScrollView，需要在BoxScrollView加上padding参数。
-  final bool autoAddTopPadding;
+  // 相当于SafeArea的top，默认false
+  // 当导航栏背景色为透明的，设置为true可以使页面起点在导航栏下方
+  final bool safeAreaTop;
 
-  // 默认false，当有tabBar时的tabbarView页面需要设为true才会自动添加bottomPadding
-  final bool autoAddBottomPadding;
-
-  // 重置MediaQuery.of(context).padding.top的值为0
-  // 当导航栏背景色不是透明的时候，body里是不用加top padding的，而BoxScrollView的padding为null时，还是会加上原来状态栏的高度padding，导致会出现多余的top padding
-  // 当导航栏背景色为透明的时候，body默认是在导航栏下方的，此时MediaQuery.of(context).padding.top的值已经自动处理好了，为状态栏跟导航栏的高度之和。
-  // BoxScrollView的padding为null时，会自动加上此高度，不用再处理
-  // 如果要取得正确的padding
-  // 1、不透明，在BasePage同个context里取，
-  // 2、透明的，在BasePage不同context里取
-  final bool resetMediaPaddingTop;
+  // 相当于SafeArea的bottom，默认false
+  // 设置为true可以避免页面被iphone下方的Home Indicator遮住
+  final bool safeAreaBottom;
 
   // material
   final Widget floatingActionButton;
@@ -56,9 +44,6 @@ class BaseScaffold extends BaseStatelessWidget {
   final Widget bottomSheet;
   final bool resizeToAvoidBottomPadding;
   final bool primary;
-
-  final Map<String, Object> cupertino;
-  final Map<String, Object> material;
 
   BaseScaffold({
     Key key,
@@ -72,9 +57,8 @@ class BaseScaffold extends BaseStatelessWidget {
 
     this.resizeToAvoidBottomInset = true,
     this.routes = const {},
-    this.autoAddTopPadding = false,
-    this.autoAddBottomPadding = false,
-    this.resetMediaPaddingTop = true,
+    this.safeAreaTop = false,
+    this.safeAreaBottom = false,
 
     this.floatingActionButton,
     this.floatingActionButtonLocation,
@@ -86,14 +70,17 @@ class BaseScaffold extends BaseStatelessWidget {
     this.resizeToAvoidBottomPadding = true,
     this.primary = true,
 
-    this.cupertino,
-    this.material
+    Map<String, Object> cupertino,
+    Map<String, Object> material
   }) : super(key: key, cupertino: cupertino, material: material);
 
   @override
   Widget buildByCupertino(BuildContext context) {
     BaseTabBar tabBar = valueFromCupertino('tabBar', this.tabBar);
     List<Widget> tabViews = valueFromCupertino('tabViews', this.tabViews);
+    if (tabBar != null || tabViews != null) {
+      assert(tabBar != null && tabViews != null, 'tabBar and tabViews can not be null');
+    }
     if (tabBar != null && tabViews.length > 0) {
       return new CupertinoTabScaffold(
         key: valueFromCupertino('key', key),
@@ -108,61 +95,17 @@ class BaseScaffold extends BaseStatelessWidget {
         }
       );
     } else {
-      BaseAppBar navBar = valueFromCupertino('navBar', this.navBar) ?? valueFromCupertino('appBar', this.appBar);
-      Color appBarBackgroundColor = navBar?.backgroundColor;
-      if (appBarBackgroundColor == null) {
-        if (useCupertino) {
-          appBarBackgroundColor = CupertinoTheme.of(context).barBackgroundColor ?? Color(0xCCF8F8F8);
-        } else {
-          appBarBackgroundColor = Theme.of(context).appBarTheme.color ?? Theme.of(context).primaryColor;
-        }
-      }
-      bool fullObstruction = appBarBackgroundColor?.alpha == 0xFF ?? false;
-      double topPadding = 0.0;
-      MediaQueryData mediaQueryData = MediaQuery.of(context);
-      MediaQueryData _mediaQueryData;
-      if (fullObstruction && resetMediaPaddingTop) {
-        _mediaQueryData = mediaQueryData.copyWith(
-          padding: MediaQuery.of(context).padding?.copyWith(top: 0.0)
-        );
-      }
-      if (navBar != null) {
-        topPadding = mediaQueryData.padding.top + navBar.preferredSize.height;
-      }
-      EdgeInsets padding;
-      if (autoAddTopPadding && autoAddBottomPadding) {
-        padding = EdgeInsets.only(top: topPadding, bottom: mediaQueryData.padding.bottom);
-      } else if (autoAddTopPadding && !autoAddBottomPadding) {
-        padding = EdgeInsets.only(top: topPadding);
-      } else if (!autoAddTopPadding && autoAddBottomPadding) {
-        padding = EdgeInsets.only(bottom: mediaQueryData.padding.bottom);
-      }
+      BaseAppBar _appBar = valueFromMaterial('appBar', appBar) ?? valueFromMaterial('navBar', navBar);
       Widget body = valueFromCupertino('body', this.body);
-      if (!fullObstruction && autoAddTopPadding && resetMediaPaddingTop) {
-        _mediaQueryData = mediaQueryData.copyWith(
-          padding: MediaQuery.of(context).padding?.copyWith(top: 0.0)
-        );
-      }
       return CupertinoPageScaffold(
         key: valueFromCupertino('key', key),
-        navigationBar: navBar,
+        navigationBar: _appBar,
         backgroundColor: valueFromCupertino('backgroundColor', backgroundColor),
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-        child: fullObstruction ? (
-          _mediaQueryData != null ? MediaQuery(
-            data: _mediaQueryData, child: body
-          ) : body
-        ) : (
-          _mediaQueryData != null ? MediaQuery(
-            data: _mediaQueryData,
-            child: padding != null ? Padding(
-              padding: padding,
-              child: body
-            ) : body
-          ) : padding != null ? Padding(
-            padding: padding,
-            child: body
-          ) : body
+        child: (!safeAreaTop && !safeAreaBottom) ? body: SafeArea(
+          top: safeAreaTop,
+          bottom: safeAreaBottom,
+          child: body
         )
       );
     }
@@ -172,6 +115,9 @@ class BaseScaffold extends BaseStatelessWidget {
   Widget buildByMaterial(BuildContext context) {
     BaseTabBar tabBar = valueFromMaterial('tabBar', this.tabBar);
     List<Widget> tabViews = valueFromMaterial('tabViews', this.tabViews);
+    if (tabBar != null || tabViews != null) {
+      assert(tabBar != null && tabViews != null, 'tabBar and tabViews can not be null');
+    }
     if (tabBar != null && tabViews.length > 0) {
       return Scaffold(
         key: valueFromMaterial('key', key),
@@ -197,7 +143,7 @@ class BaseScaffold extends BaseStatelessWidget {
       BaseAppBar appBar = valueFromMaterial('appBar', this.appBar) ?? valueFromMaterial('navBar', navBar);
       return Scaffold(
         key: valueFromMaterial('key', key),
-        appBar: appBar?.build(context),
+        appBar: appBar,
         body: valueFromMaterial('body', body),
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: floatingActionButtonLocation,

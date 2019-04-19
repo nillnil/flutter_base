@@ -1,12 +1,14 @@
 
-import 'package:example/demos/appbar/custom_height_app_bar.dart';
+import 'package:example/demos/appbar/custom_height.dart';
 import 'package:example/demos/demo_page.dart';
 import 'package:example/demos/demo_tile.dart';
 import 'package:example/demos/utils/color_block.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/painting.dart';
 
+import 'bottom_opacity.dart';
 import 'news/news.dart';
+import 'use_backdrop_filter_page.dart';
 
 /// AppBar 示例
 class AppBarDemo extends StatelessWidget {
@@ -14,11 +16,19 @@ class AppBarDemo extends StatelessWidget {
   final List<DemoTile> _demos = [
     DemoTile(
       title: Text('自定义高度'),
-      page: CustomHeightAppBar()
+      page: CustomHeight()
+    ),
+    DemoTile(
+      title: Text('useBackdropFilter'),
+      page: UseBackdropFilterPage(),
     ),
     DemoTile(
       title: Text('Bottom'),
       page: News()
+    ),
+    DemoTile(
+      title: Text('Bottom Opacity'),
+      page: BottomOpacity()
     )
   ];
 
@@ -55,17 +65,6 @@ class AppBarDemo extends StatelessWidget {
             children: <Widget>[
               ColorBlock.attributes(),
               Expanded(
-                child: Text('useBackdropFilter：是否加入高斯模糊，cupertino模式下有效，默认true\n'
-                  'CupertinoNavigationBar会默认添加一层高斯模糊效果，即使背景色是半透明的也会。'
-                  '设置成false可以实现全透明导航栏'),
-              )
-            ]
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ColorBlock.attributes(),
-              Expanded(
                 child: Text('height：自定义高度，AppBar默认56，CupertinoNavigationBar默认44。'),
               )
             ]
@@ -75,10 +74,66 @@ class AppBarDemo extends StatelessWidget {
             children: <Widget>[
               ColorBlock.attributes(),
               Expanded(
-                child: Text('bottom：Cupertino模式下也支持, 如加入TabBar，会去除水波纹跟高亮效果。'),
+                child: Text('backdropFilter：Cupertino模式下有效，默认true，是否加入高斯模糊\n'
+                  'CupertinoNavigationBar在背景色透明时会默认添加一层高斯模糊效果。'
+                  '设置成false可以实现全透明导航栏'),
               )
             ]
-          )
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ColorBlock.attributes(),
+              Expanded(
+                child: Text('bottom：Cupertino模式下也有效, 如加入TabBar，会去除水波纹跟高亮效果。'),
+              )
+            ]
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ColorBlock.attributes(),
+              Expanded(
+                child: Text('bottomOpactiy：Cupertino模式下也有效, 只是简单是设置leading，middle，trailing字体的透明度。'),
+              )
+            ]
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ColorBlock.attributes(),
+              Expanded(
+                child: Text('autoSetBottomColor：Cupertino模式下有效, 默认true，bottom自动跟随状态栏字体颜色。'),
+              )
+            ]
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ColorBlock.attributes(),
+              Expanded(
+                child: Text('autoSetMiddleColor：Cupertino模式下有效, 默认true，middle自动跟随状态栏字体颜色。'),
+              )
+            ]
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ColorBlock.attributes(),
+              Expanded(
+                child: Text('autoSetLeadingColor：Cupertino模式下有效, 默认true，leading自动跟随状态栏字体颜色。'),
+              )
+            ]
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ColorBlock.attributes(),
+              Expanded(
+                child: Text('autoSetTrailingColor：Cupertino模式下有效, 默认true，trailing自动跟随状态栏字体颜色。'),
+              )
+            ]
+          ),
         ]
       ),
       demos: _demos

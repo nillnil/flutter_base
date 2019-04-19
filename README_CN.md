@@ -1,8 +1,6 @@
 # flutter_base
 
-One code, two model, use cupertino's widgets on ios, use material's widget on android or fuchsia.
-
-## [中文说明](./README_CN.MD)
+实现一套代码，2种模式，ios使用Cupertino风格组件，andriod、fuchsia使用Material风格组件
 
 ## Getting Started
 

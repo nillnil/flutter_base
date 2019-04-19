@@ -1,10 +1,9 @@
 
 
 import 'package:base/baritem/base_bar_item.dart';
-import 'package:base/base_stateful_widget.dart';
 import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoTabBar;
-import 'package:flutter/material.dart' show Border, BorderSide, BorderStyle, BottomNavigationBar, BottomNavigationBarItem, BottomNavigationBarType, BuildContext, Color, Key, NotchedShape, TabBar, ValueChanged, Widget;
+import 'package:flutter/material.dart' show Border, BorderSide, BorderStyle, BottomNavigationBar, BottomNavigationBarItem, BottomNavigationBarType, BuildContext, Color, Key, ValueChanged, Widget;
 import 'package:flutter/widgets.dart';
 
 /// 基础tabBar

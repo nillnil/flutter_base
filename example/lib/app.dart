@@ -21,23 +21,34 @@ class App extends StatelessWidget {
         };
       }, 
       builder: (BuildContext context, Map<String, Object> vm) {
+        CupertinoThemeData _cupertinoTheme = CupertinoTheme.of(context);
+        CupertinoTextThemeData _cupertinoTextTheme = _cupertinoTheme.textTheme;
+        _cupertinoTheme = _cupertinoTheme.copyWith(
+          primaryColor: vm['primaryColor'],
+          barBackgroundColor: vm['primaryColor'],
+          scaffoldBackgroundColor: _backgroundColor,
+          textTheme: _cupertinoTextTheme.copyWith(
+            textStyle: _cupertinoTextTheme.textStyle.copyWith(
+              // fontSize: 16.0,
+            ),
+            navActionTextStyle: _cupertinoTextTheme.navActionTextStyle.copyWith(
+              color: Colors.black
+            ),
+            navTitleTextStyle: _cupertinoTextTheme.navTitleTextStyle.copyWith(
+              color: Colors.deepOrange
+            )
+          ),
+        );
+        ThemeData _theme = Theme.of(context);
+        _theme = _theme.copyWith(
+          primaryColor: vm['primaryColor'],
+          scaffoldBackgroundColor: _backgroundColor,
+          cupertinoOverrideTheme: _cupertinoTheme,
+        );
         return BaseApp(
           title: 'Base Example',
-          cupertinoTheme: CupertinoThemeData(
-            primaryColor: vm['primaryColor'],
-            barBackgroundColor: vm['primaryColor'],
-            scaffoldBackgroundColor: _backgroundColor,
-          ),
-          materialTheme: Theme.of(context).copyWith(
-            primaryColor: vm['primaryColor'],
-            scaffoldBackgroundColor: _backgroundColor
-            // cupertinoOverrideTheme: _cupertinoThemeData,
-            // textTheme: Theme.of(context).textTheme.copyWith(
-            //   body1: TextStyle(
-            //     fontSize: 16
-            //   )
-            // )
-          ),
+          cupertinoTheme: _cupertinoTheme,
+          materialTheme: _theme,
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

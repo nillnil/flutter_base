@@ -88,7 +88,7 @@
   "setState": {
     "prefix": "ss",
     "body": [
-      "setState(() {${1}});",
+      "setState(() {${1}});"
     ],
     "description": "setState"
   },
@@ -98,7 +98,7 @@
       "\n@override",
       "Widget build(BuildContext context) {",
       "\treturn ${1:Container}(${2});",
-      "}\n",
+      "}\n"
     ],
     "description": "Build Method"
 	},
@@ -154,7 +154,7 @@
       "\t\t\tappBar: BaseAppBar(",
       "\t\t\t\ttitle: Text('${1:WidgetName}'),",
 			"\t\t\t),",
-			"\t\t\t\tbody: ${2:Container()}",
+			"\t\t\tbody: ${2:Container()}",
       "\t\t);",
       "\t}\n",
       "}"
@@ -177,7 +177,7 @@
       "\t\t\tappBar: BaseAppBar(",
       "\t\t\t\ttitle: Text('${1:WidgetName}'),",
 			"\t\t\t),",
-			"\t\t\t\tbody: ${2:Container()}",
+			"\t\t\tbody: ${2:Container()}",
       "\t\t);",
       "\t}\n",
       "}"
@@ -192,8 +192,8 @@
 			"\t\ttitle: Text('${2:title}')",
 			"\t),",
 			"\tbody: ${3:Container()}",
-			");",
+			");"
     ],
     "description": "BaseScaffold"
-  },
+  }
 }

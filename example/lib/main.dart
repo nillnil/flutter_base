@@ -6,13 +6,16 @@ import 'package:example/store/reducer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show debugDefaultTargetPlatformOverride, defaultTargetPlatform;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show SystemChrome, DeviceOrientation;
+import 'package:flutter/services.dart' show DeviceOrientation, SystemChrome;
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 void main() {
   _setTargetPlatformForDesktop();
-  SystemChrome.setPreferredOrientations([ DeviceOrientation.portraitUp ]).then((_) {
+  SystemChrome.setPreferredOrientations([ 
+    DeviceOrientation.portraitUp, 
+    DeviceOrientation.portraitDown
+  ]).then((_) {
     runApp(
       StoreProvider<AppState>(
         store: Store<AppState>(appReducer, initialState: AppState(

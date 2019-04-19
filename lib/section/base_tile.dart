@@ -22,7 +22,7 @@ class BaseTile extends BaseStatelessWidget {
   final Widget subtitle;
   // subtitle != null 时使用title，否则使用Text(subtitleText)
   final String subtitleText;
-  // 最右边控件，多个时使用row包装
+  // 最右边控件，多个时使用row包装，material下请指定宽度
   final Widget trailing;
   final EdgeInsetsGeometry contentPadding;
   final GestureTapCallback onTap;
@@ -33,7 +33,6 @@ class BaseTile extends BaseStatelessWidget {
   // cupertino
   final Border border;
   final double height;
-  final double width;
   final BorderRadius borderRadius;
   final Color splashColor;
   final Color highlightColor;
@@ -66,7 +65,6 @@ class BaseTile extends BaseStatelessWidget {
     this.margin,
     this.border,
     this.height,
-    this.width,
     this.borderRadius,
 
     this.mainAxisAlignment,
@@ -80,19 +78,37 @@ class BaseTile extends BaseStatelessWidget {
     Map<String, Object> material
   }): super(key: key, cupertino: cupertino, material: material);
 
+  double get _defaultTileHeight {
+    final bool hasSubtitle = subtitle != null;
+    final bool isTwoLine = !isThreeLine && hasSubtitle;
+    final bool isOneLine = !isThreeLine && !hasSubtitle;
+
+    if (isOneLine)
+      return dense ? 48.0 : 56.0;
+    if (isTwoLine)
+      return dense ? 64.0 : 72.0;
+    return dense ? 76.0 : 88.0;
+  }
+
+  // final TextStyle _defaultTextStyle = TextStyle(
+  //   fontFamily: '.SF UI Text',
+  //   fontSize: 16.0,
+  //   color: CupertinoColors.black
+  // );
+
   @override
   Widget buildByCupertino(BuildContext context) {
-    TextStyle _defaultTextStyle = TextStyle(
-      fontFamily: '.SF UI Text',
-      fontSize: 16.0,
-      color: CupertinoColors.black
-    );
-    List<Widget> leftRow = List<Widget>();
     List<Widget> rows = List<Widget>();
-    if (leading != null) {
-      rows.add(leading);
+    Widget _leading = valueFromCupertino('leading', leading);
+    Widget _trailing = valueFromCupertino('trailing', trailing);
+    Widget _title = valueFromCupertino('title', title) ?? 
+      (titleText != null ? Text(valueFromCupertino('titleText', titleText)): null);
+    Widget _subtitle = valueFromCupertino('subtitle', subtitle) ?? 
+      (subtitleText != null ? Text(valueFromCupertino('subtitleText', subtitleText)): null);
+    if (_leading != null) {
+      rows.add(_leading);
     }
-    if (subtitle != null || subtitleText != null) {
+    if (_subtitle != null) {
       rows.add(
         Expanded(
           child: Padding(
@@ -102,8 +118,8 @@ class BaseTile extends BaseStatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               verticalDirection: VerticalDirection.down,
               children: <Widget>[
-                title ?? Text(titleText ?? ''),
-                subtitle ?? Text(subtitleText ?? '')
+                _title,
+                _subtitle
               ]
             )
           )
@@ -114,61 +130,53 @@ class BaseTile extends BaseStatelessWidget {
         Expanded(
           child: Container(
             alignment: Alignment.centerLeft,
-            child: title ?? Text(titleText ?? '')
+            child: _title
           )
         )
       );
     }
-    rows.add(
-      Padding(
-        padding: contentPadding ?? EdgeInsets.all(0.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: leftRow
-        )
-      )
-    );
-    if (trailing != null) {
+    if (_trailing != null) {
       rows.add(
         Container(
           alignment: Alignment.centerRight,
-          child: trailing
+          child: _trailing
         )
       );
     }
     Widget content = Container(
       key: key,
       decoration: BoxDecoration(
-        border: border
+        border: valueFromCupertino('border', border)
       ),
-      margin: margin,
-      padding: contentPadding ?? EdgeInsets.zero,
-      height: height,
-      width: width,
-      child: Row(
-        mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.spaceBetween,
-        children: rows
+      margin: valueFromCupertino('margin', margin),
+      padding: valueFromCupertino('contentPadding', contentPadding) ?? EdgeInsets.symmetric(horizontal: 10.0),
+      child: SizedBox(
+        height: height ?? _defaultTileHeight,
+        child: Row(
+          mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.spaceBetween,
+          children: rows
+        ),
       )
     );
     return Material(
       animationDuration: Duration(milliseconds: 10),
-      color: backgroundColor,
+      color: valueFromCupertino('backgroundColor', backgroundColor),
       borderOnForeground: false,
       child: Ink(
         child: InkWell(
           radius: 0.0,
-          borderRadius: borderRadius ?? BorderRadius.zero,
+          borderRadius: valueFromCupertino('borderRadius', borderRadius) ?? BorderRadius.zero,
           child: Semantics(
             child: SafeArea(
               top: false,
               bottom: false,
-              child: DefaultTextStyle(style: _defaultTextStyle, child: content),
+              child: content,
             )
           ),
           splashColor: splashColor ?? CupertinoTheme.of(context).primaryContrastingColor,
           highlightColor: highlightColor ?? Theme.of(context).highlightColor,
-          onTap: onTap ?? null,
-          onLongPress: onLongPress ?? null
+          onTap: onTap,
+          onLongPress: onLongPress
         )
       )
     );
@@ -176,57 +184,27 @@ class BaseTile extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    // 让trailing支持多个widget
-    // trailing是Row的话取最后一个放在trailing里，其余的于title，subtitle组成另一个Row放在title里
-    Widget trailingWidget;
-    Widget titleWidget;
-    if (trailing is Row) {
-      List<Widget> children = (trailing as Row).children;
-      int length = children.length;
-      if (length > 0) {
-        trailingWidget = children[length - 1];
-        if (length > 1) {
-          List<Widget> rowChildren = [];
-          if (subtitle != null) {
-            rowChildren.add(
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  title,
-                  subtitle
-                ]
-              )
-            );
-          } else {
-            rowChildren.add(title);
-          }
-          rowChildren.addAll(children.getRange(0, length - 1));
-          titleWidget = Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: rowChildren
-          );
-        }
-      }
-    }
-    return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor
-      ),
-      child: ListTile(
-        key: key,
-        leading: leading,
-        title: titleWidget ?? title,
-        subtitle: titleWidget == null ? subtitle : null,
-        trailing: trailingWidget ?? trailing,
-        isThreeLine: isThreeLine,
-        dense: dense,
-        contentPadding: contentPadding,
-        enabled: enabled,
-        onTap: onTap,
-        onLongPress: onLongPress,
-        selected: selected,
-      )
+    Color _backgroundColor = valueFromMaterial('backgroundColor', backgroundColor);
+    Widget _text = valueFromMaterial('title', title) ?? (titleText != null ? Text(valueFromMaterial('titleText', titleText)): null);
+    Widget _subtitle = valueFromMaterial('subtitle', subtitle) ?? (subtitleText != null ? Text(valueFromMaterial('subtitleText', subtitleText)): null);
+    Widget listTile = ListTile(
+      key: key,
+      leading: valueFromMaterial('leading', leading),
+      title: _text,
+      subtitle: _subtitle,
+      trailing: valueFromMaterial('trailing', trailing),
+      isThreeLine: valueFromMaterial('isThreeLine', isThreeLine),
+      dense: valueFromMaterial('dense', dense),
+      contentPadding: valueFromMaterial('contentPadding', contentPadding),
+      enabled: valueFromMaterial('enabled', enabled),
+      onTap: valueFromMaterial('onTap', onTap),
+      onLongPress: valueFromMaterial('onLongPress', onLongPress),
+      selected: valueFromMaterial('selected', selected),
     );
+    return _backgroundColor != null ? Material(
+      color: _backgroundColor,
+      child: listTile,
+    ): listTile;
   }
 
 }

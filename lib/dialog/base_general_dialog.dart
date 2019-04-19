@@ -1,5 +1,6 @@
 
 import 'package:base/base_stateless_widget.dart';
+import 'package:base/platform/platform.dart';
 import 'package:flutter/material.dart';
 
 class BaseGeneralDialog extends BaseStatelessWidget {
@@ -13,12 +14,8 @@ class BaseGeneralDialog extends BaseStatelessWidget {
 	final RouteTransitionsBuilder transitionBuilder;
 	final bool useSafeArea;
 
-	// 个性化cupertino配置
-	final Map<String, Object> cupertino;
-	// 个性化material配置
-	final Map<String, Object> material;
-
   BaseGeneralDialog({
+    Key key,
 		this.barrierDismissible = true,
 		this.barrierLabel = '',
 		this.barrierColor = Colors.black54,
@@ -28,42 +25,34 @@ class BaseGeneralDialog extends BaseStatelessWidget {
 		this.transitionBuilder,
 		this.useSafeArea = false,
 
-		this.cupertino,
-		this.material
-  });
-
-  bool _barrierDismissible;
-  String _barrierLabel;
-  Color _barrierColor;
-  Duration _transitionDuration;
-	RoutePageBuilder _pageBuilder;
-	RouteTransitionsBuilder _transitionBuilder;
-	Widget _pageChild;
+		Map<String, Object> cupertino,
+		Map<String, Object> material
+  }): super(key: key, cupertino: cupertino, material: material);
 
 	@override
   Widget buildByCupertino(BuildContext context) {
-		_barrierDismissible = valueFromCupertino('barrierDismissible', barrierDismissible);
-		_barrierLabel = valueFromCupertino('barrierLabel', barrierLabel);
-		_barrierColor = valueFromCupertino('barrierColor', barrierColor);
-		_pageBuilder = valueFromCupertino('pageBuilder', pageBuilder);
-		_transitionDuration = valueFromCupertino('transitionDuration', transitionDuration);
-		_transitionBuilder = valueFromCupertino('transitionBuilder', transitionBuilder);
     return valueFromCupertino('child', child);
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
-		_barrierDismissible = valueFromMaterial('barrierDismissible', barrierDismissible);
-		_barrierLabel = valueFromMaterial('barrierLabel', barrierLabel);
-		_barrierColor = valueFromMaterial('barrierColor', barrierColor);
-		_pageBuilder = valueFromMaterial('pageBuilder', pageBuilder);
-		_transitionDuration = valueFromMaterial('transitionDuration', transitionDuration);
-		_transitionBuilder = valueFromMaterial('transitionBuilder', transitionBuilder);
     return valueFromMaterial('child', child);
   }
 
 	Future<T> show<T>(BuildContext context) {
-		_pageChild = build(context);
+    final bool _barrierDismissible = useCupertino ? valueFromCupertino('barrierDismissible', barrierDismissible)
+      : valueFromMaterial('barrierDismissible', barrierDismissible);
+    final String _barrierLabel = useCupertino ? valueFromCupertino('barrierLabel', barrierLabel)
+      : valueFromMaterial('barrierLabel', barrierLabel);
+    final Color _barrierColor = useCupertino ? valueFromCupertino('barrierColor', barrierColor)
+      : valueFromMaterial('barrierColor', barrierColor);
+    final Duration _transitionDuration = useCupertino ? valueFromCupertino('transitionDuration', transitionDuration)
+      : valueFromMaterial('transitionDuration', transitionDuration);
+    final RoutePageBuilder _pageBuilder = useCupertino ? valueFromCupertino('pageBuilder', pageBuilder)
+      : valueFromMaterial('pageBuilder', pageBuilder);
+    final RouteTransitionsBuilder _transitionBuilder = useCupertino ? valueFromCupertino('transitionBuilder', transitionBuilder)
+      : valueFromMaterial('transitionBuilder', transitionBuilder);
+
 		return showGeneralDialog<T>(
 			context: context,
 			barrierDismissible: _barrierDismissible,
@@ -77,6 +66,7 @@ class BaseGeneralDialog extends BaseStatelessWidget {
 
 	Widget _defaultPageBuilder(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
 		final ThemeData theme = Theme.of(context, shadowThemeOnly: true);
+		final Widget _pageChild = build(context);
 		assert(_pageChild != null, 'child can\'t be null');
 		return useSafeArea ? SafeArea(
 			child: theme != null ? Theme(data: theme, child: _pageChild) : _pageChild

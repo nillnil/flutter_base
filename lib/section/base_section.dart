@@ -41,7 +41,6 @@ class BaseSection extends BaseStatelessWidget {
 
 	@override
 	Widget buildByCupertino(BuildContext context) {
-		Key key = valueFromCupertino('key', this.key);
 		EdgeInsets margin = valueFromCupertino('margin', this.margin);
 		Divider divider = valueFromCupertino('divider', this.divider);
 		List<Widget> children = valueFromCupertino('children', this.children);
@@ -52,7 +51,6 @@ class BaseSection extends BaseStatelessWidget {
 
 	@override
 	Widget buildByMaterial(BuildContext context) {
-		Key key = valueFromMaterial('key', this.key);
 		EdgeInsets margin = valueFromMaterial('margin', this.margin);
 		Divider divider = valueFromMaterial('divider', this.divider);
 		List<Widget> children = valueFromMaterial('children', this.children);

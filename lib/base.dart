@@ -15,7 +15,7 @@
 library base;
 
 /// modify from flutter
-export 'flutter/flutter_modify.dart';
+export 'flutter/flutter_modify.dart' hide WithoutSplashFactory;
 
 export 'app/base_app.dart';
 export 'appbar/base_app_bar.dart';
@@ -40,7 +40,9 @@ export 'route/base_route.dart';
 export 'scroller_bar/base_scroll_bar.dart';
 export 'section/base_section.dart';
 export 'section/base_tile.dart';
+export 'slider/base_slider.dart';
 export 'switch/base_switch.dart';
 export 'tabbar/base_tab_bar.dart';
 export 'tabbar/base_tab.dart';
 export 'tabbar/base_bottom_bar.dart';
+export 'utils/bsae_utils.dart';

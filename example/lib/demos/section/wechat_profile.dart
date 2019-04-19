@@ -36,23 +36,22 @@ class WechatProfile extends StatelessWidget {
                         isThreeLine: false,
                         title: Text('Flutter Base Example', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0)),
                         subtitle: Text('ID: a1dslien1u3bxuanehqeuxye', style: TextStyle(color: Colors.grey)),
-                        contentPadding: EdgeInsets.only(
-                          top: 10.0,
-                          right: 10.0,
-                          bottom: 20.0,
-                          left: 10.0
-                        ),
+                        contentPadding: EdgeInsets.all(10.0),
                         leading: FlutterLogo(
                           size: 65.0,
                         ),
-                        trailing: Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(right: 10.0),
-                              child: Icon(IconFont.qrcode, size: 15, color: Colors.grey)
-                            ),
-                            Icon(CupertinoIcons.right_chevron, color: Colors.grey)
-                          ],
+                        trailing: Container(
+                          width: 60,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(right: 10.0),
+                                child: Icon(IconFont.qrcode, size: 15, color: Colors.grey)
+                              ),
+                              Icon(CupertinoIcons.right_chevron, color: Colors.grey)
+                            ],
+                          ),
                         )
                       )
                     ]
@@ -60,7 +59,6 @@ class WechatProfile extends StatelessWidget {
                   BaseSection(
                     children: <Widget>[
                       BaseTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
                         leading: Padding(
                           padding: EdgeInsets.only(right: 20.0, left: 10.0),
                           child: BaseIcon(
@@ -79,7 +77,6 @@ class WechatProfile extends StatelessWidget {
                     dividerIndent: 60.0,
                     children: <Widget>[
                       BaseTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
                         leading: Padding(
                           padding: EdgeInsets.only(right: 20.0, left: 10.0),
                           child: Icon(
@@ -91,7 +88,6 @@ class WechatProfile extends StatelessWidget {
                         trailing: Icon(CupertinoIcons.right_chevron, color: Colors.grey)
                       ),
                       BaseTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
                         leading: Padding(
                           padding: EdgeInsets.only(right: 20.0, left: 10.0),
                           child: Icon(
@@ -103,7 +99,6 @@ class WechatProfile extends StatelessWidget {
                         trailing: Icon(CupertinoIcons.right_chevron, color: Colors.grey)
                       ),
                       BaseTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
                         leading: Padding(
                           padding: EdgeInsets.only(right: 20.0, left: 10.0),
                           child: Icon(
@@ -115,7 +110,6 @@ class WechatProfile extends StatelessWidget {
                         trailing: Icon(CupertinoIcons.right_chevron, color: Colors.grey)
                       ),
                       BaseTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
                         leading: Padding(
                           padding: EdgeInsets.only(right: 20.0, left: 10.0),
                           child: Icon(
@@ -132,7 +126,6 @@ class WechatProfile extends StatelessWidget {
                   BaseSection(
                     children: <Widget>[
                       BaseTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
                         leading: Padding(
                           padding: EdgeInsets.only(right: 20.0, left: 10.0),
                           child: Icon(
@@ -141,11 +134,15 @@ class WechatProfile extends StatelessWidget {
                           )
                         ),
                         title: Text('设置'),
-                        trailing: Row(
-                          children: <Widget>[
-                            Text('点我', style: TextStyle(color: Colors.grey)),
-                            Icon(CupertinoIcons.right_chevron, color: Colors.grey)
-                          ],
+                        trailing: Container(
+                          width: 80,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text('点我', style: TextStyle(color: Colors.grey)),
+                              Icon(CupertinoIcons.right_chevron, color: Colors.grey)
+                            ],
+                          ),
                         ),
                         onTap: () {
                           BaseRoute(
@@ -162,7 +159,6 @@ class WechatProfile extends StatelessWidget {
                         title: Center(
                           child: Text('返回'),
                         ),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
                         onTap: () {
                           Navigator.of(context).pop();
                         },

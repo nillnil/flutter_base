@@ -3,15 +3,15 @@
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/nav_bar.dart
-/// lastest push: 2019.03.21
-/// lastest update: flutter v1.4.9 2019.04.05
-/// #29452 https://github.com/flutter/flutter/pull/29452
+/// lastest push: 2019.04.16
+/// lastest update: flutter v1.5.3-pre.31 2019.04.19
+/// #29452 https://github.com/flutter/flutter/pull/30815
 
 import 'dart:math' as math;
 import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' show Colors, InkSplash, InteractiveInkFeature, InteractiveInkFeatureFactory, Material, MaterialInkController, MaterialType, RectCallback, TabBarTheme, Theme;
+import 'package:flutter/material.dart' show Colors, InkSplash, InteractiveInkFeature, InteractiveInkFeatureFactory, Material, MaterialInkController, MaterialType, RectCallback, TabBar, TabBarTheme, Theme, ThemeData;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -89,7 +89,7 @@ Widget _wrapWithBackground({
   Color backgroundColor,
   Widget child,
   bool updateSystemUiOverlay = true,
-  bool useBackdropFilter = true
+  bool backdropFilter = true
 }) {
   Widget result = child;
   if (updateSystemUiOverlay) {
@@ -111,7 +111,7 @@ Widget _wrapWithBackground({
     child: result,
   );
 
-  if (!useBackdropFilter) {
+  if (!backdropFilter) {
     return childWithBackground;
   }
 
@@ -205,13 +205,18 @@ class CupertinoNavigationBar extends StatefulWidget implements ObstructingPrefer
     this.transitionBetweenRoutes = true,
     this.heroTag = _defaultHeroTag,
 
-    this.useBackdropFilter = true,
+    this.backdropFilter = true,
     this.navBarPersistentHeight = _kNavBarPersistentHeight,
     this.bottom,
     this.bottomOpacity = 1.0,
+    this.toolbarOpacity = 1.0,
+    this.autoSetLeadingColor = false,
+    this.autoSetMiddleColor = false,
+    this.autoSetTrailingColor = false,
   }) : assert(automaticallyImplyLeading != null),
        assert(automaticallyImplyMiddle != null),
        assert(transitionBetweenRoutes != null),
+       assert(bottomOpacity != null),
        assert(
          heroTag != null,
          'heroTag cannot be null. Use transitionBetweenRoutes = false to '
@@ -370,7 +375,7 @@ class CupertinoNavigationBar extends StatefulWidget implements ObstructingPrefer
   final Object heroTag;
 
   /// effective only backgroundColor is transparent.
-  final bool useBackdropFilter;
+  final bool backdropFilter;
 
   /// custom navBarPersistentHeight
   final double navBarPersistentHeight;
@@ -393,6 +398,21 @@ class CupertinoNavigationBar extends StatefulWidget implements ObstructingPrefer
   /// used by [SliverAppBar] to animate the opacity of the toolbar when the app
   /// bar is scrolled.
   final double bottomOpacity;
+
+  /// AppBar's toolbarOpacity
+  final double toolbarOpacity;
+
+  /// Auto set leading's color follow the brightness
+  /// event the BcakButton，will cover the navActionTextStyle's color
+  final bool autoSetLeadingColor;
+
+  /// Auto set middle's color follow the barightness
+  /// will cover the navTitleTextStyle's color
+  final bool autoSetMiddleColor;
+
+  /// Auto set trailing's color follow the barightness
+  /// will cover the navActionTextStyle's color
+  final autoSetTrailingColor;
 
   /// True if the navigation bar's background color has no transparency.
   @override
@@ -453,9 +473,13 @@ class _CupertinoNavigationBarState extends State<CupertinoNavigationBar> {
           bottom: widget.bottom,
           backgroundColor: widget.backgroundColor,
           bottomOpacity: widget.bottomOpacity,
+          toolbarOpacity: widget.toolbarOpacity,
+          autoSetLeadingColor: widget.autoSetLeadingColor,
+          autoSetMiddleColor: widget.autoSetMiddleColor,
+          autoSetTrailingColor: widget.autoSetTrailingColor,
         ),
       ),
-      useBackdropFilter: widget.useBackdropFilter
+      backdropFilter: widget.backdropFilter
     );
 
     if (!widget.transitionBetweenRoutes || !_isTransitionable(context)) {
@@ -562,7 +586,7 @@ class CupertinoSliverNavigationBar extends StatefulWidget {
     this.transitionBetweenRoutes = true,
     this.heroTag = _defaultHeroTag,
     this.navBarLargeTitleHeightExtension = _kNavBarLargeTitleHeightExtension,
-    this.useBackdropFilter = true,
+    this.backdropFilter = true,
     this.navBarPersistentHeight,
   }) : assert(automaticallyImplyLeading != null),
        assert(automaticallyImplyTitle != null),
@@ -656,7 +680,7 @@ class CupertinoSliverNavigationBar extends StatefulWidget {
   final double navBarLargeTitleHeightExtension;
 
   /// custom
-  final bool useBackdropFilter;
+  final bool backdropFilter;
   
   /// custom height
   final double navBarPersistentHeight;
@@ -698,6 +722,7 @@ class _CupertinoSliverNavigationBarState extends State<CupertinoSliverNavigation
       padding: widget.padding,
       large: true,
     );
+
     return _wrapActiveColor(
       // Lint ignore to maintain backward compatibility.
       widget.actionsForegroundColor, // ignore: deprecated_member_use_from_same_package
@@ -717,7 +742,7 @@ class _CupertinoSliverNavigationBarState extends State<CupertinoSliverNavigation
           persistentHeight: (widget.navBarPersistentHeight ?? _kNavBarPersistentHeight) + MediaQuery.of(context).padding.top,
           alwaysShowMiddle: widget.middle != null,
           navBarLargeTitleHeightExtension: widget.navBarLargeTitleHeightExtension,
-          useBackdropFilter: widget.useBackdropFilter,
+          backdropFilter: widget.backdropFilter,
           navBarPersistentHeight: widget.navBarPersistentHeight ?? _kNavBarPersistentHeight
         ),
       ),
@@ -740,7 +765,7 @@ class _LargeTitleNavigationBarSliverDelegate
     @required this.persistentHeight,
     @required this.alwaysShowMiddle,
     @required this.navBarLargeTitleHeightExtension,
-    @required this.useBackdropFilter,
+    @required this.backdropFilter,
     @required this.navBarPersistentHeight
   }) : assert(persistentHeight != null),
        assert(alwaysShowMiddle != null),
@@ -759,7 +784,7 @@ class _LargeTitleNavigationBarSliverDelegate
   final bool alwaysShowMiddle;
   final double navBarLargeTitleHeightExtension;
   /// custom
-  final bool useBackdropFilter;
+  final bool backdropFilter;
   final double navBarPersistentHeight;
 
   @override
@@ -838,7 +863,7 @@ class _LargeTitleNavigationBarSliverDelegate
           ],
         ),
       ),
-      useBackdropFilter: useBackdropFilter
+      backdropFilter: backdropFilter
     );
 
     if (!transitionBetweenRoutes || !_isTransitionable(context)) {
@@ -883,7 +908,7 @@ class _LargeTitleNavigationBarSliverDelegate
         || alwaysShowMiddle != oldDelegate.alwaysShowMiddle
         || heroTag != oldDelegate.heroTag
         || navBarLargeTitleHeightExtension != oldDelegate.navBarLargeTitleHeightExtension
-        || useBackdropFilter != oldDelegate.useBackdropFilter
+        || backdropFilter != oldDelegate.backdropFilter
         || navBarPersistentHeight != oldDelegate.navBarPersistentHeight;
   }
 }
@@ -902,7 +927,11 @@ class _PersistentNavigationBar extends StatelessWidget {
     this.navBarPersistentHeight,
     this.bottom,
     this.backgroundColor,
-    this.bottomOpacity
+    this.bottomOpacity,
+    this.toolbarOpacity = 1.0,
+    this.autoSetLeadingColor = false,
+    this.autoSetMiddleColor = false,
+    this.autoSetTrailingColor = false,
   }) : super(key: key);
 
   final _NavigationBarStaticComponents components;
@@ -915,22 +944,42 @@ class _PersistentNavigationBar extends StatelessWidget {
   /// custom height
   final double navBarPersistentHeight;
 
-  // like AppBar's bottom
+  /// like AppBar's bottom
   final PreferredSizeWidget bottom;
 
-  // NavBar's backgroundColor
+  /// NavBar's backgroundColor
   final Color backgroundColor;
 
-  // NavBar's bottomOpacity
+  /// NavBar's bottomOpacity
   final double bottomOpacity;
+
+  /// NavBar's toolbarOpacity
+  final double toolbarOpacity;
+
+  /// Auto set leading's color follow the brightness
+  final bool autoSetLeadingColor;
+
+  /// Auto set middle's color follow the barightness
+  final bool autoSetMiddleColor;
+
+  /// Auto set trailing's color follow the barightness
+  final autoSetTrailingColor;
 
   @override
   Widget build(BuildContext context) {
-    Widget middle = components.middle;
+    Color _backgroundColor = backgroundColor ?? CupertinoTheme.of(context).barBackgroundColor;
+    Color statusBarTextColor = _backgroundColor.computeLuminance() < 0.179 ? Colors.white: Colors.black;
 
+    Widget middle = components.middle;
     if (middle != null) {
+      TextStyle navTitleTextStyle = CupertinoTheme.of(context).textTheme.navTitleTextStyle;
+      if (autoSetMiddleColor) {
+        navTitleTextStyle = navTitleTextStyle.copyWith(
+          color: statusBarTextColor.withOpacity(toolbarOpacity),
+        );
+      }
       middle = DefaultTextStyle(
-        style: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
+        style: navTitleTextStyle,
         child: Semantics(header: true, child: middle),
       );
       // When the middle's visibility can change on the fly like with large title
@@ -952,13 +1001,39 @@ class _PersistentNavigationBar extends StatelessWidget {
       leading = CupertinoNavigationBarBackButton._assemble(
         backChevron,
         backLabel,
+        color: autoSetLeadingColor ? statusBarTextColor.withOpacity(toolbarOpacity) : null,
+      );
+    } else if (leading != null) {
+      TextStyle navTitleTextStyle = CupertinoTheme.of(context).textTheme.navActionTextStyle;
+      if (autoSetLeadingColor) {
+        navTitleTextStyle = navTitleTextStyle.copyWith(
+          color: statusBarTextColor.withOpacity(toolbarOpacity),
+        );
+      }
+      leading = DefaultTextStyle(
+        style: navTitleTextStyle,
+        child: leading,
+      );
+    }
+
+    Widget trailing = components.trailing;
+    if (trailing != null) {
+      TextStyle navTitleTextStyle = CupertinoTheme.of(context).textTheme.navActionTextStyle;
+      if (autoSetTrailingColor) {
+        navTitleTextStyle = navTitleTextStyle.copyWith(
+          color: statusBarTextColor.withOpacity(toolbarOpacity),
+        );
+      }
+      trailing = DefaultTextStyle(
+        style: navTitleTextStyle,
+        child: trailing,
       );
     }
 
     Widget paddedToolbar = NavigationToolbar(
       leading: leading,
       middle: middle,
-      trailing: components.trailing,
+      trailing: trailing,
       centerMiddle: true,
       middleSpacing: 6.0,
     );
@@ -974,8 +1049,18 @@ class _PersistentNavigationBar extends StatelessWidget {
     }
 
     if (bottom != null) {
-      TabBarTheme tabBarTheme = Theme.of(context).tabBarTheme ?? TabBarTheme();
-      Color _backgroundColor = backgroundColor ?? CupertinoTheme.of(context).barBackgroundColor;
+      ThemeData theme = Theme.of(context).copyWith(
+        splashFactory: WithoutSplashFactory(),
+        highlightColor: Colors.transparent,
+      );
+      if (bottom is TabBar) {
+        TabBarTheme tabBarTheme = theme.tabBarTheme ?? TabBarTheme();
+        theme = theme.copyWith(
+          tabBarTheme: tabBarTheme.copyWith(
+            labelColor: statusBarTextColor
+          )
+        );
+      }
       paddedToolbar = Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -989,13 +1074,7 @@ class _PersistentNavigationBar extends StatelessWidget {
             type: MaterialType.transparency,
             color: Colors.transparent,
             child: Theme(
-              data: Theme.of(context).copyWith(
-                splashFactory: WithoutSplashFactory(),
-                highlightColor: Colors.transparent,
-                tabBarTheme: tabBarTheme.copyWith(
-                  labelColor: _backgroundColor.computeLuminance() < 0.179 ? Colors.white: Colors.black
-                )
-              ),
+              data: theme,
               child: bottomOpacity == 1.0 ? bottom : Opacity(
                 opacity: const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn).transform(bottomOpacity),
                 child: bottom,
@@ -1325,9 +1404,10 @@ class CupertinoNavigationBarBackButton extends StatelessWidget {
   // because they animate separately during page transitions.
   const CupertinoNavigationBarBackButton._assemble(
     this._backChevron,
-    this._backLabel,
-  ) : previousPageTitle = null,
-      color = null;
+    this._backLabel, {
+      this.color
+    }
+  ) : previousPageTitle = null;
 
   /// The [Color] of the back button.
   ///
@@ -1349,7 +1429,7 @@ class CupertinoNavigationBarBackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final ModalRoute<dynamic> currentRoute = ModalRoute.of(context);
     assert(
-      currentRoute.canPop,
+      currentRoute?.canPop == true,
       'CupertinoNavigationBarBackButton should only be used in routes that can be popped',
     );
 

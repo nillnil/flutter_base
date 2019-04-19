@@ -1,5 +1,4 @@
 
-import 'package:base/base_constants.dart';
 import 'package:base/icon/base_icon.dart';
 import 'package:base/route/base_route.dart';
 import 'package:base/section/base_tile.dart';
@@ -23,7 +22,6 @@ class DemoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseTile(
-      contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 10.0),
       title: title,
       trailing: BaseIcon(
         icon: CupertinoIcons.right_chevron,
@@ -37,7 +35,7 @@ class DemoTile extends StatelessWidget {
         } else {
           return null;
         }
-      }
+      },
     );
   }
 
