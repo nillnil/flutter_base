@@ -1,4 +1,3 @@
-
 import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/material.dart';
 /// material，使用Slider
 /// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoSlider
 class BaseSlider extends BaseStatelessWidget {
-
   // general
   final double value;
   final ValueChanged<double> onChanged;
@@ -35,15 +33,12 @@ class BaseSlider extends BaseStatelessWidget {
     this.max = 1.0,
     this.divisions,
     this.activeColor,
-
     this.label,
     this.inactiveColor,
     this.semanticFormatterCallback,
-
     Map<String, Object> cupertino,
     Map<String, Object> material,
-  }): super(key: key, cupertino: cupertino, material: material);
-
+  }) : super(cupertino: cupertino, material: material);
 
   @override
   Widget buildByCupertino(BuildContext context) {
@@ -73,10 +68,8 @@ class BaseSlider extends BaseStatelessWidget {
       divisions: valueFromMaterial('divisions', divisions),
       label: valueFromMaterial('label', label),
       activeColor: valueFromMaterial('activeColor', activeColor),
-
       inactiveColor: inactiveColor,
       semanticFormatterCallback: semanticFormatterCallback,
     );
   }
-  
 }

@@ -8,26 +8,26 @@ import 'package:flutter/painting.dart';
 
 import 'bottom_opacity.dart';
 import 'news/news.dart';
-import 'use_backdrop_filter_page.dart';
+import 'backdrop_filter_demo.dart';
 
 /// AppBar 示例
 class AppBarDemo extends StatelessWidget {
 
   final List<DemoTile> _demos = [
     DemoTile(
-      title: Text('自定义高度'),
+      title: Text('height'),
       page: CustomHeight()
     ),
     DemoTile(
-      title: Text('useBackdropFilter'),
-      page: UseBackdropFilterPage(),
+      title: Text('backdropFilter'),
+      page: BackdropFilterDemo(),
     ),
     DemoTile(
-      title: Text('Bottom'),
+      title: Text('bottom'),
       page: News()
     ),
     DemoTile(
-      title: Text('Bottom Opacity'),
+      title: Text('bottomOpacity'),
       page: BottomOpacity()
     )
   ];

@@ -13,7 +13,7 @@ class ScaffoldDemo extends StatelessWidget {
 
   final List<DemoTile> _demos = [
     DemoTile(
-      title: Text('透明状态栏'),
+      title: Text('transparent app bar'),
       page: TransparentAppBar(),
     )
   ];

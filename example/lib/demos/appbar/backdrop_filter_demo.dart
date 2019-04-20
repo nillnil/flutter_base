@@ -3,14 +3,14 @@ import 'package:base/base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class UseBackdropFilterPage extends StatefulWidget {
+class BackdropFilterDemo extends StatefulWidget {
 
   @override
-  _UseBackdropFilterPageState createState() => _UseBackdropFilterPageState();
+  _BackdropFilterDemoState createState() => _BackdropFilterDemoState();
 
 }
 
-class _UseBackdropFilterPageState extends State<UseBackdropFilterPage> {
+class _BackdropFilterDemoState extends State<BackdropFilterDemo> {
 
   bool _backdropFilter = true;
 
@@ -18,7 +18,7 @@ class _UseBackdropFilterPageState extends State<UseBackdropFilterPage> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: BaseAppBar(
-        title: Text('useBackdropFilter'),
+        title: Text('backdropFilter'),
         backgroundColor: Colors.white.withOpacity(0.0),
         backdropFilter: _backdropFilter,
         border: null,
@@ -35,7 +35,7 @@ class _UseBackdropFilterPageState extends State<UseBackdropFilterPage> {
           ),
           Container(
             child: BaseTile(
-              titleText: 'useBackdropFilter',
+              titleText: 'backdropFilter',
               trailing: BaseSwitch(
                 value: _backdropFilter,
                 onChanged: (value) {

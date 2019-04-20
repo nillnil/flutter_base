@@ -45,7 +45,7 @@ class Settings extends StatelessWidget {
                     ),
                     children: <Widget>[
                       BaseTile(
-                        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
                         title: Text('切换平台模式'),
                         trailing: BaseSwitch(
                           value: basePlatform == defaultTargetPlatform ? false : true,
@@ -70,7 +70,7 @@ class Settings extends StatelessWidget {
                     ),
                     children: <Widget>[
                       BaseTile(
-                        contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
                         title: Text('切换主题颜色'),
                         trailing: Container(
                           width: 50,
@@ -94,6 +94,22 @@ class Settings extends StatelessWidget {
                         onTap: () {
                           BaseRoute(ThemePage()).push(context);
                         },
+                      )
+                    ],
+                  ),
+                  BaseSection(
+                    margin: EdgeInsets.only(top: 20.0),
+                    children: <Widget>[
+                      BaseTile(
+                        titleText: '版本',
+                        trailing: Padding(
+                          padding: EdgeInsets.only(right: 5.0),
+                          child: Text('0.0.3',
+                            style: TextStyle(
+                              color: Colors.grey
+                            ),
+                          ),
+                        ),
                       )
                     ],
                   )

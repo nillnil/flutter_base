@@ -1,13 +1,12 @@
-
 import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/cupertino.dart' show CupertinoSwitch;
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart' show Color, ImageProvider, Key, MaterialTapTargetSize, Switch, ValueChanged;
+import 'package:flutter/material.dart'
+    show Color, ImageProvider, Key, MaterialTapTargetSize, Switch, ValueChanged;
 import 'package:flutter/widgets.dart' show BuildContext, Widget;
 
 /// 基础切换按钮
 class BaseSwitch extends BaseStatelessWidget {
-
   // gerenal
   final bool value;
   final ValueChanged<bool> onChanged;
@@ -25,9 +24,9 @@ class BaseSwitch extends BaseStatelessWidget {
   BaseSwitch({
     Key key,
     // gerenal
-    this.value, 
-    this.onChanged, 
-    this.activeColor, 
+    this.value,
+    this.onChanged,
+    this.activeColor,
     this.dragStartBehavior = DragStartBehavior.start,
 
     // material
@@ -37,10 +36,9 @@ class BaseSwitch extends BaseStatelessWidget {
     this.activeThumbImage,
     this.inactiveThumbImage,
     this.materialTapTargetSize,
-
     Map<String, Object> cupertino,
     Map<String, Object> material,
-  }): super(key: key, cupertino: cupertino, material: material);
+  }) : super(cupertino: cupertino, material: material);
 
   @override
   Widget buildByCupertino(BuildContext context) {
@@ -49,7 +47,7 @@ class BaseSwitch extends BaseStatelessWidget {
       value: valueFromCupertino('value', value),
       activeColor: valueFromCupertino('activeColor', activeColor),
       dragStartBehavior: valueFromCupertino('dragStartBehavior', dragStartBehavior),
-      onChanged: valueFromCupertino('onChanged', onChanged)
+      onChanged: valueFromCupertino('onChanged', onChanged),
     );
   }
 
@@ -61,7 +59,6 @@ class BaseSwitch extends BaseStatelessWidget {
       activeColor: valueFromMaterial('activeColor', activeColor),
       dragStartBehavior: valueFromMaterial('dragStartBehavior', dragStartBehavior),
       onChanged: valueFromMaterial('onChanged', onChanged),
-
       activeTrackColor: activeTrackColor,
       inactiveThumbColor: inactiveThumbColor,
       inactiveTrackColor: inactiveTrackColor,
@@ -70,5 +67,4 @@ class BaseSwitch extends BaseStatelessWidget {
       materialTapTargetSize: materialTapTargetSize,
     );
   }
-
 }

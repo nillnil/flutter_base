@@ -19,24 +19,24 @@ class RandomColor {
 		int blue,
 		int green,
 		double opacity,
-		int alpha
+		int alpha,
 	}) : assert(opacity == null || alpha == null, 'Cannot provide both a opacity and a alpha! '),
 			color = (opacity == null && alpha == null) ? Color.fromRGBO(
 				red ?? Random().nextInt(256),
 				green ?? Random().nextInt(256),
 				blue ?? Random().nextInt(256),
-				1
+				1,
 			): (
 				opacity != null ? Color.fromRGBO(
 					red ?? Random().nextInt(256),
 					green ?? Random().nextInt(256),
 					blue ?? Random().nextInt(256),
-					opacity ?? Random().nextDouble()
+					opacity ?? Random().nextDouble(),
 				) : Color.fromARGB(
 					alpha ?? Random().nextInt(256),
 					red ?? Random().nextInt(256),
 					green ?? Random().nextInt(256),
-					blue ?? Random().nextInt(256)
+					blue ?? Random().nextInt(256),
 				)
 			);
 
@@ -71,7 +71,8 @@ class RandomColor {
 		((blue  & 0xff) << 0)) & 0xFFFFFFFF;
 	}
 
-	String string({ bool withAlpha = true }) {
+  @override
+	String toString({ bool withAlpha = true }) {
 		String _redStr = red.toRadixString(16);
 		String _greenStr = green.toRadixString(16);
 		String _blueStr = blue.toRadixString(16);

@@ -3,9 +3,8 @@ import 'package:base/base_stateless_widget.dart';
 import 'package:base/platform/platform.dart';
 import 'package:base/utils/bsae_utils.dart';
 import 'package:base/flutter/flutter_modify.dart' show AppBar, CupertinoNavigationBar;
-import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoTheme, DefaultTextStyle, ObstructingPreferredSizeWidget, Size;
-import 'package:flutter/material.dart' show Border, BorderSide, BorderStyle, Brightness, BuildContext, Color, EdgeInsetsDirectional, IconThemeData, Key, NavigationToolbar, PreferredSizeWidget, TextTheme, Theme, Widget, kToolbarHeight;
-import 'package:flutter/services.dart';
+import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoTheme, ObstructingPreferredSizeWidget, Size;
+import 'package:flutter/material.dart' hide AppBar;
 
 /// 基础导航栏
 /// cupertino，使用CupertinoNavigationBar
@@ -106,9 +105,9 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
 		this.toolbarOpacity = 1.0,
 		this.bottomOpacity = 1.0,
 		Map<String, Object> cupertino,
-		Map<String, Object> material
-	}) : super(key: key, cupertino: cupertino, material: material);
-
+		Map<String, Object> material,
+	}) : super(cupertino: cupertino, material: material);
+  
 	@override
   Widget buildByCupertino(BuildContext context) {
 		Widget _leading = valueFromCupertino('leading', leading);
@@ -182,7 +181,7 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
       toolbarOpacity: _toolbarOpacity,
       autoSetLeadingColor: autoSetLeadingColor,
       autoSetMiddleColor: autoSetMiddleColor,
-      autoSetTrailingColor: autoSetTrailingColor
+      autoSetTrailingColor: autoSetTrailingColor,
 		);
 		return child;
 	}
@@ -218,7 +217,7 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
       titleSpacing: titleSpacing,
       toolbarOpacity: valueFromMaterial('toolbarOpacity', toolbarOpacity),
       bottomOpacity: valueFromMaterial('bottomOpacity', bottomOpacity),
-      toolbarHeight: valueFromMaterial('height', height) ?? kToolbarHeight
+      toolbarHeight: valueFromMaterial('height', height) ?? kToolbarHeight,
     );
   }
 

@@ -1,7 +1,6 @@
-
 import 'package:base/base_stateless_widget.dart' show BaseStatelessWidget;
 import 'package:flutter/cupertino.dart' show CupertinoButton, ShapeBorder;
-import 'package:flutter/material.dart' show BorderRadius, Brightness, BuildContext, ButtonTextTheme, Clip, Color, EdgeInsetsGeometry, Key, MaterialButton, MaterialTapTargetSize, Radius, ValueChanged, VoidCallback, Widget, required;
+import 'package:flutter/material.dart';
 
 /// 基础按钮
 /// cupertino，使用CupertinoButton
@@ -9,16 +8,15 @@ import 'package:flutter/material.dart' show BorderRadius, Brightness, BuildConte
 /// material，使用MaterialButton
 /// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoButton
 class BaseButton extends BaseStatelessWidget {
-
   // general
   final Color color;
   final VoidCallback onPressed;
   final Color disabledColor;
   final EdgeInsetsGeometry padding;
-	final Widget child;
+  final Widget child;
 
-	// cupertino
-	final double minSize;
+  // cupertino
+  final double minSize;
   final double pressedOpacity;
   final BorderRadius borderRadius;
 
@@ -46,11 +44,9 @@ class BaseButton extends BaseStatelessWidget {
     this.color,
     this.disabledColor,
     @required this.onPressed,
-
     this.minSize = 44.0,
     this.pressedOpacity = 0.1,
     this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
-
     Key key,
     this.onHighlightChanged,
     this.textTheme,
@@ -68,11 +64,10 @@ class BaseButton extends BaseStatelessWidget {
     this.animationDuration,
     this.minWidth,
     this.height,
-
     Map<String, Object> cupertino,
-    final Map<String, Object> material
-  }) : assert(pressedOpacity == null || (pressedOpacity >= 0.0 && pressedOpacity <= 1.0)),
-       super(key: key);
+    Map<String, Object> material,
+  })  : assert(pressedOpacity == null || (pressedOpacity >= 0.0 && pressedOpacity <= 1.0)),
+        super(cupertino: cupertino, material: material);
 
   @override
   Widget buildByCupertino(BuildContext context) {
@@ -84,7 +79,7 @@ class BaseButton extends BaseStatelessWidget {
       minSize: minSize,
       pressedOpacity: pressedOpacity,
       borderRadius: borderRadius,
-      onPressed: valueFromCupertino('onPressed', onPressed)
+      onPressed: valueFromCupertino('onPressed', onPressed),
     );
   }
 
@@ -112,8 +107,7 @@ class BaseButton extends BaseStatelessWidget {
       animationDuration: animationDuration,
       minWidth: minWidth,
       height: height,
-      child: valueFromMaterial('child', child)
+      child: valueFromMaterial('child', child),
     );
   }
-
 }

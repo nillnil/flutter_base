@@ -1,6 +1,5 @@
-
-/// 基础组件
-/// 一套代码构造出cupertino，material 2种模式下主题
+/// One code, two model, use cupertino's widgets on ios, use material's widget on android or fuchsia.
+///
 /// See also:
 ///
 /// * [BaseApp]
@@ -25,7 +24,6 @@ export 'base_stateful_widget.dart';
 export 'base_class.dart';
 export 'button/base_button.dart';
 export 'base_constants.dart';
-export 'container/base_container.dart';
 export 'dialog/base_alert_dialog.dart';
 export 'dialog/base_dialog_action.dart';
 export 'dialog/base_general_dialog.dart';

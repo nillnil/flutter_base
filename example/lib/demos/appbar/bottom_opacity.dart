@@ -44,7 +44,7 @@ class _BottomOpacityState extends State<BottomOpacity> with SingleTickerProvider
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: BaseAppBar(
-        title: Text('Bottom Opacity'),
+        title: Text('bottomOpacity'),
         backgroundColor: Colors.white.withOpacity(_opacity),
         backdropFilter: false,
         border: null,

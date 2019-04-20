@@ -1,4 +1,3 @@
-
 import 'package:base/base_stateless_widget.dart';
 import 'package:base/appbar/base_app_bar.dart';
 import 'package:base/tabbar/base_tab_bar.dart';
@@ -11,7 +10,6 @@ import 'package:flutter/material.dart';
 /// material，使用Scaffold
 /// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoPageScaffold / CupertinoTabScaffold
 class BaseScaffold extends BaseStatelessWidget {
-
   // general
   final BaseAppBar appBar;
   final BaseAppBar navBar;
@@ -51,15 +49,12 @@ class BaseScaffold extends BaseStatelessWidget {
     this.navBar,
     this.backgroundColor,
     this.body,
-
     this.tabBar,
     this.tabViews,
-
     this.resizeToAvoidBottomInset = true,
     this.routes = const {},
     this.safeAreaTop = false,
     this.safeAreaBottom = false,
-
     this.floatingActionButton,
     this.floatingActionButtonLocation,
     this.floatingActionButtonAnimator,
@@ -69,30 +64,30 @@ class BaseScaffold extends BaseStatelessWidget {
     this.bottomSheet,
     this.resizeToAvoidBottomPadding = true,
     this.primary = true,
-
     Map<String, Object> cupertino,
-    Map<String, Object> material
-  }) : super(key: key, cupertino: cupertino, material: material);
+    Map<String, Object> material,
+  }) : super(cupertino: cupertino, material: material);
 
   @override
   Widget buildByCupertino(BuildContext context) {
     BaseTabBar tabBar = valueFromCupertino('tabBar', this.tabBar);
     List<Widget> tabViews = valueFromCupertino('tabViews', this.tabViews);
     if (tabBar != null || tabViews != null) {
-      assert(tabBar != null && tabViews != null, 'tabBar and tabViews can not be null');
+      assert(tabBar != null && tabViews != null,
+          'tabBar and tabViews can not be null');
     }
     if (tabBar != null && tabViews.length > 0) {
-      return new CupertinoTabScaffold(
+      return CupertinoTabScaffold(
         key: valueFromCupertino('key', key),
         tabBar: tabBar.build(context),
         tabBuilder: (BuildContext context, int index) {
-          return new CupertinoTabView(
+          return CupertinoTabView(
             builder: (BuildContext context) {
               return tabViews[index];
             },
-            routes: routes
+            routes: routes,
           );
-        }
+        },
       );
     } else {
       BaseAppBar _appBar = valueFromMaterial('appBar', appBar) ?? valueFromMaterial('navBar', navBar);
@@ -102,11 +97,12 @@ class BaseScaffold extends BaseStatelessWidget {
         navigationBar: _appBar,
         backgroundColor: valueFromCupertino('backgroundColor', backgroundColor),
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-        child: (!safeAreaTop && !safeAreaBottom) ? body: SafeArea(
-          top: safeAreaTop,
-          bottom: safeAreaBottom,
-          child: body
-        )
+        child: (!safeAreaTop && !safeAreaBottom) ? body
+          : SafeArea(
+            top: safeAreaTop,
+            bottom: safeAreaBottom,
+            child: body,
+          ),
       );
     }
   }
@@ -116,7 +112,8 @@ class BaseScaffold extends BaseStatelessWidget {
     BaseTabBar tabBar = valueFromMaterial('tabBar', this.tabBar);
     List<Widget> tabViews = valueFromMaterial('tabViews', this.tabViews);
     if (tabBar != null || tabViews != null) {
-      assert(tabBar != null && tabViews != null, 'tabBar and tabViews can not be null');
+      assert(tabBar != null && tabViews != null,
+          'tabBar and tabViews can not be null');
     }
     if (tabBar != null && tabViews.length > 0) {
       return Scaffold(
@@ -124,8 +121,8 @@ class BaseScaffold extends BaseStatelessWidget {
         body: DefaultTabController(
           length: tabViews.length,
           child: TabBarView(
-            children: tabViews
-          )
+            children: tabViews,
+          ),
         ),
         bottomNavigationBar: tabBar.build(context),
         floatingActionButton: floatingActionButton,
@@ -137,10 +134,11 @@ class BaseScaffold extends BaseStatelessWidget {
         bottomSheet: bottomSheet,
         backgroundColor: valueFromMaterial('backgroundColor', backgroundColor),
         resizeToAvoidBottomPadding: resizeToAvoidBottomPadding,
-        primary: primary
+        primary: primary,
       );
     } else {
-      BaseAppBar appBar = valueFromMaterial('appBar', this.appBar) ?? valueFromMaterial('navBar', navBar);
+      BaseAppBar appBar = valueFromMaterial('appBar', this.appBar) ??
+          valueFromMaterial('navBar', navBar);
       return Scaffold(
         key: valueFromMaterial('key', key),
         appBar: appBar,
@@ -154,9 +152,8 @@ class BaseScaffold extends BaseStatelessWidget {
         bottomSheet: bottomSheet,
         backgroundColor: valueFromMaterial('backgroundColor', backgroundColor),
         resizeToAvoidBottomPadding: resizeToAvoidBottomPadding,
-        primary: primary
+        primary: primary,
       );
     }
   }
-
 }

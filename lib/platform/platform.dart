@@ -1,40 +1,47 @@
-import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform;
+import 'package:flutter/foundation.dart'
+    show TargetPlatform, defaultTargetPlatform;
 
 TargetPlatform basePlatform = defaultTargetPlatform;
 bool withoutSplashOnCupertino = true;
 
-setPlatform({ 
+setPlatform({
   TargetPlatform targetPlatform,
-  bool withoutSplashOnCupertino
+  bool withoutSplashOnCupertino,
 }) {
-	basePlatform = targetPlatform ?? defaultTargetPlatform;
+  basePlatform = targetPlatform ?? defaultTargetPlatform;
   withoutSplashOnCupertino = withoutSplashOnCupertino;
 }
 
 @deprecated
 void changePlatform() {
-	if (basePlatform == TargetPlatform.iOS) {
-		changeToMaterial();
-	} else if (basePlatform == TargetPlatform.android || basePlatform == TargetPlatform.fuchsia) {
-		changeToCupertino();
-	} else {
-		print('The platform is = $basePlatform, it not support yet.');
-	}
+  if (basePlatform == TargetPlatform.iOS) {
+    changeToMaterial();
+  } else if (basePlatform == TargetPlatform.android ||
+      basePlatform == TargetPlatform.fuchsia) {
+    changeToCupertino();
+  } else {
+    print('The platform is = $basePlatform, it not support yet.');
+  }
 }
 
 @deprecated
 void changeToCupertino() {
-	basePlatform = TargetPlatform.iOS;
+  basePlatform = TargetPlatform.iOS;
 }
 
 @deprecated
 void changeToMaterial() {
-	basePlatform = TargetPlatform.android;
+  basePlatform = TargetPlatform.android;
 }
 
 /// 使用Cupertino模式构建
-bool get useCupertino => basePlatform != null ? basePlatform == TargetPlatform.iOS : defaultTargetPlatform  == TargetPlatform.iOS;
+bool get useCupertino => basePlatform != null
+    ? basePlatform == TargetPlatform.iOS
+    : defaultTargetPlatform == TargetPlatform.iOS;
 
 /// 使用Material模式构建
-bool get useMaterial => basePlatform != null ? (basePlatform == TargetPlatform.android || basePlatform == TargetPlatform.fuchsia)
-  : (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.fuchsia);
+bool get useMaterial => basePlatform != null
+    ? (basePlatform == TargetPlatform.android ||
+        basePlatform == TargetPlatform.fuchsia)
+    : (defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.fuchsia);

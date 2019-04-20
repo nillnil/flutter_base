@@ -1,12 +1,9 @@
-
 import 'package:base/base_constants.dart';
 import 'package:base/base_mixin.dart';
 import 'package:base/platform/platform.dart';
 import 'package:base/utils/custom_material_widget.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart' show BuildContext, Key, StatelessWidget, Widget;
 
 /// 基础无状态组件
 /// cupertino使用buildByCupertino方法构建，material使用buildByMaterial方法构建
@@ -23,20 +20,18 @@ import 'package:flutter/widgets.dart' show BuildContext, Key, StatelessWidget, W
 /// *** material模式使用 valueFromMaterial(key, value) 获取
 /// ***
 abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
-
   final Map<String, Object> cupertino;
   final Map<String, Object> material;
 
-	BaseStatelessWidget({
-    Key key,
-		this.cupertino,
-		this.material
-	});
+  BaseStatelessWidget({
+    this.cupertino,
+    this.material,
+  });
 
-	@override
-	Widget build(BuildContext context) {
-		buildBefore(context);
-		if (useCupertino) {
+  @override
+  Widget build(BuildContext context) {
+    buildBefore(context);
+    if (useCupertino) {
       if (this.cupertino != null) {
         // 禁止构建
         if (this.cupertino[disabled] != null && this.cupertino[disabled]) {
@@ -50,18 +45,16 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
           buildByMaterialBefore(context);
           if (withoutSplashOnCupertino) {
             return CustomSplashFactoryWidget.withoutSplash(
-              child: buildByMaterial(context), 
+              child: buildByMaterial(context),
               theme: Theme.of(context),
             );
           }
-          return CustomMaterialWidget(
-            child: buildByMaterial(context)
-          );
+          return CustomMaterialWidget(child: buildByMaterial(context));
         }
       }
-			buildByCupertinoBefore(context);
-			return buildByCupertino(context);
-		} else if (useMaterial) {
+      buildByCupertinoBefore(context);
+      return buildByCupertino(context);
+    } else if (useMaterial) {
       if (this.material != null) {
         // 禁止构建
         if (this.material[disabled] != null && this.material[disabled]) {
@@ -75,44 +68,43 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
           return buildByCupertino(context);
         }
       }
-			buildByMaterialBefore(context);
-			return buildByMaterial(context);
-		} else {
-			print('The platform is = $basePlatform, it not support yet.');
-			return null;
-		}
-	}
+      buildByMaterialBefore(context);
+      return buildByMaterial(context);
+    } else {
+      print('The platform is = $basePlatform, it not support yet.');
+      return null;
+    }
+  }
 
-	/// 从cupertino获取key对应的值，
-	/// 如果为null取value的值，
-	/// 如果还是null则取material里的值
-	Object valueFromCupertino(String key, Object value) {
-		Object newValue;
-		if (this.cupertino != null) {
-			newValue = this.cupertino[key] ?? value;
-		} else {
-			newValue = value;
-		}
-		return newValue;
-	}
+  /// 从cupertino获取key对应的值，
+  /// 如果为null取value的值，
+  /// 如果还是null则取material里的值
+  Object valueFromCupertino(String key, Object value) {
+    Object newValue;
+    if (this.cupertino != null) {
+      newValue = this.cupertino[key] ?? value;
+    } else {
+      newValue = value;
+    }
+    return newValue;
+  }
 
-	/// 从material获取key对应的值，
-	/// 如果为null取value的值，
-	/// 如果还是null则取cupertino里的值
-	Object valueFromMaterial(String key, Object value) {
-		Object newValue;
-		if (this.material != null) {
-			newValue = this.material[key] ?? value;
-		} else {
-			newValue = value;
-		}
-		return newValue;
-	}
+  /// 从material获取key对应的值，
+  /// 如果为null取value的值，
+  /// 如果还是null则取cupertino里的值
+  Object valueFromMaterial(String key, Object value) {
+    Object newValue;
+    if (this.material != null) {
+      newValue = this.material[key] ?? value;
+    } else {
+      newValue = value;
+    }
+    return newValue;
+  }
 
   // 使用Cupertino组件构建
   Widget buildByCupertino(BuildContext context);
 
   // 使用Material组件构建
   Widget buildByMaterial(BuildContext context);
-
 }

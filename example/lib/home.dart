@@ -1,5 +1,7 @@
 
 
+import 'dart:async';
+
 import 'package:base/base.dart';
 import 'package:example/demos/demos.dart';
 import 'package:example/iconfont/iconfont.dart';
@@ -73,10 +75,11 @@ class Home extends StatelessWidget {
               size: 24
             ),
             onPressed: () {
+              Duration transitionDuration = Duration(milliseconds: 300);
               Navigator.of(context).push(
                 PageRouteBuilder(
                   opaque: false,
-                  transitionDuration: Duration(milliseconds: 500),
+                  transitionDuration: transitionDuration,
                   transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
                     return CupertinoFullscreenDialogTransition(
                       animation: animation,
@@ -84,7 +87,9 @@ class Home extends StatelessWidget {
                     );
                   },
                   pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-                    return _CupertinoTipsPage();
+                    return _CupertinoTipsPage(
+                      transitionDuration: transitionDuration
+                    );
                   }
                 )
               );
@@ -164,10 +169,12 @@ class _CupertinoTipsPage extends StatefulWidget {
 
   final double height;
   final Widget child;
+  final Duration transitionDuration;
 
   _CupertinoTipsPage({ 
     this.height,
-    this.child
+    this.child,
+    this.transitionDuration
   });
 
   @override
@@ -180,10 +187,16 @@ class _CupertinoTipsPageState extends State<_CupertinoTipsPage>  {
   double _offsetY = 0.0;
   double _originalOffsetY; 
   double _height;
+  bool visible = false;
 
   @override
   void initState() {
     super.initState();
+    Future.delayed(widget.transitionDuration, (){
+      setState(() {
+        visible = true;
+      });
+    });
   }
 
   @override
@@ -194,9 +207,11 @@ class _CupertinoTipsPageState extends State<_CupertinoTipsPage>  {
       _originalOffsetY = size.height - _height;
       _offsetY = _originalOffsetY;
     }
+    double paddingTop = MediaQuery.of(context).padding.top;
     Widget content = Container(
       width: size.width,
       height: _height,
+      margin: EdgeInsets.only(top: paddingTop),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(
@@ -205,7 +220,7 @@ class _CupertinoTipsPageState extends State<_CupertinoTipsPage>  {
       ),
       child: Column(
         children: <Widget>[
-          _TipsHeader(),
+          _TipsHeader(callback: close),
           Expanded(
             child: IgnorePointer(
               child: ListView(
@@ -221,7 +236,7 @@ class _CupertinoTipsPageState extends State<_CupertinoTipsPage>  {
     );
     Widget gestureLayer = GestureDetector(
       child: Container(
-        margin: EdgeInsets.only(top: 44.0),
+        margin: EdgeInsets.only(top: paddingTop + 44.0),
         color: Colors.transparent,
       ),
       onVerticalDragUpdate: (DragUpdateDetails details) {
@@ -236,7 +251,7 @@ class _CupertinoTipsPageState extends State<_CupertinoTipsPage>  {
       },
       onVerticalDragEnd: (DragEndDetails details) {
         if (_offsetY > (_originalOffsetY + _height / 4)) {
-          Navigator.of(context).pop();
+          close();
         } else {
           setState(() {
             _offsetY = _originalOffsetY ?? 0.0;
@@ -244,25 +259,42 @@ class _CupertinoTipsPageState extends State<_CupertinoTipsPage>  {
         }
       },
     );
-    return SafeArea(
-      top: true,
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: <Widget>[
-          AnimatedPositioned(
-            top: _offsetY,
-            duration: Duration(milliseconds: 200),
-            child: content,
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: <Widget>[
+        Visibility(
+          child: Container(
+            color: Colors.black.withOpacity(.3),
           ),
-          gestureLayer
-        ],
-      ),
+          visible: visible,
+        ),
+        AnimatedPositioned(
+          top: _offsetY,
+          duration: Duration(milliseconds: 150),
+          child: content,
+        ),
+        gestureLayer
+      ],
     );
+  }
+
+  void close() {
+    setState(() {
+      visible = false;
+    });
+    Navigator.of(context).pop();
   }
 
 }
 
 class _TipsHeader extends StatelessWidget {
+
+  final VoidCallback callback;
+
+  const _TipsHeader({
+    Key key,
+    this.callback
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -289,7 +321,11 @@ class _TipsHeader extends StatelessWidget {
                 color: Colors.black,
               ),
               onPressed: () {
-                Navigator.of(context).pop();
+                if (callback != null) {
+                  callback();
+                } else {
+                  Navigator.of(context).pop();
+                }
               },
             ),
           ),

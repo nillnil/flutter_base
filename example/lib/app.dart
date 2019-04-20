@@ -44,6 +44,7 @@ class App extends StatelessWidget {
           primaryColor: vm['primaryColor'],
           scaffoldBackgroundColor: _backgroundColor,
           cupertinoOverrideTheme: _cupertinoTheme,
+          platform: TargetPlatform.iOS
         );
         return BaseApp(
           title: 'Base Example',
