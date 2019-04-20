@@ -1,3 +1,8 @@
+## 0.1.1 - 2019.04.21
+
+* Release v0.1.1
+* add analysis_options.yaml
+
 ## 0.1.0 - 2019.04.20
 
 * Release v0.1.0
