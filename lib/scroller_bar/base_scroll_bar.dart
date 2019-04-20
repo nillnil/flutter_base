@@ -3,14 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BaseScrollBar extends BaseStatelessWidget {
-  final Widget child;
-
   BaseScrollBar({
     Key key,
     this.child,
     Map<String, Object> cupertino,
     Map<String, Object> material,
-  }) : super(cupertino: cupertino, material: material);
+  }) : super(key: key, cupertino: cupertino, material: material);
+
+  final Widget child;
 
   @override
   Widget buildByCupertino(BuildContext context) {

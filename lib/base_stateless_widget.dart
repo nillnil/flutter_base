@@ -20,26 +20,28 @@ import 'package:flutter/material.dart';
 /// *** material模式使用 valueFromMaterial(key, value) 获取
 /// ***
 abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
-  final Map<String, Object> cupertino;
-  final Map<String, Object> material;
-
   BaseStatelessWidget({
+    Key key,
     this.cupertino,
     this.material,
-  });
+  }) : super(key: key);
+
+  final Map<String, Object> cupertino;
+  final Map<String, Object> material;
 
   @override
   Widget build(BuildContext context) {
     buildBefore(context);
     if (useCupertino) {
-      if (this.cupertino != null) {
+      if (cupertino != null) {
         // 禁止构建
-        if (this.cupertino[disabled] != null && this.cupertino[disabled]) {
+        if (cupertino[disabled] != null && cupertino[disabled]) {
           return Container();
         }
         // cupertino模式，ios下使用
         // forceUseMaterial = true 强制使用material模式
-        if (this.cupertino[forceUseMaterial] != null && this.cupertino[forceUseMaterial]) {
+        if (cupertino[forceUseMaterial] != null &&
+            cupertino[forceUseMaterial]) {
           // *** 请注意，此时BaseApp上的theme参数是不生效的 ***
           // 默认套多一层 Material
           buildByMaterialBefore(context);
@@ -55,14 +57,15 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
       buildByCupertinoBefore(context);
       return buildByCupertino(context);
     } else if (useMaterial) {
-      if (this.material != null) {
+      if (material != null) {
         // 禁止构建
-        if (this.material[disabled] != null && this.material[disabled]) {
+        if (material[disabled] != null && material[disabled]) {
           return Container();
         }
         // material模式，android跟fuchsia下使用
         // forceUseCupertino = true 强制使用cupertino模式
-        if (this.material[forceUseCupertino] != null && this.material[forceUseCupertino]) {
+        if (material[forceUseCupertino] != null &&
+            material[forceUseCupertino]) {
           // *** 请注意，此时BaseApp上的cupertinoTheme参数是不生效的 ***
           buildByCupertinoBefore(context);
           return buildByCupertino(context);
@@ -81,8 +84,8 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
   /// 如果还是null则取material里的值
   Object valueFromCupertino(String key, Object value) {
     Object newValue;
-    if (this.cupertino != null) {
-      newValue = this.cupertino[key] ?? value;
+    if (cupertino != null) {
+      newValue = cupertino[key] ?? value;
     } else {
       newValue = value;
     }
@@ -94,8 +97,8 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
   /// 如果还是null则取cupertino里的值
   Object valueFromMaterial(String key, Object value) {
     Object newValue;
-    if (this.material != null) {
-      newValue = this.material[key] ?? value;
+    if (material != null) {
+      newValue = material[key] ?? value;
     } else {
       newValue = value;
     }

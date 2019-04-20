@@ -9,19 +9,19 @@ class WechatSettings extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-  	TextStyle style = TextStyle(
+  	const TextStyle style = TextStyle(
 			fontSize: 16.0
 		);
-  	TextStyle trailingStyle = TextStyle(
+  	const TextStyle trailingStyle = TextStyle(
 			color: Colors.grey
 		);
-		EdgeInsets contentPadding = EdgeInsets.only(left: 20.0, right: 10.0);
-		EdgeInsets margin = EdgeInsets.only(top: 5.0, bottom: 5.0);
-		Icon trailingIcon = Icon(CupertinoIcons.right_chevron, color: Colors.grey);
+		const EdgeInsets contentPadding = EdgeInsets.only(left: 20.0, right: 10.0);
+		const EdgeInsets margin = EdgeInsets.only(top: 5.0, bottom: 5.0);
+		const Icon trailingIcon = Icon(CupertinoIcons.right_chevron, color: Colors.grey);
 
   	return BaseScaffold(
       appBar: BaseAppBar(
-        title: Text('设置'),
+        title: const Text('设置'),
         backgroundColor: defaultTargetPlatform == TargetPlatform.iOS ?
           CupertinoTheme.of(context).scaffoldBackgroundColor : Theme.of(context).scaffoldBackgroundColor,
         border: null,
@@ -35,10 +35,10 @@ class WechatSettings extends StatelessWidget {
             return Column(
               children: <Widget>[
                 BaseSection(
-                  margin: EdgeInsets.only(bottom: 10.0),
+                  margin: const EdgeInsets.only(bottom: 10.0),
                   children: <Widget>[
                     BaseTile(
-                      title: Text('账号与安全', style: style),
+                      title: const Text('账号与安全', style: style),
                       contentPadding: contentPadding,
                       trailing: trailingIcon
                     )
@@ -50,7 +50,7 @@ class WechatSettings extends StatelessWidget {
                   dividerIndent: 20.0,
                   children: <Widget>[
                     BaseTile(
-                      title: Text('新消息通知', style: style),
+                      title: const Text('新消息通知', style: style),
                       contentPadding: contentPadding,
                       trailing: trailingIcon,
                       onTap: () {
@@ -58,12 +58,12 @@ class WechatSettings extends StatelessWidget {
                       }
                     ),
                     BaseTile(
-                      title: Text('隐私', style: style),
+                      title: const Text('隐私', style: style),
                       contentPadding: contentPadding,
                       trailing: trailingIcon
                     ),
                     BaseTile(
-                      title: Text('通用', style: style),
+                      title: const Text('通用', style: style),
                       contentPadding: contentPadding,
                       trailing: trailingIcon
                     )
@@ -73,20 +73,20 @@ class WechatSettings extends StatelessWidget {
                   margin: margin,
                   backgroundColor: Colors.white,
                   dividerIndent: 20.0,
-                  children: [
+                  children: <Widget>[
                     BaseTile(
-                      title: Text('帮助与反馈'),
+                      title: const Text('帮助与反馈'),
                       contentPadding: contentPadding,
                       trailing: trailingIcon,
                     ),
                     BaseTile(
-                      title: Text('关于', style: style),
+                      title: const Text('关于', style: style),
                       contentPadding: contentPadding,
                       trailing: Container(
                         width: 100,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
+                          children: const <Widget>[
                             Text('版本1.0.0', style: trailingStyle),
                             trailingIcon
                           ]
@@ -99,7 +99,7 @@ class WechatSettings extends StatelessWidget {
                   margin: margin,
                   children: <Widget>[
                     BaseTile(
-                      title: Text('插件', style: style),
+                      title: const Text('插件', style: style),
                       contentPadding: contentPadding,
                       trailing: trailingIcon
                     )
@@ -111,7 +111,7 @@ class WechatSettings extends StatelessWidget {
                     BaseTile(
                       mainAxisAlignment: MainAxisAlignment.center,
                       title: Center(
-                        child: Text('切换账号', style: style),
+                        child: const Text('切换账号', style: style),
                       ),
                     )
                   ],
@@ -122,7 +122,7 @@ class WechatSettings extends StatelessWidget {
                     BaseTile(
                       mainAxisAlignment: MainAxisAlignment.center,
                       title: Center(
-                        child: Text('退出登录',
+                        child: const Text('退出登录',
                           style: TextStyle(
                             fontSize: 16.0
                           )
@@ -130,24 +130,24 @@ class WechatSettings extends StatelessWidget {
                       ),
                       onTap: () {
                         BaseAlertDialog(
-                          content: Text('确定退出吗？', style: TextStyle(fontWeight: FontWeight.w600)),
+                          content: const Text('确定退出吗？', style: TextStyle(fontWeight: FontWeight.w600)),
                           actions: <Widget>[
                             BaseDialogAction(
-                              child: Text('取消'),
-                              textStyle: TextStyle(color: Colors.blue),
+                              child: const Text('取消'),
+                              textStyle: const TextStyle(color: Colors.blue),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               }
                             ),
                             BaseDialogAction(
-                              child: Text('确定'),
-                              textStyle: TextStyle(color: Colors.blue),
+                              child: const Text('确定'),
+                              textStyle: const TextStyle(color: Colors.blue),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               }
                             )
                           ]
-                        ).show(context, barrierDismissible: false);
+                        ).show<dynamic>(context, barrierDismissible: false);
                       }
                     )
                   ]

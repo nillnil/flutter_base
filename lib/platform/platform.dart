@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart'
 TargetPlatform basePlatform = defaultTargetPlatform;
 bool withoutSplashOnCupertino = true;
 
-setPlatform({
+void setPlatform({
   TargetPlatform targetPlatform,
   bool withoutSplashOnCupertino,
 }) {

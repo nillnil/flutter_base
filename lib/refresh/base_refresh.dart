@@ -3,6 +3,21 @@ import 'package:flutter/cupertino.dart' hide RefreshCallback;
 import 'package:flutter/material.dart';
 
 class BaseRefresh extends BaseStatelessWidget {
+  BaseRefresh({
+    Key key,
+    this.refreshTriggerPullDistance = _defaultRefreshTriggerPullDistance,
+    this.refreshIndicatorExtent = _defaultRefreshIndicatorExtent,
+    this.builder = CupertinoSliverRefreshControl.buildSimpleRefreshIndicator,
+    this.onRefresh,
+    this.child,
+    this.displacement = 40.0,
+    this.color,
+    this.backgroundColor,
+    this.notificationPredicate = defaultScrollNotificationPredicate,
+    Map<String, Object> cupertino,
+    Map<String, Object> material,
+  }) : super(key: key, cupertino: cupertino, material: material);
+
   // general
   final RefreshCallback onRefresh;
   // cupertino接收的是SliverList，material接收的是ListView / CustomScrollView
@@ -23,21 +38,6 @@ class BaseRefresh extends BaseStatelessWidget {
   static const double _defaultRefreshTriggerPullDistance = 100.0;
   static const double _defaultRefreshIndicatorExtent = 60.0;
 
-  BaseRefresh({
-    Key key,
-    this.refreshTriggerPullDistance = _defaultRefreshTriggerPullDistance,
-    this.refreshIndicatorExtent = _defaultRefreshIndicatorExtent,
-    this.builder = CupertinoSliverRefreshControl.buildSimpleRefreshIndicator,
-    this.onRefresh,
-    this.child,
-    this.displacement = 40.0,
-    this.color,
-    this.backgroundColor,
-    this.notificationPredicate = defaultScrollNotificationPredicate,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
-  }) : super(cupertino: cupertino, material: material);
-
   @override
   Widget buildByCupertino(BuildContext context) {
     Widget _child = child;
@@ -54,7 +54,6 @@ class BaseRefresh extends BaseStatelessWidget {
     }
     return CustomScrollView(slivers: <Widget>[
       CupertinoSliverRefreshControl(
-        key: valueFromCupertino('key', key),
         refreshTriggerPullDistance: refreshTriggerPullDistance,
         refreshIndicatorExtent: refreshIndicatorExtent,
         builder: builder,
@@ -74,7 +73,6 @@ class BaseRefresh extends BaseStatelessWidget {
       );
     }
     return RefreshIndicator(
-      key: valueFromMaterial('key', key),
       child: _child,
       displacement: displacement,
       color: color,

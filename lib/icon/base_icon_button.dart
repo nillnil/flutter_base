@@ -4,6 +4,25 @@ import 'package:flutter/material.dart';
 
 /// 基础图标按钮
 class BaseIconButton extends BaseStatelessWidget {
+  BaseIconButton({
+    Key key,
+    this.icon,
+    this.color,
+    this.disabledColor,
+    this.padding = const EdgeInsets.all(8.0),
+    this.onPressed,
+    this.minSize = 24.0,
+    this.pressedOpacity = 0.1,
+    this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
+    this.iconSize = 24.0,
+    this.alignment = Alignment.center,
+    this.highlightColor,
+    this.splashColor,
+    this.tooltip,
+    Map<String, Object> cupertino,
+    Map<String, Object> material,
+  }) : super(key: key, cupertino: cupertino, material: material);
+
   // general
   final EdgeInsets padding;
   final Widget icon;
@@ -23,31 +42,12 @@ class BaseIconButton extends BaseStatelessWidget {
   final Color splashColor;
   final String tooltip;
 
-  BaseIconButton({
-    this.icon,
-    this.color,
-    this.disabledColor,
-    this.padding = const EdgeInsets.all(8.0),
-    this.onPressed,
-    this.minSize = 24.0,
-    this.pressedOpacity = 0.1,
-    this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
-    Key key,
-    this.iconSize = 24.0,
-    this.alignment = Alignment.center,
-    this.highlightColor,
-    this.splashColor,
-    this.tooltip,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
-  }) : super(cupertino: cupertino, material: material);
-
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoButton(
       child: valueFromCupertino('icon', icon),
       padding: valueFromCupertino('padding', padding),
-      color: valueFromCupertino('color', color) ?? Color.fromRGBO(0, 0, 0, 0),
+      color: valueFromCupertino('color', color) ?? const Color.fromRGBO(0, 0, 0, 0),
       disabledColor: valueFromCupertino('disabledColor', disabledColor),
       minSize: minSize,
       pressedOpacity: pressedOpacity,
@@ -59,7 +59,6 @@ class BaseIconButton extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return IconButton(
-      key: valueFromMaterial('key', key),
       iconSize: valueFromMaterial('iconSize', iconSize),
       padding: valueFromMaterial('padding', padding),
       alignment: valueFromMaterial('alignment', alignment),

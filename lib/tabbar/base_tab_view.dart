@@ -1,62 +1,53 @@
-
 import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BaseTabView extends BaseStatelessWidget {
-
-	// cupertino
-	final WidgetBuilder builder;
-	final String defaultTitle;
-	final Map<String, WidgetBuilder> routes;
-	final RouteFactory onGenerateRoute;
-	final RouteFactory onUnknownRoute;
-	final List<NavigatorObserver> navigatorObservers;
-
-	// material
-	final List<Widget> children;
-	final TabController controller;
-	final ScrollPhysics physics;
-
-	final Map<String, Object> cupertino;
-	final Map<String, Object> material;
-
   BaseTabView({
-		Key key,
-		this.builder,
-		this.defaultTitle,
-		this.routes,
-		this.onGenerateRoute,
-		this.onUnknownRoute,
-		this.navigatorObservers = const <NavigatorObserver>[],
+    Key key,
+    this.builder,
+    this.defaultTitle,
+    this.routes,
+    this.onGenerateRoute,
+    this.onUnknownRoute,
+    this.navigatorObservers = const <NavigatorObserver>[],
+    this.children,
+    this.controller,
+    this.physics,
+    Map<String, Object> cupertino,
+    Map<String, Object> material,
+  }) : super(key: key, cupertino: cupertino, material: material);
 
-		this.children,
-		this.controller,
-		this.physics,
+  // cupertino
+  final WidgetBuilder builder;
+  final String defaultTitle;
+  final Map<String, WidgetBuilder> routes;
+  final RouteFactory onGenerateRoute;
+  final RouteFactory onUnknownRoute;
+  final List<NavigatorObserver> navigatorObservers;
 
-		this.cupertino,
-		this.material
-	});
+  // material
+  final List<Widget> children;
+  final TabController controller;
+  final ScrollPhysics physics;
 
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoTabView(
-			key: valueFromCupertino('key', key),
-			builder: builder,
-			defaultTitle: defaultTitle,
-			routes: routes,
-			onGenerateRoute: onGenerateRoute,
-			navigatorObservers: navigatorObservers
-		);
+      builder: builder,
+      defaultTitle: defaultTitle,
+      routes: routes,
+      onGenerateRoute: onGenerateRoute,
+      navigatorObservers: navigatorObservers,
+    );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
     return TabBarView(
-			children: children,
-			controller: controller,
-			physics: physics
-		);
+      children: children,
+      controller: controller,
+      physics: physics,
+    );
   }
-
 }

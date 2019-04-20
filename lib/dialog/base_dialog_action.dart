@@ -23,6 +23,30 @@ import 'package:flutter/material.dart'
 /// material，使用FlatButton
 /// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoDialogAction
 class BaseDialogAction extends BaseStatelessWidget {
+  BaseDialogAction({
+    Key key,
+    this.onPressed,
+    this.isDefaultAction = false,
+    this.isDestructiveAction = false,
+    this.textStyle,
+    this.child,
+    this.onHighlightChanged,
+    this.textTheme,
+    this.textColor,
+    this.disabledTextColor,
+    this.color,
+    this.disabledColor,
+    this.highlightColor,
+    this.splashColor,
+    this.colorBrightness,
+    this.padding,
+    this.shape,
+    this.clipBehavior = Clip.none,
+    this.materialTapTargetSize,
+    Map<String, Object> cupertino,
+    Map<String, Object> material,
+  }) : super(key: key, cupertino: cupertino, material: material);
+
   // general
   final VoidCallback onPressed;
   final Widget child;
@@ -47,30 +71,6 @@ class BaseDialogAction extends BaseStatelessWidget {
   final Clip clipBehavior;
   final MaterialTapTargetSize materialTapTargetSize;
 
-  BaseDialogAction({
-    this.onPressed,
-    this.isDefaultAction = false,
-    this.isDestructiveAction = false,
-    this.textStyle,
-    this.child,
-    Key key,
-    this.onHighlightChanged,
-    this.textTheme,
-    this.textColor,
-    this.disabledTextColor,
-    this.color,
-    this.disabledColor,
-    this.highlightColor,
-    this.splashColor,
-    this.colorBrightness,
-    this.padding,
-    this.shape,
-    this.clipBehavior = Clip.none,
-    this.materialTapTargetSize,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
-  }) : super(cupertino: cupertino, material: material);
-
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoDialogAction(
@@ -85,7 +85,6 @@ class BaseDialogAction extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return FlatButton(
-      key: key,
       onPressed: valueFromMaterial('onPressed', onPressed),
       onHighlightChanged: onHighlightChanged,
       textTheme: textTheme,

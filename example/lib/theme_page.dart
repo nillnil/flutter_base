@@ -13,20 +13,20 @@ class ThemePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, Color>(
-      converter: (Store store) => store.state.primaryColor,
+      converter: (Store<AppState> store) => store.state.primaryColor,
       builder: (BuildContext context, Color primaryColor) {
-        List<Widget> _themes = [];
-        Colors.primaries.forEach((color) {
+        final List<Widget> _themes = <Widget>[];
+        for (Color color in Colors.primaries) {
           _themes.add(
             _ThemeItem(
               color: color,
               selected: primaryColor == color,
             )
           );
-        });
+        }
         return BaseScaffold(
           appBar: BaseAppBar(
-            title: Text('主题'),
+            title: const Text('主题'),
             transitionBetweenRoutes: false,
           ),
           body: Container(
@@ -45,20 +45,16 @@ class ThemePage extends StatelessWidget {
 
 class _ThemeViewModel {
 
-  final Color primaryColor;
-  final void Function(Color primaryColor) changeTheme;
-
   _ThemeViewModel({
     this.primaryColor,
     this.changeTheme
   });
 
+  final Color primaryColor;
+  final void Function(Color primaryColor) changeTheme;
 }
 
 class _ThemeItem extends StatelessWidget {
-
-  final Color color;
-  final bool selected;
 
   const _ThemeItem({
     Key key, 
@@ -66,19 +62,22 @@ class _ThemeItem extends StatelessWidget {
     this.selected = true
   }) : super(key: key);
 
+  final Color color;
+  final bool selected;
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ThemeViewModel>(
-      converter: (Store store) {
+      converter: (Store<AppState> store) {
         return _ThemeViewModel(
           primaryColor: store.state.primaryColor,
-          changeTheme: (primaryColor) => store.dispatch(ThemeAction(primaryColor: primaryColor))
+          changeTheme: (Color primaryColor) => store.dispatch(ThemeAction(primaryColor: primaryColor))
         );
       }, 
       builder: (BuildContext context, _ThemeViewModel vm) {
         return GestureDetector(
           child: Container(
-            margin: EdgeInsets.all(10.0),
+            margin: const EdgeInsets.all(10.0),
             alignment: Alignment.center,
             color: color,
             height: 60,
@@ -91,7 +90,7 @@ class _ThemeItem extends StatelessWidget {
           ),
           onTap: () {
             if (!selected) {
-              vm.changeTheme(this.color);
+              vm.changeTheme(color);
             }
           },
         );

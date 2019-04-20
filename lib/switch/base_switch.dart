@@ -7,6 +7,22 @@ import 'package:flutter/widgets.dart' show BuildContext, Widget;
 
 /// 基础切换按钮
 class BaseSwitch extends BaseStatelessWidget {
+  BaseSwitch({
+    Key key,
+    this.value,
+    this.onChanged,
+    this.activeColor,
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.activeTrackColor,
+    this.inactiveThumbColor,
+    this.inactiveTrackColor,
+    this.activeThumbImage,
+    this.inactiveThumbImage,
+    this.materialTapTargetSize,
+    Map<String, Object> cupertino,
+    Map<String, Object> material,
+  }) : super(key: key, cupertino: cupertino, material: material);
+
   // gerenal
   final bool value;
   final ValueChanged<bool> onChanged;
@@ -21,32 +37,13 @@ class BaseSwitch extends BaseStatelessWidget {
   final ImageProvider inactiveThumbImage;
   final MaterialTapTargetSize materialTapTargetSize;
 
-  BaseSwitch({
-    Key key,
-    // gerenal
-    this.value,
-    this.onChanged,
-    this.activeColor,
-    this.dragStartBehavior = DragStartBehavior.start,
-
-    // material
-    this.activeTrackColor,
-    this.inactiveThumbColor,
-    this.inactiveTrackColor,
-    this.activeThumbImage,
-    this.inactiveThumbImage,
-    this.materialTapTargetSize,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
-  }) : super(cupertino: cupertino, material: material);
-
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoSwitch(
-      key: valueFromCupertino('key', key),
       value: valueFromCupertino('value', value),
       activeColor: valueFromCupertino('activeColor', activeColor),
-      dragStartBehavior: valueFromCupertino('dragStartBehavior', dragStartBehavior),
+      dragStartBehavior:
+          valueFromCupertino('dragStartBehavior', dragStartBehavior),
       onChanged: valueFromCupertino('onChanged', onChanged),
     );
   }
@@ -54,10 +51,10 @@ class BaseSwitch extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return Switch(
-      key: valueFromMaterial('key', key),
       value: valueFromMaterial('value', value),
       activeColor: valueFromMaterial('activeColor', activeColor),
-      dragStartBehavior: valueFromMaterial('dragStartBehavior', dragStartBehavior),
+      dragStartBehavior:
+          valueFromMaterial('dragStartBehavior', dragStartBehavior),
       onChanged: valueFromMaterial('onChanged', onChanged),
       activeTrackColor: activeTrackColor,
       inactiveThumbColor: inactiveThumbColor,

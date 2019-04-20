@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 /// 当cupertino模式需要用到material组件时使用
 class CustomMaterialWidget extends StatelessWidget {
-  final Widget child;
-
   CustomMaterialWidget({
     Key key,
     @required this.child,
   }) : super(key: key);
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +21,6 @@ class CustomMaterialWidget extends StatelessWidget {
 
 /// 自定义SplashFactory的Material组件
 class CustomSplashFactoryWidget extends CustomMaterialWidget {
-  final Widget child;
-  final ThemeData theme;
 
   CustomSplashFactoryWidget({
     Key key,
@@ -56,6 +54,11 @@ class CustomSplashFactoryWidget extends CustomMaterialWidget {
           child: child,
         ),
         super(key: key, child: child);
+  
+  @override
+  final Widget child;
+  final ThemeData theme;
+
 }
 
 /// 去除水波纹效果，但还是有200毫秒的延迟高亮
@@ -84,7 +87,7 @@ class WithoutSplashFactory extends InteractiveInkFeatureFactory {
       containedInkWell: false,
       rectCallback: rectCallback,
       borderRadius: BorderRadius.zero,
-      customBorder: Border(),
+      customBorder: const Border(),
       radius: 0.0,
       onRemoved: onRemoved,
       textDirection: textDirection,

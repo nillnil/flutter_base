@@ -19,16 +19,17 @@ import 'package:flutter/material.dart';
 /// *** material模式使用 valueFromMaterial(key, value) 获取
 /// ***
 class BaseStatefulWidget extends StatefulWidget {
+  BaseStatefulWidget({
+    Key key,
+    this.cupertino,
+    this.material,
+  }): super(key: key);
+
   final Map<String, Object> cupertino;
   final Map<String, Object> material;
 
-  BaseStatefulWidget({
-    this.cupertino,
-    this.material,
-  });
-
   @override
-  State<StatefulWidget> createState() => BaseState();
+  State<StatefulWidget> createState() => BaseState<BaseStatefulWidget>();
 }
 
 class BaseState<T extends BaseStatefulWidget> extends State<T> with BaseMixin {

@@ -18,19 +18,19 @@ class _BackdropFilterDemoState extends State<BackdropFilterDemo> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: BaseAppBar(
-        title: Text('backdropFilter'),
+        title: const Text('backdropFilter'),
         backgroundColor: Colors.white.withOpacity(0.0),
         backdropFilter: _backdropFilter,
         border: null,
       ),
       backgroundColor: Colors.deepPurple,
       body: ListView(
-        padding: EdgeInsets.only(top: 0.0),
+        padding: const EdgeInsets.only(top: 0.0),
         children: <Widget>[
           Container(
             height: 88.0,
             child: Center(
-              child: Text('Now you can see me.'),
+              child: const Text('Now you can see me.'),
             ),
           ),
           Container(
@@ -38,7 +38,7 @@ class _BackdropFilterDemoState extends State<BackdropFilterDemo> {
               titleText: 'backdropFilter',
               trailing: BaseSwitch(
                 value: _backdropFilter,
-                onChanged: (value) {
+                onChanged: (bool value) {
                   setState(() {
                     _backdropFilter = value;
                   });

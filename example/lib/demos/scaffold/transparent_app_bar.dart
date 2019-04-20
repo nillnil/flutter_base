@@ -19,7 +19,7 @@ class _TransparentAppBarState extends State<TransparentAppBar> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: BaseAppBar(
-        title: Text('Transparent App Bar'),
+        title: const Text('Transparent App Bar'),
         backgroundColor: Colors.white54,
       ),
       safeAreaTop: safeAreaTop,
@@ -39,7 +39,7 @@ class _TransparentAppBarState extends State<TransparentAppBar> {
                   titleText: 'safeAreaTop',
                   trailing: BaseSwitch(
                     value: safeAreaTop,
-                    onChanged: (value) {
+                    onChanged: (bool value) {
                       setState(() {
                         safeAreaTop = value;
                       });
@@ -50,7 +50,7 @@ class _TransparentAppBarState extends State<TransparentAppBar> {
                   titleText: 'safeAreaBottom',
                   trailing: BaseSwitch(
                     value: safeAreaBottom,
-                    onChanged: (value) {
+                    onChanged: (bool value) {
                       setState(() {
                         safeAreaBottom = value;
                       });

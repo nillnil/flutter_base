@@ -10,7 +10,31 @@ import 'package:flutter/material.dart';
 /// *** 可使用 cupertino = { forceUseMaterial: true } 参数强制使用Scaffold
 /// material，使用Scaffold
 /// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoTabScaffold
-class BaseTabPage extends BaseStatelessWidget {
+class BaseTabScaffold extends BaseStatelessWidget {
+  BaseTabScaffold({
+    Key key,
+    this.appBar,
+    this.navBar,
+    this.backgroundColor = Colors.white,
+    this.tabBar,
+    this.tabViews,
+    this.routes = const <String, WidgetBuilder>{},
+    this.autoAddTopPadding = true,
+    this.autoAddBottomPadding = false,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
+    this.floatingActionButtonAnimator,
+    this.persistentFooterButtons,
+    this.drawer,
+    this.endDrawer,
+    this.bottomSheet,
+    this.resizeToAvoidBottomPadding = true,
+    this.primary = true,
+    this.controller,
+    Map<String, Object> cupertino,
+    Map<String, Object> material,
+  }) : super(key: key, cupertino: cupertino, material: material);
+
   // general
   final BaseAppBar appBar;
   final BaseAppBar navBar;
@@ -44,39 +68,14 @@ class BaseTabPage extends BaseStatelessWidget {
   final bool primary;
   final TabController controller;
 
-  BaseTabPage({
-    Key key,
-    this.appBar,
-    this.navBar,
-    this.backgroundColor = Colors.white,
-    this.tabBar,
-    this.tabViews,
-    this.routes = const {},
-    this.autoAddTopPadding = true,
-    this.autoAddBottomPadding = false,
-    this.floatingActionButton,
-    this.floatingActionButtonLocation,
-    this.floatingActionButtonAnimator,
-    this.persistentFooterButtons,
-    this.drawer,
-    this.endDrawer,
-    this.bottomSheet,
-    this.resizeToAvoidBottomPadding = true,
-    this.primary = true,
-    this.controller,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
-  }) : super(cupertino: cupertino, material: material);
-
   @override
   Widget buildByCupertino(BuildContext context) {
-    BaseTabBar tabBar = valueFromCupertino('tabBar', this.tabBar);
-    List<Widget> tabViews = valueFromCupertino('tabViews', this.tabViews);
-    return new CupertinoTabScaffold(
-      key: valueFromCupertino('key', key),
+    final BaseTabBar tabBar = valueFromCupertino('tabBar', this.tabBar);
+    final List<Widget> tabViews = valueFromCupertino('tabViews', this.tabViews);
+    return CupertinoTabScaffold(
       tabBar: tabBar.build(context),
       tabBuilder: (BuildContext context, int index) {
-        return new CupertinoTabView(
+        return CupertinoTabView(
           builder: (BuildContext context) {
             return tabViews[index];
           },
@@ -88,10 +87,9 @@ class BaseTabPage extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    BaseTabBar tabBar = valueFromMaterial('tabBar', this.tabBar);
-    List<Widget> tabViews = valueFromMaterial('tabViews', this.tabViews);
+    final BaseTabBar tabBar = valueFromMaterial('tabBar', this.tabBar);
+    final List<Widget> tabViews = valueFromMaterial('tabViews', this.tabViews);
     return Scaffold(
-      key: valueFromMaterial('key', key),
       body: tabViews[tabBar.currentIndex],
 //			body: controller != null ? TabBarView(
 //				controller: controller,

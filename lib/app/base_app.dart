@@ -11,6 +11,39 @@ import 'package:flutter/material.dart';
 /// material，使用MaterialApp
 /// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoApp
 class BaseApp extends BaseStatelessWidget {
+  BaseApp({
+    Key key,
+    this.navigatorKey,
+    this.home,
+    this.routes = const <String, WidgetBuilder>{},
+    this.initialRoute,
+    this.onGenerateRoute,
+    this.onUnknownRoute,
+    this.navigatorObservers = const <NavigatorObserver>[],
+    this.builder,
+    this.title = '',
+    this.onGenerateTitle,
+    this.color,
+    this.locale,
+    this.localizationsDelegates,
+    this.localeListResolutionCallback,
+    this.localeResolutionCallback,
+    this.supportedLocales = const <Locale>[Locale('en', 'US')],
+    this.showPerformanceOverlay = false,
+    this.checkerboardRasterCacheImages = false,
+    this.checkerboardOffscreenLayers = false,
+    this.showSemanticsDebugger = false,
+    this.debugShowCheckedModeBanner = true,
+    this.targetPlatform,
+    this.cupertinoTheme,
+    this.withoutSplashOnCupertino = true,
+    this.materialTheme,
+    this.dartTheme,
+    this.debugShowMaterialGrid = false,
+    Map<String, Object> cupertino,
+    Map<String, Object> material,
+  }) : super(key: key, cupertino: cupertino, material: material);
+
   // general
   final Key navigatorKey;
   final Widget home;
@@ -45,39 +78,6 @@ class BaseApp extends BaseStatelessWidget {
   final ThemeData dartTheme;
   final bool debugShowMaterialGrid;
 
-  BaseApp({
-    Key key,
-    this.navigatorKey,
-    this.home,
-    this.routes = const <String, WidgetBuilder>{},
-    this.initialRoute,
-    this.onGenerateRoute,
-    this.onUnknownRoute,
-    this.navigatorObservers = const <NavigatorObserver>[],
-    this.builder,
-    this.title = '',
-    this.onGenerateTitle,
-    this.color,
-    this.locale,
-    this.localizationsDelegates,
-    this.localeListResolutionCallback,
-    this.localeResolutionCallback,
-    this.supportedLocales = const <Locale>[Locale('en', 'US')],
-    this.showPerformanceOverlay = false,
-    this.checkerboardRasterCacheImages = false,
-    this.checkerboardOffscreenLayers = false,
-    this.showSemanticsDebugger = false,
-    this.debugShowCheckedModeBanner = true,
-    this.targetPlatform,
-    this.cupertinoTheme,
-    this.withoutSplashOnCupertino = true,
-    this.materialTheme,
-    this.dartTheme,
-    this.debugShowMaterialGrid = false,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
-  }) : super(cupertino: cupertino, material: material);
-
   @override
   void buildBefore(BuildContext context) {
     super.buildBefore(context);
@@ -92,7 +92,6 @@ class BaseApp extends BaseStatelessWidget {
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoApp(
-      key: valueFromCupertino('key', key),
       navigatorKey: valueFromCupertino('navigatorKey', navigatorKey),
       home: valueFromCupertino('home', home),
       theme: cupertinoTheme,
@@ -131,7 +130,6 @@ class BaseApp extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return MaterialApp(
-      key: valueFromMaterial('key', key),
       navigatorKey: valueFromMaterial('navigatorKey', navigatorKey),
       home: valueFromMaterial('home', home),
       routes: valueFromMaterial('routes', routes),

@@ -22,22 +22,6 @@ import 'package:flutter/widgets.dart';
 /// material，使用BottomNavigationBar
 /// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoTabBar
 class BaseTabBar extends BaseStatelessWidget {
-  // general
-  final List<BaseBarItem> items;
-  final ValueChanged<int> onTap;
-  final int currentIndex;
-  final double iconSize;
-
-  // cupertino
-  final Color backgroundColor;
-  final Color activeColor;
-  final Color inactiveColor;
-  final Border border;
-
-  // material
-  final BottomNavigationBarType type;
-  final Color fixedColor;
-
   BaseTabBar({
     Key key,
     this.items,
@@ -58,16 +42,32 @@ class BaseTabBar extends BaseStatelessWidget {
     this.fixedColor,
     Map<String, Object> cupertino,
     Map<String, Object> material,
-  }) : super(cupertino: cupertino, material: material);
+  }) : super(key: key, cupertino: cupertino, material: material);
+
+  // general
+  final List<BaseBarItem> items;
+  final ValueChanged<int> onTap;
+  final int currentIndex;
+  final double iconSize;
+
+  // cupertino
+  final Color backgroundColor;
+  final Color activeColor;
+  final Color inactiveColor;
+  final Border border;
+
+  // material
+  final BottomNavigationBarType type;
+  final Color fixedColor;
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    List<BaseBarItem> itemWidgets = valueFromCupertino('items', this.items);
-    List<BottomNavigationBarItem> items = [];
+    final List<BaseBarItem> itemWidgets = valueFromCupertino('items', this.items);
+    final List<BottomNavigationBarItem> items = <BottomNavigationBarItem>[];
     if (itemWidgets != null && itemWidgets.isNotEmpty) {
-      itemWidgets.forEach((item) {
+      for (BaseBarItem item in itemWidgets) {
         items.add(item.buildByCupertino(context));
-      });
+      }
     }
     return CupertinoTabBar(
       key: valueFromCupertino('key', key),
@@ -83,12 +83,12 @@ class BaseTabBar extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    List<BaseBarItem> itemWidgets = valueFromMaterial('items', this.items);
-    List<BottomNavigationBarItem> items = [];
+    final List<BaseBarItem> itemWidgets = valueFromMaterial('items', this.items);
+    final List<BottomNavigationBarItem> items = <BottomNavigationBarItem>[];
     if (itemWidgets != null && itemWidgets.isNotEmpty) {
-      itemWidgets.forEach((item) {
+      for (BaseBarItem item in itemWidgets) {
         items.add(item.buildByMaterial(context));
-      });
+      }
     }
     return BottomNavigationBar(
       key: valueFromMaterial('key', key),

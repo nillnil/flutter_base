@@ -19,12 +19,12 @@ class _CustomHeightState extends State<CustomHeight> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: BaseAppBar(
-        title: Text('自定义高度'),
+        title: const Text('自定义高度'),
         height: _height.toDouble(),
-        padding: EdgeInsetsDirectional.only(end: 10.0),
+        padding: const EdgeInsetsDirectional.only(end: 10.0),
         actions: <Widget>[
           Padding(
-            padding: useCupertino ? EdgeInsets.zero : EdgeInsets.only(right: 20.0),
+            padding: useCupertino ? EdgeInsets.zero : const EdgeInsets.only(right: 20.0),
             child: BaseIcon(
               icon: IconFont.camera,
               size: 20,
@@ -36,7 +36,7 @@ class _CustomHeightState extends State<CustomHeight> {
         color: Colors.white,
         width: MediaQuery.of(context).size.width,
         alignment: Alignment.center,
-        padding: EdgeInsets.only(top: 100),
+        padding: const EdgeInsets.only(top: 100),
         child: SizedBox(
           width: MediaQuery.of(context).size.width / 3 * 2,
           child: Column(
@@ -44,21 +44,21 @@ class _CustomHeightState extends State<CustomHeight> {
               Text('$_height'),
               Row(
                 children: <Widget>[
-                  Text('0'),
+                  const Text('0'),
                   Expanded(
                     child: BaseSlider(
                       min: 0,
                       max: 200,
                       label: '$_height',
-                      onChanged: (double) {
+                      onChanged: (double value) {
                         setState(() {
-                          _height = double.toInt();
+                          _height = value.toInt();
                         });
                       },
                       value: _height.toDouble(),
                     ),
                   ),
-                  Text('200'),
+                  const Text('200'),
                 ],
               )
             ],

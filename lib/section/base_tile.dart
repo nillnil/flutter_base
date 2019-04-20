@@ -8,8 +8,33 @@ import 'package:flutter/material.dart';
 /// material，使用ListTile
 /// *** 可使用 material = { forceUseCupertino: true } 参数强制使用自定义
 class BaseTile extends BaseStatelessWidget {
-  // general
+  BaseTile({
+    Key key,
+    this.leading,
+    this.title,
+    this.titleText,
+    this.subtitle,
+    this.subtitleText,
+    this.trailing,
+    this.contentPadding,
+    this.onTap,
+    this.onLongPress,
+    this.backgroundColor = Colors.white,
+    this.splashColor = Colors.transparent,
+    this.highlightColor = const Color.fromRGBO(153, 153, 153, .4),
+    this.border,
+    this.height,
+    this.borderRadius,
+    this.mainAxisAlignment,
+    this.isThreeLine = false,
+    this.dense = true,
+    this.enabled = true,
+    this.selected = false,
+    Map<String, Object> cupertino,
+    Map<String, Object> material,
+  }) : super(key: key, cupertino: cupertino, material: material);
 
+  // general
   // 最左边控件，一般用图标
   final Widget leading;
   // 标题
@@ -42,39 +67,17 @@ class BaseTile extends BaseStatelessWidget {
   final bool enabled;
   final bool selected;
 
-  BaseTile({
-    Key key,
-    this.leading,
-    this.title,
-    this.titleText,
-    this.subtitle,
-    this.subtitleText,
-    this.trailing,
-    this.contentPadding,
-    this.onTap,
-    this.onLongPress,
-    this.backgroundColor = Colors.white,
-    this.splashColor = Colors.transparent,
-    this.highlightColor = const Color.fromRGBO(153, 153, 153, .4),
-    this.border,
-    this.height,
-    this.borderRadius,
-    this.mainAxisAlignment,
-    this.isThreeLine = false,
-    this.dense = true,
-    this.enabled = true,
-    this.selected = false,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
-  }) : super(cupertino: cupertino, material: material);
-
   double get _defaultTileHeight {
     final bool hasSubtitle = subtitle != null;
     final bool isTwoLine = !isThreeLine && hasSubtitle;
     final bool isOneLine = !isThreeLine && !hasSubtitle;
 
-    if (isOneLine) return dense ? 48.0 : 56.0;
-    if (isTwoLine) return dense ? 64.0 : 72.0;
+    if (isOneLine) {
+      return dense ? 48.0 : 56.0;
+    }
+    if (isTwoLine) {
+      return dense ? 64.0 : 72.0;
+    }
     return dense ? 76.0 : 88.0;
   }
 
@@ -86,16 +89,16 @@ class BaseTile extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    List<Widget> rows = List<Widget>();
-    Widget _leading = valueFromCupertino('leading', leading);
-    Widget _trailing = valueFromCupertino('trailing', trailing);
-    Widget _title = valueFromCupertino('title', title) ??
+    final List<Widget> rows = <Widget>[];
+    final Widget _leading = valueFromCupertino('leading', leading);
+    final Widget _trailing = valueFromCupertino('trailing', trailing);
+    final Widget _title = valueFromCupertino('title', title) ??
         (titleText != null
             ? Text(
                 valueFromCupertino('titleText', titleText),
               )
             : null);
-    Widget _subtitle = valueFromCupertino('subtitle', subtitle) ??
+    final Widget _subtitle = valueFromCupertino('subtitle', subtitle) ??
         (subtitleText != null
             ? Text(
                 valueFromCupertino('subtitleText', subtitleText),
@@ -139,13 +142,13 @@ class BaseTile extends BaseStatelessWidget {
         ),
       );
     }
-    Widget content = Container(
+    final Widget content = Container(
       key: key,
       decoration: BoxDecoration(
         border: valueFromCupertino('border', border),
       ),
       padding: valueFromCupertino('contentPadding', contentPadding) ??
-          EdgeInsets.symmetric(horizontal: 10.0),
+          const EdgeInsets.symmetric(horizontal: 10.0),
       child: SizedBox(
         height: height ?? _defaultTileHeight,
         child: Row(
@@ -180,20 +183,20 @@ class BaseTile extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    Color _backgroundColor =
+    final Color _backgroundColor =
         valueFromMaterial('backgroundColor', backgroundColor);
-    Widget _text = valueFromMaterial('title', title) ?? titleText != null
+    final Widget _text = valueFromMaterial('title', title) ?? titleText != null
         ? Text(
             valueFromMaterial('titleText', titleText),
           )
         : null;
-    Widget _subtitle =
+    final Widget _subtitle =
         valueFromMaterial('subtitle', subtitle) ?? subtitleText != null
             ? Text(
                 valueFromMaterial('subtitleText', subtitleText),
               )
             : null;
-    Widget listTile = ListTile(
+    final Widget listTile = ListTile(
       key: key,
       leading: valueFromMaterial('leading', leading),
       title: _text,
@@ -208,10 +211,10 @@ class BaseTile extends BaseStatelessWidget {
       selected: valueFromMaterial('selected', selected),
     );
     return _backgroundColor != null
-        ? Material(
-            color: _backgroundColor,
-            child: listTile,
-          )
-        : listTile;
+      ? Material(
+          color: _backgroundColor,
+          child: listTile,
+        )
+      : listTile;
   }
 }

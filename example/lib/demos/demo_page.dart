@@ -5,19 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class DemoPage extends StatelessWidget {
-
-  final String title;
-  final Widget doc;
-  final String docStr;
-  final List<DemoTile> demos;
-
   DemoPage({
     Key key, 
     @required this.title, 
     this.doc, 
     this.docStr,
-    this.demos = const []
+    this.demos = const <DemoTile>[]
   }) : super(key: key);
+
+  final String title;
+  final Widget doc;
+  final String docStr;
+  final List<DemoTile> demos;
 
   @override
   Widget build(BuildContext context) {
@@ -29,18 +28,18 @@ class DemoPage extends StatelessWidget {
       ),
       body: BaseScrollBar(
         child: ListView.separated(
-          separatorBuilder: (_, __) => Divider(height: .5,),
+          separatorBuilder: (_, __) => const Divider(height: .5,),
           itemCount: 2 + demos?.length,
-          itemBuilder: (_, index) {
+          itemBuilder: (_, int index) {
             if (index == 0) {
               return Container(
                 width: MediaQuery.of(context).size.width,
                 color: Colors.white,
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: doc ?? Text(docStr ?? ''),
               );
             } else if (index == 1) {
-              return Padding(
+              return const Padding(
                 padding: EdgeInsets.only(left: 10.0, top: 10.0),
                 child: Text('示例', 
                   style: TextStyle(

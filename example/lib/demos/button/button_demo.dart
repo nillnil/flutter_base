@@ -7,9 +7,7 @@ import 'package:flutter/widgets.dart';
 /// Button 示例
 class ButtonDemo extends StatelessWidget {
 
-  final List<DemoTile> _demos = [
-    
-  ];
+  final List<DemoTile> _demos = <DemoTile>[];
 
   @override
   Widget build(BuildContext context) {
@@ -18,18 +16,18 @@ class ButtonDemo extends StatelessWidget {
       doc: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('', style: TextStyle(
+          const Text('', style: TextStyle(
             fontWeight: FontWeight.bold
           )),
           Row(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(right: 10.0, top: 3.0, bottom: 3.0),
+                margin: const EdgeInsets.only(right: 10.0, top: 3.0, bottom: 3.0),
                 color: Colors.pinkAccent,
                 width: 10.0,
                 height: 16.0,
               ),
-              Expanded(
+              const Expanded(
                 child: Text('Material：'),
               )
             ]
@@ -38,12 +36,12 @@ class ButtonDemo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(right: 10.0, top: 3.0, bottom: 3.0),
+                margin: const EdgeInsets.only(right: 10.0, top: 3.0, bottom: 3.0),
                 color: Colors.lightBlueAccent,
                 width: 10.0,
                 height: 16.0,
               ),
-              Expanded(
+              const Expanded(
                 child: Text('Cupertino：'),
               )
             ]

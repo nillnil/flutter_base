@@ -12,8 +12,6 @@ bool isDark(Color color) {
 
 class RandomColor {
 
-	final Color color;
-
 	RandomColor({
 		int red,
 		int blue,
@@ -39,6 +37,8 @@ class RandomColor {
 					blue ?? Random().nextInt(256),
 				)
 			);
+
+	final Color color;
 
 	Color withOpacity({ double opacity = 1.0 }) {
 		assert(opacity >= 0.0 && opacity <= 1.0);

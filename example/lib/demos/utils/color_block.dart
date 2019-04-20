@@ -4,19 +4,19 @@ import 'package:flutter/widgets.dart';
 
 /// 色块
 class ColorBlock extends StatelessWidget {
-
-  final EdgeInsetsGeometry margin;
-  final Color color;
-  final double height;
-  final double width;
-
-  ColorBlock({
+  const ColorBlock({
     Key key, 
     this.margin = const EdgeInsets.only(right: 10.0, top: 3.0, bottom: 3.0),
     this.color = Colors.black, 
     this.height = 16.0, 
     this.width = 10.0
   }) : super(key: key);
+
+  final EdgeInsetsGeometry margin;
+  final Color color;
+  final double height;
+  final double width;
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class ColorBlock extends StatelessWidget {
   }
 
   static ColorBlock material() {
-    return ColorBlock(
+    return const ColorBlock(
       margin: EdgeInsets.only(right: 10.0, top: 3.0, bottom: 3.0),
       color: Colors.pinkAccent,
       width: 10.0,
@@ -38,7 +38,7 @@ class ColorBlock extends StatelessWidget {
   }
 
   static ColorBlock cupertino() {
-    return ColorBlock(
+    return const ColorBlock(
       margin: EdgeInsets.only(right: 10.0, top: 3.0, bottom: 3.0),
       color: Colors.lightBlueAccent,
       width: 10.0,
@@ -47,7 +47,7 @@ class ColorBlock extends StatelessWidget {
   }
 
   static ColorBlock attributes() {
-    return ColorBlock(
+    return const ColorBlock(
       margin: EdgeInsets.only(right: 10.0, top: 3.0, bottom: 3.0),
       color: Colors.indigo,
       width: 10.0,

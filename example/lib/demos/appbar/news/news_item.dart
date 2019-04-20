@@ -1,19 +1,18 @@
 
 import 'package:base/indicator/base_indicator.dart';
-import '../../../iconfont/iconfont.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:example/iconfont/iconfont.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class NewsItem extends StatelessWidget{
-
-	final Map<String, dynamic> news;
-
 	NewsItem({
 		Key key,
 		this.news
 	}) : super(key: key);
+
+	final Map<String, dynamic> news;
 
 	@override
 	Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class NewsItem extends StatelessWidget{
 						children: <Widget>[
 							Expanded(
 								child: Padding(
-									padding: EdgeInsets.only(right: 5.0),
+									padding: const EdgeInsets.only(right: 5.0),
 									child: CachedNetworkImage(
 										imageUrl: news['thumbnail_pic_s'],
 										placeholder: (BuildContext context, String url) {
@@ -46,14 +45,14 @@ class NewsItem extends StatelessWidget{
                       );
                     },
 										errorWidget: (BuildContext context, String url, Object error) {
-                      return Icon(IconFont.brokenImage, size: 72);
+                      return const Icon(IconFont.brokenImage, size: 72);
                     }
 									)
 								)
 							),
 							Expanded(
 								child: Padding(
-									padding: EdgeInsets.only(right: 5.0),
+									padding: const EdgeInsets.only(right: 5.0),
 									child: CachedNetworkImage(
 										imageUrl: news['thumbnail_pic_s02'],
 										placeholder: (BuildContext context, String url) {
@@ -66,7 +65,7 @@ class NewsItem extends StatelessWidget{
                       );
                     },
 										errorWidget: (BuildContext context, String url, Object error) {
-                      return Icon(IconFont.brokenImage, size: 72);
+                      return const Icon(IconFont.brokenImage, size: 72);
                     }
 									)
 								)
@@ -84,7 +83,7 @@ class NewsItem extends StatelessWidget{
                     );
                   },
                   errorWidget: (BuildContext context, String url, Object error) {
-                    return Icon(IconFont.brokenImage, size: 72);
+                    return const Icon(IconFont.brokenImage, size: 72);
                   }
 								)
 							)
@@ -107,7 +106,7 @@ class NewsItem extends StatelessWidget{
 						flex: 2,
 						child: Container(
               height: 100,
-              margin: EdgeInsets.only(right: 10.0),
+              margin: const EdgeInsets.only(right: 10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,7 +122,7 @@ class NewsItem extends StatelessWidget{
 					news['thumbnail_pic_s'] != null ? Expanded(
 						flex: 1,
 						child: Padding(
-							padding: EdgeInsets.all(0.0),
+							padding: const EdgeInsets.all(0.0),
 							child: CachedNetworkImage(
 								imageUrl: news['thumbnail_pic_s'],
                 height: 100,
@@ -138,7 +137,7 @@ class NewsItem extends StatelessWidget{
                   );
                 },
                 errorWidget: (BuildContext context, String url, Object error) {
-                  return Icon(IconFont.brokenImage, size: 72);
+                  return const Icon(IconFont.brokenImage, size: 72);
                 }
 							)
 						)
@@ -148,7 +147,7 @@ class NewsItem extends StatelessWidget{
 		}
 		return GestureDetector(
 			child: Container(
-				padding: EdgeInsets.only(top: 10.0, right: 10.0, bottom: 5.0, left: 10.0),
+				padding: const EdgeInsets.only(top: 10.0, right: 10.0, bottom: 5.0, left: 10.0),
 				color: Colors.white,
 				child: child
 			),
@@ -158,7 +157,7 @@ class NewsItem extends StatelessWidget{
 		);
 	}
 
-	Future<Null> _launchDetail(String url) async {
+	Future<void> _launchDetail(String url) async {
 		if (await canLaunch(url)) {
 			await launch(url, forceWebView: true, forceSafariVC: true);
 		} else {

@@ -9,9 +9,9 @@ import 'package:flutter/widgets.dart';
 /// section 文档说明
 class SectionDemo extends StatelessWidget {
 
-  final List<DemoTile> _demos = [
+  final List<DemoTile> _demos = <DemoTile>[
     DemoTile(
-      title: Text('仿微信我的页面'),
+      title: const Text('仿微信我的页面'),
       page: WechatProfile()
     )
   ];
@@ -23,7 +23,7 @@ class SectionDemo extends StatelessWidget {
       doc: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(bottom: 5.0),
             child: Text('BaseSection相当于多个BaseTile组成一块\nBseTile相当于ListTile', 
               style: TextStyle(
@@ -34,7 +34,7 @@ class SectionDemo extends StatelessWidget {
           Row(
             children: <Widget>[
               ColorBlock.material(),
-              Expanded(
+              const Expanded(
                 child: Text('Material：使用ListTile组装'),
               )
             ]
@@ -43,7 +43,7 @@ class SectionDemo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ColorBlock.cupertino(),
-              Expanded(
+              const Expanded(
                 child: Text('Cupertino：因使用自定义无法解决滚动时取消高亮状态，所以改用InkWell，去除水波纹效果，按住时会有200ms延迟高亮'),
               )
             ]

@@ -18,15 +18,16 @@ class _BottomOpacityState extends State<BottomOpacity> with SingleTickerProvider
 
   double _opacity = 0.0;
   // 不设置为1.0是因为当设置成1.0之后，body的内容就不会沉淀在appBar下方，导致ScrollController的offset重新计算
-  double _maxOpacity = .99;
+  final double _maxOpacity = .99;
   ScrollController _scrollController;
+  final double hieght = 400;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController()
       ..addListener(() {
-        double offset = _scrollController.offset / 100;
+        final double offset = _scrollController.offset / 100;
         if (offset > 1.0 && offset < 3.0) {
           // 防止快速滑动之后_opacity没有设置为1
           setState(() {
@@ -44,7 +45,7 @@ class _BottomOpacityState extends State<BottomOpacity> with SingleTickerProvider
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: BaseAppBar(
-        title: Text('bottomOpacity'),
+        title: const Text('bottomOpacity'),
         backgroundColor: Colors.white.withOpacity(_opacity),
         backdropFilter: false,
         border: null,
@@ -56,16 +57,16 @@ class _BottomOpacityState extends State<BottomOpacity> with SingleTickerProvider
       ),
       body: ListView(
         padding: EdgeInsets.zero,
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         controller: _scrollController,
         children: <Widget>[
           Container(
             color: Colors.indigo,
-            height: 800,
+            height: hieght,
           ),
           Container(
             color: Colors.limeAccent,
-            height: 800,
+            height: hieght,
           ),
           Container(
             color: Colors.purpleAccent,
@@ -73,9 +74,9 @@ class _BottomOpacityState extends State<BottomOpacity> with SingleTickerProvider
           ),
           Container(
             height: 60,
-            margin: EdgeInsets.only(bottom: 10.0),
+            margin: const EdgeInsets.only(bottom: 10.0),
             alignment: Alignment.center,
-            child: Text('到底了', style: TextStyle(color: Colors.grey)),
+            child: const Text('到底了', style: TextStyle(color: Colors.grey)),
           ),
         ],
       )

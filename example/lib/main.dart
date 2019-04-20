@@ -12,7 +12,7 @@ import 'package:redux/redux.dart';
 
 void main() {
   _setTargetPlatformForDesktop();
-  SystemChrome.setPreferredOrientations([ 
+  SystemChrome.setPreferredOrientations(<DeviceOrientation>[ 
     DeviceOrientation.portraitUp, 
     DeviceOrientation.portraitDown
   ]).then((_) {

@@ -9,6 +9,6 @@ AppState appReducer(AppState state, dynamic action) {
   } else if (action is ThemeAction) {
     return state.copyWith(primaryColor: action.primaryColor);
   }
-  return AppState();
+  return const AppState();
 
 }

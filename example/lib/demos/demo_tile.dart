@@ -8,16 +8,16 @@ import 'package:flutter/widgets.dart';
 
 class DemoTile extends StatelessWidget {
 
-  final Widget title;
-  final GestureTapCallback onTop;
-  final Widget page;
-
   const DemoTile({
     Key key, 
     this.title, 
     this.onTop,
     this.page
   }) : super(key: key);
+
+  final Widget title;
+  final GestureTapCallback onTop;
+  final Widget page;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class DemoTile extends StatelessWidget {
         if (onTop != null) {
           onTop();
         } else if (page != null){
-          BaseRoute(page).push(context);
+          BaseRoute<dynamic>(page).push(context);
         } else {
           return null;
         }

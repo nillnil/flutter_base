@@ -10,6 +10,31 @@ import 'package:flutter/material.dart';
 /// material，使用Scaffold
 /// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoPageScaffold / CupertinoTabScaffold
 class BaseScaffold extends BaseStatelessWidget {
+  BaseScaffold({
+    Key key,
+    this.appBar,
+    this.navBar,
+    this.backgroundColor,
+    this.body,
+    this.tabBar,
+    this.tabViews,
+    this.resizeToAvoidBottomInset = true,
+    this.routes = const <String, WidgetBuilder>{},
+    this.safeAreaTop = false,
+    this.safeAreaBottom = false,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
+    this.floatingActionButtonAnimator,
+    this.persistentFooterButtons,
+    this.drawer,
+    this.endDrawer,
+    this.bottomSheet,
+    this.resizeToAvoidBottomPadding = true,
+    this.primary = true,
+    Map<String, Object> cupertino,
+    Map<String, Object> material,
+  }) : super(key: key, cupertino: cupertino, material: material);
+
   // general
   final BaseAppBar appBar;
   final BaseAppBar navBar;
@@ -43,42 +68,16 @@ class BaseScaffold extends BaseStatelessWidget {
   final bool resizeToAvoidBottomPadding;
   final bool primary;
 
-  BaseScaffold({
-    Key key,
-    this.appBar,
-    this.navBar,
-    this.backgroundColor,
-    this.body,
-    this.tabBar,
-    this.tabViews,
-    this.resizeToAvoidBottomInset = true,
-    this.routes = const {},
-    this.safeAreaTop = false,
-    this.safeAreaBottom = false,
-    this.floatingActionButton,
-    this.floatingActionButtonLocation,
-    this.floatingActionButtonAnimator,
-    this.persistentFooterButtons,
-    this.drawer,
-    this.endDrawer,
-    this.bottomSheet,
-    this.resizeToAvoidBottomPadding = true,
-    this.primary = true,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
-  }) : super(cupertino: cupertino, material: material);
-
   @override
   Widget buildByCupertino(BuildContext context) {
-    BaseTabBar tabBar = valueFromCupertino('tabBar', this.tabBar);
-    List<Widget> tabViews = valueFromCupertino('tabViews', this.tabViews);
+    final BaseTabBar tabBar = valueFromCupertino('tabBar', this.tabBar);
+    final List<Widget> tabViews = valueFromCupertino('tabViews', this.tabViews);
     if (tabBar != null || tabViews != null) {
       assert(tabBar != null && tabViews != null,
           'tabBar and tabViews can not be null');
     }
-    if (tabBar != null && tabViews.length > 0) {
+    if (tabBar != null && tabViews.isNotEmpty) {
       return CupertinoTabScaffold(
-        key: valueFromCupertino('key', key),
         tabBar: tabBar.build(context),
         tabBuilder: (BuildContext context, int index) {
           return CupertinoTabView(
@@ -90,10 +89,9 @@ class BaseScaffold extends BaseStatelessWidget {
         },
       );
     } else {
-      BaseAppBar _appBar = valueFromMaterial('appBar', appBar) ?? valueFromMaterial('navBar', navBar);
-      Widget body = valueFromCupertino('body', this.body);
+      final BaseAppBar _appBar = valueFromMaterial('appBar', appBar) ?? valueFromMaterial('navBar', navBar);
+      final Widget body = valueFromCupertino('body', this.body);
       return CupertinoPageScaffold(
-        key: valueFromCupertino('key', key),
         navigationBar: _appBar,
         backgroundColor: valueFromCupertino('backgroundColor', backgroundColor),
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
@@ -109,15 +107,14 @@ class BaseScaffold extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    BaseTabBar tabBar = valueFromMaterial('tabBar', this.tabBar);
-    List<Widget> tabViews = valueFromMaterial('tabViews', this.tabViews);
+    final BaseTabBar tabBar = valueFromMaterial('tabBar', this.tabBar);
+    final List<Widget> tabViews = valueFromMaterial('tabViews', this.tabViews);
     if (tabBar != null || tabViews != null) {
       assert(tabBar != null && tabViews != null,
           'tabBar and tabViews can not be null');
     }
-    if (tabBar != null && tabViews.length > 0) {
+    if (tabBar != null && tabViews.isNotEmpty) {
       return Scaffold(
-        key: valueFromMaterial('key', key),
         body: DefaultTabController(
           length: tabViews.length,
           child: TabBarView(
@@ -137,10 +134,9 @@ class BaseScaffold extends BaseStatelessWidget {
         primary: primary,
       );
     } else {
-      BaseAppBar appBar = valueFromMaterial('appBar', this.appBar) ??
+      final BaseAppBar appBar = valueFromMaterial('appBar', this.appBar) ??
           valueFromMaterial('navBar', navBar);
       return Scaffold(
-        key: valueFromMaterial('key', key),
         appBar: appBar,
         body: valueFromMaterial('body', body),
         floatingActionButton: floatingActionButton,

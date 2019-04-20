@@ -18,22 +18,22 @@ import 'package:flutter/widgets.dart' show BuildContext;
 /// *** material模式使用 valueFromMaterial(key, value) 获取
 /// ***
 abstract class BaseClass with BaseMixin {
-  final Map<String, Object> cupertino;
-  final Map<String, Object> material;
-
   BaseClass({
     this.cupertino,
     this.material,
   });
+
+  final Map<String, Object> cupertino;
+  final Map<String, Object> material;
 
   Object build(BuildContext context) {
     buildBefore(context);
     if (useCupertino) {
       // cupertino样式，ios下使用
       // forceUseMaterial = true 强制使用material样式
-      if (this.cupertino != null &&
-          this.cupertino[forceUseMaterial] != null &&
-          this.cupertino[forceUseMaterial]) {
+      if (cupertino != null &&
+          cupertino[forceUseMaterial] != null &&
+          cupertino[forceUseMaterial]) {
         return buildByMaterial(context);
       }
       buildByCupertinoBefore(context);
@@ -41,9 +41,9 @@ abstract class BaseClass with BaseMixin {
     } else if (useMaterial) {
       // material样式，android跟fuchsia下使用
       // forceUseCupertino = true 强制使用cupertino样式
-      if (this.material != null &&
-          this.material[forceUseCupertino] != null &&
-          this.material[forceUseCupertino]) {
+      if (material != null &&
+          material[forceUseCupertino] != null &&
+          material[forceUseCupertino]) {
         return buildByCupertino(context);
       }
       buildByMaterialBefore(context);
@@ -59,8 +59,8 @@ abstract class BaseClass with BaseMixin {
   /// 如果还是null则取material里的值
   Object valueFromCupertino(String key, Object value) {
     Object newValue;
-    if (this.cupertino != null) {
-      newValue = this.cupertino[key] ?? value;
+    if (cupertino != null) {
+      newValue = cupertino[key] ?? value;
     } else {
       newValue = value;
     }
@@ -72,8 +72,8 @@ abstract class BaseClass with BaseMixin {
   /// 如果还是null则取cupertino里的值
   Object valueFromMaterial(String key, Object value) {
     Object newValue;
-    if (this.material != null) {
-      newValue = this.material[key] ?? value;
+    if (material != null) {
+      newValue = material[key] ?? value;
     } else {
       newValue = value;
     }

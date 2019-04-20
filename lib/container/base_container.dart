@@ -7,20 +7,6 @@ import 'package:flutter/cupertino.dart';
 /// material，使用Container
 /// *** 可使用 material = { forceUseCupertino: true } 参数强制使用Container
 class BaseContainer extends BaseStatelessWidget {
-  final Alignment alignment;
-  final EdgeInsetsGeometry padding;
-  final Color color;
-  final Decoration decoration;
-  final Decoration foregroundDecoration;
-  final double width;
-  final double height;
-  final BoxConstraints constraints;
-  final EdgeInsetsGeometry margin;
-  final Matrix4 transform;
-  final Widget child;
-
-  final bool autoAddTopPadding;
-
   BaseContainer({
     Key key,
     this.alignment,
@@ -37,7 +23,21 @@ class BaseContainer extends BaseStatelessWidget {
     this.autoAddTopPadding = true,
     Map<String, Object> cupertino,
     Map<String, Object> material,
-  }) : super(cupertino: cupertino, material: material);
+  }) : super(key: key, cupertino: cupertino, material: material);
+
+  final Alignment alignment;
+  final EdgeInsetsGeometry padding;
+  final Color color;
+  final Decoration decoration;
+  final Decoration foregroundDecoration;
+  final double width;
+  final double height;
+  final BoxConstraints constraints;
+  final EdgeInsetsGeometry margin;
+  final Matrix4 transform;
+  final Widget child;
+
+  final bool autoAddTopPadding;
 
   @override
   Widget buildByCupertino(BuildContext context) {
@@ -46,7 +46,6 @@ class BaseContainer extends BaseStatelessWidget {
       top: MediaQuery.of(context).padding.top,
     ) : null);
     return Container(
-      key: valueFromCupertino('key', key),
       alignment: valueFromCupertino('alignment', alignment),
       padding: _padding,
       color: valueFromCupertino('color', color),
@@ -68,7 +67,6 @@ class BaseContainer extends BaseStatelessWidget {
       top: MediaQuery.of(context).padding.top,
     ) : null);
     return Container(
-      key: valueFromMaterial('key', key),
       alignment: valueFromCupertino('alignment', alignment),
       padding: _padding,
       color: valueFromMaterial('color', color),

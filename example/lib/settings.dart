@@ -15,17 +15,17 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _SettingsViewModel>(
-      converter: (Store store) {
+      converter: (Store<AppState> store) {
         return _SettingsViewModel(
           targetPlatform: store.state.targetPlatform,
           primaryColor: store.state.primaryColor,
-          changePlatform: (targetPlatform) => store.dispatch(PlatformAction(targetPlatform: targetPlatform))
+          changePlatform: (TargetPlatform targetPlatform) => store.dispatch(PlatformAction(targetPlatform: targetPlatform))
         );
       },
       builder: (BuildContext context, _SettingsViewModel vm) {
         return BaseScaffold(
           appBar: BaseAppBar(
-            title: Text('设置'),
+            title: const Text('设置'),
             transitionBetweenRoutes: false,
           ),
           body: ListView(
@@ -33,11 +33,11 @@ class Settings extends StatelessWidget {
               Column(
                 children: <Widget>[
                   BaseSection(
-                    margin: EdgeInsets.only(top: 10.0),
+                    margin: const EdgeInsets.only(top: 10.0),
                     header: Padding(
-                      padding: EdgeInsets.only(left: 10.0),
+                      padding: const EdgeInsets.only(left: 10.0),
                       child: Text('当前平台模式：${useCupertino ? 'Cupertino' : 'Material'}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12.0,
                           color: Colors.grey
                         ),
@@ -45,12 +45,12 @@ class Settings extends StatelessWidget {
                     ),
                     children: <Widget>[
                       BaseTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                        title: Text('切换平台模式'),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        title: const Text('切换平台模式'),
                         trailing: BaseSwitch(
                           value: basePlatform == defaultTargetPlatform ? false : true,
                           onChanged: (_) {
-                            final targetPlatform = vm.targetPlatform == TargetPlatform.iOS ? TargetPlatform.android : TargetPlatform.iOS;
+                            final TargetPlatform targetPlatform = vm.targetPlatform == TargetPlatform.iOS ? TargetPlatform.android : TargetPlatform.iOS;
                             vm.changePlatform(targetPlatform);
                           },
                         ),
@@ -58,8 +58,8 @@ class Settings extends StatelessWidget {
                     ],
                   ),
                   BaseSection(
-                    margin: EdgeInsets.only(top: 10.0),
-                    header: Padding(
+                    margin: const EdgeInsets.only(top: 10.0),
+                    header: const Padding(
                       padding: EdgeInsets.only(left: 10.0),
                       child: Text('主题',
                         style: TextStyle(
@@ -70,8 +70,8 @@ class Settings extends StatelessWidget {
                     ),
                     children: <Widget>[
                       BaseTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                        title: Text('切换主题颜色'),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        title: const Text('切换主题颜色'),
                         trailing: Container(
                           width: 50,
                           child: Row(
@@ -92,19 +92,19 @@ class Settings extends StatelessWidget {
                           ),
                         ),
                         onTap: () {
-                          BaseRoute(ThemePage()).push(context);
+                          BaseRoute<dynamic>(ThemePage()).push(context);
                         },
                       )
                     ],
                   ),
                   BaseSection(
-                    margin: EdgeInsets.only(top: 20.0),
+                    margin: const EdgeInsets.only(top: 20.0),
                     children: <Widget>[
                       BaseTile(
                         titleText: '版本',
-                        trailing: Padding(
+                        trailing: const Padding(
                           padding: EdgeInsets.only(right: 5.0),
-                          child: Text('0.0.3',
+                          child: Text('0.1.0',
                             style: TextStyle(
                               color: Colors.grey
                             ),
@@ -125,17 +125,16 @@ class Settings extends StatelessWidget {
 }
 
 class _SettingsViewModel {
-
-  final TargetPlatform targetPlatform;
-  final Color primaryColor;
-
-  final void Function(TargetPlatform targetPlatform) changePlatform;
-
-  _SettingsViewModel({
+  const _SettingsViewModel({
     this.targetPlatform, 
     this.primaryColor,
 
     this.changePlatform,
   });
+
+  final TargetPlatform targetPlatform;
+  final Color primaryColor;
+
+  final void Function(TargetPlatform targetPlatform) changePlatform;
 
 }

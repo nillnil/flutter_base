@@ -9,27 +9,7 @@ import 'package:flutter/material.dart';
 /// material，使用AlertDialog
 /// *** 可使用 material = { forceUseCupertino: true } CupertinoAlertDialog
 class BaseAlertDialog extends BaseStatelessWidget {
-  // general
-  final Widget title;
-  final Widget content;
-  final List<Widget> actions;
-
-  // cupertino
-  final ScrollController scrollController;
-  final ScrollController actionScrollController;
-
-  // material
-  final EdgeInsetsGeometry titlePadding;
-  final TextStyle titleTextStyle;
-  final EdgeInsetsGeometry contentPadding;
-  final TextStyle contentTextStyle;
-  final Color backgroundColor;
-  final double elevation;
-  final String semanticLabel;
-  final ShapeBorder shape;
-
   BaseAlertDialog({
-    // general
     Key key,
     this.title,
     this.content,
@@ -50,12 +30,30 @@ class BaseAlertDialog extends BaseStatelessWidget {
     this.shape,
     Map<String, Object> cupertino,
     Map<String, Object> material,
-  }) : super(cupertino: cupertino, material: material);
+  }) : super(key: key, cupertino: cupertino, material: material);
+
+  // general
+  final Widget title;
+  final Widget content;
+  final List<Widget> actions;
+
+  // cupertino
+  final ScrollController scrollController;
+  final ScrollController actionScrollController;
+
+  // material
+  final EdgeInsetsGeometry titlePadding;
+  final TextStyle titleTextStyle;
+  final EdgeInsetsGeometry contentPadding;
+  final TextStyle contentTextStyle;
+  final Color backgroundColor;
+  final double elevation;
+  final String semanticLabel;
+  final ShapeBorder shape;
 
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoAlertDialog(
-      key: valueFromCupertino('key', key),
       title: valueFromCupertino('title', title),
       content: valueFromCupertino('content', content),
       actions: valueFromCupertino('actions', actions),
@@ -67,7 +65,6 @@ class BaseAlertDialog extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return AlertDialog(
-      key: valueFromMaterial('key', key),
       title: valueFromMaterial('title', title),
       titleTextStyle: titleTextStyle,
       titlePadding: titlePadding,
@@ -82,7 +79,10 @@ class BaseAlertDialog extends BaseStatelessWidget {
     );
   }
 
-  Future<T> show<T>(BuildContext context, {bool barrierDismissible = true}) {
+  Future<T> show<T>(
+    BuildContext context, {
+    bool barrierDismissible = true,
+  }) {
     return showDialog<T>(
       context: context,
       barrierDismissible: barrierDismissible,

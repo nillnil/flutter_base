@@ -3,15 +3,6 @@ import 'package:base/platform/platform.dart';
 import 'package:flutter/material.dart';
 
 class BaseGeneralDialog extends BaseStatelessWidget {
-  final bool barrierDismissible;
-  final String barrierLabel;
-  final Color barrierColor;
-  final Duration transitionDuration;
-  final RoutePageBuilder pageBuilder;
-  final Widget child;
-  final RouteTransitionsBuilder transitionBuilder;
-  final bool useSafeArea;
-
   BaseGeneralDialog({
     Key key,
     this.barrierDismissible = true,
@@ -24,7 +15,16 @@ class BaseGeneralDialog extends BaseStatelessWidget {
     this.useSafeArea = false,
     Map<String, Object> cupertino,
     Map<String, Object> material,
-  }) : super(cupertino: cupertino, material: material);
+  }) : super(key: key, cupertino: cupertino, material: material);
+
+  final bool barrierDismissible;
+  final String barrierLabel;
+  final Color barrierColor;
+  final Duration transitionDuration;
+  final RoutePageBuilder pageBuilder;
+  final Widget child;
+  final RouteTransitionsBuilder transitionBuilder;
+  final bool useSafeArea;
 
   @override
   Widget buildByCupertino(BuildContext context) {
@@ -67,30 +67,37 @@ class BaseGeneralDialog extends BaseStatelessWidget {
     );
   }
 
-  Widget _defaultPageBuilder(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation) {
+  Widget _defaultPageBuilder(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
     final ThemeData theme = Theme.of(context, shadowThemeOnly: true);
     final Widget _pageChild = build(context);
     assert(_pageChild != null, 'child can\'t be null');
-    return useSafeArea
-        ? SafeArea(
-            child: theme != null
-                ? Theme(
-                    data: theme,
-                    child: _pageChild,
-                  )
-                : _pageChild,
-          )
-        : theme != null
-            ? Theme(
-                data: theme,
-                child: _pageChild,
-              )
-            : _pageChild;
+    Widget child;
+    if (useSafeArea) {
+      child = SafeArea(
+        child: Theme(
+          data: theme,
+          child: _pageChild,
+        ),
+      );
+    } else {
+      child = Theme(
+        data: theme,
+        child: _pageChild,
+      );
+    }
+    return child;
   }
 
-  Widget _defaultTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
+  Widget _defaultTransitions(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
     return FadeTransition(
       opacity: CurvedAnimation(
         parent: animation,

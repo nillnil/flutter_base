@@ -8,6 +8,36 @@ import 'package:flutter/material.dart';
 /// material，使用MaterialButton
 /// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoButton
 class BaseButton extends BaseStatelessWidget {
+  BaseButton({
+    Key key,
+    @required this.child,
+    this.padding,
+    this.color,
+    this.disabledColor,
+    @required this.onPressed,
+    this.minSize = 44.0,
+    this.pressedOpacity = 0.1,
+    this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
+    this.onHighlightChanged,
+    this.textTheme,
+    this.textColor,
+    this.disabledTextColor,
+    this.highlightColor,
+    this.splashColor,
+    this.colorBrightness,
+    this.elevation,
+    this.highlightElevation,
+    this.disabledElevation,
+    this.shape,
+    this.clipBehavior = Clip.none,
+    this.materialTapTargetSize,
+    this.animationDuration,
+    this.minWidth,
+    this.height,
+    Map<String, Object> cupertino,
+    Map<String, Object> material,
+  }) : super(key: key, cupertino: cupertino, material: material);
+
   // general
   final Color color;
   final VoidCallback onPressed;
@@ -38,37 +68,6 @@ class BaseButton extends BaseStatelessWidget {
   final double minWidth;
   final double height;
 
-  BaseButton({
-    @required this.child,
-    this.padding,
-    this.color,
-    this.disabledColor,
-    @required this.onPressed,
-    this.minSize = 44.0,
-    this.pressedOpacity = 0.1,
-    this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
-    Key key,
-    this.onHighlightChanged,
-    this.textTheme,
-    this.textColor,
-    this.disabledTextColor,
-    this.highlightColor,
-    this.splashColor,
-    this.colorBrightness,
-    this.elevation,
-    this.highlightElevation,
-    this.disabledElevation,
-    this.shape,
-    this.clipBehavior = Clip.none,
-    this.materialTapTargetSize,
-    this.animationDuration,
-    this.minWidth,
-    this.height,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
-  })  : assert(pressedOpacity == null || (pressedOpacity >= 0.0 && pressedOpacity <= 1.0)),
-        super(cupertino: cupertino, material: material);
-
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoButton(
@@ -86,7 +85,6 @@ class BaseButton extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return MaterialButton(
-      key: key,
       onPressed: valueFromMaterial('onPressed', onPressed),
       onHighlightChanged: onHighlightChanged,
       textTheme: textTheme,

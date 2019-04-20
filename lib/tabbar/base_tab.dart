@@ -2,10 +2,6 @@ import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/material.dart';
 
 class BaseTab extends BaseStatelessWidget {
-  final String text;
-  final Widget child;
-  final Widget icon;
-
   BaseTab({
     Key key,
     this.text,
@@ -13,7 +9,11 @@ class BaseTab extends BaseStatelessWidget {
     this.icon,
     Map<String, Object> cupertino,
     Map<String, Object> material,
-  }) : super(cupertino: cupertino, material: material);
+  }) : super(key: key, cupertino: cupertino, material: material);
+
+  final String text;
+  final Widget child;
+  final Widget icon;
 
   static const double _kTabHeight = 46.0;
   static const double _kTextAndIconTabHeight = 72.0;
@@ -46,7 +46,7 @@ class BaseTab extends BaseStatelessWidget {
       height: height,
       child: Container(
         decoration: BoxDecoration(
-          border: Border(
+          border: const Border(
             bottom: BorderSide(
               width: 4.0,
               color: Colors.white30,
@@ -55,7 +55,7 @@ class BaseTab extends BaseStatelessWidget {
         ),
         child: Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: label,
           ),
           widthFactor: 1.0,
@@ -67,7 +67,6 @@ class BaseTab extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return Tab(
-      key: valueFromMaterial('key', key),
       text: valueFromMaterial('text', text),
       icon: valueFromMaterial('icon', icon),
       child: valueFromMaterial('child', child),

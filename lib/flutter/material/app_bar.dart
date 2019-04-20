@@ -26,11 +26,11 @@ const double _kLeadingWidth = kToolbarHeight; // So the leading button is square
 // Bottom justify the kToolbarHeight child which may overflow the top.
 class _ToolbarContainerLayout extends SingleChildLayoutDelegate {
 
-  final double toolbarHeight;
-
   const _ToolbarContainerLayout({
     this.toolbarHeight = kToolbarHeight
   });
+
+  final double toolbarHeight;
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {

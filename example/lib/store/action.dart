@@ -4,20 +4,18 @@ import 'package:flutter/material.dart' show Color;
 
 class PlatformAction {
   
-  final TargetPlatform targetPlatform;
-
   PlatformAction({
     this.targetPlatform
   });
-  
+
+  final TargetPlatform targetPlatform;
 }
 
 class ThemeAction {
 
-  final Color primaryColor;
-
-  ThemeAction({
+  const ThemeAction({
     this.primaryColor
   });
 
+  final Color primaryColor;
 }

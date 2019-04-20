@@ -9,45 +9,45 @@ import 'package:example/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-final List<Widget> _children = [
+final List<Widget> _children = <_Item>[
   _Item(
     icon: BaseIcon(icon: IconFont.nav, size: 40, color: Colors.orangeAccent),
-    title: Text('AppBar', style: TextStyle(color: Colors.orangeAccent)),
+    title: const Text('AppBar', style: TextStyle(color: Colors.orangeAccent)),
     page: AppBarDemo()
   ),
   _Item(
     icon: BaseIcon(icon: IconFont.page, size: 40, color: Colors.blueAccent),
-    title: Text('Scaffold', style: TextStyle(color: Colors.blueAccent)),
+    title: const Text('Scaffold', style: TextStyle(color: Colors.blueAccent)),
     page: ScaffoldDemo()
   ),
   _Item(
     icon: BaseIcon(icon: IconFont.rows, size: 40, color: Colors.redAccent),
-    title: Text('Section & Tile', style: TextStyle(color: Colors.redAccent)),
+    title: const Text('Section & Tile', style: TextStyle(color: Colors.redAccent)),
     page: SectionDemo()
   ),
   _Item(
     icon: BaseIcon(icon: IconFont.tab, size: 40, color: Colors.pinkAccent),
-    title: Text('Tab', style: TextStyle(color: Colors.pinkAccent)),
+    title: const Text('Tab', style: TextStyle(color: Colors.pinkAccent)),
     page: TabDemo()
   ),
   _Item(
     icon: BaseIcon(icon: IconFont.dialog, size: 40, color: Colors.purpleAccent),
-    title: Text('Dialog', style: TextStyle(color: Colors.purpleAccent)),
+    title: const Text('Dialog', style: TextStyle(color: Colors.purpleAccent)),
     page: DialogDemo()
   ),
   _Item(
     icon: BaseIcon(icon: IconFont.buttons, size: 40, color: Colors.greenAccent),
-    title: Text('Button', style: TextStyle(color: Colors.greenAccent)),
+    title: const Text('Button', style: TextStyle(color: Colors.greenAccent)),
     page: ButtonDemo()
   ),
   _Item(
     icon: BaseIcon(icon: IconFont.routes, size: 40, color: Colors.deepOrangeAccent),
-    title: Text('Routes', style: TextStyle(color: Colors.deepOrangeAccent)),
+    title: const Text('Routes', style: TextStyle(color: Colors.deepOrangeAccent)),
     page: RouteDemo()
   )
 ];
 
-final Widget _tipsWidget = Text('1、Material组件相对比较完善，没经过严格的测试，后续会完善优化\n\n'
+const  Widget _tipsWidget = Text('1、Material组件相对比较完善，没经过严格的测试，后续会完善优化\n\n'
   '2、每个组件都保留有forceUseCupertino、forceUseMaterial参数，都未经过严格测试，请慎用！！！'
   '因为各个组件之间有关联度，如果要切换组件的整体样式，强烈建议直接切换整个app使用的平台样式（并且不在app中动态切换），而不是使用'
   '单个组件中的forceUseCupertino、forceUseMaterial，后续可能会删除这2参数。',
@@ -65,9 +65,9 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: BaseAppBar(
-        title: Text('Base Example'),
-        padding: EdgeInsetsDirectional.only(start: 5.0, end: 5.0),
-        cupertino: {
+        title: const Text('Base Example'),
+        padding: const EdgeInsetsDirectional.only(start: 5.0, end: 5.0),
+        cupertino: <String, Object>{
           'leading': BaseButton(
             padding: EdgeInsets.zero,
             child: BaseIcon(
@@ -75,9 +75,9 @@ class Home extends StatelessWidget {
               size: 24
             ),
             onPressed: () {
-              Duration transitionDuration = Duration(milliseconds: 300);
-              Navigator.of(context).push(
-                PageRouteBuilder(
+              const Duration transitionDuration = Duration(milliseconds: 300);
+              Navigator.of(context).push<dynamic>(
+                PageRouteBuilder<dynamic>(
                   opaque: false,
                   transitionDuration: transitionDuration,
                   transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
@@ -87,7 +87,7 @@ class Home extends StatelessWidget {
                     );
                   },
                   pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-                    return _CupertinoTipsPage(
+                    return const _CupertinoTipsPage(
                       transitionDuration: transitionDuration
                     );
                   }
@@ -96,7 +96,7 @@ class Home extends StatelessWidget {
             }
           )
         },
-        actions: [
+        actions: <Widget>[
           ClipOval(
             child: BaseButton(
               padding: EdgeInsets.zero,
@@ -104,12 +104,12 @@ class Home extends StatelessWidget {
               child: BaseIcon(
                 icon: IconFont.settings,
                 size: 20,
-                material: {
+                material: const <String, Object>{
                   'color': Colors.white,
                 },
               ),
               onPressed: () {
-                BaseRoute(Settings()).push(context);
+                BaseRoute<dynamic>(Settings()).push(context);
               },
             ),
           )
@@ -145,7 +145,7 @@ class _MaterialTipsPage extends StatelessWidget {
                 top: MediaQuery.of(context).padding.top,
               ),
               child: Center(
-                child: Text('特别说明', 
+                child: const Text('特别说明', 
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.white
@@ -154,7 +154,7 @@ class _MaterialTipsPage extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: _tipsWidget,
             )
           ],
@@ -167,15 +167,15 @@ class _MaterialTipsPage extends StatelessWidget {
 
 class _CupertinoTipsPage extends StatefulWidget {
 
-  final double height;
-  final Widget child;
-  final Duration transitionDuration;
-
-  _CupertinoTipsPage({ 
+  const _CupertinoTipsPage({ 
     this.height,
     this.child,
     this.transitionDuration
   });
+
+  final double height;
+  final Widget child;
+  final Duration transitionDuration;
 
   @override
   State<StatefulWidget> createState() => _CupertinoTipsPageState();
@@ -192,7 +192,7 @@ class _CupertinoTipsPageState extends State<_CupertinoTipsPage>  {
   @override
   void initState() {
     super.initState();
-    Future.delayed(widget.transitionDuration, (){
+    Future<void>.delayed(widget.transitionDuration, (){
       setState(() {
         visible = true;
       });
@@ -201,20 +201,20 @@ class _CupertinoTipsPageState extends State<_CupertinoTipsPage>  {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
     _height = widget.height ?? size.height;
     if (_originalOffsetY == null) {
       _originalOffsetY = size.height - _height;
       _offsetY = _originalOffsetY;
     }
-    double paddingTop = MediaQuery.of(context).padding.top;
-    Widget content = Container(
+    final double paddingTop = MediaQuery.of(context).padding.top;
+    final Widget content = Container(
       width: size.width,
       height: _height,
       margin: EdgeInsets.only(top: paddingTop),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.vertical(
+        borderRadius: const BorderRadius.vertical(
           top: Radius.circular(10.0)
         )
       ),
@@ -224,8 +224,8 @@ class _CupertinoTipsPageState extends State<_CupertinoTipsPage>  {
           Expanded(
             child: IgnorePointer(
               child: ListView(
-                padding: EdgeInsets.all(10.0),
-                children: <Widget>[
+                padding: const EdgeInsets.all(10.0),
+                children: const <Widget>[
                   _tipsWidget
                 ],
               ),
@@ -234,14 +234,14 @@ class _CupertinoTipsPageState extends State<_CupertinoTipsPage>  {
         ],
       ),
     );
-    Widget gestureLayer = GestureDetector(
+    final Widget gestureLayer = GestureDetector(
       child: Container(
         margin: EdgeInsets.only(top: paddingTop + 44.0),
         color: Colors.transparent,
       ),
       onVerticalDragUpdate: (DragUpdateDetails details) {
         setState(() {
-          double _tempY = _offsetY + details.delta.dy;
+          final double _tempY = _offsetY + details.delta.dy;
           if (_tempY < _originalOffsetY) {
             _offsetY = _originalOffsetY;
           } else {
@@ -264,13 +264,13 @@ class _CupertinoTipsPageState extends State<_CupertinoTipsPage>  {
       children: <Widget>[
         Visibility(
           child: Container(
-            color: Colors.black.withOpacity(.3),
+            color: Colors.black.withOpacity(.5),
           ),
           visible: visible,
         ),
         AnimatedPositioned(
           top: _offsetY,
-          duration: Duration(milliseconds: 150),
+          duration: const Duration(milliseconds: 150),
           child: content,
         ),
         gestureLayer
@@ -289,12 +289,12 @@ class _CupertinoTipsPageState extends State<_CupertinoTipsPage>  {
 
 class _TipsHeader extends StatelessWidget {
 
-  final VoidCallback callback;
-
   const _TipsHeader({
     Key key,
     this.callback
   }) : super(key: key);
+
+  final VoidCallback callback;
 
   @override
   Widget build(BuildContext context) {
@@ -329,7 +329,7 @@ class _TipsHeader extends StatelessWidget {
               },
             ),
           ),
-          Text('特别说明'),
+          const Text('特别说明'),
           Container(
             width: 50,
           )
@@ -341,17 +341,16 @@ class _TipsHeader extends StatelessWidget {
 }
 
 class _Item extends StatelessWidget {
-
-  final Text title;
-  final BaseIcon icon;
-  final Widget page;
-
   const _Item({
     Key key, 
     this.title, 
     this.icon,
     this.page
   }) : super(key: key);
+
+  final Text title;
+  final BaseIcon icon;
+  final Widget page;
 
   @override
   Widget build(BuildContext context) {
@@ -360,7 +359,7 @@ class _Item extends StatelessWidget {
         child: Column(
           children: <Widget>[
             icon,
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(vertical: 5.0),
             ),
             title
@@ -369,7 +368,7 @@ class _Item extends StatelessWidget {
         ),
       ),
       onTap: () {
-        BaseRoute(page).push(context);
+        BaseRoute<dynamic>(page).push(context);
       },
     );
   }

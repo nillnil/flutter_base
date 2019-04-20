@@ -4,17 +4,13 @@ import 'package:flutter/material.dart' show Color;
 
 class AppState {
 
-  final TargetPlatform targetPlatform;
-  final Color primaryColor;
-
-  AppState({
+  const AppState({
     this.targetPlatform,
-    this.primaryColor
+    this.primaryColor,
   });
 
-  AppState.initialState({ TargetPlatform targetPlatform, Color primaryColor })
-     : this.targetPlatform = targetPlatform,
-       this.primaryColor = primaryColor;
+  final TargetPlatform targetPlatform;
+  final Color primaryColor;
 
   AppState copyWith({ TargetPlatform targetPlatform, Color primaryColor }) {
     return AppState(

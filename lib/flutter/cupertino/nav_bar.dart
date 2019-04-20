@@ -412,7 +412,7 @@ class CupertinoNavigationBar extends StatefulWidget implements ObstructingPrefer
 
   /// Auto set trailing's color follow the barightness
   /// will cover the navActionTextStyle's color
-  final autoSetTrailingColor;
+  final bool autoSetTrailingColor;
 
   /// True if the navigation bar's background color has no transparency.
   @override
@@ -963,12 +963,12 @@ class _PersistentNavigationBar extends StatelessWidget {
   final bool autoSetMiddleColor;
 
   /// Auto set trailing's color follow the barightness
-  final autoSetTrailingColor;
+  final bool autoSetTrailingColor;
 
   @override
   Widget build(BuildContext context) {
-    Color _backgroundColor = backgroundColor ?? CupertinoTheme.of(context).barBackgroundColor;
-    Color statusBarTextColor = _backgroundColor.computeLuminance() < 0.179 ? Colors.white: Colors.black;
+    final Color _backgroundColor = backgroundColor ?? CupertinoTheme.of(context).barBackgroundColor;
+    final Color statusBarTextColor = _backgroundColor.computeLuminance() < 0.179 ? Colors.white: Colors.black;
 
     Widget middle = components.middle;
     if (middle != null) {
@@ -1050,11 +1050,11 @@ class _PersistentNavigationBar extends StatelessWidget {
 
     if (bottom != null) {
       ThemeData theme = Theme.of(context).copyWith(
-        splashFactory: WithoutSplashFactory(),
+        splashFactory: _WithoutSplashFactory(),
         highlightColor: Colors.transparent,
       );
       if (bottom is TabBar) {
-        TabBarTheme tabBarTheme = theme.tabBarTheme ?? TabBarTheme();
+        final TabBarTheme tabBarTheme = theme.tabBarTheme ?? const TabBarTheme();
         theme = theme.copyWith(
           tabBarTheme: tabBarTheme.copyWith(
             labelColor: statusBarTextColor
@@ -2429,9 +2429,9 @@ final HeroFlightShuttleBuilder _navBarHeroFlightShuttleBuilder = (
 };
 
 /// 去除水波纹效果，但还是有200毫秒的延迟高亮
-class WithoutSplashFactory extends InteractiveInkFeatureFactory {
+class _WithoutSplashFactory extends InteractiveInkFeatureFactory {
 
-  WithoutSplashFactory();
+  _WithoutSplashFactory();
 
   @override
   InteractiveInkFeature create({
@@ -2455,7 +2455,7 @@ class WithoutSplashFactory extends InteractiveInkFeatureFactory {
       containedInkWell: false,
       rectCallback: rectCallback,
       borderRadius: BorderRadius.zero,
-      customBorder: Border(),
+      customBorder: const Border(),
       radius: 0.0,
       onRemoved: onRemoved,
       textDirection: textDirection,

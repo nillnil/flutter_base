@@ -6,12 +6,6 @@ import 'package:base/base_stateless_widget.dart';
 /// cupertino，使用Icon
 /// material，使用Icon
 class BaseIcon extends BaseStatelessWidget {
-  final IconData icon;
-  final double size;
-  final Color color;
-  final String semanticLabel;
-  final TextDirection textDirection;
-
   BaseIcon({
     Key key,
     this.icon,
@@ -21,13 +15,18 @@ class BaseIcon extends BaseStatelessWidget {
     this.textDirection,
     Map<String, Object> cupertino,
     Map<String, Object> material,
-  }) : super(cupertino: cupertino, material: material);
+  }) : super(key: key, cupertino: cupertino, material: material);
+
+  final IconData icon;
+  final double size;
+  final Color color;
+  final String semanticLabel;
+  final TextDirection textDirection;
 
   @override
   Widget buildByCupertino(BuildContext context) {
     return Icon(
       valueFromCupertino('icon', icon),
-      key: valueFromCupertino('key', key),
       size: valueFromCupertino('size', size),
       color: valueFromCupertino('color', color),
       semanticLabel: valueFromCupertino('semanticLabel', semanticLabel),
@@ -39,7 +38,6 @@ class BaseIcon extends BaseStatelessWidget {
   Widget buildByMaterial(BuildContext context) {
     return Icon(
       valueFromMaterial('icon', icon),
-      key: valueFromMaterial('key', key),
       size: valueFromMaterial('size', size),
       color: valueFromMaterial('color', color),
       semanticLabel: valueFromMaterial('semanticLabel', semanticLabel),
