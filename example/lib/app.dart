@@ -22,29 +22,22 @@ class App extends StatelessWidget {
       }, 
       builder: (BuildContext context, Map<String, Object> vm) {
         CupertinoThemeData _cupertinoTheme = CupertinoTheme.of(context);
-        final CupertinoTextThemeData _cupertinoTextTheme = _cupertinoTheme.textTheme;
         _cupertinoTheme = _cupertinoTheme.copyWith(
           primaryColor: vm['primaryColor'],
           barBackgroundColor: vm['primaryColor'],
           scaffoldBackgroundColor: _backgroundColor,
-          textTheme: _cupertinoTextTheme.copyWith(
-            textStyle: _cupertinoTextTheme.textStyle.copyWith(
-              // fontSize: 16.0,
-            ),
-            navActionTextStyle: _cupertinoTextTheme.navActionTextStyle.copyWith(
-              color: Colors.black
-            ),
-            navTitleTextStyle: _cupertinoTextTheme.navTitleTextStyle.copyWith(
-              color: Colors.deepOrange
-            )
-          ),
         );
         ThemeData _theme = Theme.of(context);
         _theme = _theme.copyWith(
           primaryColor: vm['primaryColor'],
           scaffoldBackgroundColor: _backgroundColor,
           cupertinoOverrideTheme: _cupertinoTheme,
-          platform: TargetPlatform.iOS
+          textTheme: _theme.textTheme.copyWith(
+            body1: _theme.textTheme.body1.copyWith(
+              fontSize: 17.0,
+              letterSpacing: -0.41,
+            ),
+          ),
         );
         return BaseApp(
           title: 'Base Example',

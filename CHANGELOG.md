@@ -1,3 +1,10 @@
+## 0.1.2 - 2019.04.23
+
+* Release v0.1.2
+* fix BaseAppBar's bug
+* add alert dialog demo
+* add button demo
+
 ## 0.1.1 - 2019.04.21
 
 * Release v0.1.1

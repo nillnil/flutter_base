@@ -21,7 +21,6 @@ class CustomMaterialWidget extends StatelessWidget {
 
 /// 自定义SplashFactory的Material组件
 class CustomSplashFactoryWidget extends CustomMaterialWidget {
-
   CustomSplashFactoryWidget({
     Key key,
     @required Widget child,
@@ -54,11 +53,10 @@ class CustomSplashFactoryWidget extends CustomMaterialWidget {
           child: child,
         ),
         super(key: key, child: child);
-  
+
   @override
   final Widget child;
   final ThemeData theme;
-
 }
 
 /// 去除水波纹效果，但还是有200毫秒的延迟高亮

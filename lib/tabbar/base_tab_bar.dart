@@ -16,11 +16,11 @@ import 'package:flutter/material.dart'
         Widget;
 import 'package:flutter/widgets.dart';
 
-/// 基础tabBar
-/// cupertino，使用CupertinoTabBar
-/// *** 可使用 cupertino = { forceUseMaterial: true } 参数强制使用BottomNavigationBar
-/// material，使用BottomNavigationBar
-/// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoTabBar
+/// BaseTabBar
+/// use CupertinoTabBar by cupertino
+/// *** use cupertino = { forceUseMaterial: true } force use BottomNavigationBar on cuperitno.
+/// use BottomNavigationBar by material
+/// *** use material = { forceUseCupertino: true } force use CupertinoTabBar on material.
 class BaseTabBar extends BaseStatelessWidget {
   BaseTabBar({
     Key key,
@@ -62,7 +62,8 @@ class BaseTabBar extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final List<BaseBarItem> itemWidgets = valueFromCupertino('items', this.items);
+    final List<BaseBarItem> itemWidgets =
+        valueFromCupertino('items', this.items);
     final List<BottomNavigationBarItem> items = <BottomNavigationBarItem>[];
     if (itemWidgets != null && itemWidgets.isNotEmpty) {
       for (BaseBarItem item in itemWidgets) {
@@ -83,7 +84,8 @@ class BaseTabBar extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final List<BaseBarItem> itemWidgets = valueFromMaterial('items', this.items);
+    final List<BaseBarItem> itemWidgets =
+        valueFromMaterial('items', this.items);
     final List<BottomNavigationBarItem> items = <BottomNavigationBarItem>[];
     if (itemWidgets != null && itemWidgets.isNotEmpty) {
       for (BaseBarItem item in itemWidgets) {

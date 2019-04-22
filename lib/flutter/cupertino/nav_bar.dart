@@ -213,6 +213,7 @@ class CupertinoNavigationBar extends StatefulWidget implements ObstructingPrefer
     this.autoSetLeadingColor = false,
     this.autoSetMiddleColor = false,
     this.autoSetTrailingColor = false,
+    this.autoSetBottomColor = false,
   }) : assert(automaticallyImplyLeading != null),
        assert(automaticallyImplyMiddle != null),
        assert(transitionBetweenRoutes != null),
@@ -413,6 +414,10 @@ class CupertinoNavigationBar extends StatefulWidget implements ObstructingPrefer
   /// Auto set trailing's color follow the barightness
   /// will cover the navActionTextStyle's color
   final bool autoSetTrailingColor;
+  
+  /// Auto set bottom's color follow the barightness
+  /// will cover the navActionTextStyle's color
+  final bool autoSetBottomColor;
 
   /// True if the navigation bar's background color has no transparency.
   @override
@@ -421,8 +426,10 @@ class CupertinoNavigationBar extends StatefulWidget implements ObstructingPrefer
   @override
   Size get preferredSize {
     double _height = navBarPersistentHeight ?? _kNavBarPersistentHeight;
-    _height += bottom != null ? bottom.preferredSize.height : 0;
-    return Size.fromHeight(_height);
+    if (middle != null && bottom != null) {
+      _height += bottom.preferredSize.height;
+    }
+    return Size.fromHeight(_height + 100.0);
   }
 
   @override
@@ -477,6 +484,7 @@ class _CupertinoNavigationBarState extends State<CupertinoNavigationBar> {
           autoSetLeadingColor: widget.autoSetLeadingColor,
           autoSetMiddleColor: widget.autoSetMiddleColor,
           autoSetTrailingColor: widget.autoSetTrailingColor,
+          autoSetBottomColor: widget.autoSetBottomColor,
         ),
       ),
       backdropFilter: widget.backdropFilter
@@ -494,6 +502,19 @@ class _CupertinoNavigationBarState extends State<CupertinoNavigationBar> {
       Builder(
         // Get the context that might have a possibly changed CupertinoTheme.
         builder: (BuildContext context) {
+          TextStyle navActionTextStyle = CupertinoTheme.of(context).textTheme.navActionTextStyle;
+          TextStyle navTitleTextStyle = CupertinoTheme.of(context).textTheme.navTitleTextStyle;
+          final Color statusBarTextColor = getStatusBarTextColor(backgroundColor);
+          if (widget.autoSetLeadingColor) {
+            navActionTextStyle = navActionTextStyle.copyWith(
+              color: statusBarTextColor,
+            );
+          }
+          if (widget.autoSetMiddleColor) {
+            navTitleTextStyle = navTitleTextStyle.copyWith(
+              color: statusBarTextColor,
+            );
+          }
           return Hero(
             tag: widget.heroTag == _defaultHeroTag
                 ? _HeroTag(Navigator.of(context))
@@ -505,8 +526,8 @@ class _CupertinoNavigationBarState extends State<CupertinoNavigationBar> {
             child: _TransitionableNavigationBar(
               componentsKeys: keys,
               backgroundColor: backgroundColor,
-              backButtonTextStyle: CupertinoTheme.of(context).textTheme.navActionTextStyle,
-              titleTextStyle: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
+              backButtonTextStyle: navActionTextStyle,
+              titleTextStyle: navTitleTextStyle,
               largeTitleTextStyle: null,
               border: widget.border,
               hasUserMiddle: widget.middle != null,
@@ -932,6 +953,7 @@ class _PersistentNavigationBar extends StatelessWidget {
     this.autoSetLeadingColor = false,
     this.autoSetMiddleColor = false,
     this.autoSetTrailingColor = false,
+    this.autoSetBottomColor = false,
   }) : super(key: key);
 
   final _NavigationBarStaticComponents components;
@@ -965,10 +987,13 @@ class _PersistentNavigationBar extends StatelessWidget {
   /// Auto set trailing's color follow the barightness
   final bool autoSetTrailingColor;
 
+  /// Auto set bottom's color follow the barightness
+  final bool autoSetBottomColor;
+
   @override
   Widget build(BuildContext context) {
-    final Color _backgroundColor = backgroundColor ?? CupertinoTheme.of(context).barBackgroundColor;
-    final Color statusBarTextColor = _backgroundColor.computeLuminance() < 0.179 ? Colors.white: Colors.black;
+    final Color backgroundColor = this.backgroundColor ?? CupertinoTheme.of(context).barBackgroundColor;
+    final Color statusBarTextColor = getStatusBarTextColor(backgroundColor);
 
     Widget middle = components.middle;
     if (middle != null) {
@@ -1029,6 +1054,50 @@ class _PersistentNavigationBar extends StatelessWidget {
         child: trailing,
       );
     }
+    Widget bottom = this.bottom;
+    ThemeData theme = Theme.of(context);
+    if (bottom != null) {
+      theme = theme.copyWith(
+        splashFactory: _WithoutSplashFactory(),
+        highlightColor: Colors.transparent,
+      );
+      if (bottom is TabBar) {
+        final TabBarTheme tabBarTheme = theme.tabBarTheme ?? const TabBarTheme();
+        if (autoSetBottomColor) {
+          theme = theme.copyWith(
+            tabBarTheme: tabBarTheme.copyWith(
+              labelColor: statusBarTextColor
+            )
+          );
+        }
+      } else {
+        TextStyle navTitleTextStyle = CupertinoTheme.of(context).textTheme.navTitleTextStyle;
+        if (autoSetBottomColor) {
+          navTitleTextStyle = navTitleTextStyle.copyWith(
+            color: statusBarTextColor
+          );
+        }
+        bottom = DefaultTextStyle(
+          style: navTitleTextStyle,
+          child: bottom,
+        );
+      }
+      bottom = Material(
+        type: MaterialType.transparency,
+        color: Colors.transparent,
+        child: Theme(
+          data: theme,
+          child: bottomOpacity == 1.0 ? bottom : Opacity(
+            opacity: const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn).transform(bottomOpacity),
+            child: bottom,
+          ),
+        ),
+      );
+    }
+    if (middle == null && bottom != null){
+      middle = bottom;
+      bottom = null;
+    }
 
     Widget paddedToolbar = NavigationToolbar(
       leading: leading,
@@ -1037,6 +1106,21 @@ class _PersistentNavigationBar extends StatelessWidget {
       centerMiddle: true,
       middleSpacing: 6.0,
     );
+
+    if (bottom != null) {
+      paddedToolbar = Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Flexible(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: navBarPersistentHeight),
+              child: paddedToolbar,
+            ),
+          ),
+          bottom,
+        ],
+      );
+    }
 
     if (padding != null) {
       paddedToolbar = Padding(
@@ -1047,46 +1131,9 @@ class _PersistentNavigationBar extends StatelessWidget {
         child: paddedToolbar,
       );
     }
-
-    if (bottom != null) {
-      ThemeData theme = Theme.of(context).copyWith(
-        splashFactory: _WithoutSplashFactory(),
-        highlightColor: Colors.transparent,
-      );
-      if (bottom is TabBar) {
-        final TabBarTheme tabBarTheme = theme.tabBarTheme ?? const TabBarTheme();
-        theme = theme.copyWith(
-          tabBarTheme: tabBarTheme.copyWith(
-            labelColor: statusBarTextColor
-          )
-        );
-      }
-      paddedToolbar = Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Flexible(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: navBarPersistentHeight),
-              child: paddedToolbar,
-            ),
-          ),
-          Material(
-            type: MaterialType.transparency,
-            color: Colors.transparent,
-            child: Theme(
-              data: theme,
-              child: bottomOpacity == 1.0 ? bottom : Opacity(
-                opacity: const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn).transform(bottomOpacity),
-                child: bottom,
-              ),
-            )
-          )
-        ],
-      );
-    }
     double height = (navBarPersistentHeight ?? _kNavBarPersistentHeight) + MediaQuery.of(context).padding.top;
     if (bottom != null) {
-      height += bottom.preferredSize.height;
+      height += this.bottom.preferredSize.height;
     }
     return SizedBox(
       height: height,
@@ -2428,7 +2475,13 @@ final HeroFlightShuttleBuilder _navBarHeroFlightShuttleBuilder = (
   }
 };
 
-/// 去除水波纹效果，但还是有200毫秒的延迟高亮
+/// get the status bar's text color.
+/// return black or white.
+Color getStatusBarTextColor(Color appBarBackgroundColor) {
+  return appBarBackgroundColor.computeLuminance() < 0.179 ? Colors.white: Colors.black;
+}
+
+/// without splash factory
 class _WithoutSplashFactory extends InteractiveInkFeatureFactory {
 
   _WithoutSplashFactory();

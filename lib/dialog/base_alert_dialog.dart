@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart'
     show CupertinoAlertDialog, ScrollController;
 import 'package:flutter/material.dart';
 
-/// 基础弹出框
-/// cupertino，使用CupertinoAlertDialog
-/// *** 可使用 cupertino = { forceUseMaterial: true } 参数强制使用AlertDialog
-/// material，使用AlertDialog
-/// *** 可使用 material = { forceUseCupertino: true } CupertinoAlertDialog
+/// BaseAlertDialog
+/// use CupertinoAlertDialog by cupertino
+/// *** use cupertino = { forceUseMaterial: true } force use AlertDialog on cuperitno.
+/// use AlertDialog by material
+/// *** use material = { forceUseCupertino: true } force use CupertinoAlertDialog on material.
 class BaseAlertDialog extends BaseStatelessWidget {
   BaseAlertDialog({
     Key key,
@@ -86,7 +86,7 @@ class BaseAlertDialog extends BaseStatelessWidget {
     return showDialog<T>(
       context: context,
       barrierDismissible: barrierDismissible,
-      builder: (_) => build(context),
+      builder: (BuildContext context) => build(context),
     );
   }
 }

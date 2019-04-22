@@ -1,4 +1,3 @@
-
 import 'package:base/icon/base_icon.dart';
 import 'package:base/route/base_route.dart';
 import 'package:base/section/base_tile.dart';
@@ -7,36 +6,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class DemoTile extends StatelessWidget {
-
   const DemoTile({
-    Key key, 
-    this.title, 
+    Key key,
+    this.title,
     this.onTop,
-    this.page
+    this.page,
   }) : super(key: key);
 
   final Widget title;
-  final GestureTapCallback onTop;
+  final Function(BuildContext context) onTop;
   final Widget page;
 
   @override
   Widget build(BuildContext context) {
-    return BaseTile(
-      title: title,
-      trailing: BaseIcon(
-        icon: CupertinoIcons.right_chevron,
-        color: Colors.grey,
-      ),
-      onTap: () {
-        if (onTop != null) {
-          onTop();
-        } else if (page != null){
-          BaseRoute<dynamic>(page).push(context);
-        } else {
-          return null;
-        }
-      },
-    );
+    if (title != null) {
+      return BaseTile(
+        title: title,
+        trailing: BaseIcon(
+          icon: CupertinoIcons.right_chevron,
+          color: Colors.grey,
+        ),
+        onTap: () {
+          if (onTop != null) {
+            onTop(context);
+          } else if (page != null) {
+            BaseRoute<dynamic>(page).push(context);
+          } else {
+            return null;
+          }
+        },
+      );
+    } else {
+      return page != null ? page : Container();
+    }
   }
-
 }

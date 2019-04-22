@@ -9,6 +9,8 @@ import 'package:example/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'demos/button/button_demos.dart';
+
 final List<Widget> _children = <_Item>[
   _Item(
     icon: BaseIcon(icon: IconFont.nav, size: 40, color: Colors.orangeAccent),
@@ -25,26 +27,26 @@ final List<Widget> _children = <_Item>[
     title: const Text('Section & Tile', style: TextStyle(color: Colors.redAccent)),
     page: SectionDemo()
   ),
-  _Item(
-    icon: BaseIcon(icon: IconFont.tab, size: 40, color: Colors.pinkAccent),
-    title: const Text('Tab', style: TextStyle(color: Colors.pinkAccent)),
-    page: TabDemo()
-  ),
+  // _Item(
+  //   icon: BaseIcon(icon: IconFont.tab, size: 40, color: Colors.pinkAccent),
+  //   title: const Text('Tab', style: TextStyle(color: Colors.pinkAccent)),
+  //   page: TabDemo()
+  // ),
   _Item(
     icon: BaseIcon(icon: IconFont.dialog, size: 40, color: Colors.purpleAccent),
-    title: const Text('Dialog', style: TextStyle(color: Colors.purpleAccent)),
+    title: const Text('Alert Dialog', style: TextStyle(color: Colors.purpleAccent)),
     page: DialogDemo()
   ),
   _Item(
     icon: BaseIcon(icon: IconFont.buttons, size: 40, color: Colors.greenAccent),
     title: const Text('Button', style: TextStyle(color: Colors.greenAccent)),
-    page: ButtonDemo()
+    page: ButtonDemos()
   ),
-  _Item(
-    icon: BaseIcon(icon: IconFont.routes, size: 40, color: Colors.deepOrangeAccent),
-    title: const Text('Routes', style: TextStyle(color: Colors.deepOrangeAccent)),
-    page: RouteDemo()
-  )
+  // _Item(
+  //   icon: BaseIcon(icon: IconFont.routes, size: 40, color: Colors.deepOrangeAccent),
+  //   title: const Text('Routes', style: TextStyle(color: Colors.deepOrangeAccent)),
+  //   page: RouteDemo()
+  // )
 ];
 
 const  Widget _tipsWidget = Text('1、Material组件相对比较完善，没经过严格的测试，后续会完善优化\n\n'
@@ -68,9 +70,8 @@ class Home extends StatelessWidget {
         title: const Text('Base Example'),
         padding: const EdgeInsetsDirectional.only(start: 5.0, end: 5.0),
         cupertino: <String, Object>{
-          'leading': BaseButton(
-            padding: EdgeInsets.zero,
-            child: BaseIcon(
+          'leading': BaseIconButton(
+            icon: BaseIcon(
               icon: IconFont.info,
               size: 24
             ),
@@ -98,10 +99,8 @@ class Home extends StatelessWidget {
         },
         actions: <Widget>[
           ClipOval(
-            child: BaseButton(
-              padding: EdgeInsets.zero,
-              minWidth: 60,
-              child: BaseIcon(
+            child: BaseIconButton(
+              icon: BaseIcon(
                 icon: IconFont.settings,
                 size: 20,
                 material: const <String, Object>{

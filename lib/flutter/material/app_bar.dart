@@ -166,7 +166,7 @@ class AppBar extends StatefulWidget implements PreferredSizeWidget {
        assert(titleSpacing != null),
        assert(toolbarOpacity != null),
        assert(bottomOpacity != null),
-       preferredSize = Size.fromHeight((toolbarHeight ?? kToolbarHeight) + (bottom?.preferredSize?.height ?? 0.0)),
+       preferredSize = Size.fromHeight((toolbarHeight ?? kToolbarHeight) + (title != null && bottom != null ? bottom.preferredSize?.height : 0.0)),
        super(key: key);
 
   /// A widget to display before the [title].
@@ -512,6 +512,18 @@ class _AppBarState extends State<AppBar> {
       );
     }
 
+    Widget bottom = widget.bottom;
+    if (widget.bottom != null) {
+      bottom = widget.bottomOpacity == 1.0 ? widget.bottom : Opacity(
+        opacity: const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn).transform(widget.bottomOpacity),
+        child: widget.bottom,
+      );
+    }
+    if (title == null && bottom != null) {
+      title = bottom;
+      bottom = null;
+    }
+
     final Widget toolbar = NavigationToolbar(
       leading: leading,
       middle: title,
@@ -536,7 +548,7 @@ class _AppBarState extends State<AppBar> {
         ),
       ),
     );
-    if (widget.bottom != null) {
+    if (bottom != null) {
       appBar = Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -546,10 +558,7 @@ class _AppBarState extends State<AppBar> {
               child: appBar,
             ),
           ),
-          widget.bottomOpacity == 1.0 ? widget.bottom : Opacity(
-            opacity: const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn).transform(widget.bottomOpacity),
-            child: widget.bottom,
-          ),
+          bottom,
         ],
       );
     }

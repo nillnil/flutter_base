@@ -2,7 +2,11 @@ import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-/// 基础图标按钮
+/// BaseIconButton
+/// use CupertinoButton by cupertino
+/// *** use cupertino = { forceUseMaterial: true } force use IconButton on cuperitno.
+/// use IconButton by material
+/// *** use material = { forceUseCupertino: true } force use CupertinoButton on material.
 class BaseIconButton extends BaseStatelessWidget {
   BaseIconButton({
     Key key,
@@ -47,7 +51,7 @@ class BaseIconButton extends BaseStatelessWidget {
     return CupertinoButton(
       child: valueFromCupertino('icon', icon),
       padding: valueFromCupertino('padding', padding),
-      color: valueFromCupertino('color', color) ?? const Color.fromRGBO(0, 0, 0, 0),
+      color: valueFromCupertino('color', color),
       disabledColor: valueFromCupertino('disabledColor', disabledColor),
       minSize: minSize,
       pressedOpacity: pressedOpacity,

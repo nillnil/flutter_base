@@ -1,4 +1,5 @@
 
+import 'package:base/platform/platform.dart';
 import 'package:example/demos/demo_page.dart';
 import 'package:example/demos/demo_tile.dart';
 import 'package:example/demos/utils/color_block.dart';
@@ -11,15 +12,19 @@ import 'transparent_app_bar.dart';
 /// Scaffold 示例
 class ScaffoldDemo extends StatelessWidget {
 
-  final List<DemoTile> _demos = <DemoTile>[
-    DemoTile(
-      title: const Text('transparent app bar'),
-      page: TransparentAppBar(),
-    )
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<DemoTile> _demos = <DemoTile>[
+      
+    ];
+    if (useCupertino) {
+      _demos.add(
+        DemoTile(
+          title: const Text('transparent app bar'),
+          page: TransparentAppBar(),
+        )
+      );
+    }
     return DemoPage(
       title: 'Scaffold',
       doc: SingleChildScrollView(

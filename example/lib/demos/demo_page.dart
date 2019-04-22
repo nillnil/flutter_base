@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 class DemoPage extends StatelessWidget {
   DemoPage({
     Key key, 
-    @required this.title, 
+    this.title, 
     this.doc, 
     this.docStr,
     this.demos = const <DemoTile>[]
@@ -22,10 +22,10 @@ class DemoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseScaffold(
       safeAreaTop: true,
-      navBar: BaseAppBar(
+      navBar: title != null ? BaseAppBar(
         title: Text(title),
         transitionBetweenRoutes: false,
-      ),
+      ): null,
       body: BaseScrollBar(
         child: ListView.separated(
           separatorBuilder: (_, __) => const Divider(height: .5,),

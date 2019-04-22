@@ -1,14 +1,16 @@
 import 'package:base/base_stateless_widget.dart';
 import 'package:base/platform/platform.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+@deprecated
 class BaseGeneralDialog extends BaseStatelessWidget {
   BaseGeneralDialog({
     Key key,
     this.barrierDismissible = true,
-    this.barrierLabel = '',
+    this.barrierLabel,
     this.barrierColor = Colors.black54,
-    this.transitionDuration,
+    this.transitionDuration = const Duration(milliseconds: 150),
     this.pageBuilder,
     this.child,
     this.transitionBuilder,
@@ -41,8 +43,9 @@ class BaseGeneralDialog extends BaseStatelessWidget {
         ? valueFromCupertino('barrierDismissible', barrierDismissible)
         : valueFromMaterial('barrierDismissible', barrierDismissible);
     final String _barrierLabel = useCupertino
-        ? valueFromCupertino('barrierLabel', barrierLabel)
-        : valueFromMaterial('barrierLabel', barrierLabel);
+        ? valueFromCupertino('barrierLabel', barrierLabel) ?? ''
+        : valueFromMaterial('barrierLabel', barrierLabel) ??
+            MaterialLocalizations.of(context).modalBarrierDismissLabel;
     final Color _barrierColor = useCupertino
         ? valueFromCupertino('barrierColor', barrierColor)
         : valueFromMaterial('barrierColor', barrierColor);
@@ -78,16 +81,20 @@ class BaseGeneralDialog extends BaseStatelessWidget {
     Widget child;
     if (useSafeArea) {
       child = SafeArea(
-        child: Theme(
-          data: theme,
-          child: _pageChild,
-        ),
+        child: theme != null
+            ? Theme(
+                data: theme,
+                child: _pageChild,
+              )
+            : _pageChild,
       );
     } else {
-      child = Theme(
-        data: theme,
-        child: _pageChild,
-      );
+      child = theme != null
+          ? Theme(
+              data: theme,
+              child: _pageChild,
+            )
+          : _pageChild;
     }
     return child;
   }

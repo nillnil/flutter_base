@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-/// 基础tile块，自定义
+/// BaseSection
+/// use custom Container by cupertino or material
 class BaseSection extends BaseStatelessWidget {
   BaseSection({
     Key key,
@@ -18,21 +19,23 @@ class BaseSection extends BaseStatelessWidget {
     Map<String, Object> cupertino,
     Map<String, Object> material,
   })  : indentDivider = indentDivider ?? divider != null
-    ? Divider(
-      height: 1.0,
-      indent: dividerIndent,
-      color: divider.color,
-    ) : Divider(
-      indent: dividerIndent,
-      height: 1.0,
-    ),
-  super(key: key, cupertino: cupertino, material: material);
+            ? Divider(
+                height: 1.0,
+                indent: dividerIndent,
+                color: divider.color,
+              )
+            : Divider(
+                indent: dividerIndent,
+                height: 1.0,
+              ),
+        super(key: key, cupertino: cupertino, material: material);
 
   final EdgeInsets margin;
   final Divider divider;
   final double dividerIndent;
-  // 背景色，当设置了indent不生效时，建议设置跟tile一样的背景色
-  // 因为可能是section所在的页面背景色影响到了视觉效果，使其看起来没有indent一样。
+
+  /// 背景色，当设置了indent不生效时，建议设置跟tile一样的背景色
+  /// 因为可能是section所在的页面背景色影响到了视觉效果，使其看起来没有indent一样。
   final Color backgroundColor;
   final Divider indentDivider;
   final List<Widget> children;
@@ -71,21 +74,23 @@ class BaseSection extends BaseStatelessWidget {
     Widget container;
     final int length = children.length;
     if (length == 1 && header == null && footer == null) {
-      container = divider != null
-          ? Container(
-              margin: margin,
-              child: Column(
-                children: <Widget>[
-                  divider,
-                  children[0],
-                  divider,
-                ],
-              ),
-            )
-          : Container(
-              margin: margin,
-              child: children[0],
-            );
+      if (divider != null) {
+        container = Container(
+          margin: margin,
+          child: Column(
+            children: <Widget>[
+              divider,
+              children[0],
+              divider,
+            ],
+          ),
+        );
+      } else {
+        container = Container(
+          margin: margin,
+          child: children[0],
+        );
+      }
     } else {
       final List<Widget> widgets = <Widget>[];
       if (header != null) {

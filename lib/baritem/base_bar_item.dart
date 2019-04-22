@@ -2,9 +2,11 @@ import 'package:flutter/widgets.dart'
     show BottomNavigationBarItem, BuildContext, Color, Widget;
 import 'package:base/base_class.dart';
 
-/// 基础baritem
-/// cupertino，使用BottomNavigationBarItem
-/// material，使用BottomNavigationBarItem
+/// BaseBarItem
+/// use BottomNavigationBarItem by cupertino
+/// *** use cupertino = { forceUseMaterial: true } force use BottomNavigationBarItem on cuperitno.
+/// use BottomNavigationBarItem by material
+/// *** use material = { forceUseCupertino: true } force use BottomNavigationBarItem on material.
 class BaseBarItem extends BaseClass {
   BaseBarItem({
     this.icon,

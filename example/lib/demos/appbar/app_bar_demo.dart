@@ -1,4 +1,5 @@
 
+import 'package:base/platform/platform.dart';
 import 'package:example/demos/appbar/custom_height.dart';
 import 'package:example/demos/demo_page.dart';
 import 'package:example/demos/demo_tile.dart';
@@ -7,33 +8,40 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/painting.dart';
 
 import 'backdrop_filter_demo.dart';
-import 'bottom_opacity.dart';
 import 'news/news.dart';
+import 'toolbar_opacity.dart';
 
 /// AppBar 示例
 class AppBarDemo extends StatelessWidget {
 
-  final List<DemoTile> _demos = <DemoTile>[
-    DemoTile(
-      title: const Text('height'),
-      page: CustomHeight()
-    ),
-    DemoTile(
-      title: const Text('backdropFilter'),
-      page: BackdropFilterDemo(),
-    ),
-    DemoTile(
-      title: const Text('bottom'),
-      page: News()
-    ),
-    DemoTile(
-      title: const Text('bottomOpacity'),
-      page: BottomOpacity()
-    )
-  ];
-
   @override
   Widget build(BuildContext context) {
+
+    final List<DemoTile> _demos = <DemoTile>[
+      DemoTile(
+        title: const Text('height'),
+        page: CustomHeight()
+      ),
+      DemoTile(
+        title: const Text('bottom'),
+        page: News()
+      ),
+    ];
+
+    if (useCupertino) {
+      _demos.add(
+        DemoTile(
+          title: const Text('bottomOpacity'),
+          page: ToolbarOpacity()
+        )
+      );
+      _demos.add(
+        DemoTile(
+        title: const Text('backdropFilter'),
+          page: BackdropFilterDemo(),
+        ),
+      );
+    }
     return DemoPage(
       title: 'AppBar | NavBar',
       doc: Column(

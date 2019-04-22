@@ -21,14 +21,13 @@ export 'base_constants.dart';
 export 'base_stateful_widget.dart';
 export 'base_stateless_widget.dart';
 export 'button/base_button.dart';
+export 'button/base_icon_button.dart';
 export 'dialog/base_alert_dialog.dart';
 export 'dialog/base_dialog_action.dart';
-export 'dialog/base_general_dialog.dart';
 
 /// modify from flutter
 export 'flutter/flutter_modify.dart';
 export 'icon/base_icon.dart';
-export 'icon/base_icon_button.dart';
 export 'indicator/base_indicator.dart';
 export 'platform/platform.dart';
 export 'refresh/base_refresh.dart';

@@ -16,12 +16,12 @@ import 'package:flutter/material.dart'
         ValueChanged,
         VoidCallback,
         Widget;
-
-/// 基础弹框按钮
-/// cupertino，使用CupertinoDialogAction
-/// *** 可使用 cupertino = { forceUseMaterial: true } 参数强制使用FlatButton
-/// material，使用FlatButton
-/// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoDialogAction
+        
+/// BaseDialogAction
+/// use CupertinoDialogAction by cupertino
+/// *** use cupertino = { forceUseMaterial: true } force use FlatButton on cuperitno.
+/// use FlatButton by material
+/// *** use material = { forceUseCupertino: true } force use CupertinoDialogAction on material.
 class BaseDialogAction extends BaseStatelessWidget {
   BaseDialogAction({
     Key key,

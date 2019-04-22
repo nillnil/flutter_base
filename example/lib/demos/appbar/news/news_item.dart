@@ -92,7 +92,7 @@ class NewsItem extends StatelessWidget{
 					Row(
 						children: <Widget>[
 							Text(news['author_name'] + ' ' + news['date'],
-								style: TextStyle(fontSize: 11.0, color: Colors.grey)
+								style: const TextStyle(fontSize: 11.0, color: Colors.grey)
 							)
 						],
 					)
@@ -113,7 +113,7 @@ class NewsItem extends StatelessWidget{
                 children: <Widget>[
                   Text(news['title']),
                   Text((news['author_name'] ?? '') + ' ' + (news['date'] ?? ''),
-                    style: TextStyle(fontSize: 11.0, color: Colors.grey)
+                    style: const TextStyle(fontSize: 11.0, color: Colors.grey)
                   )
                 ]
               )

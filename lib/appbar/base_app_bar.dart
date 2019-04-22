@@ -6,13 +6,13 @@ import 'package:base/flutter/flutter_modify.dart'
 import 'package:flutter/cupertino.dart' hide CupertinoNavigationBar;
 import 'package:flutter/material.dart' hide AppBar;
 
-/// 基础导航栏
-/// cupertino，使用CupertinoNavigationBar
-/// *** 可使用 cupertino = { forceUseMaterial: true } 参数强制使用AppBar
-/// material，使用AppBar
-/// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoNavigationBar
-class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSizeWidget {
-
+/// BaseAppBar
+/// use CupertinoNavigationBar by cupertino
+/// *** use cupertino = { forceUseMaterial: true } force use AppBar on cuperitno.
+/// use AppBar by material
+/// *** use material = { forceUseCupertino: true } force use CupertinoNavigationBar on material.
+class BaseAppBar extends BaseStatelessWidget
+    implements ObstructingPreferredSizeWidget {
   BaseAppBar({
     Key key,
     this.leading,
@@ -72,26 +72,33 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
   final Color actionsForegroundColor;
   final bool transitionBetweenRoutes;
   final Object heroTag;
-  // 修改源码添加（背景色为透明的）是否加入高斯模糊效果，默认true
-  // 当背景色透明时默认为false，想加入请设置backdropFilter == true
+
+  /// 修改源码添加（背景色为透明的）是否加入高斯模糊效果，默认true
+  /// 当背景色透明时默认为false，想加入请设置backdropFilter == true
   final bool backdropFilter;
 
-  // 标题跟随背景亮度自动改变黑白色, 默认true
+  /// 标题跟随背景亮度自动改变黑白色, 默认true
   final bool autoSetMiddleColor;
-  // leading跟随背景亮度自动改变黑白色, 默认true，当为true时，actionsForegroundColor参数会失效
-  // 当leading为icon时，实际上是actionsForegroundColor参数修改颜色，此时的autoSetTrailingColor会失效
+
+  /// leading跟随背景亮度自动改变黑白色, 默认true，当为true时，actionsForegroundColor参数会失效
+  /// 当leading为icon时，实际上是actionsForegroundColor参数修改颜色，此时的autoSetTrailingColor会失效
   final bool autoSetLeadingColor;
-  // trailing跟随背景亮度自动改变黑白色, 默认true，当为true时，actionsForegroundColor参数会失效
-  // 当trailing为icon时，实际上是actionsForegroundColor参数修改颜色，此时的autoSetLeadingColor会失效
+
+  /// trailing跟随背景亮度自动改变黑白色, 默认true，当为true时，actionsForegroundColor参数会失效
+  /// 当trailing为icon时，实际上是actionsForegroundColor参数修改颜色，此时的autoSetLeadingColor会失效
   final bool autoSetTrailingColor;
-  // bottom跟随背景亮度自动改变黑白色, 默认true
+
+  /// bottom跟随背景亮度自动改变黑白色, 默认true
   final bool autoSetBottomColor;
 
   // material
   final Widget title;
   final List<Widget> actions;
   final Widget flexibleSpace;
-  // cupertino也支持
+
+  /// cupertino also support
+  /// when the (title/middle = null && bootom != null) && (leading != null || trailing != null)
+  /// the bottom will replace title. 
   final PreferredSizeWidget bottom;
   final double elevation;
   final Brightness brightness;
@@ -100,9 +107,11 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
   final bool primary;
   final bool centerTitle;
   final double titleSpacing;
-  // cupertino也支持
+
+  /// cupertino also support
   final double toolbarOpacity;
-  // cupertino也支持
+
+  /// cupertino also support
   final double bottomOpacity;
 
   @override
@@ -138,56 +147,58 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
     if (_backgroundColor.alpha == 0xFF) {
       _backdropFilter = false;
     }
-
-    final CupertinoNavigationBar child = heroTag != null
-        ? CupertinoNavigationBar(
-            key: key,
-            leading: _leading,
-            automaticallyImplyLeading: valueFromCupertino(
-                'automaticallyImplyLeading', automaticallyImplyLeading),
-            automaticallyImplyMiddle: automaticallyImplyMiddle,
-            previousPageTitle: previousPageTitle,
-            middle: _title,
-            trailing: _trailing,
-            border: border,
-            backgroundColor: _backgroundColor,
-            padding: padding,
-            actionsForegroundColor: _actionsForegroundColor,
-            transitionBetweenRoutes: transitionBetweenRoutes,
-            heroTag: heroTag,
-            backdropFilter: _backdropFilter,
-            navBarPersistentHeight: valueFromCupertino('height', height),
-            bottom: valueFromCupertino('bottom', bottom),
-            bottomOpacity: valueFromCupertino('bottomOpacity', bottomOpacity),
-            toolbarOpacity: _toolbarOpacity,
-            autoSetLeadingColor: autoSetLeadingColor,
-            autoSetMiddleColor: autoSetMiddleColor,
-            autoSetTrailingColor: autoSetTrailingColor,
-          )
-        : CupertinoNavigationBar(
-            key: key,
-            leading: _leading,
-            automaticallyImplyLeading: valueFromCupertino(
-                'automaticallyImplyLeading', automaticallyImplyLeading),
-            automaticallyImplyMiddle: automaticallyImplyMiddle,
-            previousPageTitle: previousPageTitle,
-            middle: _title,
-            trailing: _trailing,
-            border: border,
-            backgroundColor: _backgroundColor,
-            padding: padding,
-            actionsForegroundColor: _actionsForegroundColor,
-            transitionBetweenRoutes: transitionBetweenRoutes,
-            backdropFilter: _backdropFilter,
-            navBarPersistentHeight: valueFromCupertino('height', height),
-            bottom: valueFromCupertino('bottom', bottom),
-            bottomOpacity: valueFromCupertino('bottomOpacity', bottomOpacity),
-            toolbarOpacity: _toolbarOpacity,
-            autoSetLeadingColor: autoSetLeadingColor,
-            autoSetMiddleColor: autoSetMiddleColor,
-            autoSetTrailingColor: autoSetTrailingColor,
-          );
-    return child;
+    CupertinoNavigationBar cupertinoNavigationBar;
+    if (heroTag != null) {
+      cupertinoNavigationBar = CupertinoNavigationBar(
+        leading: _leading,
+        automaticallyImplyLeading: valueFromCupertino(
+            'automaticallyImplyLeading', automaticallyImplyLeading),
+        automaticallyImplyMiddle: automaticallyImplyMiddle,
+        previousPageTitle: previousPageTitle,
+        middle: _title,
+        trailing: _trailing,
+        border: border,
+        backgroundColor: _backgroundColor,
+        padding: padding,
+        actionsForegroundColor: _actionsForegroundColor,
+        transitionBetweenRoutes: transitionBetweenRoutes,
+        heroTag: heroTag,
+        backdropFilter: _backdropFilter,
+        navBarPersistentHeight: valueFromCupertino('height', height),
+        bottom: valueFromCupertino('bottom', bottom),
+        bottomOpacity: valueFromCupertino('bottomOpacity', bottomOpacity),
+        toolbarOpacity: _toolbarOpacity,
+        autoSetLeadingColor: autoSetLeadingColor,
+        autoSetMiddleColor: autoSetMiddleColor,
+        autoSetTrailingColor: autoSetTrailingColor,
+        autoSetBottomColor: autoSetBottomColor,
+      );
+    } else {
+      cupertinoNavigationBar = CupertinoNavigationBar(
+        leading: _leading,
+        automaticallyImplyLeading: valueFromCupertino(
+            'automaticallyImplyLeading', automaticallyImplyLeading),
+        automaticallyImplyMiddle: automaticallyImplyMiddle,
+        previousPageTitle: previousPageTitle,
+        middle: _title,
+        trailing: _trailing,
+        border: border,
+        backgroundColor: _backgroundColor,
+        padding: padding,
+        actionsForegroundColor: _actionsForegroundColor,
+        transitionBetweenRoutes: transitionBetweenRoutes,
+        backdropFilter: _backdropFilter,
+        navBarPersistentHeight: valueFromCupertino('height', height),
+        bottom: valueFromCupertino('bottom', bottom),
+        bottomOpacity: valueFromCupertino('bottomOpacity', bottomOpacity),
+        toolbarOpacity: _toolbarOpacity,
+        autoSetLeadingColor: autoSetLeadingColor,
+        autoSetMiddleColor: autoSetMiddleColor,
+        autoSetTrailingColor: autoSetTrailingColor,
+        autoSetBottomColor: autoSetBottomColor,
+      );
+    }
+    return cupertinoNavigationBar;
   }
 
   @override
@@ -195,10 +206,10 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
     final Widget _title = valueFromMaterial('title', title) ??
         valueFromMaterial('middle', middle);
     // actions为null，且trailing不为nul,，取trailing = [ trailing ];
-    final List<Widget> _actions = valueFromMaterial('actions', actions);
+    List<Widget> _actions = valueFromMaterial('actions', actions);
     final Widget _trailing = valueFromMaterial('trailing', trailing);
     if (_actions == null && _trailing != null) {
-      _actions.add(_trailing);
+      _actions = <Widget>[_trailing];
     }
     final Color _backgroundColor =
         valueFromMaterial('backgroundColor', backgroundColor) ??
@@ -206,7 +217,6 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
             Theme.of(context).primaryColor;
 
     return AppBar(
-      key: key,
       leading: valueFromMaterial('leading', leading),
       automaticallyImplyLeading: valueFromMaterial(
           'automaticallyImplyLeading', automaticallyImplyLeading),
@@ -236,7 +246,11 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
   Size get preferredSize {
     double _height =
         height != null ? height : (useCupertino ? 44.0 : kToolbarHeight);
-    _height += bottom != null ? bottom.preferredSize.height : 0;
+    final Widget middle = valueFromMaterial('title', title) ??
+        valueFromMaterial('middle', this.middle);
+    if (middle != null && bottom != null) {
+      _height += bottom.preferredSize.height;
+    }
     return Size.fromHeight(_height);
   }
 }
