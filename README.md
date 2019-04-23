@@ -61,13 +61,13 @@
 * 可以使用 `forceUseMaterial, forceUseCupertino` 进行强制切换模式构建，使用 `disabled` 禁止构建（会用 `Container()` 代替）
 
       'cupertino': {
-        // 可使该组件强制使用mcterial构建
+        // 可使该组件强制使用Material构建
         'forceUseMaterial': true,
         // 可使该组件不进行构建，但会使用Container()代替
         'disabled': true,
       }
       'material': {
-        // 可使该组件强制使用cupertino构建
+        // 可使该组件强制使用Cupertino构建
         'forceUseCupertino': true,
         // 可使该组件不进行构建，但会使用Container()代替
         'disabled': true,
