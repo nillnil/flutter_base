@@ -1,6 +1,6 @@
 name: base
 description: One code, two modes, use cupertino's widgets on ios, use material's widget on android or fuchsia.
-version: 0.1.4
+version: 0.1.5
 author: Nil <2073582423@qq.com>
 homepage: https://github.com/nillnil/flutter_base
 
