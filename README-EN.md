@@ -6,7 +6,7 @@
 
 ### [简体中文](./README.md)
 
-  **`At present, only the Cupertino mode has been tested. Material components are relatively perfect. Material mode testing will be supplemented later.`**
+### At present, only the Cupertino mode has been tested. Material components are relatively perfect. Material mode testing will be supplemented later.
 
 ## Foundation classes
 * BaseStatelessWidget
@@ -73,13 +73,13 @@
         'disabled': true,
       }
 
-* **`Special description，very important`**
+* ### Special description，very important
 
     **`forceUseMaterial, forceUseCupertino`** the parameters have not been strictly tested, please use them carefully! Use carefully! Use carefully!
 
     Many material widgets need Material as there are ancestor widget，on Cupertino mode set forceUseMaterial: true，will default to add Material() as there are parent widget，and will remove the splash，and the BaseApp's cupertinoTheme parameter is not valid. Unpredictable bugs such as style confusion may occur, so use them carefully. These two parameters may be deleted later.
 
-    **`If want to change the mode, suggest use BaseApp's targetPlatform to change the platform.`**
+    ### If want to change the mode, suggest use BaseApp's targetPlatform to change the platform.
 
 
 ## Widgets List

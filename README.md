@@ -7,7 +7,7 @@
 
 ### [English](./README-EN.md)
 
-  **`当前只针对Cupertino模式进行了测试，Material组件相对比较完善了，后期也会补上Material模式的测试。`**
+### 当前只针对Cupertino模式进行了测试，Material组件相对比较完善了，后期也会补上Material模式的测试。
 
 ## 基础类
 * BaseStatelessWidget
@@ -73,13 +73,13 @@
         'disabled': true,
       }
 
-* **`特别说明，非常重要`**
+* ### 特别说明，非常重要
 
     **`forceUseMaterial, forceUseCupertino`** 参数未经严格测试，请慎用！慎用！慎用！
 
     很多material组件是需要有Material祖先的，在Cupertino模式下设置forceUseMaterial: true时，会默认套上一层Material，且默认会去除水波纹效果，此时BaseApp上的cupertinoTheme参数是不生效的，可能会出现样式混乱等不可预知的bug，所以请慎用，后续可能会删除这2个参数
 
-    **`如果要切换模式，强烈建议直接设置BaseApp's targetPlatform参数`**
+    ### 如果要切换模式，强烈建议直接设置BaseApp's targetPlatform参数
 
 
 ## 组件列表
