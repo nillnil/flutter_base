@@ -16,7 +16,7 @@ import 'package:flutter/material.dart'
         ValueChanged,
         VoidCallback,
         Widget;
-        
+
 /// BaseDialogAction
 /// use CupertinoDialogAction by cupertino
 /// *** use cupertino = { forceUseMaterial: true } force use FlatButton on cuperitno.

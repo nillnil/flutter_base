@@ -2,6 +2,11 @@ import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+/// BaseScrollBar
+/// use CupertinoScrollbar by cupertino
+/// *** use cupertino = { forceUseMaterial: true } force use Scrollbar on cuperitno.
+/// use Scrollbar by material
+/// *** use material = { forceUseCupertino: true } force use CupertinoScrollbar on material.
 class BaseScrollBar extends BaseStatelessWidget {
   BaseScrollBar({
     Key key,

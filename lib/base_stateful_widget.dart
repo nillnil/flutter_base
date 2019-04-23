@@ -23,7 +23,7 @@ class BaseStatefulWidget extends StatefulWidget {
     Key key,
     this.cupertino,
     this.material,
-  }): super(key: key);
+  }) : super(key: key);
 
   final Map<String, Object> cupertino;
   final Map<String, Object> material;

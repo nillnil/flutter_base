@@ -2,6 +2,11 @@ import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/cupertino.dart' hide RefreshCallback;
 import 'package:flutter/material.dart';
 
+/// BaseIndicator
+/// use CustomScrollView + CupertinoSliverRefreshControl by cupertino
+/// *** use cupertino = { forceUseMaterial: true } force use RefreshIndicator on cuperitno.
+/// use RefreshIndicator by material
+/// *** use material = { forceUseCupertino: true } force use CupertinoSliverRefreshControl on material.
 class BaseRefresh extends BaseStatelessWidget {
   BaseRefresh({
     Key key,
@@ -20,8 +25,8 @@ class BaseRefresh extends BaseStatelessWidget {
 
   // general
   final RefreshCallback onRefresh;
-  // cupertino接收的是SliverList，material接收的是ListView / CustomScrollView
-  // 这3种都可以，会自动转换
+  /// It's SliverList on Cupertino，ListView or CustomScrollView on Material
+  /// All three can be converted automatically.
   final Widget child;
 
   // cupertino
@@ -49,18 +54,22 @@ class BaseRefresh extends BaseStatelessWidget {
     } else if (child is CustomScrollView) {
       // CustomScrollView => SliverList
       _child = SliverList(
-        delegate: SliverChildListDelegate((child as CustomScrollView).slivers),
+        delegate: SliverChildListDelegate(
+          (child as CustomScrollView).slivers,
+        ),
       );
     }
-    return CustomScrollView(slivers: <Widget>[
-      CupertinoSliverRefreshControl(
-        refreshTriggerPullDistance: refreshTriggerPullDistance,
-        refreshIndicatorExtent: refreshIndicatorExtent,
-        builder: builder,
-        onRefresh: valueFromCupertino('onRefresh', onRefresh),
-      ),
-      _child
-    ]);
+    return CustomScrollView(
+      slivers: <Widget>[
+        CupertinoSliverRefreshControl(
+          refreshTriggerPullDistance: refreshTriggerPullDistance,
+          refreshIndicatorExtent: refreshIndicatorExtent,
+          builder: builder,
+          onRefresh: valueFromCupertino('onRefresh', onRefresh),
+        ),
+        _child,
+      ],
+    );
   }
 
   @override

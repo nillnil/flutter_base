@@ -2,11 +2,11 @@ import 'package:base/base_stateless_widget.dart' show BaseStatelessWidget;
 import 'package:flutter/cupertino.dart' show CupertinoButton, ShapeBorder;
 import 'package:flutter/material.dart';
 
-/// 基础按钮
-/// cupertino，使用CupertinoButton or CupertinoButton.filled
-/// *** 可使用 cupertino = { forceUseMaterial: true } 参数强制使用MaterialButton or FlatButton or OutlineButton or RaisedButton
-/// material，使用MaterialButton or FlatButton or OutlineButton or RaisedButton
-/// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoButton or CupertinoButton.filled
+/// BaseButton
+/// use CupertinoButton or CupertinoButton.filled by cupertino
+/// *** use cupertino = { forceUseMaterial: true } force use MaterialButton or FlatButton or OutlineButton or RaisedButton on cuperitno.
+/// use MaterialButton or FlatButton or OutlineButton or RaisedButton by material
+/// *** use material = { forceUseCupertino: true } force use CupertinoButton or CupertinoButton.filled on material.
 class BaseButton extends BaseStatelessWidget {
   BaseButton({
     Key key,

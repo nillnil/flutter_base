@@ -98,7 +98,7 @@ class BaseAppBar extends BaseStatelessWidget
 
   /// cupertino also support
   /// when the (title/middle = null && bootom != null) && (leading != null || trailing != null)
-  /// the bottom will replace title. 
+  /// the bottom will replace title.
   final PreferredSizeWidget bottom;
   final double elevation;
   final Brightness brightness;

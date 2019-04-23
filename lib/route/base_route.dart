@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart' show CupertinoPageRoute, RoutePredicate;
 import 'package:flutter/material.dart'
     show BuildContext, MaterialPageRoute, Navigator, RouteSettings;
 
-/// 基础路由
-/// cupertino，使用CupertinoPageRoute
-/// *** 可使用 cupertino = { forceUseMaterial: true } 参数强制使用MaterialPageRoute
-/// material，使用MaterialPageRoute
-/// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoPageRoute
+/// BaseRoute
+/// use CupertinoPageRoute or CupertinoButton.filled by cupertino
+/// *** use cupertino = { forceUseMaterial: true } force use MaterialPageRoute on cuperitno.
+/// use MaterialPageRoute
+/// *** use material = { forceUseCupertino: true } force use CupertinoPageRoute on material.
 class BaseRoute<T> extends BaseClass {
   BaseRoute(
     this.page, {

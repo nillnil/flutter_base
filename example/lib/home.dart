@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'demos/button/button_demos.dart';
+import 'demos/refresh/refresh_demos.dart';
 
 final List<Widget> _children = <_Item>[
   _Item(
@@ -42,11 +43,16 @@ final List<Widget> _children = <_Item>[
     title: const Text('Button', style: TextStyle(color: Colors.greenAccent)),
     page: ButtonDemos()
   ),
-  // _Item(
-  //   icon: BaseIcon(icon: IconFont.routes, size: 40, color: Colors.deepOrangeAccent),
-  //   title: const Text('Routes', style: TextStyle(color: Colors.deepOrangeAccent)),
-  //   page: RouteDemo()
-  // )
+  _Item(
+    icon: BaseIcon(icon: IconFont.routes, size: 40, color: Colors.deepOrangeAccent),
+    title: const Text('Routes', style: TextStyle(color: Colors.deepOrangeAccent)),
+    page: RouteDemo()
+  ),
+  _Item(
+    icon: BaseIcon(icon: IconFont.refresh, size: 40, color: Colors.blueGrey),
+    title: const Text('Refresh', style: TextStyle(color: Colors.blueGrey)),
+    page: RefreshDemos()
+  )
 ];
 
 const  Widget _tipsWidget = Text('1、Material组件相对比较完善，没经过严格的测试，后续会完善优化\n\n'
@@ -101,8 +107,8 @@ class Home extends StatelessWidget {
           ClipOval(
             child: BaseIconButton(
               icon: BaseIcon(
-                icon: IconFont.settings,
-                size: 20,
+                icon: IconFont.info,
+                size: 24,
                 material: const <String, Object>{
                   'color': Colors.white,
                 },

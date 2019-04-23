@@ -72,7 +72,8 @@ class BaseScaffold extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final Color backgroundColor = valueFromCupertino('backgroundColor', this.backgroundColor);
+    final Color backgroundColor =
+        valueFromCupertino('backgroundColor', this.backgroundColor);
     final BaseTabBar tabBar = valueFromCupertino('tabBar', this.tabBar);
     final List<Widget> tabViews = valueFromCupertino('tabViews', this.tabViews);
     if (tabBar != null || tabViews != null) {

@@ -85,7 +85,7 @@ class IconButtonDemo extends StatelessWidget {
             ],
           ),
           const Text(
-            '\nIf you want to have a label with the icon, suggest use the BaseButton.',
+            '\nIf you want to have a label with the icon, suggest use the BaseButton.icon',
             style: TextStyle(
               color: Colors.red,
               fontWeight: FontWeight.bold,
