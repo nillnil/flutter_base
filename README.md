@@ -1,5 +1,3 @@
-# flutter_base
-
 <p align="center">
   <img src="./screenshot/logo.png" alt="logo">
 </p>
@@ -9,9 +7,7 @@
 
 ### [English](./README-EN.md)
 
-<p style="color: red;font-size: 18px;">
-  当前只针对Cupertino模式进行了测试，Material组件相对比较完善了，后期也会补上Material模式的测试。
-</p>
+  **`当前只针对Cupertino模式进行了测试，Material组件相对比较完善了，后期也会补上Material模式的测试。`**
 
 ## 基础类
 * BaseStatelessWidget
@@ -47,7 +43,7 @@
 * `useCupertino, useMaterial` 
   使用这2个方法可以判断当前使用的模式，进行差异化构建。
 
-* 每个基础组件都含有 `Map&lt;String, Object&gt; cupertino, Map&lt;String, Object&gt; material` 2个参数，用于组件模式差异化设置，2种模式有公共参数的，会优先取当前模式下的值，再取公共值，如：
+* 每个基础组件都含有 `Map<String, Object> cupertino, Map<String, Object> material` 2个参数，用于组件模式差异化设置，2种模式有公共参数的，会优先取当前模式下的值，再取公共值，如：
 
       BaseIcon(
         // materil模式下先取material参数里的icon参数，取不到再取该值
@@ -77,13 +73,13 @@
         'disabled': true,
       }
 
-* <p style="color:red; font-size: 28px;">`特别说明，非常重要`</p>
+* **`特别说明，非常重要`**
 
-    <p style="color:red; font-size: 20px;"> `orceUseMaterial, forceUseCupertino` 参数未经严格测试，请慎用！慎用！慎用！
+    **`forceUseMaterial, forceUseCupertino`** 参数未经严格测试，请慎用！慎用！慎用！
 
-    <p style="color:red; font-size: 20px;line-height: 30px;">很多material组件是需要有Material祖先的，在Cupertino模式下设置forceUseMaterial: true时，会默认套上一层Material，且默认会去除水波纹效果，此时BaseApp上的cupertinoTheme参数是不生效的，可能会出现样式混乱等不可预知的bug，所以请慎用，后续可能会删除这2个参数</p>
+    很多material组件是需要有Material祖先的，在Cupertino模式下设置forceUseMaterial: true时，会默认套上一层Material，且默认会去除水波纹效果，此时BaseApp上的cupertinoTheme参数是不生效的，可能会出现样式混乱等不可预知的bug，所以请慎用，后续可能会删除这2个参数
 
-    <p style="color:red; font-size: 20px;">如果要切换模式，强烈建议直接设置`BaseApp`的`targetPlatform`参数</p>
+    **`如果要切换模式，强烈建议直接设置BaseApp's targetPlatform参数`**
 
 
 ## 组件列表

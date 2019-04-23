@@ -1,5 +1,3 @@
-# flutter_base
-
 <p align="center">
   <img src="./screenshot/logo.png" alt="logo">
 </p>
@@ -8,9 +6,7 @@
 
 ### [简体中文](./README.md)
 
-<p style="color: red;font-size: 18px;">
-  At present, only the Cupertino mode has been tested. Material components are relatively perfect. Material mode testing will be supplemented later.
-</p>
+  **`At present, only the Cupertino mode has been tested. Material components are relatively perfect. Material mode testing will be supplemented later.`**
 
 ## Foundation classes
 * BaseStatelessWidget
@@ -47,7 +43,7 @@
 
   These two methods can be used to determine the current mode of use，to build differentiation on under two modes。
   
-* Every widget contains `Map&lt;String, Object&gt; cupertino, Map&lt;String, Object&gt; material`, 2 parameters，to set up differentiation settings for 2 modes，2 modes has common parameters，will be given to the values in the current mode and then to the common values，example：
+* Every widget contains `Map<String, Object> cupertino, Map&lt;String, Object> material`, 2 parameters，to set up differentiation settings for 2 modes，2 modes has common parameters，will be given to the values in the current mode and then to the common values，example：
 
       BaseIcon(
         // will given the values from material parameters, then to the common values on Material mode.
@@ -77,13 +73,13 @@
         'disabled': true,
       }
 
-* <p style="color:red; font-size: 28px;">`Special description，very important`</p>
+* **`Special description，very important`**
 
-    <p style="color:red; font-size: 20px;"> `forceUseMaterial, forceUseCupertino` the parameters have not been strictly tested, please use them carefully! Use carefully! Use carefully!
+    **`forceUseMaterial, forceUseCupertino`** the parameters have not been strictly tested, please use them carefully! Use carefully! Use carefully!
 
-    <p style="color:red; font-size: 20px;line-height: 30px;">many material widgets need Material as there are ancestor widget，on Cupertino mode set forceUseMaterial: true，will default to add Material() as there are parent widget，and will remove the splash，and the BaseApp's cupertinoTheme parameter is not valid. Unpredictable bugs such as style confusion may occur, so use them carefully. These two parameters may be deleted later.</p>
+    Many material widgets need Material as there are ancestor widget，on Cupertino mode set forceUseMaterial: true，will default to add Material() as there are parent widget，and will remove the splash，and the BaseApp's cupertinoTheme parameter is not valid. Unpredictable bugs such as style confusion may occur, so use them carefully. These two parameters may be deleted later.
 
-    <p style="color:red; font-size: 20px;">If want to change the mode, suggest use `BaseApp*'s *targetPlatform` to change the platform.</p>
+    **`If want to change the mode, suggest use BaseApp's targetPlatform to change the platform.`**
 
 
 ## Widgets List
