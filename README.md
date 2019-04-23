@@ -57,7 +57,7 @@
 
     cupertino模式下使用的是Cupertinos.info，material模式下使用的是Icons.info
 
-  <img src="./screenshot/features_demo.png" alt="features_demo" width="256" height="78">
+  <img src="http://baocangwh.cn/t6/702/1556040344x1822611367.png" alt="features_demo" width="256" height="78">
 
 * 可以使用 `forceUseMaterial, forceUseCupertino` 进行强制切换模式构建，使用 `disabled` 禁止构建（会用 `Container()` 代替）
 
