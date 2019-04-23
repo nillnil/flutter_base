@@ -1,5 +1,5 @@
 # flutter_base's example
 
 <p align="center">
-  <img src="../screenshot/logo.png" alt="logo">
+  <img src="http://baocangwh.cn/t6/702/1556039901x2890149771.png" alt="logo">
  </p>

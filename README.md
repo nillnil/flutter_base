@@ -1,6 +1,7 @@
 <p align="center">
-  <img src="./screenshot/logo.png" alt="logo">
+  <img src="http://baocangwh.cn/t6/702/1556039901x2890149771.png" alt="logo">
 </p>
+
 
 ## 实现一套代码，2种模式，ios使用Cupertino风格组件，andriod、fuchsia使用Material风格组件
 
