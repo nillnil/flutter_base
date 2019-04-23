@@ -104,7 +104,7 @@ class Settings extends StatelessWidget {
                         titleText: '版本',
                         trailing: const Padding(
                           padding: EdgeInsets.only(right: 5.0),
-                          child: Text('0.1.2',
+                          child: Text('0.1.4',
                             style: TextStyle(
                               color: Colors.grey
                             ),
