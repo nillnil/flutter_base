@@ -1,53 +1,53 @@
 # flutter_base
 
- <div style="text-align:center;">
+<p align="center">
   <img src="./screenshot/logo.png" alt="logo">
- </div>
+</p>
 
 ## One code, two mode, use cupertino's widgets on ios, use material's widget on android or fuchsia.
 
 ### [简体中文](./README.md)
 
-<label style="color: red;font-size: 18px;">
+<p style="color: red;font-size: 18px;">
   At present, only the Cupertino mode has been tested. Material components are relatively perfect. Material mode testing will be supplemented later.
-</label>
+</p>
 
 ## Foundation classes
 * BaseStatelessWidget
 
   extend StatelessWidget，used to build stateless widget
 
-  Subwidgets must be override **buildByCupertino、buildByMaterial**, they are used to build two modes
+  Subwidgets must be override `buildByCupertino、buildByMaterial`, they are used to build two modes
 
 * BaseStatefulWidget
 
   extend StatefulWidget，used to build stateful widget
 
-  Sub State class must be extend **BaseState** and override **buildByCupertino、buildByMaterial**, they are used to build two modes
+  Sub State class must be extend `BaseState` and override `buildByCupertino、buildByMaterial`, they are used to build two modes
 
 * BaseClass
 
   general base class，used to build general class
 
-  Subclasses **buildByCupertino、buildByMaterial**, they are used to build two modes
+  Subclasses `buildByCupertino、buildByMaterial`, they are used to build two modes
 
 * basePlatform (parameter)
 
-  currently platform，default is the **defaultTargetPlatform** 
+  currently platform，default is the `defaultTargetPlatform` 
 
-  use **setPlatform(TargetPlatform targetPlatform)** to change the platform.
+  use `setPlatform(TargetPlatform targetPlatform)` to change the platform.
 
-  Suggest use  **BaseApp(targetPlatform: TargetPlatform...)** to set the platform.
+  Suggest use  `BaseApp(targetPlatform: TargetPlatform...)` to set the platform.
 
-  default: **TargetPlatform.iOS** use **Cupertino mode** to build， **TargetPlatform.android** or **TargetPlatform.fuchsia** use **Material mode** to build.
+  default: `TargetPlatform.iOS` use `Cupertino mode` to build， `TargetPlatform.android` or `TargetPlatform.fuchsia` use `Material mode` to build.
 
 
 ## Features
-* *useCupertino, useMaterial* 
+* `useCupertino, useMaterial`
 
   These two methods can be used to determine the current mode of use，to build differentiation on under two modes。
   
-* Every widget contains *Map&lt;String, Object&gt; cupertino, Map&lt;String, Object&gt; material*, 2 parameters，to set up differentiation settings for 2 modes，2 modes has common parameters，will be given to the values in the current mode and then to the common values，example：
+* Every widget contains `Map&lt;String, Object&gt; cupertino, Map&lt;String, Object&gt; material`, 2 parameters，to set up differentiation settings for 2 modes，2 modes has common parameters，will be given to the values in the current mode and then to the common values，example：
 
       BaseIcon(
         // will given the values from material parameters, then to the common values on Material mode.
@@ -60,30 +60,30 @@
 
     Result: will use Cupertinos.info on Cupertino mode, use Icons.info on Material mode.
 
-  <img src="./screenshot/features_demo.png" alt="features_demo" width="" height="">
+  <img src="./screenshot/features_demo.png" alt="features_demo" width="256" height="78">
 
-* Can use *forceUseMaterial, forceUseCupertino* to force build by another mode. Use *disabled* to prohibit build（will use *Container()* to instead）
+* Can use `forceUseMaterial, forceUseCupertino` to force build by another mode. Use `disabled` to prohibit build（will use `Container()` to instead）
 
       'cupertino': {
         // force use Mcterial mode to build
         'forceUseMaterial': true,
-        // prohibit build，will use *Container()* to instead
+        // prohibit build，will use `Container()` to instead
         'disabled': true,
       }
       'material': {
         // force use Cupertino mode to build
         'forceUseCupertino': true,
-        // prohibit build，will use *Container()* to instead
+        // prohibit build，will use `Container()` to instead
         'disabled': true,
       }
 
-* <label style="color:red; font-size: 28px;">***** Special description，very important *****</label>
+* <p style="color:red; font-size: 28px;">`Special description，very important`</p>
 
-    <label style="color:red; font-size: 20px;"> *forceUseMaterial, forceUseCupertino* the parameters have not been strictly tested, please use them carefully! Use carefully! Use carefully!
+    <p style="color:red; font-size: 20px;"> `forceUseMaterial, forceUseCupertino` the parameters have not been strictly tested, please use them carefully! Use carefully! Use carefully!
 
-    <label style="color:red; font-size: 20px;line-height: 30px;">many material widgets need Material as there are ancestor widget，on Cupertino mode set forceUseMaterial: true，will default to add Material() as there are parent widget，and will remove the splash，and the BaseApp's cupertinoTheme parameter is not valid. Unpredictable bugs such as style confusion may occur, so use them carefully. These two parameters may be deleted later.</label>
+    <p style="color:red; font-size: 20px;line-height: 30px;">many material widgets need Material as there are ancestor widget，on Cupertino mode set forceUseMaterial: true，will default to add Material() as there are parent widget，and will remove the splash，and the BaseApp's cupertinoTheme parameter is not valid. Unpredictable bugs such as style confusion may occur, so use them carefully. These two parameters may be deleted later.</p>
 
-    <label style="color:red; font-size: 20px;">If want to change the mode, suggest use *BaseApp*'s *targetPlatform* to change the platform.</label>
+    <p style="color:red; font-size: 20px;">If want to change the mode, suggest use `BaseApp*'s *targetPlatform` to change the platform.</p>
 
 
 ## Widgets List
