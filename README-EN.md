@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="http://flutter-base.oss-cn-shenzhen.aliyuncs.com/logo.png" alt="logo">
+  <img src="https://flutter-base.oss-cn-shenzhen.aliyuncs.com/logo.png" alt="logo">
 </p>
 
 ## One code, two mode, use cupertino's widgets on ios, use material's widget on android or fuchsia.
