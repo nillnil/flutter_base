@@ -30,8 +30,8 @@ class BaseTile extends BaseStatelessWidget {
     this.dense = true,
     this.enabled = true,
     this.selected = false,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
+    Map<String, dynamic> cupertino,
+    Map<String, dynamic> material,
   }) : super(key: key, cupertino: cupertino, material: material);
 
   // general

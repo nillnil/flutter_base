@@ -31,8 +31,8 @@ class BaseScaffold extends BaseStatelessWidget {
     this.bottomSheet,
     this.resizeToAvoidBottomPadding = true,
     this.primary = true,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
+    Map<String, dynamic> cupertino,
+    Map<String, dynamic> material,
   }) : super(key: key, cupertino: cupertino, material: material);
 
   // general

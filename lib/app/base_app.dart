@@ -40,8 +40,8 @@ class BaseApp extends BaseStatelessWidget {
     this.materialTheme,
     this.dartTheme,
     this.debugShowMaterialGrid = false,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
+    Map<String, dynamic> cupertino,
+    Map<String, dynamic> material,
   }) : super(key: key, cupertino: cupertino, material: material);
 
   // general

@@ -75,7 +75,7 @@ class Home extends StatelessWidget {
       appBar: BaseAppBar(
         title: const Text('Base Example'),
         padding: const EdgeInsetsDirectional.only(start: 5.0, end: 5.0),
-        cupertino: <String, Object>{
+        cupertino: <String, dynamic>{
           'leading': BaseIconButton(
             icon: BaseIcon(
               icon: IconFont.info,
@@ -109,7 +109,7 @@ class Home extends StatelessWidget {
               icon: BaseIcon(
                 icon: IconFont.info,
                 size: 24,
-                material: const <String, Object>{
+                material: const <String, dynamic>{
                   'color': Colors.white,
                 },
               ),

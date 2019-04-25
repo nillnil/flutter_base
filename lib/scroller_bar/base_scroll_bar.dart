@@ -11,8 +11,8 @@ class BaseScrollBar extends BaseStatelessWidget {
   BaseScrollBar({
     Key key,
     this.child,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
+    Map<String, dynamic> cupertino,
+    Map<String, dynamic> material,
   }) : super(key: key, cupertino: cupertino, material: material);
 
   final Widget child;

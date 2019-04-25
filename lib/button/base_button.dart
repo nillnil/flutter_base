@@ -82,8 +82,8 @@ class BaseButton extends BaseStatelessWidget {
     /// if do not want to have label, use BaseIconButton.
     @required Widget icon,
     Widget label,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
+    Map<String, dynamic> cupertino,
+    Map<String, dynamic> material,
   })  : child = label != null
             ? Row(
                 mainAxisSize: MainAxisSize.min,

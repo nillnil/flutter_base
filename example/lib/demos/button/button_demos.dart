@@ -41,7 +41,7 @@ class _ButtonDemosState extends State<ButtonDemos>
           width: 40,
         ),
         transitionBetweenRoutes: false,
-        material: <String, Object>{
+        material: <String, dynamic>{
           'trailing': Container(
             width: 44,
           ),

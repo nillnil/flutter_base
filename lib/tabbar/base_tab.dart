@@ -7,8 +7,8 @@ class BaseTab extends BaseStatelessWidget {
     this.text,
     this.child,
     this.icon,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
+    Map<String, dynamic> cupertino,
+    Map<String, dynamic> material,
   }) : super(key: key, cupertino: cupertino, material: material);
 
   final String text;

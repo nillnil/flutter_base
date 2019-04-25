@@ -19,8 +19,8 @@ class BaseIndicator extends BaseStatelessWidget {
     this.strokeWidth = 4.0,
     this.semanticsLabel,
     this.semanticsValue,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
+    Map<String, dynamic> cupertino,
+    Map<String, dynamic> material,
   }) : super(key: key, cupertino: cupertino, material: material);
 
   // cupertino

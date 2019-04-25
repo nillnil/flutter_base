@@ -41,7 +41,7 @@ class _RefreshDemosState extends State<RefreshDemos>
           width: 40,
         ),
         transitionBetweenRoutes: false,
-        material: <String, Object>{
+        material: <String, dynamic>{
           'trailing': Container(
             width: 44,
           ),

@@ -23,8 +23,8 @@ abstract class BaseClass with BaseMixin {
     this.material,
   });
 
-  final Map<String, Object> cupertino;
-  final Map<String, Object> material;
+  final Map<String, dynamic> cupertino;
+  final Map<String, dynamic> material;
 
   Object build(BuildContext context) {
     buildBefore(context);

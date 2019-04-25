@@ -16,8 +16,8 @@ class BaseSection extends BaseStatelessWidget {
     this.children,
     this.header,
     this.footer,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
+    Map<String, dynamic> cupertino,
+    Map<String, dynamic> material,
   })  : indentDivider = indentDivider ?? divider != null
             ? Divider(
                 height: 1.0,

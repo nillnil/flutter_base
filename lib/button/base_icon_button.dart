@@ -23,8 +23,8 @@ class BaseIconButton extends BaseStatelessWidget {
     this.highlightColor,
     this.splashColor,
     this.tooltip,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
+    Map<String, dynamic> cupertino,
+    Map<String, dynamic> material,
   }) : super(key: key, cupertino: cupertino, material: material);
 
   // general

@@ -26,8 +26,8 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
     this.material,
   }) : super(key: key);
 
-  final Map<String, Object> cupertino;
-  final Map<String, Object> material;
+  final Map<String, dynamic> cupertino;
+  final Map<String, dynamic> material;
 
   @override
   Widget build(BuildContext context) {

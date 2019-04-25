@@ -33,7 +33,7 @@ export 'platform/platform.dart';
 export 'refresh/base_refresh.dart';
 export 'route/base_route.dart';
 export 'scaffold/base_scaffold.dart';
-export 'scaffold/base_tab_page.dart';
+export 'scaffold/base_tab_scaffold.dart';
 export 'scroller_bar/base_scroll_bar.dart';
 export 'section/base_section.dart';
 export 'section/base_tile.dart';

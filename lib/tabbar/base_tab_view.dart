@@ -14,8 +14,8 @@ class BaseTabView extends BaseStatelessWidget {
     this.children,
     this.controller,
     this.physics,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
+    Map<String, dynamic> cupertino,
+    Map<String, dynamic> material,
   }) : super(key: key, cupertino: cupertino, material: material);
 
   // cupertino

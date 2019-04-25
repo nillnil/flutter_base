@@ -15,8 +15,8 @@ class BaseRoute<T> extends BaseClass {
     this.settings,
     this.maintainState = true,
     this.fullscreenDialog = false,
-    Map<String, Object> cupertino,
-    Map<String, Object> material,
+    Map<String, dynamic> cupertino,
+    Map<String, dynamic> material,
   }) : super(cupertino: cupertino, material: material);
 
   // general
