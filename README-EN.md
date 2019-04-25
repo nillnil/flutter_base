@@ -43,18 +43,18 @@
 
   These two methods can be used to determine the current mode of use，to build differentiation on under two modes。
   
-* Every widget contains `Map<String, Object> cupertino, Map&lt;String, Object> material`, 2 parameters，to set up differentiation settings for 2 modes，2 modes has common parameters，will be given to the values in the current mode and then to the common values，example：
+* Every widget contains `Map<String, dynamic> cupertino, Map&lt;String, dynamic> material`, 2 parameters，to set up differentiation settings for 2 modes，2 modes has common parameters，will be given to the values in the current mode and then to the common values，example：
 
       BaseIcon(
         // will given the values from material parameters, then to the common values on Material mode.
         icon: Icons.info,
-        'cupertino': <String, Object>{
+        'cupertino': <String, dynamic>{
           // will given this 'icon' then to the common 'icon' on Cupertino mode.
-          'icon': Cupertinos.info,
+          'icon': CupertinoIcons.info,
         }
       );
 
-    Result: will use Cupertinos.info on Cupertino mode, use Icons.info on Material mode.
+    Result: will use CupertinoIcons.info on Cupertino mode, use Icons.info on Material mode.
 
   <img src="https://github.com/nillnil/flutter_base/blob/master/screenshot/features_demo.png?raw=true" alt="features_demo" width="256" height="78">
 

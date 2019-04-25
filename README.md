@@ -44,18 +44,18 @@
 * `useCupertino, useMaterial` 
   使用这2个方法可以判断当前使用的模式，进行差异化构建。
 
-* 每个基础组件都含有 `Map<String, Object> cupertino, Map<String, Object> material` 2个参数，用于组件模式差异化设置，2种模式有公共参数的，会优先取当前模式下的值，再取公共值，如：
+* 每个基础组件都含有 `Map<String, dynamic> cupertino, Map<String, dynamic> material` 2个参数，用于组件模式差异化设置，2种模式有公共参数的，会优先取当前模式下的值，再取公共值，如：
 
       BaseIcon(
         // materil模式下先取material参数里的icon参数，取不到再取该值
         icon: Icons.info,
-        'cupertino': <String, Object>{
+        'cupertino': <String, dynamic>{
           // cupertino模式下先取该值，因为取得到，所以不会取外层的icon
-          'icon': Cupertinos.info,
+          'icon': CupertinoIcons.info,
         }
       );
 
-    cupertino模式下使用的是Cupertinos.info，material模式下使用的是Icons.info
+    cupertino模式下使用的是CupertinoIcons.info，material模式下使用的是Icons.info
 
   <img src="https://github.com/nillnil/flutter_base/blob/master/screenshot/features_demo.png?raw=true" alt="features_demo" width="256" height="78">
 
