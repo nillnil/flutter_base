@@ -102,8 +102,6 @@
     ],
     "description": "Build Method"
 	},
-
-
 	"StatelessWidget with BaseScaffold": {
     "prefix": "slbs",
     "body": [
