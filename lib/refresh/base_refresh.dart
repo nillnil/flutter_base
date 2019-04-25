@@ -25,6 +25,7 @@ class BaseRefresh extends BaseStatelessWidget {
 
   // general
   final RefreshCallback onRefresh;
+
   /// It's SliverList on Cupertino，ListView or CustomScrollView on Material
   /// All three can be converted automatically.
   final Widget child;
