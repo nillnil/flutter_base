@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/nillnil/flutter_base/blob/master/screenshot/logo.png" alt="logo">
+  <img src="https://github.com/nillnil/flutter_base/blob/master/screenshot/logo.png?raw=true" alt="logo">
 </p>
 
 
@@ -57,7 +57,7 @@
 
     cupertino模式下使用的是Cupertinos.info，material模式下使用的是Icons.info
 
-  <img src="https://github.com/nillnil/flutter_base/blob/master/screenshot/features_demo.png" alt="features_demo" width="256" height="78">
+  <img src="https://github.com/nillnil/flutter_base/blob/master/screenshot/features_demo.png?raw=true" alt="features_demo" width="256" height="78">
 
 * 可以使用 `forceUseMaterial, forceUseCupertino` 进行强制切换模式构建，使用 `disabled` 禁止构建（会用 `Container()` 代替）
 
