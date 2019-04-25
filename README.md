@@ -57,7 +57,7 @@
 
     cupertino模式下使用的是Cupertinos.info，material模式下使用的是Icons.info
 
-  <img src="https://flutter-base.oss-cn-shenzhen.aliyuncs.com/features_demo.png" alt="features_demo" width="256" height="78">
+  <img src="https://github.com/nillnil/flutter_base/blob/master/screenshot/features_demo.png" alt="features_demo" width="256" height="78">
 
 * 可以使用 `forceUseMaterial, forceUseCupertino` 进行强制切换模式构建，使用 `disabled` 禁止构建（会用 `Container()` 代替）
 
@@ -89,7 +89,7 @@
 |BaseApp|MaterialApp|CupertinoApp|
 |BaseAppBar|AppBar|CupertinoNavigationBar|
 |BaseBarItem|BottomNavigationBarItem|BottomNavigationBarItem|
-|BaseButton|MaterualButton<br>FlatButton, FlatButton.icon<br>OutlineButton, OutlineButton.icon|CupertinoButton|
+|BaseButton|MaterialButton<br>FlatButton, FlatButton.icon<br>OutlineButton, OutlineButton.icon|CupertinoButton|
 |BaseIconButton|IconButton|CupertinoButton|
 |BaseAlertDialog|AlertDialog|CupertinoAlertDialog|
 |BaseDialogAction|FlatButton|CupertinoDialogAction|
@@ -104,7 +104,4 @@
 |BaseSwitch|Switch|CupertinoSwitch|
 |BaseTabBar|BottomNavigationBar|CupertinoTabBar|
 
-## 效果图
-
-
-### [简单示例](./example/)
+## [简单示例](./example/)

@@ -16,6 +16,16 @@ class _CustomHeightState extends State<CustomHeight> {
   int _height = 44;
 
   @override
+  void initState() {
+    super.initState();
+    if (useCupertino) {
+      _height = 44;
+    } else {
+      _height = 56;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: BaseAppBar(
