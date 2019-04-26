@@ -85,9 +85,10 @@
 ## Widgets List
 |Widget|Material mode|Cupertino mode|
 |:---------------|:--------|:----------|
+|BaseActionSheet|custom BottomSheet|CupertinoActionSheet|
+|BaseActionSheetAction|FlatButton|CupertinoActionSheetAction|
 |BaseApp|MaterialApp|CupertinoApp|
 |BaseAppBar|AppBar|CupertinoNavigationBar|
-|BaseBarItem|BottomNavigationBarItem|BottomNavigationBarItem|
 |BaseButton|MaterialButton<br>FlatButton, FlatButton.icon<br>OutlineButton, OutlineButton.icon|CupertinoButton|
 |BaseIconButton|IconButton|CupertinoButton|
 |BaseAlertDialog|AlertDialog|CupertinoAlertDialog|
@@ -96,11 +97,13 @@
 |BaseIndicator|CircularProgressIndicator|CupertinoActivityIndicator|
 |BaseRefresh|RefreshIndicator|CustomScrollView + CupertinoSliverRefreshControl|
 |BaseScaffold|Scaffold|CupertinoPageScaffold|
+|BaseTabScaffold|Scaffold|CupertinoTabScaffold|
 |BaseScrollBar|ScrollBar|CupertinoScrollBar|
 |BaseSection|custom Container|custom Container|
 |BaseTile|ListTile|custom InkWell without splash|
 |BaseSlider|Slider|CupertinoSlider|
 |BaseSwitch|Switch|CupertinoSwitch|
+|BaseBarItem|BottomNavigationBarItem|BottomNavigationBarItem|
 |BaseTabBar|BottomNavigationBar|CupertinoTabBar|
 
 ## [简单示例](./example/)

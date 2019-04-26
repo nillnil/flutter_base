@@ -3,16 +3,15 @@
 import 'dart:async';
 
 import 'package:base/base.dart';
-import 'package:example/demos/demos.dart';
-import 'package:example/iconfont/iconfont.dart';
-import 'package:example/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'demos/button/button_demos.dart';
-import 'demos/refresh/refresh_demos.dart';
+import 'demos/demos.dart';
+import 'demos/scaffold/scaffold_demos.dart';
+import 'iconfont/iconfont.dart';
+import 'settings.dart';
 
-final List<Widget> _children = <_Item>[
+final List<Widget> _children = <Widget>[
   _Item(
     icon: BaseIcon(icon: IconFont.nav, size: 40, color: Colors.orangeAccent),
     title: const Text('AppBar', style: TextStyle(color: Colors.orangeAccent)),
@@ -21,22 +20,12 @@ final List<Widget> _children = <_Item>[
   _Item(
     icon: BaseIcon(icon: IconFont.page, size: 40, color: Colors.blueAccent),
     title: const Text('Scaffold', style: TextStyle(color: Colors.blueAccent)),
-    page: ScaffoldDemo()
+    page: ScaffoldDemos()
   ),
   _Item(
-    icon: BaseIcon(icon: IconFont.rows, size: 40, color: Colors.redAccent),
+    icon: BaseIcon(icon: IconFont.tile, size: 40, color: Colors.redAccent),
     title: const Text('Section & Tile', style: TextStyle(color: Colors.redAccent)),
     page: SectionDemo()
-  ),
-  // _Item(
-  //   icon: BaseIcon(icon: IconFont.tab, size: 40, color: Colors.pinkAccent),
-  //   title: const Text('Tab', style: TextStyle(color: Colors.pinkAccent)),
-  //   page: TabDemo()
-  // ),
-  _Item(
-    icon: BaseIcon(icon: IconFont.dialog, size: 40, color: Colors.purpleAccent),
-    title: const Text('Alert Dialog', style: TextStyle(color: Colors.purpleAccent)),
-    page: DialogDemo()
   ),
   _Item(
     icon: BaseIcon(icon: IconFont.buttons, size: 40, color: Colors.greenAccent),
@@ -47,6 +36,16 @@ final List<Widget> _children = <_Item>[
     icon: BaseIcon(icon: IconFont.routes, size: 40, color: Colors.deepOrangeAccent),
     title: const Text('Routes', style: TextStyle(color: Colors.deepOrangeAccent)),
     page: RouteDemo()
+  ),
+  _Item(
+    icon: BaseIcon(icon: IconFont.dialog, size: 40, color: Colors.purpleAccent),
+    title: const Text('Alert Dialog', style: TextStyle(color: Colors.purpleAccent)),
+    page: DialogDemo()
+  ),
+  _Item(
+    icon: BaseIcon(icon: IconFont.rows, size: 40, color: Colors.blueGrey),
+    title: const Text('ActionSheet', style: TextStyle(color: Colors.blueGrey)),
+    page: ActionSheetDemo()
   ),
   _Item(
     icon: BaseIcon(icon: IconFont.refresh, size: 40, color: Colors.blueGrey),

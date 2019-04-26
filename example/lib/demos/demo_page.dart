@@ -10,7 +10,7 @@ class DemoPage extends StatelessWidget {
     this.title, 
     this.doc, 
     this.docStr,
-    this.demos = const <DemoTile>[]
+    this.demos = const <DemoTile>[],
   }) : super(key: key);
 
   final String title;

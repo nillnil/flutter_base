@@ -9,6 +9,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
+import 'demos/scaffold/tab_scaffold_demo.dart';
+
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,10 @@ class App extends StatelessWidget {
               letterSpacing: -0.41,
             ),
           ),
+          buttonTheme: _theme.buttonTheme.copyWith(
+            // 使FlatButton, OutlineButton，RaisedButton等按钮跟CupertinoButton一样高
+            height: 48.0,
+          ),
         );
         return BaseApp(
           title: 'Base Example',
@@ -51,7 +57,7 @@ class App extends StatelessWidget {
           supportedLocales: const <Locale>[ Locale('zh', 'CN'), Locale('en', 'US')],
           home: Home(),
           targetPlatform: vm['targetPlatform'],
-          debugShowCheckedModeBanner: false
+          debugShowCheckedModeBanner: false,
         );
       },
     );

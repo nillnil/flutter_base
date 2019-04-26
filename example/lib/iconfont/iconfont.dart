@@ -51,4 +51,16 @@ class IconFont {
 
 	static const IconData info = IconData(0xe6e5, fontFamily: _kFontFam);
 
+	static const IconData tile = IconData(0xe603, fontFamily: _kFontFam);
+
+	static const IconData date = IconData(0xe72a, fontFamily: _kFontFam);
+
+	static const IconData contacts = IconData(0xe788, fontFamily: _kFontFam);
+
+	static const IconData profile = IconData(0xe654, fontFamily: _kFontFam);
+
+	static const IconData discover = IconData(0xe69b, fontFamily: _kFontFam);
+
+	static const IconData messages = IconData(0xe632, fontFamily: _kFontFam);
+
 }

@@ -47,7 +47,7 @@ class AppBarDemo extends StatelessWidget {
       doc: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Text('BaseNavBar', style: TextStyle(
+          const Text('BaseAppBar', style: TextStyle(
             fontWeight: FontWeight.bold
           )),
           Row(

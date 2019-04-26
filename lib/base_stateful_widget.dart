@@ -18,21 +18,19 @@ import 'package:flutter/material.dart';
 /// *** cupertino模式使用 valueFromCupertino(key, value) 获取，
 /// *** material模式使用 valueFromMaterial(key, value) 获取
 /// ***
-class BaseStatefulWidget extends StatefulWidget {
+abstract class BaseStatefulWidget extends StatefulWidget {
   BaseStatefulWidget({
     Key key,
-    this.cupertino,
-    this.material,
+    this.cupertino = const <String, dynamic>{},
+    this.material = const <String, dynamic>{},
   }) : super(key: key);
 
   final Map<String, Object> cupertino;
   final Map<String, Object> material;
 
-  @override
-  State<StatefulWidget> createState() => BaseState<BaseStatefulWidget>();
 }
 
-class BaseState<T extends BaseStatefulWidget> extends State<T> with BaseMixin {
+abstract class BaseState<T extends BaseStatefulWidget> extends State<T> with BaseMixin {
   @override
   T get widget => super.widget;
 
@@ -109,11 +107,8 @@ class BaseState<T extends BaseStatefulWidget> extends State<T> with BaseMixin {
     return newValue;
   }
 
-  Widget buildByCupertino(BuildContext context) {
-    return Container();
-  }
+  Widget buildByCupertino(BuildContext context);
 
-  Widget buildByMaterial(BuildContext context) {
-    return Container();
-  }
+  Widget buildByMaterial(BuildContext context);
+  
 }

@@ -24,7 +24,8 @@ import 'package:flutter/material.dart'
 /// *** use material = { forceUseCupertino: true } force use CupertinoDialogAction on material.
 class BaseDialogAction extends BaseStatelessWidget {
   BaseDialogAction({
-    Key key,
+    Key baseKey,
+    this.key,
     this.onPressed,
     this.isDefaultAction = false,
     this.isDestructiveAction = false,
@@ -45,9 +46,11 @@ class BaseDialogAction extends BaseStatelessWidget {
     this.materialTapTargetSize,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+  }) : super(key: baseKey, cupertino: cupertino, material: material);
 
   // general
+  @override
+  final Key key;
   final VoidCallback onPressed;
   final Widget child;
 
@@ -85,6 +88,7 @@ class BaseDialogAction extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return FlatButton(
+      key: valueFromMaterial('key', key),
       onPressed: valueFromMaterial('onPressed', onPressed),
       onHighlightChanged: onHighlightChanged,
       textTheme: textTheme,

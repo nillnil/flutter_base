@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 /// *** use material = { forceUseCupertino: true } force use CupertinoSliverRefreshControl on material.
 class BaseRefresh extends BaseStatelessWidget {
   BaseRefresh({
-    Key key,
+    Key baseKey,
+    this.key,
     this.refreshTriggerPullDistance = _defaultRefreshTriggerPullDistance,
     this.refreshIndicatorExtent = _defaultRefreshIndicatorExtent,
     this.builder = CupertinoSliverRefreshControl.buildSimpleRefreshIndicator,
@@ -21,9 +22,11 @@ class BaseRefresh extends BaseStatelessWidget {
     this.notificationPredicate = defaultScrollNotificationPredicate,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+  }) : super(key: baseKey, cupertino: cupertino, material: material);
 
   // general
+  @override
+  final Key key;
   final RefreshCallback onRefresh;
 
   /// It's SliverList on Cupertino，ListView or CustomScrollView on Material
@@ -61,6 +64,7 @@ class BaseRefresh extends BaseStatelessWidget {
       );
     }
     return CustomScrollView(
+      key: valueFromCupertino('key', key),
       slivers: <Widget>[
         CupertinoSliverRefreshControl(
           refreshTriggerPullDistance: refreshTriggerPullDistance,
@@ -83,6 +87,7 @@ class BaseRefresh extends BaseStatelessWidget {
       );
     }
     return RefreshIndicator(
+      key: valueFromMaterial('key', key),
       child: _child,
       displacement: displacement,
       color: color,

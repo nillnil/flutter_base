@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 /// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoSlider
 class BaseSlider extends BaseStatelessWidget {
   BaseSlider({
-    Key key,
+    Key baseKey,
+    this.key,
     this.value,
     this.onChanged,
     this.onChangeStart,
@@ -23,9 +24,11 @@ class BaseSlider extends BaseStatelessWidget {
     this.semanticFormatterCallback,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+  }) : super(key: baseKey, cupertino: cupertino, material: material);
 
   // general
+  @override
+  final Key key;
   final double value;
   final ValueChanged<double> onChanged;
   final ValueChanged<double> onChangeStart;
@@ -43,6 +46,7 @@ class BaseSlider extends BaseStatelessWidget {
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoSlider(
+      key: valueFromCupertino('key', key),
       value: valueFromCupertino('value', value),
       onChanged: valueFromCupertino('onChanged', onChanged),
       onChangeStart: valueFromCupertino('onChangeStart', onChangeStart),
@@ -57,6 +61,7 @@ class BaseSlider extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return Slider(
+      key: valueFromMaterial('key', key),
       value: valueFromMaterial('value', value),
       onChanged: valueFromMaterial('onChanged', onChanged),
       onChangeStart: valueFromMaterial('onChangeStart', onChangeStart),

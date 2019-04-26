@@ -12,11 +12,13 @@ class ButtonDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Widget> children = <Widget>[];
+    const EdgeInsets _padding = EdgeInsets.only(bottom: 10.0);
+    const EdgeInsets _buttonPadding = EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0);
     children.add(
       Padding(
-        padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+        padding: _padding,
         child: BaseButton(
-          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+          padding: _buttonPadding,
           color: Colors.white,
           child: const Text(
             'normal',
@@ -28,12 +30,9 @@ class ButtonDemo extends StatelessWidget {
     );
     children.add(
       Padding(
-        padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+        padding: _padding,
         child: BaseButton(
-          padding: const EdgeInsets.symmetric(
-            vertical: 10.0,
-            horizontal: 15.0,
-          ),
+          padding: _buttonPadding,
           color: Colors.white,
           child: const Text(
             'disabled',
@@ -47,12 +46,9 @@ class ButtonDemo extends StatelessWidget {
     if (useCupertino) {
       children.add(
         Padding(
-          padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+          padding: _padding,
           child: BaseButton(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 15.0,
-            ),
+            padding: _buttonPadding,
             color: Colors.white,
             child: const Text(
               'filled',
@@ -67,12 +63,9 @@ class ButtonDemo extends StatelessWidget {
       );
       children.add(
         Padding(
-          padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+          padding: _padding,
           child: BaseButton.icon(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 15.0,
-            ),
+            padding: _buttonPadding,
             color: Colors.white,
             icon: const Icon(
               CupertinoIcons.bell_solid,
@@ -84,12 +77,9 @@ class ButtonDemo extends StatelessWidget {
       );
       children.add(
         Padding(
-          padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+          padding: _padding,
           child: BaseButton.icon(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 15.0,
-            ),
+            padding: _buttonPadding,
             color: Colors.white,
             icon: const Icon(
               CupertinoIcons.bell_solid,
@@ -107,12 +97,9 @@ class ButtonDemo extends StatelessWidget {
     if (useMaterial) {
       children.add(
         Padding(
-          padding: const EdgeInsets.only(right: 10.0),
+          padding: _padding,
           child: BaseButton.icon(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 15.0,
-            ),
+            padding: _buttonPadding,
             color: Colors.white,
             icon: const Icon(Icons.account_balance),
             label: const Text(
@@ -127,12 +114,9 @@ class ButtonDemo extends StatelessWidget {
       );
       children.add(
         Padding(
-          padding: const EdgeInsets.only(right: 10.0),
+          padding: _padding,
           child: BaseButton(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 15.0,
-            ),
+            padding: _buttonPadding,
             color: Colors.white,
             child: const Text(
               'flat',
@@ -147,12 +131,9 @@ class ButtonDemo extends StatelessWidget {
       );
       children.add(
         Padding(
-          padding: const EdgeInsets.only(right: 10.0),
+          padding: _padding,
           child: BaseButton.icon(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 15.0,
-            ),
+            padding: _buttonPadding,
             color: Colors.white,
             icon: const Icon(
               Icons.access_time,
@@ -170,12 +151,9 @@ class ButtonDemo extends StatelessWidget {
       );
       children.add(
         Padding(
-          padding: const EdgeInsets.only(right: 10.0),
+          padding: _padding,
           child: BaseButton(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 15.0,
-            ),
+            padding: _buttonPadding,
             color: Colors.white,
             child: const Text(
               'outline',
@@ -190,12 +168,9 @@ class ButtonDemo extends StatelessWidget {
       );
       children.add(
         Padding(
-          padding: const EdgeInsets.only(right: 10.0),
+          padding: _padding,
           child: BaseButton.icon(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 15.0,
-            ),
+            padding: _buttonPadding,
             color: Colors.white,
             icon: const Icon(
               Icons.add_location,
@@ -213,12 +188,9 @@ class ButtonDemo extends StatelessWidget {
       );
       children.add(
         Padding(
-          padding: const EdgeInsets.only(right: 10.0),
+          padding: _padding,
           child: BaseButton(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 15.0,
-            ),
+            padding: _buttonPadding,
             color: Colors.white,
             child: const Text(
               'raised',
@@ -233,12 +205,9 @@ class ButtonDemo extends StatelessWidget {
       );
       children.add(
         Padding(
-          padding: const EdgeInsets.only(right: 10.0),
+          padding: _padding,
           child: BaseButton.icon(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 15.0,
-            ),
+            padding: _buttonPadding,
             color: Colors.white,
             icon: const Icon(
               Icons.assignment_ind,
@@ -256,7 +225,6 @@ class ButtonDemo extends StatelessWidget {
       );
     }
     return DemoPage(
-      // title: 'Button',
       doc: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

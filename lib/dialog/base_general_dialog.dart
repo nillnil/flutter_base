@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 @deprecated
 class BaseGeneralDialog extends BaseStatelessWidget {
   BaseGeneralDialog({
-    Key key,
+    Key baseKey,
     this.barrierDismissible = true,
     this.barrierLabel,
     this.barrierColor = Colors.black54,
@@ -17,7 +17,7 @@ class BaseGeneralDialog extends BaseStatelessWidget {
     this.useSafeArea = false,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+  }) : super(key: baseKey, cupertino: cupertino, material: material);
 
   final bool barrierDismissible;
   final String barrierLabel;

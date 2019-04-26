@@ -14,7 +14,8 @@ import 'package:flutter/material.dart' hide AppBar;
 class BaseAppBar extends BaseStatelessWidget
     implements ObstructingPreferredSizeWidget {
   BaseAppBar({
-    Key key,
+    Key baseKey,
+    this.key,
     this.leading,
     this.trailing,
     this.automaticallyImplyLeading = true,
@@ -54,9 +55,11 @@ class BaseAppBar extends BaseStatelessWidget
     this.bottomOpacity = 1.0,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+  }) : super(key: baseKey, cupertino: cupertino, material: material);
 
   // general
+  @override
+  final Key key;
   final Widget leading;
   final bool automaticallyImplyLeading;
   final bool automaticallyImplyMiddle;
@@ -150,6 +153,7 @@ class BaseAppBar extends BaseStatelessWidget
     CupertinoNavigationBar cupertinoNavigationBar;
     if (heroTag != null) {
       cupertinoNavigationBar = CupertinoNavigationBar(
+        key: valueFromCupertino('key', key),
         leading: _leading,
         automaticallyImplyLeading: valueFromCupertino(
             'automaticallyImplyLeading', automaticallyImplyLeading),
@@ -175,6 +179,7 @@ class BaseAppBar extends BaseStatelessWidget
       );
     } else {
       cupertinoNavigationBar = CupertinoNavigationBar(
+        key: valueFromCupertino('key', key),
         leading: _leading,
         automaticallyImplyLeading: valueFromCupertino(
             'automaticallyImplyLeading', automaticallyImplyLeading),
@@ -217,6 +222,7 @@ class BaseAppBar extends BaseStatelessWidget
             Theme.of(context).primaryColor;
 
     return AppBar(
+      key: valueFromMaterial('key', key),
       leading: valueFromMaterial('leading', leading),
       automaticallyImplyLeading: valueFromMaterial(
           'automaticallyImplyLeading', automaticallyImplyLeading),

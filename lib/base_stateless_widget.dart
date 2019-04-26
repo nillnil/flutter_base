@@ -22,8 +22,8 @@ import 'package:flutter/material.dart';
 abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
   BaseStatelessWidget({
     Key key,
-    this.cupertino,
-    this.material,
+    this.cupertino = const <String, dynamic>{},
+    this.material = const <String, dynamic>{},
   }) : super(key: key);
 
   final Map<String, dynamic> cupertino;

@@ -8,7 +8,8 @@ import 'package:flutter/widgets.dart' show BuildContext, Widget;
 /// 基础切换按钮
 class BaseSwitch extends BaseStatelessWidget {
   BaseSwitch({
-    Key key,
+    Key baseKey,
+    this.key,
     this.value,
     this.onChanged,
     this.activeColor,
@@ -21,9 +22,11 @@ class BaseSwitch extends BaseStatelessWidget {
     this.materialTapTargetSize,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+  }) : super(key: baseKey, cupertino: cupertino, material: material);
 
   // gerenal
+  @override
+  final Key key;
   final bool value;
   final ValueChanged<bool> onChanged;
   final Color activeColor;
@@ -40,6 +43,7 @@ class BaseSwitch extends BaseStatelessWidget {
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoSwitch(
+      key: valueFromCupertino('key', key),
       value: valueFromCupertino('value', value),
       activeColor: valueFromCupertino('activeColor', activeColor),
       dragStartBehavior:
@@ -51,6 +55,7 @@ class BaseSwitch extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return Switch(
+      key: valueFromMaterial('key', key),
       value: valueFromMaterial('value', value),
       activeColor: valueFromMaterial('activeColor', activeColor),
       dragStartBehavior:

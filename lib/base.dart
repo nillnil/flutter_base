@@ -1,21 +1,11 @@
-/// One code, two model, use cupertino's widgets on ios, use material's widget on android or fuchsia.
-///
-/// See also:
-///
-/// * [BaseApp]
-///
-/// * [BasePage]
-///
-/// * [BaseNavBar]
-///
-/// * [BaseRoute]
-///
+/// One code, two mode, use cupertino's widgets on ios, use material's widget on android or fuchsia.
 
 library base;
 
+export 'action_sheet/base_action_sheet.dart';
+export 'action_sheet/base_action_sheet_action.dart';
 export 'app/base_app.dart';
 export 'appbar/base_app_bar.dart';
-export 'baritem/base_bar_item.dart';
 export 'base_class.dart';
 export 'base_constants.dart';
 export 'base_stateful_widget.dart';
@@ -26,7 +16,7 @@ export 'dialog/base_alert_dialog.dart';
 export 'dialog/base_dialog_action.dart';
 
 /// modify from flutter
-export 'flutter/flutter_modify.dart';
+// export 'flutter/flutter_modify.dart';
 export 'icon/base_icon.dart';
 export 'indicator/base_indicator.dart';
 export 'platform/platform.dart';
@@ -39,6 +29,6 @@ export 'section/base_section.dart';
 export 'section/base_tile.dart';
 export 'slider/base_slider.dart';
 export 'switch/base_switch.dart';
-export 'tabbar/base_tab.dart';
+export 'tabbar/base_bar_item.dart';
 export 'tabbar/base_tab_bar.dart';
 export 'utils/bsae_utils.dart';

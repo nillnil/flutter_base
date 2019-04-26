@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 /// *** use material = { forceUseCupertino: true } force use CupertinoButton on material.
 class BaseIconButton extends BaseStatelessWidget {
   BaseIconButton({
-    Key key,
+    Key baseKey,
+    this.key,
     this.icon,
     this.color,
     this.disabledColor,
@@ -25,9 +26,11 @@ class BaseIconButton extends BaseStatelessWidget {
     this.tooltip,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+  }) : super(key: baseKey, cupertino: cupertino, material: material);
 
   // general
+  @override
+  final Key key;
   final EdgeInsets padding;
   final Widget icon;
   final Color color;
@@ -49,6 +52,7 @@ class BaseIconButton extends BaseStatelessWidget {
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoButton(
+      key: valueFromCupertino('key', key),
       child: valueFromCupertino('icon', icon),
       padding: valueFromCupertino('padding', padding),
       color: valueFromCupertino('color', color),
@@ -63,6 +67,7 @@ class BaseIconButton extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return IconButton(
+      key: valueFromMaterial('key', key),
       iconSize: valueFromMaterial('iconSize', iconSize),
       padding: valueFromMaterial('padding', padding),
       alignment: valueFromMaterial('alignment', alignment),

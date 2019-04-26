@@ -19,8 +19,8 @@ import 'package:flutter/widgets.dart' show BuildContext;
 /// ***
 abstract class BaseClass with BaseMixin {
   BaseClass({
-    this.cupertino,
-    this.material,
+    this.cupertino = const <String, dynamic>{},
+    this.material = const <String, dynamic>{},
   });
 
   final Map<String, dynamic> cupertino;

@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 /// *** use material = { forceUseCupertino: true } force use CupertinoButton or CupertinoButton.filled on material.
 class BaseButton extends BaseStatelessWidget {
   BaseButton({
-    Key key,
+    Key baseKey,
+    this.key,
     this.color,
     this.onPressed,
     this.disabledColor,
@@ -34,7 +35,10 @@ class BaseButton extends BaseStatelessWidget {
     this.materialTapTargetSize,
     this.animationDuration,
     this.minWidth,
-    this.height,
+
+    /// 使按钮跟CupertinoButton的一样高，只有MaterialButton有效
+    /// 其他的需修改Theme.of(context).buttonTheme.height才有效
+    this.height = 48.0,
     this.flat = false,
     this.outline = false,
     this.borderSide,
@@ -43,10 +47,11 @@ class BaseButton extends BaseStatelessWidget {
     this.raised = false,
     Map<String, Object> cupertino,
     Map<String, Object> material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+  }) : super(key: baseKey, cupertino: cupertino, material: material);
 
   BaseButton.icon({
-    Key key,
+    Key baseKey,
+    this.key,
     this.color,
     this.onPressed,
     this.disabledColor,
@@ -70,7 +75,8 @@ class BaseButton extends BaseStatelessWidget {
     this.materialTapTargetSize,
     this.animationDuration,
     this.minWidth,
-    this.height,
+    // 使按钮跟CupertinoButton的一样高
+    this.height = 48.0,
     this.flat = false,
     this.outline = false,
     this.borderSide,
@@ -94,9 +100,11 @@ class BaseButton extends BaseStatelessWidget {
                 ],
               )
             : icon,
-        super(key: key, cupertino: cupertino, material: material);
+        super(key: baseKey, cupertino: cupertino, material: material);
 
   // general
+  @override
+  final Key key;
   final Color color;
   final VoidCallback onPressed;
   final Color disabledColor;
@@ -143,26 +151,29 @@ class BaseButton extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    return filled
-        ? CupertinoButton.filled(
-            child: valueFromCupertino('child', child),
-            padding: valueFromCupertino('padding', padding),
-            disabledColor: valueFromCupertino('disabledColor', disabledColor),
-            minSize: minSize,
-            pressedOpacity: pressedOpacity,
-            borderRadius: borderRadius,
-            onPressed: valueFromCupertino('onPressed', onPressed),
-          )
-        : CupertinoButton(
-            child: valueFromCupertino('child', child),
-            padding: valueFromCupertino('padding', padding),
-            color: valueFromCupertino('color', color),
-            disabledColor: valueFromCupertino('disabledColor', disabledColor),
-            minSize: minSize,
-            pressedOpacity: pressedOpacity,
-            borderRadius: borderRadius,
-            onPressed: valueFromCupertino('onPressed', onPressed),
-          );
+    if (filled) {
+      return CupertinoButton.filled(
+        key: valueFromCupertino('key', key),
+        child: valueFromCupertino('child', child),
+        padding: valueFromCupertino('padding', padding),
+        disabledColor: valueFromCupertino('disabledColor', disabledColor),
+        minSize: minSize,
+        pressedOpacity: pressedOpacity,
+        borderRadius: borderRadius,
+        onPressed: valueFromCupertino('onPressed', onPressed),
+      );
+    }
+    return CupertinoButton(
+      key: valueFromCupertino('key', key),
+      child: valueFromCupertino('child', child),
+      padding: valueFromCupertino('padding', padding),
+      color: valueFromCupertino('color', color),
+      disabledColor: valueFromCupertino('disabledColor', disabledColor),
+      minSize: minSize,
+      pressedOpacity: pressedOpacity,
+      borderRadius: borderRadius,
+      onPressed: valueFromCupertino('onPressed', onPressed),
+    );
   }
 
   @override
@@ -176,6 +187,7 @@ class BaseButton extends BaseStatelessWidget {
     );
     if (flat == true) {
       return FlatButton(
+        key: valueFromMaterial('key', key),
         onPressed: valueFromMaterial('onPressed', onPressed),
         onHighlightChanged: onHighlightChanged,
         textTheme: textTheme,
@@ -194,6 +206,7 @@ class BaseButton extends BaseStatelessWidget {
       );
     } else if (outline) {
       return OutlineButton(
+        key: valueFromMaterial('key', key),
         onPressed: valueFromMaterial('onPressed', onPressed),
         textTheme: textTheme,
         textColor: textColor,
@@ -212,6 +225,7 @@ class BaseButton extends BaseStatelessWidget {
       );
     } else if (raised) {
       return RaisedButton(
+        key: valueFromMaterial('key', key),
         onPressed: valueFromMaterial('onPressed', onPressed),
         onHighlightChanged: onHighlightChanged,
         textTheme: textTheme,
@@ -234,6 +248,7 @@ class BaseButton extends BaseStatelessWidget {
       );
     }
     return MaterialButton(
+      key: valueFromMaterial('key', key),
       onPressed: valueFromMaterial('onPressed', onPressed),
       onHighlightChanged: onHighlightChanged,
       textTheme: textTheme,

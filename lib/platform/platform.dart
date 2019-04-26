@@ -7,7 +7,7 @@ bool withoutSplashOnCupertino = true;
 /// set the platform
 void setPlatform({
   TargetPlatform targetPlatform,
-  bool withoutSplashOnCupertino,
+  bool withoutSplashOnCupertino = true,
 }) {
   basePlatform = targetPlatform ?? defaultTargetPlatform;
   withoutSplashOnCupertino = withoutSplashOnCupertino;

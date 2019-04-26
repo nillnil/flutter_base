@@ -119,7 +119,20 @@ class DialogDemo extends StatelessWidget {
                 child: Text('Cupertino：use CupertinoAlertDialog'),
               ),
             ],
-          )
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const <Widget>[
+              Expanded(
+                child: Text(
+                  'Use like: \nBaseAlertDialog(\n\t\t\tcontent: ...\n\t\t\tactions: ...\n).show<void>(context);',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
       demos: _demos,

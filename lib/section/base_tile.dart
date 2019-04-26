@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 /// *** use material = { forceUseCupertino: true } force use custom InkWell on material.
 class BaseTile extends BaseStatelessWidget {
   BaseTile({
-    Key key,
+    Key baseKey,
+    this.key,
     this.leading,
     this.title,
     this.titleText,
@@ -32,9 +33,12 @@ class BaseTile extends BaseStatelessWidget {
     this.selected = false,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+  }) : super(key: baseKey, cupertino: cupertino, material: material);
 
   // general
+  @override
+  final Key key;
+
   /// 最左边控件，一般用图标
   final Widget leading;
 
@@ -165,6 +169,7 @@ class BaseTile extends BaseStatelessWidget {
       ),
     );
     return Material(
+      key: valueFromCupertino('key', key),
       animationDuration: Duration(milliseconds: 10),
       color: valueFromCupertino('backgroundColor', backgroundColor),
       borderOnForeground: false,

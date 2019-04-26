@@ -9,17 +9,21 @@ import 'package:flutter/material.dart';
 /// *** use material = { forceUseCupertino: true } force use CupertinoScrollbar on material.
 class BaseScrollBar extends BaseStatelessWidget {
   BaseScrollBar({
-    Key key,
+    Key baseKey,
+    this.key,
     this.child,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+  }) : super(key: baseKey, cupertino: cupertino, material: material);
 
+  @override
+  final Key key;
   final Widget child;
 
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoScrollbar(
+      key: valueFromCupertino('key', key),
       child: child,
     );
   }
@@ -27,6 +31,7 @@ class BaseScrollBar extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return Scrollbar(
+      key: valueFromMaterial('key', key),
       child: child,
     );
   }

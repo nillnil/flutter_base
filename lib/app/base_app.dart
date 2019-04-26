@@ -4,15 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter/material.dart';
 
-/// 基础App
-/// theme, cupertino使用cupertinoTheme参数，material使用materialTheme参数，当useMaterialTheme=true时，cupertino也使用materialTheme参数
-/// cupertino，使用CupertinoApp
-/// *** 可使用 cupertino = { forceUseMaterial: true } 参数强制使用MaterialApp
-/// material，使用MaterialApp
-/// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoApp
+/// BaseAppBar
+/// theme, use cupertinoTheme by cupertino，use materialTheme by material.
+/// use CupertinoApp by cupertino
+/// *** use cupertino = { forceUseMaterial: true } force use MaterialApp on cuperitno.
+/// use MaterialApp by material
+/// *** use material = { forceUseCupertino: true } force use CupertinoApp on material.
 class BaseApp extends BaseStatelessWidget {
   BaseApp({
-    Key key,
+    Key baseKey,
+    this.key,
     this.navigatorKey,
     this.home,
     this.routes = const <String, WidgetBuilder>{},
@@ -42,9 +43,11 @@ class BaseApp extends BaseStatelessWidget {
     this.debugShowMaterialGrid = false,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+  }) : super(key: baseKey, cupertino: cupertino, material: material);
 
   // general
+  @override
+  final Key key;
   final Key navigatorKey;
   final Widget home;
   final Map<String, WidgetBuilder> routes;
@@ -82,16 +85,15 @@ class BaseApp extends BaseStatelessWidget {
   void buildBefore(BuildContext context) {
     super.buildBefore(context);
     // 设置目标平台
-    if (targetPlatform != null) {
-      setPlatform(
+    setPlatform(
         targetPlatform: targetPlatform,
-      );
-    }
+        withoutSplashOnCupertino: withoutSplashOnCupertino);
   }
 
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoApp(
+      key: valueFromCupertino('key', key),
       navigatorKey: valueFromCupertino('navigatorKey', navigatorKey),
       home: valueFromCupertino('home', home),
       theme: cupertinoTheme,
@@ -130,6 +132,7 @@ class BaseApp extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return MaterialApp(
+      key: valueFromMaterial('key', key),
       navigatorKey: valueFromMaterial('navigatorKey', navigatorKey),
       home: valueFromMaterial('home', home),
       routes: valueFromMaterial('routes', routes),

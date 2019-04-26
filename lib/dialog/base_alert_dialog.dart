@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 /// *** use material = { forceUseCupertino: true } force use CupertinoAlertDialog on material.
 class BaseAlertDialog extends BaseStatelessWidget {
   BaseAlertDialog({
-    Key key,
+    Key baseKey,
+    this.key,
     this.title,
     this.content,
     this.actions = const <Widget>[],
@@ -30,9 +31,11 @@ class BaseAlertDialog extends BaseStatelessWidget {
     this.shape,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+  }) : super(key: baseKey, cupertino: cupertino, material: material);
 
   // general
+  @override
+  final Key key;
   final Widget title;
   final Widget content;
   final List<Widget> actions;
@@ -54,6 +57,7 @@ class BaseAlertDialog extends BaseStatelessWidget {
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoAlertDialog(
+      key: valueFromCupertino('key', key),
       title: valueFromCupertino('title', title),
       content: valueFromCupertino('content', content),
       actions: valueFromCupertino('actions', actions),
@@ -65,6 +69,7 @@ class BaseAlertDialog extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return AlertDialog(
+      key: valueFromMaterial('key', key),
       title: valueFromMaterial('title', title),
       titleTextStyle: titleTextStyle,
       titlePadding: titlePadding,

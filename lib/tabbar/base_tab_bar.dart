@@ -1,29 +1,18 @@
-import 'package:base/baritem/base_bar_item.dart';
 import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoTabBar;
-import 'package:flutter/material.dart'
-    show
-        Border,
-        BorderSide,
-        BorderStyle,
-        BottomNavigationBar,
-        BottomNavigationBarItem,
-        BottomNavigationBarType,
-        BuildContext,
-        Color,
-        Key,
-        ValueChanged,
-        Widget;
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+
+import 'base_bar_item.dart';
 
 /// BaseTabBar
 /// use CupertinoTabBar by cupertino
-/// *** use cupertino = { forceUseMaterial: true } force use BottomNavigationBar on cuperitno.
+/// *** not support cupertino = { forceUseMaterial: true }.
 /// use BottomNavigationBar by material
-/// *** use material = { forceUseCupertino: true } force use CupertinoTabBar on material.
+/// *** not support material = { forceUseCupertino: true }.
 class BaseTabBar extends BaseStatelessWidget {
   BaseTabBar({
-    Key key,
+    Key baseKey,
+    this.key,
     this.items,
     this.onTap,
     this.currentIndex = 0,
@@ -38,13 +27,22 @@ class BaseTabBar extends BaseStatelessWidget {
         style: BorderStyle.solid,
       ),
     ),
+    this.elevation = 8.0,
     this.type,
     this.fixedColor,
+    this.selectedItemColor,
+    this.unselectedItemColor,
+    this.selectedFontSize = 14.0,
+    this.unselectedFontSize = 12.0,
+    this.showSelectedLabels = true,
+    this.showUnselectedLabels,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+  }) : super(key: baseKey, cupertino: cupertino, material: material);
 
   // general
+  @override
+  final Key key;
   final List<BaseBarItem> items;
   final ValueChanged<int> onTap;
   final int currentIndex;
@@ -57,49 +55,59 @@ class BaseTabBar extends BaseStatelessWidget {
   final Border border;
 
   // material
+  final double elevation;
   final BottomNavigationBarType type;
   final Color fixedColor;
+  final Color selectedItemColor;
+  final Color unselectedItemColor;
+  final double selectedFontSize;
+  final double unselectedFontSize;
+  final bool showSelectedLabels;
+  final bool showUnselectedLabels;
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final List<BaseBarItem> itemWidgets =
-        valueFromCupertino('items', this.items);
-    final List<BottomNavigationBarItem> items = <BottomNavigationBarItem>[];
-    if (itemWidgets != null && itemWidgets.isNotEmpty) {
-      for (BaseBarItem item in itemWidgets) {
-        items.add(item.buildByCupertino(context));
-      }
-    }
+    final List<BaseBarItem> items = valueFromCupertino('items', this.items);
     return CupertinoTabBar(
       key: valueFromCupertino('key', key),
-      items: items,
+      items: _buildBarItem(context, items),
       onTap: valueFromCupertino('onTap', onTap),
       currentIndex: valueFromCupertino('currentIndex', currentIndex),
       backgroundColor: valueFromCupertino('backgroundColor', backgroundColor),
       activeColor: activeColor,
       inactiveColor: inactiveColor,
       iconSize: valueFromCupertino('iconSize', iconSize) ?? 30.0,
+      border: valueFromCupertino('border', border),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final List<BaseBarItem> itemWidgets =
-        valueFromMaterial('items', this.items);
-    final List<BottomNavigationBarItem> items = <BottomNavigationBarItem>[];
-    if (itemWidgets != null && itemWidgets.isNotEmpty) {
-      for (BaseBarItem item in itemWidgets) {
-        items.add(item.buildByMaterial(context));
-      }
-    }
+    final List<BaseBarItem> items = valueFromMaterial('items', this.items);
     return BottomNavigationBar(
       key: valueFromMaterial('key', key),
-      items: items,
+      items: _buildBarItem(context, items),
       onTap: valueFromMaterial('onTap', onTap),
       currentIndex: valueFromMaterial('currentIndex', currentIndex),
+      elevation: elevation,
       type: type,
       fixedColor: fixedColor,
       iconSize: valueFromMaterial('iconSize', iconSize) ?? 24.0,
+      selectedItemColor: selectedItemColor,
+      unselectedItemColor: unselectedItemColor,
+      selectedFontSize: selectedFontSize,
+      unselectedFontSize: unselectedFontSize,
+      showSelectedLabels: showSelectedLabels,
+      showUnselectedLabels: showSelectedLabels,
     );
+  }
+
+  List<BottomNavigationBarItem> _buildBarItem(
+      BuildContext context, List<BaseBarItem> items) {
+    final List<BottomNavigationBarItem> barItems = <BottomNavigationBarItem>[];
+    for (int i = 0; i < items.length; i++) {
+      barItems.add(items[i].build(context));
+    }
+    return barItems;
   }
 }

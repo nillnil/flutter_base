@@ -42,6 +42,19 @@ class RouteDemo extends StatelessWidget {
               ),
             ],
           ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const <Widget>[
+              Expanded(
+                child: Text(
+                  'Use like: \nBaseRoute<void>(\n\t\t...\n).push(context);',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
       demos: _demos,

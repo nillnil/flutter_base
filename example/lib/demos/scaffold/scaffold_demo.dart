@@ -6,17 +6,15 @@ import 'package:example/demos/utils/color_block.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'tab_scaffold_demo.dart';
 import 'transparent_app_bar.dart';
-
 
 /// Scaffold 示例
 class ScaffoldDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<DemoTile> _demos = <DemoTile>[
-      
-    ];
+    final List<DemoTile> _demos = <DemoTile>[];
     if (useCupertino) {
       _demos.add(
         DemoTile(
@@ -26,13 +24,12 @@ class ScaffoldDemo extends StatelessWidget {
       );
     }
     return DemoPage(
-      title: 'Scaffold',
       doc: SingleChildScrollView(
         padding: const EdgeInsets.only(bottom: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Text('Scaffold', style: TextStyle(
+            const Text('BaseScaffold', style: TextStyle(
               fontWeight: FontWeight.bold
             )),
             Row(
@@ -45,7 +42,7 @@ class ScaffoldDemo extends StatelessWidget {
                   height: 16.0,
                 ),
                 const Expanded(
-                  child: Text('Material：使用Scaffold，一个页面时取body参数，多个页面时取tabBar和tabBarViews参数'),
+                  child: Text('Material：use Scaffold'),
                 )
               ]
             ),
@@ -59,7 +56,7 @@ class ScaffoldDemo extends StatelessWidget {
                   height: 16.0,
                 ),
                 const Expanded(
-                  child: Text('Cupertino：使用CupertinoPageScaffold，多个页面时使用CupertinoTabScaffold\n'),
+                  child: Text('Cupertino：use CupertinoPageScaffold\n'),
                 )
               ]
             ),

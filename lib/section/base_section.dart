@@ -7,7 +7,8 @@ import 'package:flutter/widgets.dart';
 /// use custom Container by cupertino or material
 class BaseSection extends BaseStatelessWidget {
   BaseSection({
-    Key key,
+    Key baseKey,
+    this.key,
     this.margin,
     this.divider = const Divider(height: 1.0),
     Divider indentDivider,
@@ -28,8 +29,10 @@ class BaseSection extends BaseStatelessWidget {
                 indent: dividerIndent,
                 height: 1.0,
               ),
-        super(key: key, cupertino: cupertino, material: material);
+        super(key: baseKey, cupertino: cupertino, material: material);
 
+  @override
+  final Key key;
   final EdgeInsets margin;
   final Divider divider;
   final double dividerIndent;
@@ -45,25 +48,28 @@ class BaseSection extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
+    final Key key = valueFromCupertino('key', this.key);
     final EdgeInsets margin = valueFromCupertino('margin', this.margin);
     final Divider divider = valueFromCupertino('divider', this.divider);
     final List<Widget> children = valueFromCupertino('children', this.children);
     final Widget header = valueFromCupertino('header', this.header);
     final Widget footer = valueFromCupertino('footer', this.footer);
-    return _build(context, margin, divider, children, header, footer);
+    return _build(key, context, margin, divider, children, header, footer);
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
+    final Key key = valueFromMaterial('key', this.key);
     final EdgeInsets margin = valueFromMaterial('margin', this.margin);
     final Divider divider = valueFromMaterial('divider', this.divider);
     final List<Widget> children = valueFromMaterial('children', this.children);
     final Widget header = valueFromMaterial('header', this.header);
     final Widget footer = valueFromMaterial('footer', this.footer);
-    return _build(context, margin, divider, children, header, footer);
+    return _build(key, context, margin, divider, children, header, footer);
   }
 
   Widget _build(
+    Key key,
     BuildContext context,
     EdgeInsets margin,
     Divider divider,
@@ -76,6 +82,7 @@ class BaseSection extends BaseStatelessWidget {
     if (length == 1 && header == null && footer == null) {
       if (divider != null) {
         container = Container(
+          key: key,
           margin: margin,
           child: Column(
             children: <Widget>[
@@ -87,6 +94,7 @@ class BaseSection extends BaseStatelessWidget {
         );
       } else {
         container = Container(
+          key: key,
           margin: margin,
           child: children[0],
         );
@@ -154,6 +162,7 @@ class BaseSection extends BaseStatelessWidget {
         widgets.add(footer);
       }
       container = Container(
+        key: key,
         margin: margin,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
