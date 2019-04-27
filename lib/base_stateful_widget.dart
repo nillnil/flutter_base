@@ -27,10 +27,10 @@ abstract class BaseStatefulWidget extends StatefulWidget {
 
   final Map<String, Object> cupertino;
   final Map<String, Object> material;
-
 }
 
-abstract class BaseState<T extends BaseStatefulWidget> extends State<T> with BaseMixin {
+abstract class BaseState<T extends BaseStatefulWidget> extends State<T>
+    with BaseMixin {
   @override
   T get widget => super.widget;
 
@@ -110,5 +110,4 @@ abstract class BaseState<T extends BaseStatefulWidget> extends State<T> with Bas
   Widget buildByCupertino(BuildContext context);
 
   Widget buildByMaterial(BuildContext context);
-  
 }

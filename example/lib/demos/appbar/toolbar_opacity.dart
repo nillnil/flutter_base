@@ -42,7 +42,9 @@ class _ToolbarOpacityState extends State<ToolbarOpacity>
     return BaseScaffold(
         appBar: BaseAppBar(
           title: const Text('toolbarOpacity'),
-          backgroundColor: Colors.white.withOpacity(_opacity),
+          backgroundColor: _opacity == 0.0
+              ? Colors.black.withOpacity(0.0)
+              : Colors.white.withOpacity(_opacity),
           backdropFilter: false,
           border: null,
           toolbarOpacity: _opacity,

@@ -10,6 +10,11 @@ class WechatProfile extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
+    Widget cameraWidget = BaseIcon(
+      icon: IconFont.camera, 
+      size: 20, 
+      color: Colors.black,
+    );
 		return WillPopScope(
       onWillPop: () => Future<bool>.value(false), // 禁用返回
       child: BaseScaffold(
@@ -17,9 +22,13 @@ class WechatProfile extends StatelessWidget {
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
           border: null,
+          brightness: Brightness.light,
           elevation: 0.0,
           actions: <Widget>[
-            BaseIcon(icon: IconFont.camera, size: 20)
+            useMaterial ? Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: cameraWidget,
+            ) : cameraWidget,
           ],
         ),
         body: Container(

@@ -1,3 +1,9 @@
+## 0.1.8 - 2019.04.28
+
+* Release v0.1.8
+* add BaseTextField
+* add example's screenshot
+
 ## 0.1.7 - 2019.04.26
 
 * Release v0.1.7

@@ -48,7 +48,7 @@
       BaseIcon(
         // will given the values from material parameters, then to the common values on Material mode.
         icon: Icons.info,
-        'cupertino': <String, dynamic>{
+        cupertino: <String, dynamic>{
           // will given this 'icon' then to the common 'icon' on Cupertino mode.
           'icon': CupertinoIcons.info,
         }
@@ -60,17 +60,17 @@
 
 * Can use `forceUseMaterial, forceUseCupertino` to force build by another mode. Use `disabled` to prohibit build（will use `Container()` to instead）
 
-      'cupertino': {
+      cupertino: {
         // force use Mcterial mode to build
-        'forceUseMaterial': true,
+        forceUseMaterial: true,
         // prohibit build，will use `Container()` to instead
-        'disabled': true,
+        disabled: true,
       }
-      'material': {
+      material: {
         // force use Cupertino mode to build
-        'forceUseCupertino': true,
+        forceUseCupertino: true,
         // prohibit build，will use `Container()` to instead
-        'disabled': true,
+        disabled: true,
       }
 
 * ### Special description，very important

@@ -296,7 +296,18 @@ class ButtonDemo extends StatelessWidget {
               ColorBlock.attributes(),
               const Expanded(
                 child: Text(
-                  'BaseButton.icon：icon cna\'t be null, use MaterialButton or FlatButton.icon or OutlineButton.icon on Material.',
+                  'raised：effective on Material, default is false. use RaisedButton',
+                ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ColorBlock.attributes(),
+              const Expanded(
+                child: Text(
+                  'BaseButton.icon：icon cna\'t be null, use MaterialButton or FlatButton.icon or OutlineButton.icon or RaisedButon.icon on Material.',
                 ),
               ),
             ],

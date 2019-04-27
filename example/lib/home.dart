@@ -48,9 +48,14 @@ final List<Widget> _children = <Widget>[
     page: ActionSheetDemo()
   ),
   _Item(
-    icon: BaseIcon(icon: IconFont.refresh, size: 40, color: Colors.blueGrey),
-    title: const Text('Refresh', style: TextStyle(color: Colors.blueGrey)),
+    icon: BaseIcon(icon: IconFont.refresh, size: 40, color: Colors.pinkAccent),
+    title: const Text('Refresh', style: TextStyle(color: Colors.pinkAccent)),
     page: RefreshDemos()
+  ),
+  _Item(
+    icon: BaseIcon(icon: IconFont.text, size: 40, color: Colors.deepOrangeAccent),
+    title: const Text('TextField', style: TextStyle(color: Colors.deepOrangeAccent)),
+    page: TextFieldDemo()
   )
 ];
 
@@ -106,8 +111,8 @@ class Home extends StatelessWidget {
           ClipOval(
             child: BaseIconButton(
               icon: BaseIcon(
-                icon: IconFont.info,
-                size: 24,
+                icon: IconFont.settings,
+                size: 20,
                 material: const <String, dynamic>{
                   'color': Colors.white,
                 },

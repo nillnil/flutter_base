@@ -49,7 +49,7 @@
       BaseIcon(
         // materil模式下先取material参数里的icon参数，取不到再取该值
         icon: Icons.info,
-        'cupertino': <String, dynamic>{
+        cupertino: <String, dynamic>{
           // cupertino模式下先取该值，因为取得到，所以不会取外层的icon
           'icon': CupertinoIcons.info,
         }
@@ -61,17 +61,17 @@
 
 * 可以使用 `forceUseMaterial, forceUseCupertino` 进行强制切换模式构建，使用 `disabled` 禁止构建（会用 `Container()` 代替）
 
-      'cupertino': {
+      cupertino: {
         // 可使该组件强制使用Material构建
-        'forceUseMaterial': true,
+        forceUseMaterial: true,
         // 可使该组件不进行构建，但会使用Container()代替
-        'disabled': true,
+        disabled: true,
       }
-      'material': {
+      material: {
         // 可使该组件强制使用Cupertino构建
-        'forceUseCupertino': true,
+        forceUseCupertino: true,
         // 可使该组件不进行构建，但会使用Container()代替
-        'disabled': true,
+        disabled: true,
       }
 
 * ### 特别说明，非常重要

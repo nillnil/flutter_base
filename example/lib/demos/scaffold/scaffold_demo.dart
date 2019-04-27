@@ -2,12 +2,10 @@
 import 'package:base/platform/platform.dart';
 import 'package:example/demos/demo_page.dart';
 import 'package:example/demos/demo_tile.dart';
+import 'package:example/demos/scaffold/safeArea_demo.dart';
 import 'package:example/demos/utils/color_block.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'tab_scaffold_demo.dart';
-import 'transparent_app_bar.dart';
 
 /// Scaffold 示例
 class ScaffoldDemo extends StatelessWidget {
@@ -18,8 +16,8 @@ class ScaffoldDemo extends StatelessWidget {
     if (useCupertino) {
       _demos.add(
         DemoTile(
-          title: const Text('transparent app bar'),
-          page: TransparentAppBar(),
+          title: const Text('safeArea scaffold'),
+          page: SateAreaDemo(),
         )
       );
     }

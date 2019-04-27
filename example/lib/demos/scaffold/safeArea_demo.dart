@@ -3,14 +3,14 @@ import 'package:base/base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class TransparentAppBar extends StatefulWidget {
+class SateAreaDemo extends StatefulWidget {
 
   @override
-  _TransparentAppBarState createState() => _TransparentAppBarState();
+  _SateAreaDemoState createState() => _SateAreaDemoState();
 
 }
 
-class _TransparentAppBarState extends State<TransparentAppBar> {
+class _SateAreaDemoState extends State<SateAreaDemo> {
 
   bool safeAreaTop = false;
   bool safeAreaBottom = false;
@@ -19,7 +19,7 @@ class _TransparentAppBarState extends State<TransparentAppBar> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: BaseAppBar(
-        title: const Text('Transparent App Bar'),
+        title: const Text('SafeArea Scaffold'),
         backgroundColor: Colors.white54,
       ),
       safeAreaTop: safeAreaTop,

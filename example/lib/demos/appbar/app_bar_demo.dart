@@ -31,7 +31,7 @@ class AppBarDemo extends StatelessWidget {
     if (useCupertino) {
       _demos.add(
         DemoTile(
-          title: const Text('bottomOpacity'),
+          title: const Text('toolbarOpacity'),
           page: ToolbarOpacity()
         )
       );
@@ -102,7 +102,7 @@ class AppBarDemo extends StatelessWidget {
             children: <Widget>[
               ColorBlock.attributes(),
               const Expanded(
-                child: Text('bottomOpactiy：Cupertino模式下也有效, 只是简单是设置leading，middle，trailing字体的透明度。'),
+                child: Text('toolbarOpacity：Cupertino模式下也有效, 只是简单是设置leading，middle，trailing字体的透明度。'),
               )
             ]
           ),

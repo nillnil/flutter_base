@@ -63,4 +63,10 @@ class IconFont {
 
 	static const IconData messages = IconData(0xe632, fontFamily: _kFontFam);
 
+	static const IconData password = IconData(0xe6d8, fontFamily: _kFontFam);
+
+	static const IconData eyeopen = IconData(0xea3f, fontFamily: _kFontFam);
+
+	static const IconData eyeclose = IconData(0xe723, fontFamily: _kFontFam);
+
 }

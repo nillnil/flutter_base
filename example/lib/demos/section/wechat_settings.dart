@@ -19,14 +19,26 @@ class WechatSettings extends StatelessWidget {
 		const EdgeInsets margin = EdgeInsets.only(top: 5.0, bottom: 5.0);
 		const Icon trailingIcon = Icon(CupertinoIcons.right_chevron, color: Colors.grey);
 
+    final ThemeData theme = Theme.of(context);
   	return BaseScaffold(
       appBar: BaseAppBar(
         title: const Text('设置'),
-        backgroundColor: defaultTargetPlatform == TargetPlatform.iOS ?
-          CupertinoTheme.of(context).scaffoldBackgroundColor : Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: CupertinoTheme.of(context).scaffoldBackgroundColor,
         border: null,
         elevation: 0.0,
         transitionBetweenRoutes: false,
+        brightness: Brightness.light,
+        iconTheme: theme.iconTheme.copyWith(
+          color: Colors.black,
+        ),
+        material: <String, dynamic> {
+          'backgroundColor': theme.scaffoldBackgroundColor,
+          'title': const Text('设置',
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        },
       ),
       body: Container(
         child: ListView.builder(
