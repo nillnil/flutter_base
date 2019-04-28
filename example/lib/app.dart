@@ -1,4 +1,3 @@
-
 import 'package:base/app/base_app.dart';
 import 'package:example/home.dart';
 import 'package:example/store/app_state.dart';
@@ -8,8 +7,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-
-import 'demos/scaffold/tab_scaffold_demo.dart';
 
 class App extends StatelessWidget {
   @override
@@ -21,7 +18,7 @@ class App extends StatelessWidget {
           'targetPlatform': store.state.targetPlatform,
           'primaryColor': store.state.primaryColor,
         };
-      }, 
+      },
       builder: (BuildContext context, Map<String, Object> vm) {
         CupertinoThemeData _cupertinoTheme = CupertinoTheme.of(context);
         _cupertinoTheme = _cupertinoTheme.copyWith(
@@ -54,7 +51,10 @@ class App extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
           ],
           locale: const Locale('en', 'US'),
-          supportedLocales: const <Locale>[ Locale('zh', 'CN'), Locale('en', 'US')],
+          supportedLocales: const <Locale>[
+            Locale('zh', 'CN'),
+            Locale('en', 'US')
+          ],
           home: Home(),
           targetPlatform: vm['targetPlatform'],
           debugShowCheckedModeBanner: false,

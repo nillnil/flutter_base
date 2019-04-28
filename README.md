@@ -90,7 +90,7 @@
 |BaseActionSheetAction|FlatButton|CupertinoActionSheetAction|
 |BaseApp|MaterialApp|CupertinoApp|
 |BaseAppBar|AppBar|CupertinoNavigationBar|
-|BaseButton|MaterialButton<br>FlatButton, FlatButton.icon<br>OutlineButton, OutlineButton.icon|CupertinoButton|
+|BaseButton|MaterialButton<br>FlatButton, FlatButton.icon<br>OutlineButton, OutlineButton.icon<br>RaisedButton, RaiseButton.icon|CupertinoButton, CupertinoButton.filled|
 |BaseIconButton|IconButton|CupertinoButton|
 |BaseAlertDialog|AlertDialog|CupertinoAlertDialog|
 |BaseDialogAction|FlatButton|CupertinoDialogAction|
@@ -106,5 +106,6 @@
 |BaseSwitch|Switch|CupertinoSwitch|
 |BaseBarItem|BottomNavigationBarItem|BottomNavigationBarItem|
 |BaseTabBar|BottomNavigationBar|CupertinoTabBar|
+|BaseTextField|TextField|CupertinoTextField|
 
 ## [简单示例](./example/)

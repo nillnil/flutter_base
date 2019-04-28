@@ -1,4 +1,3 @@
-
 import 'package:base/base.dart';
 import 'package:example/store/action.dart';
 import 'package:example/store/app_state.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 class ThemePage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, Color>(
@@ -21,7 +19,7 @@ class ThemePage extends StatelessWidget {
             _ThemeItem(
               color: color,
               selected: primaryColor == color,
-            )
+            ),
           );
         }
         return BaseScaffold(
@@ -32,7 +30,7 @@ class ThemePage extends StatelessWidget {
           body: Container(
             color: Colors.white,
             child: GridView.count(
-              children: _themes, 
+              children: _themes,
               crossAxisCount: 6,
             ),
           ),
@@ -40,27 +38,18 @@ class ThemePage extends StatelessWidget {
       },
     );
   }
-
 }
 
 class _ThemeViewModel {
-
-  _ThemeViewModel({
-    this.primaryColor,
-    this.changeTheme
-  });
+  _ThemeViewModel({this.primaryColor, this.changeTheme});
 
   final Color primaryColor;
   final void Function(Color primaryColor) changeTheme;
 }
 
 class _ThemeItem extends StatelessWidget {
-
-  const _ThemeItem({
-    Key key, 
-    this.color,
-    this.selected = true
-  }) : super(key: key);
+  const _ThemeItem({Key key, this.color, this.selected = true})
+      : super(key: key);
 
   final Color color;
   final bool selected;
@@ -71,9 +60,11 @@ class _ThemeItem extends StatelessWidget {
       converter: (Store<AppState> store) {
         return _ThemeViewModel(
           primaryColor: store.state.primaryColor,
-          changeTheme: (Color primaryColor) => store.dispatch(ThemeAction(primaryColor: primaryColor))
+          changeTheme: (Color primaryColor) => store.dispatch(
+            ThemeAction(primaryColor: primaryColor),
+          ),
         );
-      }, 
+      },
       builder: (BuildContext context, _ThemeViewModel vm) {
         return GestureDetector(
           child: Container(
@@ -82,11 +73,13 @@ class _ThemeItem extends StatelessWidget {
             color: color,
             height: 60,
             width: 60,
-            child: selected ? BaseIcon(
-              icon: CupertinoIcons.check_mark,
-              size: 40,
-              color: Colors.white,
-            ): Container()
+            child: selected
+                ? BaseIcon(
+                    icon: CupertinoIcons.check_mark,
+                    size: 40,
+                    color: Colors.white,
+                  )
+                : Container(),
           ),
           onTap: () {
             if (!selected) {
@@ -94,8 +87,7 @@ class _ThemeItem extends StatelessWidget {
             }
           },
         );
-      }
+      },
     );
   }
-
 }

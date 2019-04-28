@@ -1,11 +1,10 @@
 import 'package:base/button/base_button.dart';
 import 'package:base/platform/platform.dart';
-import 'package:example/demos/demo_page.dart';
-import 'package:example/demos/demo_tile.dart';
-import 'package:example/demos/utils/color_block.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+import '../demo_page.dart';
+import '../demo_tile.dart';
 
 /// Button 示例
 class ButtonDemo extends StatelessWidget {
@@ -13,7 +12,10 @@ class ButtonDemo extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Widget> children = <Widget>[];
     const EdgeInsets _padding = EdgeInsets.only(bottom: 10.0);
-    const EdgeInsets _buttonPadding = EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0);
+    const EdgeInsets _buttonPadding = EdgeInsets.symmetric(
+      vertical: 10.0,
+      horizontal: 15.0,
+    );
     children.add(
       Padding(
         padding: _padding,
@@ -225,102 +227,21 @@ class ButtonDemo extends StatelessWidget {
       );
     }
     return DemoPage(
-      doc: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text(
-            'BaseButton',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ColorBlock.material(),
-              const Expanded(
-                child: Text(
-                  'Material：use MaterialButton or FlatButton or OutlineButton or RaisedButton',
-                ),
-              ),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ColorBlock.cupertino(),
-              const Expanded(
-                child: Text(
-                  'Cupertino：use CupertinoButton or CupertinoButton.filled',
-                ),
-              ),
-            ],
-          ),
-          const Text('\nSpecific parameter'),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ColorBlock.attributes(),
-              const Expanded(
-                child: Text(
-                  'filled：effective on Cupertino, default is false. use CupertinoButton.filled',
-                ),
-              ),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ColorBlock.attributes(),
-              const Expanded(
-                child: Text(
-                  'flat：effective on Material, default is false. use FlatButton',
-                ),
-              ),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ColorBlock.attributes(),
-              const Expanded(
-                child: Text(
-                  'outline：effective on Material, default is false. use OutlineButton',
-                ),
-              ),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ColorBlock.attributes(),
-              const Expanded(
-                child: Text(
-                  'raised：effective on Material, default is false. use RaisedButton',
-                ),
-              ),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ColorBlock.attributes(),
-              const Expanded(
-                child: Text(
-                  'BaseButton.icon：icon cna\'t be null, use MaterialButton or FlatButton.icon or OutlineButton.icon or RaisedButon.icon on Material.',
-                ),
-              ),
-            ],
-          ),
-          const Text(
-            '\nIf you don\'t want to have a label with the icon, suggest use the BaseIconButton.',
-            style: TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
+      widgetName: 'BaseButton',
+      materialDesc: 'use MaterialButton or FlatButton or '
+          'OutlineButton or RaisedButton',
+      cupertinoDesc: 'use CupertinoButton or CupertinoButton.filled',
+      parameterDesc: const <String, String>{
+        'filled': 'effective on Cupertino, default is false. '
+            'use CupertinoButton.filled',
+        'flat': 'effective on Material, default is false. use FlatButton',
+        'outline': 'effective on Material, default is false. use OutlineButton',
+        'raised': 'effective on Material, default is false. use RaisedButton',
+        'aseButton.icon': 'icon cna\'t be null, use MaterialButton or '
+            'FlatButton.icon or OutlineButton.icon or RaisedButon.icon on Material.'
+      },
+      tips: 'If you don\'t want to have a label with the icon, '
+          'suggest use the BaseIconButton.',
       demos: <DemoTile>[
         DemoTile(
           page: Container(

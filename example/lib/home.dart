@@ -66,7 +66,6 @@ const  Widget _tipsWidget = Text('1、Material组件相对比较完善，没经�
   style: TextStyle(
     color: Colors.red,
     fontSize: 16.0,
-    
   ),
   textAlign: TextAlign.left
 );
@@ -136,7 +135,6 @@ class Home extends StatelessWidget {
       drawer: _MaterialTipsPage()
     );
   }
-
 }
 
 class _MaterialTipsPage extends StatelessWidget {

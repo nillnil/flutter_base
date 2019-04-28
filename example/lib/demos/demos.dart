@@ -8,6 +8,5 @@ export 'refresh/refresh_demos.dart';
 export 'route/route_demo.dart';
 export 'scaffold/scaffold_demo.dart';
 export 'section/section_demo.dart';
-export 'tab/tab_demo.dart';
 export 'text_field/text_field_demo.dart';
 export 'utils/color_block.dart';

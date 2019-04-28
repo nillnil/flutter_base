@@ -1,8 +1,6 @@
 import 'package:base/base.dart';
 import 'package:example/iconfont/iconfont.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../demo_page.dart';
 import '../demo_tile.dart';
@@ -18,45 +16,11 @@ class TabScaffoldDemo extends StatelessWidget {
       )
     ];
     return DemoPage(
-        doc: SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const Text('BaseTabScaffold',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.only(
-                          right: 10.0, top: 3.0, bottom: 3.0),
-                      color: Colors.pinkAccent,
-                      width: 10.0,
-                      height: 16.0,
-                    ),
-                    const Expanded(
-                      child: Text('Material：use Scaffold'),
-                    )
-                  ]),
-              Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.only(
-                          right: 10.0, top: 3.0, bottom: 3.0),
-                      color: Colors.lightBlueAccent,
-                      width: 10.0,
-                      height: 16.0,
-                    ),
-                    const Expanded(
-                      child: Text('Cupertino：use CupertinoTabScaffold'),
-                    )
-                  ]),
-            ],
-          ),
-        ),
-        demos: _demos);
+      widgetName: 'BaseTabScaffold',
+      materialDesc: 'use Scaffold',
+      cupertinoDesc: 'use CupertinoTabScaffold',
+      demos: _demos,
+    );
   }
 }
 

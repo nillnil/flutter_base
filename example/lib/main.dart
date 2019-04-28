@@ -4,7 +4,8 @@ import 'package:example/app.dart';
 import 'package:example/store/app_state.dart';
 import 'package:example/store/reducer.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart' show debugDefaultTargetPlatformOverride, defaultTargetPlatform;
+import 'package:flutter/foundation.dart'
+    show debugDefaultTargetPlatformOverride, defaultTargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show DeviceOrientation, SystemChrome;
 import 'package:flutter_redux/flutter_redux.dart';
@@ -12,19 +13,20 @@ import 'package:redux/redux.dart';
 
 void main() {
   _setTargetPlatformForDesktop();
-  SystemChrome.setPreferredOrientations(<DeviceOrientation>[ 
-    DeviceOrientation.portraitUp, 
+  SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+    DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
   ]).then((_) {
-    runApp(
-      StoreProvider<AppState>(
-        store: Store<AppState>(appReducer, initialState: AppState(
+    runApp(StoreProvider<AppState>(
+      store: Store<AppState>(
+        appReducer,
+        initialState: AppState(
           targetPlatform: defaultTargetPlatform,
-          primaryColor: Colors.indigo
-        )),
-        child: App(), 
-      )
-    );
+          primaryColor: Colors.indigo,
+        ),
+      ),
+      child: App(),
+    ));
   });
 }
 

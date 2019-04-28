@@ -1,11 +1,8 @@
 import 'package:base/base.dart';
-import 'package:example/demos/demo_tile.dart';
-import 'package:example/demos/utils/color_block.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../demo_page.dart';
+import '../demo_tile.dart';
 
 class IconButtonDemo extends StatelessWidget {
   @override
@@ -52,47 +49,11 @@ class IconButtonDemo extends StatelessWidget {
       ),
     );
     return DemoPage(
-      // title: 'Button',
-      doc: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text(
-            'BaseIconButton',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ColorBlock.material(),
-              const Expanded(
-                child: Text(
-                  'Material：use IconButton',
-                ),
-              ),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ColorBlock.cupertino(),
-              const Expanded(
-                child: Text(
-                  'Cupertino：use CupertinoButton',
-                ),
-              ),
-            ],
-          ),
-          const Text(
-            '\nIf you want to have a label with the icon, suggest use the BaseButton.icon',
-            style: TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
+      widgetName: 'BaseIconButton',
+      materialDesc: 'use IconButton',
+      cupertinoDesc: 'use CupertinoButton',
+      tips: 'If you want to have a label with the icon, '
+          'suggest use the BaseButton.icon',
       demos: <DemoTile>[
         DemoTile(
           page: Container(

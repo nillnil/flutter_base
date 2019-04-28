@@ -1,9 +1,8 @@
 import 'package:base/base.dart';
-import 'package:example/demos/demo_page.dart';
-import 'package:example/demos/demo_tile.dart';
-import 'package:example/demos/utils/color_block.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+import '../demo_page.dart';
+import '../demo_tile.dart';
 
 /// Route 示例
 class RouteDemo extends StatelessWidget {
@@ -16,47 +15,11 @@ class RouteDemo extends StatelessWidget {
     ];
     return DemoPage(
       title: 'Route',
-      doc: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text(
-            'BaseRoute',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Row(children: <Widget>[
-            ColorBlock.material(),
-            const Expanded(
-              child: Text('Material：use MaterialPageRoute'),
-            )
-          ]),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ColorBlock.cupertino(),
-              const Expanded(
-                child: Text(
-                  'Cupertino：use CupertinoPageRoute',
-                ),
-              ),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const <Widget>[
-              Expanded(
-                child: Text(
-                  'Use like: \nBaseRoute<void>(\n\t\t...\n).push(context);',
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+      widgetName: 'BaseRoute',
+      materialDesc: 'use MaterialPageRoute',
+      cupertinoDesc: 'use CupertinoPageRoute',
+      tips: 'Use like: \nBaseRoute<void>('
+          '\n\t\t...\n).push(context);',
       demos: _demos,
     );
   }
@@ -112,11 +75,10 @@ class _Demo extends StatelessWidget {
 }
 
 class _NewPage extends StatelessWidget {
-
   _NewPage({
     Key key,
     this.title,
-  }): super(key: key);
+  }) : super(key: key);
 
   final String title;
 

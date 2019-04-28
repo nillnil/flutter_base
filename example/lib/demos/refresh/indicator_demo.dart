@@ -20,34 +20,9 @@ class IndicatorDemo extends StatelessWidget {
       )
     ];
     return DemoPage(
-      doc: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text(
-            'BaseIndicator',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Row(children: <Widget>[
-            ColorBlock.material(),
-            const Expanded(
-              child: Text('Material：use CircularProgressIndicator'),
-            )
-          ]),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ColorBlock.cupertino(),
-              const Expanded(
-                child: Text(
-                  'Cupertino：use CupertinoActivityIndicator',
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+      widgetName: 'BaseIndicator',
+      materialDesc: 'use CircularProgressIndicator',
+      cupertinoDesc: 'use CupertinoActivityIndicator',
       demos: _demos,
     );
   }

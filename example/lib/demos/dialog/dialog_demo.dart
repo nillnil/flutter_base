@@ -1,10 +1,9 @@
 import 'package:base/dialog/base_alert_dialog.dart';
 import 'package:base/dialog/base_dialog_action.dart';
-import 'package:example/demos/demo_page.dart';
-import 'package:example/demos/demo_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
+import '../demo_page.dart';
+import '../demo_tile.dart';
 import 'alert_dialog_demo.dart';
 
 /// Dialo Demo
@@ -76,65 +75,13 @@ class DialogDemo extends StatelessWidget {
   Widget build(BuildContext context) {
     return DemoPage(
       title: 'Alert Dialog',
-      doc: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text(
-            'BaseAlertDialog',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(
-                  right: 10.0,
-                  top: 3.0,
-                  bottom: 3.0,
-                ),
-                color: Colors.pinkAccent,
-                width: 10.0,
-                height: 16.0,
-              ),
-              const Expanded(
-                child: Text('Material：use AlertDialog'),
-              ),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(
-                  right: 10.0,
-                  top: 3.0,
-                  bottom: 3.0,
-                ),
-                color: Colors.lightBlueAccent,
-                width: 10.0,
-                height: 16.0,
-              ),
-              const Expanded(
-                child: Text('Cupertino：use CupertinoAlertDialog'),
-              ),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const <Widget>[
-              Expanded(
-                child: Text(
-                  'Use like: \nBaseAlertDialog(\n\t\t\tcontent: ...\n\t\t\tactions: ...\n).show<void>(context);',
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+      widgetName: 'BaseAlertDialog',
+      materialDesc: 'use AlertDialog',
+      cupertinoDesc: 'use CupertinoAlertDialog',
+      tips: 'Use like: \nBaseAlertDialog(\n\t\t\t'
+          'content: ...\n\t\t\t'
+          'actions: ...\n'
+          ').show<void>(context);',
       demos: _demos,
     );
   }

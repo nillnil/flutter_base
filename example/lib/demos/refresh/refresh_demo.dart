@@ -3,11 +3,9 @@ import 'dart:async';
 import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../demo_page.dart';
 import '../demo_tile.dart';
-import '../demos.dart';
 
 class RefreshDemo extends StatelessWidget {
   @override
@@ -18,34 +16,9 @@ class RefreshDemo extends StatelessWidget {
       ),
     ];
     return DemoPage(
-      doc: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text(
-            'BaseRoute',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Row(children: <Widget>[
-            ColorBlock.material(),
-            const Expanded(
-              child: Text('Material：use RefreshIndicator'),
-            )
-          ]),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ColorBlock.cupertino(),
-              const Expanded(
-                child: Text(
-                  'Cupertino：use CustomScrollView + CupertinoSliverRefreshControl',
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+      widgetName: 'BaseRoute',
+      materialDesc: 'use RefreshIndicator',
+      cupertinoDesc: 'use CustomScrollView + CupertinoSliverRefreshControl',
       demos: _demos,
     );
   }
