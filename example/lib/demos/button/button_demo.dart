@@ -237,7 +237,7 @@ class ButtonDemo extends StatelessWidget {
         'flat': 'effective on Material, default is false. use FlatButton',
         'outline': 'effective on Material, default is false. use OutlineButton',
         'raised': 'effective on Material, default is false. use RaisedButton',
-        'aseButton.icon': 'icon cna\'t be null, use MaterialButton or '
+        'BaseButton.icon': 'icon cna\'t be null, use MaterialButton or '
             'FlatButton.icon or OutlineButton.icon or RaisedButon.icon on Material.'
       },
       tips: 'If you don\'t want to have a label with the icon, '
