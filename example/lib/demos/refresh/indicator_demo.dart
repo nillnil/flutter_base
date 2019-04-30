@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 
 import '../demo_page.dart';
 import '../demo_tile.dart';
-import '../demos.dart';
 
 class IndicatorDemo extends StatelessWidget {
   @override

@@ -52,20 +52,38 @@ class _NewsState extends State<News> with SingleTickerProviderStateMixin{
         height: 0.0,
         bottom: tabBar,
       ),
-      body: TabBarView(
-        controller: _controller,
-        children: const <NewsList>[
-          NewsList(type: 'top'),
-          NewsList(type: 'shehui'),
-          NewsList(type: 'guonei'),
-          NewsList(type: 'guoji'),
-          NewsList(type: 'yule'),
-          NewsList(type: 'tiyu'),
-          NewsList(type: 'junshi'),
-          NewsList(type: 'keji'),
-          NewsList(type: 'caijing'),
-          NewsList(type: 'shishang'),
-        ]
+      body: Stack(
+        children: <Widget>[
+          TabBarView(
+            controller: _controller,
+            children: const <NewsList>[
+              NewsList(type: 'top'),
+              NewsList(type: 'shehui'),
+              NewsList(type: 'guonei'),
+              NewsList(type: 'guoji'),
+              NewsList(type: 'yule'),
+              NewsList(type: 'tiyu'),
+              NewsList(type: 'junshi'),
+              NewsList(type: 'keji'),
+              NewsList(type: 'caijing'),
+              NewsList(type: 'shishang'),
+            ]
+          ),
+          Positioned(
+            right: 10.0,
+            bottom: 88.0,
+            child: FloatingActionButton(
+              backgroundColor: Colors.white.withOpacity(.5),
+              foregroundColor: Colors.black,
+              child: BaseIcon(
+                icon: Icons.arrow_back,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          )
+        ],
       ),
     );
   }

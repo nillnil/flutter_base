@@ -53,7 +53,7 @@ class AppBarDemo extends StatelessWidget {
         'autoSetBottomColor': 'Cupertino模式下有效, 默认true，bottom自动跟随状态栏字体颜色。',
         'autoSetMiddleColor': 'Cupertino模式下有效, 默认true，middle自动跟随状态栏字体颜色。',
         'autoSetLeadingColor': 'Cupertino模式下有效, 默认true，leading自动跟随状态栏字体颜色。',
-        'autoSetTrailingColo': 'Cupertino模式下有效, 默认true，trailing自动跟随状态栏字体颜色。',
+        'autoSetTrailingColor': 'Cupertino模式下有效, 默认true，trailing自动跟随状态栏字体颜色。',
       },
       demos: _demos,
     );

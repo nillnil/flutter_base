@@ -1,10 +1,11 @@
 
+import 'package:base/base.dart';
 import 'package:base/indicator/base_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:example/iconfont/iconfont.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class NewsItem extends StatelessWidget{
 	NewsItem({
@@ -152,17 +153,42 @@ class NewsItem extends StatelessWidget{
 				child: child
 			),
 			onTap: () {
-				_launchDetail(news['url']);
+				// _launchDetail(news['url']);
+        BaseRoute<void>(
+          WebviewScaffold(
+            url: news['url'],
+            appBar: BaseAppBar(
+              title: SizedBox(
+                width: 120,
+                child: Text(news['title'],
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              transitionBetweenRoutes: false,
+            ),
+            initialChild: Container(
+              alignment: Alignment.center,
+              child: BaseIndicator(
+                radius: 15.0,
+              ),
+            ),
+          )
+        ).push(context);
 			}
 		);
 	}
 
-	Future<void> _launchDetail(String url) async {
-		if (await canLaunch(url)) {
-			await launch(url, forceWebView: true, forceSafariVC: true);
-		} else {
-			throw 'Could not launch $url';
-		}
-	}
+	// Future<void> _launchDetail(String url) async {
+	// 	if (await canLaunch(url)) {
+	// 		await launch(
+  //       url, 
+  //       forceWebView: true, 
+  //       forceSafariVC: true,
+  //       statusBarBrightness: Brightness.light,
+  //     );
+	// 	} else {
+	// 		throw 'Could not launch $url';
+	// 	}
+	// }
 
 }
