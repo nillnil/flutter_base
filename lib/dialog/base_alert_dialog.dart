@@ -98,7 +98,7 @@ class BaseAlertDialog extends BaseStatelessWidget {
   }
 }
 
-Future<T> showBaseDialog<T>(
+Future<T> showBaseAlertDialog<T>(
   BaseAlertDialog alertDialog,
   BuildContext context, {
   bool barrierDismissible = true,

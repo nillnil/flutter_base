@@ -78,24 +78,25 @@ class AlertDialogDemo extends StatelessWidget {
                   style: TextStyle(color: Colors.black),
                 ),
                 onPressed: () {
-                  BaseAlertDialog(
-                    content: const Text('qwertyuioplkjhgfdsazxcvbnm'),
-                    actions: <Widget>[
-                      BaseDialogAction(
-                        child: const Text('cancel'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      BaseDialogAction(
-                        child: const Text('ok'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  ).show<void>(
-                    context,
+                  showBaseAlertDialog<void>(
+                    BaseAlertDialog(
+                      content: const Text('qwertyuioplkjhgfdsazxcvbnm'),
+                      actions: <Widget>[
+                        BaseDialogAction(
+                          child: const Text('cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        BaseDialogAction(
+                          child: const Text('ok'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ), 
+                    context, 
                     barrierDismissible: false,
                   );
                 },

@@ -19,7 +19,13 @@ class RouteDemo extends StatelessWidget {
       materialDesc: 'use MaterialPageRoute',
       cupertinoDesc: 'use CupertinoPageRoute',
       tips: 'Use like: \nBaseRoute<void>('
-          '\n\t\t...\n).push(context);',
+          '\n\t\t...\n).push(context);'
+          '\nor\n'
+          'pushBaseRoute(\n\t\t\t'
+          'BaseRoute<void>(...)\n\t\t\t'
+          'context,\n\t\t\t'
+          '...\n'
+          ');',
       demos: _demos,
     );
   }
@@ -44,9 +50,12 @@ class _Demo extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                BaseRoute<void>(
-                  _NewPage(title: 'normal route'),
-                ).push(context);
+                pushBaseRoute(
+                  BaseRoute<void>(
+                    _NewPage(title: 'normal route'),
+                  ),
+                  context,
+                );
               },
             ),
           ),

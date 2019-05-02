@@ -81,7 +81,13 @@ class DialogDemo extends StatelessWidget {
       tips: 'Use like: \nBaseAlertDialog(\n\t\t\t'
           'content: ...\n\t\t\t'
           'actions: ...\n'
-          ').show<void>(context);',
+          ').show<void>(context);'
+          '\nor\n'
+          'showBaseAlertDialog<void>(\n\t\t\t'
+          'BaseAlertDialog(...),\n\t\t\t'
+          'context,\n\t\t\t'
+          '...\n'
+          ');',
       demos: _demos,
     );
   }

@@ -225,9 +225,11 @@ class BaseAppBar extends BaseStatelessWidget
     final Widget _title = valueFromMaterial('title', title) ??
         valueFromMaterial('middle', middle);
     Widget _leading = valueFromMaterial('leading', leading);
-    final EdgeInsetsDirectional _padding =
-        valueFromMaterial('padding', padding);
-    if (_padding != null) {
+    final EdgeInsetsDirectional _padding = valueFromMaterial(
+      'padding',
+      padding,
+    );
+    if (_padding != null && _leading != null) {
       _leading = Padding(
         padding: EdgeInsets.only(left: _padding.start),
         child: _leading,
