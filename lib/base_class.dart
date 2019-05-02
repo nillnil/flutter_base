@@ -1,7 +1,8 @@
-import 'package:base/base_constants.dart';
-import 'package:base/base_mixin.dart';
-import 'package:base/platform/platform.dart';
 import 'package:flutter/widgets.dart' show BuildContext;
+
+import './platform/platform.dart';
+import 'base_constants.dart';
+import 'base_mixin.dart';
 
 /// 基础类
 /// cupertino使用buildByCupertino方法构建，material使用buildByMaterial方法构建

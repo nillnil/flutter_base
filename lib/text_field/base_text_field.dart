@@ -1,11 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart'
+    show CupertinoColors, CupertinoTextField, OverlayVisibilityMode;
 import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show TextInputFormatter;
 
 import '../base_stateless_widget.dart';
 
-// BaseIcon
+// BaseTextField
 /// use CupertinoTextField by cupertino
 /// *** use cupertino = { forceUseMaterial: true } force use TextField on cuperitno.
 /// use TextField by material
@@ -127,8 +128,10 @@ class BaseTextField extends BaseStatelessWidget {
       focusNode: valueFromCupertino('focusNode', focusNode),
       keyboardType: valueFromCupertino('keyboardType', keyboardType),
       textInputAction: valueFromCupertino('textInputAction', textInputAction),
-      textCapitalization:
-          valueFromCupertino('textCapitalization', textCapitalization),
+      textCapitalization: valueFromCupertino(
+        'textCapitalization',
+        textCapitalization,
+      ),
       style: valueFromCupertino('style', style),
       strutStyle: valueFromCupertino('strutStyle', strutStyle),
       textAlign: valueFromCupertino('textAlign', textAlign),
@@ -139,22 +142,30 @@ class BaseTextField extends BaseStatelessWidget {
       minLines: valueFromCupertino('minLines', minLines),
       expands: valueFromCupertino('expands', expands),
       maxLength: valueFromCupertino('maxLength', maxLength),
-      maxLengthEnforced:
-          valueFromCupertino('maxLengthEnforced', maxLengthEnforced),
+      maxLengthEnforced: valueFromCupertino(
+        'maxLengthEnforced',
+        maxLengthEnforced,
+      ),
       onChanged: valueFromCupertino('onChanged', onChanged),
-      onEditingComplete:
-          valueFromCupertino('onEditingComplete', onEditingComplete),
+      onEditingComplete: valueFromCupertino(
+        'onEditingComplete',
+        onEditingComplete,
+      ),
       onSubmitted: valueFromCupertino('onSubmitted', onSubmitted),
       inputFormatters: valueFromCupertino('inputFormatters', inputFormatters),
       enabled: valueFromCupertino('enabled', enabled),
       cursorWidth: valueFromCupertino('cursorWidth', cursorWidth),
       cursorRadius: valueFromCupertino('cursorRadius', cursorRadius),
       cursorColor: valueFromCupertino('cursorColor', cursorColor),
-      keyboardAppearance:
-          valueFromCupertino('keyboardAppearance', keyboardAppearance),
+      keyboardAppearance: valueFromCupertino(
+        'keyboardAppearance',
+        keyboardAppearance,
+      ),
       scrollPadding: valueFromCupertino('scrollPadding', scrollPadding),
-      dragStartBehavior:
-          valueFromCupertino('dragStartBehavior', dragStartBehavior),
+      dragStartBehavior: valueFromCupertino(
+        'dragStartBehavior',
+        dragStartBehavior,
+      ),
       // cupertino
       decoration: cupertinoDecoration,
       padding: padding,
@@ -176,8 +187,10 @@ class BaseTextField extends BaseStatelessWidget {
       focusNode: valueFromMaterial('focusNode', focusNode),
       keyboardType: valueFromMaterial('keyboardType', keyboardType),
       textInputAction: valueFromMaterial('textInputAction', textInputAction),
-      textCapitalization:
-          valueFromMaterial('textCapitalization', textCapitalization),
+      textCapitalization: valueFromMaterial(
+        'textCapitalization',
+        textCapitalization,
+      ),
       style: valueFromMaterial('style', style),
       strutStyle: valueFromMaterial('strutStyle', strutStyle),
       textAlign: valueFromMaterial('textAlign', textAlign),
@@ -188,22 +201,30 @@ class BaseTextField extends BaseStatelessWidget {
       minLines: valueFromMaterial('minLines', minLines),
       expands: valueFromMaterial('expands', expands),
       maxLength: valueFromMaterial('maxLength', maxLength),
-      maxLengthEnforced:
-          valueFromMaterial('maxLengthEnforced', maxLengthEnforced),
+      maxLengthEnforced: valueFromMaterial(
+        'maxLengthEnforced',
+        maxLengthEnforced,
+      ),
       onChanged: valueFromMaterial('onChanged', onChanged),
-      onEditingComplete:
-          valueFromMaterial('onEditingComplete', onEditingComplete),
+      onEditingComplete: valueFromMaterial(
+        'onEditingComplete',
+        onEditingComplete,
+      ),
       onSubmitted: valueFromMaterial('onSubmitted', onSubmitted),
       inputFormatters: valueFromMaterial('inputFormatters', inputFormatters),
       enabled: valueFromMaterial('enabled', enabled),
       cursorWidth: valueFromMaterial('cursorWidth', cursorWidth),
       cursorRadius: valueFromMaterial('cursorRadius', cursorRadius),
       cursorColor: valueFromMaterial('cursorColor', cursorColor),
-      keyboardAppearance:
-          valueFromMaterial('keyboardAppearance', keyboardAppearance),
+      keyboardAppearance: valueFromMaterial(
+        'keyboardAppearance',
+        keyboardAppearance,
+      ),
       scrollPadding: valueFromMaterial('scrollPadding', scrollPadding),
-      dragStartBehavior:
-          valueFromMaterial('dragStartBehavior', dragStartBehavior),
+      dragStartBehavior: valueFromMaterial(
+        'dragStartBehavior',
+        dragStartBehavior,
+      ),
       // material
       decoration: materialDecoration,
       textDirection: textDirection,

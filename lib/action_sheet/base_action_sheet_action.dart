@@ -1,6 +1,7 @@
-import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../base_stateless_widget.dart';
 
 /// BaseAppBar
 /// use CupertinoActionSheetAction by cupertino
@@ -35,8 +36,10 @@ class BaseActionSheetAction extends BaseStatelessWidget {
       child: valueFromCupertino('child', child),
       onPressed: valueFromCupertino('onPressed', onPressed),
       isDefaultAction: valueFromCupertino('isDefaultAction', isDefaultAction),
-      isDestructiveAction:
-          valueFromCupertino('isDestructiveAction', isDestructiveAction),
+      isDestructiveAction: valueFromCupertino(
+        'isDestructiveAction',
+        isDestructiveAction,
+      ),
     );
   }
 

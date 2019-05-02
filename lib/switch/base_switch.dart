@@ -1,9 +1,8 @@
-import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/cupertino.dart' show CupertinoSwitch;
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart'
-    show Color, ImageProvider, Key, MaterialTapTargetSize, Switch, ValueChanged;
-import 'package:flutter/widgets.dart' show BuildContext, Widget;
+import 'package:flutter/gestures.dart' show DragStartBehavior;
+import 'package:flutter/material.dart';
+
+import '../base_stateless_widget.dart';
 
 /// 基础切换按钮
 class BaseSwitch extends BaseStatelessWidget {
@@ -46,8 +45,10 @@ class BaseSwitch extends BaseStatelessWidget {
       key: valueFromCupertino('key', key),
       value: valueFromCupertino('value', value),
       activeColor: valueFromCupertino('activeColor', activeColor),
-      dragStartBehavior:
-          valueFromCupertino('dragStartBehavior', dragStartBehavior),
+      dragStartBehavior: valueFromCupertino(
+        'dragStartBehavior',
+        dragStartBehavior,
+      ),
       onChanged: valueFromCupertino('onChanged', onChanged),
     );
   }
@@ -58,8 +59,10 @@ class BaseSwitch extends BaseStatelessWidget {
       key: valueFromMaterial('key', key),
       value: valueFromMaterial('value', value),
       activeColor: valueFromMaterial('activeColor', activeColor),
-      dragStartBehavior:
-          valueFromMaterial('dragStartBehavior', dragStartBehavior),
+      dragStartBehavior: valueFromMaterial(
+        'dragStartBehavior',
+        dragStartBehavior,
+      ),
       onChanged: valueFromMaterial('onChanged', onChanged),
       activeTrackColor: activeTrackColor,
       inactiveThumbColor: inactiveThumbColor,

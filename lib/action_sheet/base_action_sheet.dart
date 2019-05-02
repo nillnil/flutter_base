@@ -1,8 +1,11 @@
 import 'dart:ui';
 
-import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../base_constants.dart';
+import '../base_stateless_widget.dart';
+import '../platform/platform.dart';
 
 /// BaseAppBar
 /// use CupertinoActionSheet by cupertino
@@ -53,9 +56,13 @@ class BaseActionSheet extends BaseStatelessWidget {
       message: valueFromCupertino('message', message),
       actions: valueFromCupertino('actions', actions),
       messageScrollController: valueFromCupertino(
-          'messageScrollController', messageScrollController),
-      actionScrollController:
-          valueFromCupertino('actionScrollController', actionScrollController),
+        'messageScrollController',
+        messageScrollController,
+      ),
+      actionScrollController: valueFromCupertino(
+        'actionScrollController',
+        actionScrollController,
+      ),
       cancelButton: valueFromCupertino('cancelButton', cancelButton),
     );
   }
@@ -163,7 +170,9 @@ class BaseActionSheet extends BaseStatelessWidget {
             actions: valueFromMaterial('actions', actions),
             cancelButton: valueFromMaterial('cancelButton', cancelButton),
             scrollController: valueFromMaterial(
-                'actionScrollController', actionScrollController),
+              'actionScrollController',
+              actionScrollController,
+            ),
           )
         ],
       ),

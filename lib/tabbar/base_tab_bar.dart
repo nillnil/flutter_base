@@ -1,7 +1,13 @@
-import 'package:base/base_stateless_widget.dart';
-import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoTabBar;
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart'
+    show CupertinoColors
+    hide CupertinoTabBar, BottomNavigationBarItem;
+import 'package:flutter/material.dart'
+    hide BottomNavigationBarItem, BottomNavigationBar;
 
+import '../base_stateless_widget.dart';
+import '../flutter/cupertino/bottom_tab_bar.dart';
+import '../flutter/material/bottom_navigation_bar.dart';
+import '../flutter/widgets/bottom_navigation_bar_item.dart';
 import 'base_bar_item.dart';
 
 /// BaseTabBar
@@ -11,13 +17,13 @@ import 'base_bar_item.dart';
 /// *** not support material = { forceUseCupertino: true }.
 class BaseTabBar extends BaseStatelessWidget {
   BaseTabBar({
-    Key baseKey,
     this.key,
     this.items,
     this.onTap,
     this.currentIndex = 0,
     this.iconSize,
-    this.backgroundColor = const Color(0xCCF8F8F8),
+    this.backgroundColor,
+    this.showIndicator = true,
     this.activeColor = CupertinoColors.activeBlue,
     this.inactiveColor = CupertinoColors.inactiveGray,
     this.border = const Border(
@@ -38,7 +44,7 @@ class BaseTabBar extends BaseStatelessWidget {
     this.showUnselectedLabels,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
-  }) : super(key: baseKey, cupertino: cupertino, material: material);
+  }) : super(cupertino: cupertino, material: material);
 
   // general
   @override
@@ -47,9 +53,11 @@ class BaseTabBar extends BaseStatelessWidget {
   final ValueChanged<int> onTap;
   final int currentIndex;
   final double iconSize;
+  final Color backgroundColor;
+  // 显示指示器，当icon为null时，默认会添加一个指示器
+  final bool showIndicator;
 
   // cupertino
-  final Color backgroundColor;
   final Color activeColor;
   final Color inactiveColor;
   final Border border;
@@ -65,6 +73,31 @@ class BaseTabBar extends BaseStatelessWidget {
   final bool showSelectedLabels;
   final bool showUnselectedLabels;
 
+  /// 用户BaseTabScaffold里构建bottomNavigationBar
+  BaseTabBar copyWith({
+    ValueChanged<int> onTap,
+    int currentIndex = 0,
+  }) {
+    return BaseTabBar(
+      key: key,
+      items: items,
+      onTap: onTap ?? this.onTap,
+      currentIndex: currentIndex ?? currentIndex,
+      elevation: elevation,
+      type: type,
+      fixedColor: fixedColor,
+      backgroundColor: backgroundColor,
+      iconSize: iconSize,
+      selectedItemColor: selectedItemColor,
+      unselectedItemColor: unselectedItemColor,
+      selectedFontSize: selectedFontSize,
+      unselectedFontSize: unselectedFontSize,
+      showSelectedLabels: showSelectedLabels,
+      showUnselectedLabels: showSelectedLabels,
+      showIndicator: showIndicator,
+    );
+  }
+
   @override
   Widget buildByCupertino(BuildContext context) {
     final List<BaseBarItem> items = valueFromCupertino('items', this.items);
@@ -73,11 +106,13 @@ class BaseTabBar extends BaseStatelessWidget {
       items: _buildBarItem(context, items),
       onTap: valueFromCupertino('onTap', onTap),
       currentIndex: valueFromCupertino('currentIndex', currentIndex),
-      backgroundColor: valueFromCupertino('backgroundColor', backgroundColor),
+      backgroundColor: valueFromCupertino('backgroundColor', backgroundColor) ??
+          const Color(0xCCF8F8F8),
       activeColor: activeColor,
       inactiveColor: inactiveColor,
       iconSize: valueFromCupertino('iconSize', iconSize) ?? 30.0,
       border: valueFromCupertino('border', border),
+      showIndicator: valueFromCupertino('showIndicator', showIndicator),
     );
   }
 
@@ -92,6 +127,7 @@ class BaseTabBar extends BaseStatelessWidget {
       elevation: elevation,
       type: type,
       fixedColor: fixedColor,
+      backgroundColor: valueFromMaterial('backgroundColor', backgroundColor),
       iconSize: valueFromMaterial('iconSize', iconSize) ?? 24.0,
       selectedItemColor: selectedItemColor,
       unselectedItemColor: unselectedItemColor,
@@ -99,11 +135,14 @@ class BaseTabBar extends BaseStatelessWidget {
       unselectedFontSize: unselectedFontSize,
       showSelectedLabels: showSelectedLabels,
       showUnselectedLabels: showSelectedLabels,
+      showIndicator: valueFromMaterial('showIndicator', showIndicator),
     );
   }
 
   List<BottomNavigationBarItem> _buildBarItem(
-      BuildContext context, List<BaseBarItem> items) {
+    BuildContext context,
+    List<BaseBarItem> items,
+  ) {
     final List<BottomNavigationBarItem> barItems = <BottomNavigationBarItem>[];
     for (int i = 0; i < items.length; i++) {
       barItems.add(items[i].build(context));

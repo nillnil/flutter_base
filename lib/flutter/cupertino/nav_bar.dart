@@ -5,6 +5,7 @@
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/nav_bar.dart
 /// lastest push: 2019.04.16
 /// lastest update: flutter v1.5.3-pre.31 2019.04.19
+/// commit https://github.com/flutter/flutter/commit/364d73c7d8447c86ffcac24aab648b68e15f59a4
 /// #29452 https://github.com/flutter/flutter/pull/30815
 
 import 'dart:math' as math;

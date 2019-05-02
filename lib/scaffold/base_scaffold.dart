@@ -1,8 +1,9 @@
-import 'package:base/base_stateless_widget.dart';
-import 'package:base/appbar/base_app_bar.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
+import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/material.dart';
+
+import '../appbar/base_app_bar.dart';
+import '../base_stateless_widget.dart';
 
 /// BaseScaffold
 /// use CupertinoPageScaffold by cupertino, tab's scaffold use CupertinoTabScaffold

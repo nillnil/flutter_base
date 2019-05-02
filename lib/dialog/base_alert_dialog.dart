@@ -1,7 +1,9 @@
-import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/cupertino.dart'
     show CupertinoAlertDialog, ScrollController;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../base_stateless_widget.dart';
 
 /// BaseAlertDialog
 /// use CupertinoAlertDialog by cupertino
@@ -94,4 +96,16 @@ class BaseAlertDialog extends BaseStatelessWidget {
       builder: (BuildContext context) => build(context),
     );
   }
+}
+
+Future<T> showBaseDialog<T>(
+  BaseAlertDialog alertDialog,
+  BuildContext context, {
+  bool barrierDismissible = true,
+}) {
+  return showDialog<T>(
+    context: context,
+    barrierDismissible: barrierDismissible,
+    builder: (BuildContext context) => alertDialog,
+  );
 }

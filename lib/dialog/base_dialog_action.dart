@@ -1,21 +1,7 @@
-import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/cupertino.dart' show CupertinoDialogAction;
-import 'package:flutter/material.dart'
-    show
-        Brightness,
-        BuildContext,
-        ButtonTextTheme,
-        Clip,
-        Color,
-        EdgeInsetsGeometry,
-        FlatButton,
-        Key,
-        MaterialTapTargetSize,
-        ShapeBorder,
-        TextStyle,
-        ValueChanged,
-        VoidCallback,
-        Widget;
+import 'package:flutter/material.dart';
+
+import '../base_stateless_widget.dart';
 
 /// BaseDialogAction
 /// use CupertinoDialogAction by cupertino

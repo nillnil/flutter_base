@@ -3,9 +3,10 @@
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/material/app_bar.dart
-/// lastest push: 2019.04.04
-/// lastest update: flutter v1.4.9 2019.04.05
-/// #30415 https://github.com/flutter/flutter/pull/30415
+/// lastest push: 2019.05.02
+/// lastest update: flutter v1.5.9-pre.109 2019.05.02
+/// commit https://github.com/flutter/flutter/commit/15f187fce0a748d58a937e9b2b5127551dfa5991
+/// #31317 https://github.com/flutter/flutter/pull/31317
 
 import 'dart:math' as math;
 
@@ -66,9 +67,13 @@ class _ToolbarContainerLayout extends SingleChildLayoutDelegate {
 /// menu").
 ///
 /// App bars are typically used in the [Scaffold.appBar] property, which places
-/// the app bar as a fixed-height widget at the top of the screen. For a
-/// scrollable app bar, see [SliverAppBar], which embeds an [AppBar] in a sliver
-/// for use in a [CustomScrollView].
+/// the app bar as a fixed-height widget at the top of the screen. For a scrollable
+/// app bar, see [SliverAppBar], which embeds an [AppBar] in a sliver for use in
+/// a [CustomScrollView].
+///
+/// When not used as [Scaffold.appBar], or when wrapped in a [Hero], place the app
+/// bar in a [MediaQuery] to take care of the padding around the content of the
+/// app bar if needed, as the padding will not be handled by [Scaffold].
 ///
 /// The AppBar displays the toolbar widgets, [leading], [title], and [actions],
 /// above the [bottom] (if any). The [bottom] is usually used for a [TabBar]. If
@@ -815,6 +820,8 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 /// [TabBar] and a [FlexibleSpaceBar]. App bars typically expose one or more
 /// common actions with [IconButton]s which are optionally followed by a
 /// [PopupMenuButton] for less common operations.
+///
+/// {@youtube 560 315 https://www.youtube.com/watch?v=R9C5KMJKluE}
 ///
 /// Sliver app bars are typically used as the first child of a
 /// [CustomScrollView], which lets the app bar integrate with the scroll view so

@@ -1,8 +1,9 @@
-import 'package:base/base_stateless_widget.dart' show BaseStatelessWidget;
-import 'package:base/platform/platform.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter/material.dart';
+
+import '../base_stateless_widget.dart';
+import '../platform/platform.dart';
 
 /// BaseAppBar
 /// theme, use cupertinoTheme by cupertino，use materialTheme by material.
@@ -86,8 +87,9 @@ class BaseApp extends BaseStatelessWidget {
     super.buildBefore(context);
     // 设置目标平台
     setPlatform(
-        targetPlatform: targetPlatform,
-        withoutSplashOnCupertino: withoutSplashOnCupertino);
+      targetPlatform: targetPlatform,
+      withoutSplashOnCupertino: withoutSplashOnCupertino,
+    );
   }
 
   @override
@@ -101,31 +103,51 @@ class BaseApp extends BaseStatelessWidget {
       initialRoute: valueFromCupertino('initialRoute', initialRoute),
       onGenerateRoute: valueFromCupertino('onGenerateRoute', onGenerateRoute),
       onUnknownRoute: valueFromCupertino('onUnknownRoute', onUnknownRoute),
-      navigatorObservers:
-          valueFromCupertino('navigatorObservers', navigatorObservers),
+      navigatorObservers: valueFromCupertino(
+        'navigatorObservers',
+        navigatorObservers,
+      ),
       builder: valueFromCupertino('builder', builder),
       title: valueFromCupertino('title', title),
       onGenerateTitle: valueFromCupertino('onGenerateTitle', onGenerateTitle),
       color: valueFromCupertino('color', color),
       locale: valueFromCupertino('locale', locale),
-      localizationsDelegates:
-          valueFromCupertino('localizationsDelegates', localizationsDelegates),
+      localizationsDelegates: valueFromCupertino(
+        'localizationsDelegates',
+        localizationsDelegates,
+      ),
       localeListResolutionCallback: valueFromCupertino(
-          'localeListResolutionCallback', localeListResolutionCallback),
+        'localeListResolutionCallback',
+        localeListResolutionCallback,
+      ),
       localeResolutionCallback: valueFromCupertino(
-          'localeResolutionCallback', localeResolutionCallback),
-      supportedLocales:
-          valueFromCupertino('supportedLocales', supportedLocales),
-      showPerformanceOverlay:
-          valueFromCupertino('showPerformanceOverlay', showPerformanceOverlay),
+        'localeResolutionCallback',
+        localeResolutionCallback,
+      ),
+      supportedLocales: valueFromCupertino(
+        'supportedLocales',
+        supportedLocales,
+      ),
+      showPerformanceOverlay: valueFromCupertino(
+        'showPerformanceOverlay',
+        showPerformanceOverlay,
+      ),
       checkerboardRasterCacheImages: valueFromCupertino(
-          'checkerboardRasterCacheImages', checkerboardRasterCacheImages),
+        'checkerboardRasterCacheImages',
+        checkerboardRasterCacheImages,
+      ),
       checkerboardOffscreenLayers: valueFromCupertino(
-          'checkerboardOffscreenLayers', checkerboardOffscreenLayers),
-      showSemanticsDebugger:
-          valueFromCupertino('showSemanticsDebugger', showSemanticsDebugger),
+        'checkerboardOffscreenLayers',
+        checkerboardOffscreenLayers,
+      ),
+      showSemanticsDebugger: valueFromCupertino(
+        'showSemanticsDebugger',
+        showSemanticsDebugger,
+      ),
       debugShowCheckedModeBanner: valueFromCupertino(
-          'debugShowCheckedModeBanner', debugShowCheckedModeBanner),
+        'debugShowCheckedModeBanner',
+        debugShowCheckedModeBanner,
+      ),
     );
   }
 
@@ -139,8 +161,10 @@ class BaseApp extends BaseStatelessWidget {
       initialRoute: valueFromMaterial('initialRoute', initialRoute),
       onGenerateRoute: valueFromMaterial('onGenerateRoute', onGenerateRoute),
       onUnknownRoute: valueFromMaterial('onUnknownRoute', onUnknownRoute),
-      navigatorObservers:
-          valueFromMaterial('navigatorObservers', navigatorObservers),
+      navigatorObservers: valueFromMaterial(
+        'navigatorObservers',
+        navigatorObservers,
+      ),
       builder: valueFromMaterial('builder', builder),
       title: valueFromMaterial('title', title),
       onGenerateTitle: valueFromMaterial('onGenerateTitle', onGenerateTitle),
@@ -148,25 +172,43 @@ class BaseApp extends BaseStatelessWidget {
       theme: valueFromMaterial('theme', materialTheme),
       darkTheme: dartTheme,
       locale: valueFromMaterial('locale', locale),
-      localizationsDelegates:
-          valueFromMaterial('localizationsDelegates', localizationsDelegates),
+      localizationsDelegates: valueFromMaterial(
+        'localizationsDelegates',
+        localizationsDelegates,
+      ),
       localeListResolutionCallback: valueFromMaterial(
-          'localeListResolutionCallback', localeListResolutionCallback),
+        'localeListResolutionCallback',
+        localeListResolutionCallback,
+      ),
       localeResolutionCallback: valueFromMaterial(
-          'localeResolutionCallback', localeResolutionCallback),
+        'localeResolutionCallback',
+        localeResolutionCallback,
+      ),
       supportedLocales: valueFromMaterial('supportedLocales', supportedLocales),
-      showPerformanceOverlay:
-          valueFromMaterial('showPerformanceOverlay', showPerformanceOverlay),
+      showPerformanceOverlay: valueFromMaterial(
+        'showPerformanceOverlay',
+        showPerformanceOverlay,
+      ),
       checkerboardRasterCacheImages: valueFromMaterial(
-          'checkerboardRasterCacheImages', checkerboardRasterCacheImages),
+        'checkerboardRasterCacheImages',
+        checkerboardRasterCacheImages,
+      ),
       checkerboardOffscreenLayers: valueFromMaterial(
-          'checkerboardOffscreenLayers', checkerboardOffscreenLayers),
-      showSemanticsDebugger:
-          valueFromMaterial('showSemanticsDebugger', showSemanticsDebugger),
+        'checkerboardOffscreenLayers',
+        checkerboardOffscreenLayers,
+      ),
+      showSemanticsDebugger: valueFromMaterial(
+        'showSemanticsDebugger',
+        showSemanticsDebugger,
+      ),
       debugShowCheckedModeBanner: valueFromMaterial(
-          'debugShowCheckedModeBanner', debugShowCheckedModeBanner),
-      debugShowMaterialGrid:
-          valueFromMaterial('debugShowMaterialGrid', debugShowMaterialGrid),
+        'debugShowCheckedModeBanner',
+        debugShowCheckedModeBanner,
+      ),
+      debugShowMaterialGrid: valueFromMaterial(
+        'debugShowMaterialGrid',
+        debugShowMaterialGrid,
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart'
     show BuildContext, Color, Icon, IconData, Key, TextDirection, Widget;
-import 'package:base/base_stateless_widget.dart';
+
+import '../base_stateless_widget.dart';
 
 // BaseIcon
 /// use Icon by cupertino

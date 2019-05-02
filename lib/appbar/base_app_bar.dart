@@ -5,6 +5,7 @@ import 'package:base/flutter/flutter_modify.dart'
     show AppBar, CupertinoNavigationBar;
 import 'package:flutter/cupertino.dart' hide CupertinoNavigationBar;
 import 'package:flutter/material.dart' hide AppBar;
+import 'package:flutter/widgets.dart';
 
 /// BaseAppBar
 /// use CupertinoNavigationBar by cupertino
@@ -124,7 +125,16 @@ class BaseAppBar extends BaseStatelessWidget
     Widget _trailing = valueFromCupertino('trailing', trailing);
     final List<Widget> _actions = valueFromMaterial('actions', actions);
     if (_actions != null && _actions.isNotEmpty && _trailing == null) {
-      _trailing = _actions[0];
+      if (actions.length == 1) {
+        _trailing = _actions[0];
+      } else {
+        _trailing = Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: _actions,
+        );
+      }
     }
     final Widget _title = valueFromCupertino('middle', middle) ??
         valueFromCupertino('title', title);
@@ -156,7 +166,9 @@ class BaseAppBar extends BaseStatelessWidget
         key: valueFromCupertino('key', key),
         leading: _leading,
         automaticallyImplyLeading: valueFromCupertino(
-            'automaticallyImplyLeading', automaticallyImplyLeading),
+          'automaticallyImplyLeading',
+          automaticallyImplyLeading,
+        ),
         automaticallyImplyMiddle: automaticallyImplyMiddle,
         previousPageTitle: previousPageTitle,
         middle: _title,
@@ -182,7 +194,9 @@ class BaseAppBar extends BaseStatelessWidget
         key: valueFromCupertino('key', key),
         leading: _leading,
         automaticallyImplyLeading: valueFromCupertino(
-            'automaticallyImplyLeading', automaticallyImplyLeading),
+          'automaticallyImplyLeading',
+          automaticallyImplyLeading,
+        ),
         automaticallyImplyMiddle: automaticallyImplyMiddle,
         previousPageTitle: previousPageTitle,
         middle: _title,
@@ -210,22 +224,35 @@ class BaseAppBar extends BaseStatelessWidget
   Widget buildByMaterial(BuildContext context) {
     final Widget _title = valueFromMaterial('title', title) ??
         valueFromMaterial('middle', middle);
+    Widget _leading = valueFromMaterial('leading', leading);
+    final EdgeInsetsDirectional _padding =
+        valueFromMaterial('padding', padding);
+    if (_padding != null) {
+      _leading = Padding(
+        padding: EdgeInsets.only(left: _padding.start),
+        child: _leading,
+      );
+    }
     // actions为null，且trailing不为nul,，取trailing = [ trailing ];
     List<Widget> _actions = valueFromMaterial('actions', actions);
     final Widget _trailing = valueFromMaterial('trailing', trailing);
     if (_actions == null && _trailing != null) {
       _actions = <Widget>[_trailing];
     }
-    final Color _backgroundColor =
-        valueFromMaterial('backgroundColor', backgroundColor) ??
-            Theme.of(context).appBarTheme.color ??
-            Theme.of(context).primaryColor;
+    final Color _backgroundColor = valueFromMaterial(
+          'backgroundColor',
+          backgroundColor,
+        ) ??
+        Theme.of(context).appBarTheme.color ??
+        Theme.of(context).primaryColor;
 
     return AppBar(
       key: valueFromMaterial('key', key),
-      leading: valueFromMaterial('leading', leading),
+      leading: _leading,
       automaticallyImplyLeading: valueFromMaterial(
-          'automaticallyImplyLeading', automaticallyImplyLeading),
+        'automaticallyImplyLeading',
+        automaticallyImplyLeading,
+      ),
       title: _title,
       actions: _actions,
       flexibleSpace: flexibleSpace,

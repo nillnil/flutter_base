@@ -1,3 +1,9 @@
+## 0.1.9 - 2019.05.02
+
+* Release v0.1.9
+* modify CupertinoTabBar, CupertinoTabScaffold, BottomNavigationBar, BottomNavigationBarItem
+* BottomNavigationBarItem's icon can be null.
+
 ## 0.1.8 - 2019.04.28
 
 * Release v0.1.8

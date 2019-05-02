@@ -1,8 +1,9 @@
-import 'package:base/base_constants.dart';
-import 'package:base/base_mixin.dart';
-import 'package:base/platform/platform.dart';
-import 'package:base/utils/custom_material_widget.dart';
 import 'package:flutter/material.dart';
+
+import './platform/platform.dart';
+import './utils/custom_material_widget.dart';
+import 'base_constants.dart';
+import 'base_mixin.dart';
 
 /// 基础状态组件
 /// cupertino使用buildByCupertino方法构建，material使用buildByMaterial方法构建

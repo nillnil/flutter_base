@@ -1,12 +1,14 @@
-import 'package:base/appbar/base_app_bar.dart';
-import 'package:base/platform/platform.dart';
-import 'package:base/tabbar/base_tab_bar.dart';
 import 'package:flutter/cupertino.dart'
-    show CupertinoTabScaffold, CupertinoTabView;
+    show CupertinoTabView
+    hide CupertinoTabScaffold;
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide BottomNavigationBar;
 
+import '../appbar/base_app_bar.dart';
 import '../base_stateful_widget.dart';
+import '../flutter/cupertino/tab_scaffold.dart';
+import '../platform/platform.dart';
+import '../tabbar/base_tab_bar.dart';
 
 /// BaseTabScaffold
 /// use CupertinoTabScaffold by cupertino
@@ -88,20 +90,26 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
   void initState() {
     super.initState();
     if (useMaterial) {
-      final BaseTabBar tabBar = valueFromMaterial('tabBar', widget.tabBar);
-      _currentIndex =
-          tabBar.valueFromMaterial('currentIndex', tabBar.currentIndex);
+      // final BaseTabBar tabBar = valueFromMaterial('tabBar', widget.tabBar);
+      // _currentIndex = tabBar.valueFromMaterial(
+      //   'currentIndex',
+      //   tabBar.currentIndex,
+      // );
     }
   }
 
   @override
   Widget buildByCupertino(BuildContext context) {
     final BaseTabBar tabBar = valueFromCupertino('tabBar', widget.tabBar);
-    final List<Widget> tabViews =
-        valueFromCupertino('tabViews', widget.tabViews);
+    final List<Widget> tabViews = valueFromCupertino(
+      'tabViews',
+      widget.tabViews,
+    );
     if (tabBar != null || tabViews != null) {
-      assert(tabBar != null && tabViews != null,
-          'tabBar and tabView can not be null');
+      assert(
+        tabBar != null && tabViews != null,
+        'tabBar and tabView can not be null',
+      );
     }
     return CupertinoTabScaffold(
       key: valueFromCupertino('key', widget.key),
@@ -120,24 +128,29 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
           navigatorObservers: widget.navigatorObservers,
         );
       },
-      backgroundColor:
-          valueFromMaterial('backgroundColor', widget.backgroundColor),
+      backgroundColor: valueFromMaterial(
+        'backgroundColor',
+        widget.backgroundColor,
+      ),
       resizeToAvoidBottomInset: valueFromCupertino(
-          'resizeToAvoidBottomInset', widget.resizeToAvoidBottomInset),
+        'resizeToAvoidBottomInset',
+        widget.resizeToAvoidBottomInset,
+      ),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
     final BaseTabBar tabBar = valueFromMaterial('tabBar', widget.tabBar);
-    final List<Widget> tabViews =
-        valueFromMaterial('tabViews', widget.tabViews);
+    final List<Widget> tabViews = valueFromMaterial(
+      'tabViews',
+      widget.tabViews,
+    );
     return Scaffold(
       key: valueFromMaterial('key', widget.key),
       body: tabViews[_currentIndex],
-      bottomNavigationBar: BaseTabBar(
-        items: tabBar.valueFromMaterial('items', tabBar.items),
-        onTap: (int index) {
+      bottomNavigationBar: tabBar.copyWith(
+          onTap: (int index) {
           setState(() {
             _currentIndex = index;
           });
@@ -148,16 +161,6 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
           }
         },
         currentIndex: _currentIndex,
-        elevation: tabBar.elevation,
-        type: tabBar.type,
-        fixedColor: tabBar.fixedColor,
-        iconSize: valueFromMaterial('iconSize', tabBar.iconSize) ?? 24.0,
-        selectedItemColor: tabBar.selectedItemColor,
-        unselectedItemColor: tabBar.unselectedItemColor,
-        selectedFontSize: tabBar.selectedFontSize,
-        unselectedFontSize: tabBar.unselectedFontSize,
-        showSelectedLabels: tabBar.showSelectedLabels,
-        showUnselectedLabels: tabBar.showSelectedLabels,
       ),
       floatingActionButton: widget.floatingActionButton,
       floatingActionButtonLocation: widget.floatingActionButtonLocation,
@@ -166,8 +169,10 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
       drawer: widget.drawer,
       endDrawer: widget.endDrawer,
       bottomSheet: widget.bottomSheet,
-      backgroundColor:
-          valueFromMaterial('backgroundColor', widget.backgroundColor),
+      backgroundColor: valueFromMaterial(
+        'backgroundColor',
+        widget.backgroundColor,
+      ),
       resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
       primary: widget.primary,
       drawerDragStartBehavior: widget.drawerDragStartBehavior,

@@ -1,5 +1,5 @@
-import 'package:example/store/action.dart';
-import 'package:example/store/app_state.dart';
+import 'action.dart';
+import 'app_state.dart';
 
 AppState appReducer(AppState state, dynamic action) {
   if (action is PlatformAction) {

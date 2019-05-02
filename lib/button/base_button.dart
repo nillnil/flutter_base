@@ -1,6 +1,7 @@
-import 'package:base/base_stateless_widget.dart' show BaseStatelessWidget;
 import 'package:flutter/cupertino.dart' show CupertinoButton, ShapeBorder;
 import 'package:flutter/material.dart';
+
+import '../base_stateless_widget.dart';
 
 /// BaseButton
 /// use CupertinoButton or CupertinoButton.filled by cupertino
@@ -88,6 +89,7 @@ class BaseButton extends BaseStatelessWidget {
     /// if do not want to have label, use BaseIconButton.
     @required Widget icon,
     Widget label,
+    double interval = 8.0,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
   })  : child = label != null
@@ -95,7 +97,7 @@ class BaseButton extends BaseStatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   icon,
-                  const SizedBox(width: 8.0),
+                  SizedBox(width: interval),
                   label,
                 ],
               )

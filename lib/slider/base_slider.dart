@@ -1,12 +1,13 @@
-import 'package:base/base_stateless_widget.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart' show CupertinoSlider;
 import 'package:flutter/material.dart';
 
-/// 基础页面
-/// cupertino，单页面使用CupertinoSlider
-/// *** 可使用 cupertino = { forceUseMaterial: true } 参数强制使用Slider
-/// material，使用Slider
-/// *** 可使用 material = { forceUseCupertino: true } 参数强制使用CupertinoSlider
+import '../base_stateless_widget.dart';
+
+/// BaseSlider
+/// cupertino，use CupertinoSlider
+/// *** use cupertino = { forceUseMaterial: true } force use Slider
+/// material，use Slider
+/// *** use material = { forceUseCupertino: true } force use CupertinoSlider
 class BaseSlider extends BaseStatelessWidget {
   BaseSlider({
     Key baseKey,

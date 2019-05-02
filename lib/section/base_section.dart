@@ -1,7 +1,6 @@
-import 'package:base/base_stateless_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+import '../base_stateless_widget.dart';
 
 /// BaseSection
 /// use custom Container by cupertino or material

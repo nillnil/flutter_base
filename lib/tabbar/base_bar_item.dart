@@ -1,6 +1,9 @@
 import 'package:flutter/widgets.dart'
-    show BottomNavigationBarItem, BuildContext, Color, Widget;
-import 'package:base/base_class.dart';
+    show BuildContext, Color, Widget
+    hide BottomNavigationBarItem;
+
+import '../base_class.dart';
+import '../flutter/widgets/bottom_navigation_bar_item.dart';
 
 /// BaseBarItem
 /// use BottomNavigationBarItem by cupertino

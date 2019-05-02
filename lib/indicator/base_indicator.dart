@@ -1,7 +1,8 @@
-import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/cupertino.dart' show CupertinoActivityIndicator;
 import 'package:flutter/material.dart'
     show Animation, BuildContext, CircularProgressIndicator, Color, Key, Widget;
+
+import '../base_stateless_widget.dart';
 
 /// BaseIndicator
 /// use CupertinoActivityIndicator by cupertino

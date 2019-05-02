@@ -1,6 +1,7 @@
-import 'package:base/base_stateless_widget.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart' show CupertinoTheme;
 import 'package:flutter/material.dart';
+
+import '../base_stateless_widget.dart';
 
 /// BaseTile
 /// use custom InkWell by cupertino
@@ -176,7 +177,10 @@ class BaseTile extends BaseStatelessWidget {
       child: Ink(
         child: InkWell(
           radius: 0.0,
-          borderRadius: valueFromCupertino('borderRadius', borderRadius) ??
+          borderRadius: valueFromCupertino(
+                'borderRadius',
+                borderRadius,
+              ) ??
               BorderRadius.zero,
           child: Semantics(
             child: SafeArea(
@@ -197,8 +201,10 @@ class BaseTile extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final Color _backgroundColor =
-        valueFromMaterial('backgroundColor', backgroundColor);
+    final Color _backgroundColor = valueFromMaterial(
+      'backgroundColor',
+      backgroundColor,
+    );
     Widget _text = valueFromMaterial('title', title);
     _text ??= titleText != null
         ? Text(

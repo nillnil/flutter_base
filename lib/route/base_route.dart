@@ -1,7 +1,8 @@
-import 'package:base/base_class.dart';
 import 'package:flutter/cupertino.dart' show CupertinoPageRoute, RoutePredicate;
 import 'package:flutter/material.dart'
     show BuildContext, MaterialPageRoute, Navigator, RouteSettings;
+
+import '../base_class.dart';
 
 /// BaseRoute
 /// use CupertinoPageRoute or CupertinoButton.filled by cupertino
@@ -34,8 +35,10 @@ class BaseRoute<T> extends BaseClass {
       title: title,
       settings: valueFromCupertino('settings', settings),
       maintainState: valueFromCupertino('maintainState', maintainState),
-      fullscreenDialog:
-          valueFromCupertino('fullscreenDialog', fullscreenDialog),
+      fullscreenDialog: valueFromCupertino(
+        'fullscreenDialog',
+        fullscreenDialog,
+      ),
       builder: (BuildContext context) {
         return valueFromCupertino('page', page);
       },
@@ -78,4 +81,31 @@ class BaseRoute<T> extends BaseClass {
       nullOk: nullOk,
     ).pushAndRemoveUntil(build(context), predicate);
   }
+}
+
+Future<T> pushBaseRoute<T extends Object>(
+  BaseRoute<T> baseRoute,
+  BuildContext context, {
+  bool rootNavigator = false,
+  bool nullOk = false,
+}) {
+  return Navigator.of(
+    context,
+    rootNavigator: rootNavigator,
+    nullOk: nullOk,
+  ).push(baseRoute.build(context));
+}
+
+Future<T> pushBaseRouteAndRemoveUntil<T extends Object>(
+  BaseRoute<T> baseRoute,
+  BuildContext context, {
+  bool rootNavigator = false,
+  bool nullOk = false,
+  RoutePredicate predicate,
+}) {
+  return Navigator.of(
+    context,
+    rootNavigator: rootNavigator,
+    nullOk: nullOk,
+  ).pushAndRemoveUntil(baseRoute.build(context), predicate);
 }

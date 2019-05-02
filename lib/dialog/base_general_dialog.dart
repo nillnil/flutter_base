@@ -1,7 +1,7 @@
-import 'package:base/base_stateless_widget.dart';
-import 'package:base/platform/platform.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../base_stateless_widget.dart';
+import '../platform/platform.dart';
 
 @deprecated
 class BaseGeneralDialog extends BaseStatelessWidget {

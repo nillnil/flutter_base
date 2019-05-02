@@ -1,6 +1,7 @@
-import 'package:base/base_stateless_widget.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart' show CupertinoScrollbar;
 import 'package:flutter/material.dart';
+
+import '../base_stateless_widget.dart';
 
 /// BaseScrollBar
 /// use CupertinoScrollbar by cupertino

@@ -1,6 +1,7 @@
-import 'package:base/base_stateless_widget.dart';
 import 'package:flutter/cupertino.dart' hide RefreshCallback;
 import 'package:flutter/material.dart';
+
+import '../base_stateless_widget.dart';
 
 /// BaseIndicator
 /// use CustomScrollView + CupertinoSliverRefreshControl by cupertino
@@ -52,14 +53,16 @@ class BaseRefresh extends BaseStatelessWidget {
     Widget _child = child;
     if (child is ListView) {
       // ListView => SliverList
+      final ListView listView = child;
       _child = SliverList(
-        delegate: (child as ListView).childrenDelegate,
+        delegate: listView.childrenDelegate,
       );
     } else if (child is CustomScrollView) {
       // CustomScrollView => SliverList
+      final CustomScrollView customScrollView = child;
       _child = SliverList(
         delegate: SliverChildListDelegate(
-          (child as CustomScrollView).slivers,
+          customScrollView.slivers,
         ),
       );
     }
@@ -82,8 +85,9 @@ class BaseRefresh extends BaseStatelessWidget {
     Widget _child = child;
     if (child is SliverList) {
       // SliverList => ListView
+      final SliverList sliverList = child;
       _child = ListView.custom(
-        childrenDelegate: (child as SliverList).delegate,
+        childrenDelegate: sliverList.delegate,
       );
     }
     return RefreshIndicator(

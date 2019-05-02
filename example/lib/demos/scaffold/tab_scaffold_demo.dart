@@ -19,6 +19,14 @@ class TabScaffoldDemo extends StatelessWidget {
       widgetName: 'BaseTabScaffold',
       materialDesc: 'use Scaffold',
       cupertinoDesc: 'use CupertinoTabScaffold',
+      parameterDesc: const <String, String>{
+        'tabBar': 'BaseTabBar, use CupertinoTabBar on Cupertino, '
+            'use BottomNavigationBar on Material.\n'
+            'BaseTabBar.items is List<BaseBarItem> '
+            'and the BaseBarItem use custom BottomNavigationBarItem, '
+            'the icon can be null',
+        'tabViews': 'The scaffolds.'
+      },
       demos: _demos,
     );
   }
