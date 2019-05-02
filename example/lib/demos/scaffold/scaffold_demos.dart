@@ -37,6 +37,15 @@ class _ScaffoldDemosState extends State<ScaffoldDemos> with SingleTickerProvider
           ],
           indicatorColor: Colors.white,
         ),
+        trailing: Container(
+          width: 40,
+        ),
+        transitionBetweenRoutes: false,
+        material: <String, dynamic>{
+          'trailing': Container(
+            width: 44,
+          ),
+        },
       ),
       body: TabBarView(
         controller: tabController,

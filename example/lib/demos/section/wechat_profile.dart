@@ -10,7 +10,7 @@ class WechatProfile extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
-    Widget cameraWidget = BaseIcon(
+    final Widget cameraWidget = BaseIcon(
       icon: IconFont.camera, 
       size: 20, 
       color: Colors.black,

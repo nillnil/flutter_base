@@ -75,7 +75,7 @@ class _RefreshPageState extends State<_RefreshPage> {
   Future<void> _refresh() async {
     final Completer<void> completer = Completer<void>();
     Timer(
-      Duration(seconds: 1),
+      const Duration(seconds: 1),
       () {
         setState(() {
           count += extent;

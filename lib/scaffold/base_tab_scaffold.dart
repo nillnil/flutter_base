@@ -150,7 +150,7 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
       key: valueFromMaterial('key', widget.key),
       body: tabViews[_currentIndex],
       bottomNavigationBar: tabBar.copyWith(
-          onTap: (int index) {
+        onTap: (int index) {
           setState(() {
             _currentIndex = index;
           });
