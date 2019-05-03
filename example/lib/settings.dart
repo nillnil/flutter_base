@@ -109,7 +109,7 @@ class Settings extends StatelessWidget {
                         trailing: const Padding(
                           padding: EdgeInsets.only(right: 5.0),
                           child: Text(
-                            '0.1.8',
+                            '0.1.10',
                             style: TextStyle(
                               color: Colors.grey,
                             ),
