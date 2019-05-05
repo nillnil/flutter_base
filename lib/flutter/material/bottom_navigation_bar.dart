@@ -14,7 +14,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart' 
   show Brightness, Colors, InkResponse, Material, MaterialLocalizations, 
   MaterialType, TextTheme, Theme, ThemeData, debugCheckHasMaterialLocalizations, 
-  kBottomNavigationBarHeight, kThemeAnimationDuration
+  kBottomNavigationBarHeight, kThemeAnimationDuration, UnderlineTabIndicator
   hide BottomNavigationBarItem;
 import 'package:flutter/material.dart' show BottomNavigationBarType;
 import 'package:flutter/widgets.dart' hide BottomNavigationBarItem;
@@ -419,14 +419,13 @@ class _BottomNavigationTile extends StatelessWidget {
       children.add(
         Container(
           margin: const EdgeInsets.only(top: 10.0),
-          decoration: BoxDecoration(
-            color: selected ? colorTween.evaluate(animation) : Colors.transparent,
-            borderRadius: const BorderRadius.all(
-              Radius.circular(1.0)
+          decoration: UnderlineTabIndicator(
+            borderSide: BorderSide(
+              color: selected ? colorTween.evaluate(animation) : Colors.transparent,
+              width: 2,
             ),
+            insets: const EdgeInsets.symmetric(horizontal: 40.0),
           ),
-          width: 40,
-          height: 2.0,
         )
       );
     }

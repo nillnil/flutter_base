@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../appbar/base_app_bar.dart';
 import '../base_stateless_widget.dart';
+import '../theme/base_theme.dart';
 
 /// BaseScaffold
 /// use CupertinoPageScaffold by cupertino, tab's scaffold use CupertinoTabScaffold
@@ -36,37 +37,95 @@ class BaseScaffold extends BaseStatelessWidget {
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
 
-  // general
+  /// *** general properties start ***
+
   @override
   final Key key;
+
+  /// [CupertinoPageScaffold.navigationBar]
+  /// or
+  /// [Scaffold.appBar]
+  /// If this properties is null, then [navBar] is use.
+  ///
+  /// 该参数为null，则会使用[navBar]
   final BaseAppBar appBar;
+
+  /// [CupertinoPageScaffold.navigationBar]
+  /// or
+  /// [Scaffold.appBar]
+  ///
+  /// If this properties is null, then [appBar] is use.
+  ///
+  /// 该参数为null，则会使用[appBar]
   final BaseAppBar navBar;
+
+  /// [CupertinoPageScaffold.backgroundColor]
+  /// or
+  /// [Scaffold.backgroundColor]
   final Color backgroundColor;
+
+  /// [CupertinoPageScaffold.body]
+  /// or
+  /// [Scaffold.body]
   final Widget body;
 
-  // cupertino
+  /// [CupertinoPageScaffold.resizeToAvoidBottomInset]
+  /// or
+  /// [Scaffold.resizeToAvoidBottomInset]
   final bool resizeToAvoidBottomInset;
 
+  /// *** general properties end ***
+
+  /// *** cupertino properties start ***
+
+  /// [SafeArea.top], default is false
   /// 相当于SafeArea的top，默认false
   /// 当导航栏背景色为透明的，设置为true可以使页面起点在导航栏下方
   final bool safeAreaTop;
 
+  /// [SafeArea.bottom], default is false
   /// 相当于SafeArea的bottom，默认false
   /// 设置为true可以避免页面被iphone下方的Home Indicator遮住
   final bool safeAreaBottom;
 
-  // material
+  /// *** cupertino properties end ***
+
+  /// *** material properties start ***
+
+  /// [Scaffold.floatingActionButton]
   final Widget floatingActionButton;
+
+  /// [Scaffold.floatingActionButtonLocation]
   final FloatingActionButtonLocation floatingActionButtonLocation;
+
+  /// [Scaffold.floatingActionButtonAnimator]
   final FloatingActionButtonAnimator floatingActionButtonAnimator;
+
+  /// [Scaffold.persistentFooterButtons]
   final List<Widget> persistentFooterButtons;
+
+  /// [Scaffold.drawer]
   final Widget drawer;
+
+  /// [Scaffold.endDrawer]
   final Widget endDrawer;
+
+  /// [Scaffold.bottomSheet]
   final Widget bottomSheet;
+
+  /// [Scaffold.resizeToAvoidBottomPadding]
   final bool resizeToAvoidBottomPadding;
+
+  /// [Scaffold.primary]
   final bool primary;
+
+  /// [Scaffold.drawerDragStartBehavior]
   final DragStartBehavior drawerDragStartBehavior;
+
+  /// [Scaffold.extendBody]
   final bool extendBody;
+
+  /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {
@@ -85,12 +144,15 @@ class BaseScaffold extends BaseStatelessWidget {
         child: body,
       );
     }
+    final double appBarHeight = BaseTheme.of(context).appBarHeight;
     return CupertinoPageScaffold(
       key: valueFromCupertino('key', key),
-      navigationBar: appBar,
+      navigationBar: appBarHeight == null ? appBar : appBar?.build(context),
       backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: valueFromCupertino(
-          'resizeToAvoidBottomInset', resizeToAvoidBottomInset),
+        'resizeToAvoidBottomInset',
+        resizeToAvoidBottomInset,
+      ),
       child: child,
     );
   }
@@ -99,9 +161,10 @@ class BaseScaffold extends BaseStatelessWidget {
   Widget buildByMaterial(BuildContext context) {
     final BaseAppBar appBar = valueFromMaterial('appBar', this.appBar) ??
         valueFromMaterial('navBar', navBar);
+    final double appBarHeight = BaseTheme.of(context).appBarHeight;
     return Scaffold(
       key: valueFromMaterial('key', key),
-      appBar: appBar,
+      appBar: appBarHeight == null ? appBar : appBar?.build(context),
       body: valueFromMaterial('body', body),
       floatingActionButton: floatingActionButton,
       floatingActionButtonLocation: floatingActionButtonLocation,
@@ -112,7 +175,9 @@ class BaseScaffold extends BaseStatelessWidget {
       bottomSheet: bottomSheet,
       backgroundColor: valueFromMaterial('backgroundColor', backgroundColor),
       resizeToAvoidBottomInset: valueFromMaterial(
-          'resizeToAvoidBottomInset', resizeToAvoidBottomInset),
+        'resizeToAvoidBottomInset',
+        resizeToAvoidBottomInset,
+      ),
       primary: primary,
       drawerDragStartBehavior: drawerDragStartBehavior,
       extendBody: extendBody,

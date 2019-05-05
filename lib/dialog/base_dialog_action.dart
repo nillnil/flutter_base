@@ -34,31 +34,78 @@ class BaseDialogAction extends BaseStatelessWidget {
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
 
-  // general
+  /// *** general properties start ***
+
   @override
   final Key key;
+
+  /// [CupertinoDialogAction.onPressed]
+  /// or
+  /// [FlatButton.onPressed]
   final VoidCallback onPressed;
+
+  /// [CupertinoDialogAction.onPressed]
+  /// or
+  /// [FlatButton.child]
   final Widget child;
 
-  // cupertino
+  /// *** general properties end ***
+
+  /// *** cupertino properties start ***
+
+  /// [CupertinoDialogAction.isDefaultAction]
   final bool isDefaultAction;
+
+  /// [CupertinoDialogAction.isDestructiveAction]
   final bool isDestructiveAction;
+
+  /// [CupertinoDialogAction.textStyle]
   final TextStyle textStyle;
 
-  // material
+  /// *** cupertino properties end ***
+
+  /// *** material properties start ***
+
+  /// [FlatButton.onHighlightChanged]
   final ValueChanged<bool> onHighlightChanged;
+
+  /// [FlatButton.textTheme]
   final ButtonTextTheme textTheme;
+
+  /// [FlatButton.textColor]
   final Color textColor;
+
+  /// [FlatButton.disabledTextColor]
   final Color disabledTextColor;
+
+  /// [FlatButton.color]
   final Color color;
+
+  /// [FlatButton.disabledColor]
   final Color disabledColor;
+
+  /// [FlatButton.highlightColor]
   final Color highlightColor;
+
+  /// [FlatButton.splashColor]
   final Color splashColor;
+
+  /// [FlatButton.colorBrightness]
   final Brightness colorBrightness;
+
+  /// [FlatButton.padding]
   final EdgeInsetsGeometry padding;
+
+  /// [FlatButton.shape]
   final ShapeBorder shape;
+
+  /// [FlatButton.clipBehavior]
   final Clip clipBehavior;
+
+  /// [FlatButton.materialTapTargetSize]
   final MaterialTapTargetSize materialTapTargetSize;
+
+  /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {

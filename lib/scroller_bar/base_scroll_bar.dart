@@ -19,6 +19,10 @@ class BaseScrollBar extends BaseStatelessWidget {
 
   @override
   final Key key;
+
+  /// [CupertinoScrollbar.child]
+  /// or
+  /// [Scrollbar.child]
   final Widget child;
 
   @override

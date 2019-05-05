@@ -11,6 +11,7 @@
 import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoTheme;
+import 'package:flutter/material.dart' show UnderlineTabIndicator;
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart' hide BottomNavigationBarItem;
 
@@ -123,7 +124,7 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
   /// The default value is a one physical pixel top border with grey color.
   final Border border;
 
-  /// when the icon is null, will add ad indicator.
+  /// when the icon is null, will add an indicator.
   final bool showIndicator;
 
   @override
@@ -240,15 +241,14 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
         if (showIndicator && active) {
           components.add(
             Container(
-              decoration: BoxDecoration(
-                color: activeColor,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(1.0)
+              decoration: UnderlineTabIndicator(
+                borderSide: BorderSide(
+                  color: activeColor,
+                  width: 2,
                 ),
+                insets: const EdgeInsets.symmetric(horizontal: 40.0),
               ),
-              width: 40,
-              height: 2.0,
-            )
+            ),
           );
         }
       } else {

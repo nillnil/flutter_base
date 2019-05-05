@@ -1,7 +1,9 @@
 ## 0.1.10 - 2019.05.03
 
 * Release v0.1.10
+* add BaseTheme
 * fix code format
+* update document
 
 ## 0.1.9 - 2019.05.02
 

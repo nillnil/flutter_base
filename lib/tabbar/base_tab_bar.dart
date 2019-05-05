@@ -46,32 +46,85 @@ class BaseTabBar extends BaseStatelessWidget {
     Map<String, dynamic> material,
   }) : super(cupertino: cupertino, material: material);
 
-  // general
+  /// *** general properties start ***
+
   @override
   final Key key;
+
+  /// See also:
+  ///   * [CupertinoTabBar.items]
+  ///   * [BottomNavigationBar.items]
   final List<BaseBarItem> items;
+
+  /// [CupertinoTabBar.onTap]
+  /// or
+  /// [BottomNavigationBar.onTap]
   final ValueChanged<int> onTap;
+
+  /// [CupertinoTabBar.currentIndex]
+  /// or
+  /// [BottomNavigationBar.currentIndex]
   final int currentIndex;
+
+  /// [CupertinoTabBar.iconSize]
+  /// or
+  /// [BottomNavigationBar.iconSize]
   final double iconSize;
+
+  /// [CupertinoTabBar.backgroundColor]
+  /// or
+  /// [BottomNavigationBar.backgroundColor]
   final Color backgroundColor;
+
+  /// when [icon is null], then will add an indicator
   // 显示指示器，当icon为null时，默认会添加一个指示器
   final bool showIndicator;
 
-  // cupertino
+  /// *** general properties end ***
+
+  /// *** cupertino properties start ***
+
+  /// [CupertinoTabBar.activeColor]
   final Color activeColor;
+
+  /// [CupertinoTabBar.inactiveColor]
   final Color inactiveColor;
+
+  /// [CupertinoTabBar.border]
   final Border border;
 
-  // material
+  /// *** cupertino properties end ***
+
+  /// *** material properties start ***
+
+  /// [BottomNavigationBar.elevation]
   final double elevation;
+
+  /// [BottomNavigationBar.type]
   final BottomNavigationBarType type;
+
+  /// [BottomNavigationBar.fixedColor]
   final Color fixedColor;
+
+  /// [BottomNavigationBar.selectedItemColor]
   final Color selectedItemColor;
+
+  /// [BottomNavigationBar.unselectedItemColor]
   final Color unselectedItemColor;
+
+  /// [BottomNavigationBar.selectedFontSize]
   final double selectedFontSize;
+
+  /// [BottomNavigationBar.unselectedFontSize]
   final double unselectedFontSize;
+
+  /// [BottomNavigationBar.showSelectedLabels]
   final bool showSelectedLabels;
+
+  /// [BottomNavigationBar.showUnselectedLabels]
   final bool showUnselectedLabels;
+
+  /// *** material properties end ***
 
   /// 用户BaseTabScaffold里构建bottomNavigationBar
   BaseTabBar copyWith({

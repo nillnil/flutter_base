@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart'
     show CupertinoAlertDialog, ScrollController;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../base_stateless_widget.dart';
@@ -35,26 +34,65 @@ class BaseAlertDialog extends BaseStatelessWidget {
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
 
-  // general
+  /// *** general properties start ***
+
   @override
   final Key key;
+
+  /// [CupertinoAlertDialog.title]
+  /// or
+  /// [AlertDialog.title]
   final Widget title;
+
+  /// [CupertinoAlertDialog.content]
+  /// or
+  /// [AlertDialog.content]
   final Widget content;
+
+  /// [CupertinoAlertDialog.actions]
+  /// or
+  /// [AlertDialog.actions]
   final List<Widget> actions;
 
-  // cupertino
+  /// *** general properties end ***
+
+  /// *** cupertino properties start ***
+
+  /// [CupertinoAlertDialog.scrollController]
   final ScrollController scrollController;
+
+  /// [CupertinoAlertDialog.actionScrollController]
   final ScrollController actionScrollController;
 
-  // material
+  /// *** cupertino properties end ***
+
+  /// *** material properties start ***
+
+  /// [AlertDialog.titlePadding]
   final EdgeInsetsGeometry titlePadding;
+
+  /// [AlertDialog.titleTextStyle]
   final TextStyle titleTextStyle;
+
+  /// [AlertDialog.contentPadding]
   final EdgeInsetsGeometry contentPadding;
+
+  /// [AlertDialog.contentTextStyle]
   final TextStyle contentTextStyle;
+
+  /// [AlertDialog.backgroundColor]
   final Color backgroundColor;
+
+  /// [AlertDialog.elevation]
   final double elevation;
+
+  /// [AlertDialog.semanticLabel]
   final String semanticLabel;
+
+  /// [AlertDialog.shape]
   final ShapeBorder shape;
+
+  /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {
@@ -86,6 +124,7 @@ class BaseAlertDialog extends BaseStatelessWidget {
     );
   }
 
+  /// [showDialog]
   Future<T> show<T>(
     BuildContext context, {
     bool barrierDismissible = true,
@@ -98,6 +137,7 @@ class BaseAlertDialog extends BaseStatelessWidget {
   }
 }
 
+/// [showDialog]
 Future<T> showBaseAlertDialog<T>(
   BaseAlertDialog alertDialog,
   BuildContext context, {

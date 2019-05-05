@@ -72,53 +72,194 @@ class BaseTextField extends BaseStatelessWidget {
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
 
-  // general
+  /// *** general properties start ***
+
   @override
   final Key key;
+
+  /// [CupertinoTextField.controller]
+  /// or
+  /// [TextField.controller]
   final TextEditingController controller;
+
+  /// [CupertinoTextField.focusNode]
+  /// or
+  /// [TextField.focusNode]
   final FocusNode focusNode;
+
+  /// [CupertinoTextField.keyboardType]
+  /// or
+  /// [TextField.keyboardType]
   final TextInputType keyboardType;
+
+  /// [CupertinoTextField.textInputAction]
+  /// or
+  /// [TextField.textInputAction]
   final TextInputAction textInputAction;
+
+  /// [CupertinoTextField.textCapitalization]
+  /// or
+  /// [TextField.textCapitalization]
   final TextCapitalization textCapitalization;
+
+  /// [CupertinoTextField.style]
+  /// or
+  /// [TextField.style]
   final TextStyle style;
+
+  /// [CupertinoTextField.strutStyle]
+  /// or
+  /// [TextField.strutStyle]
   final StrutStyle strutStyle;
+
+  /// [CupertinoTextField.textAlign]
+  /// or
+  /// [TextField.textAlign]
   final TextAlign textAlign;
+
+  /// [CupertinoTextField.autofocus]
+  /// or
+  /// [TextField.autofocus]
   final bool autofocus;
+
+  /// [CupertinoTextField.]
+  /// or
+  /// [TextField.]
   final bool obscureText;
+
+  /// [CupertinoTextField.autocorrect]
+  /// or
+  /// [TextField.autocorrect]
   final bool autocorrect;
+
+  /// [CupertinoTextField.maxLines]
+  /// or
+  /// [TextField.maxLines]
   final int maxLines;
+
+  /// [CupertinoTextField.minLines]
+  /// or
+  /// [TextField.minLines]
   final int minLines;
+
+  /// [CupertinoTextField.expands]
+  /// or
+  /// [TextField.expands]
   final bool expands;
+
+  /// [CupertinoTextField.maxLength]
+  /// or
+  /// [TextField.maxLength]
   final int maxLength;
+
+  /// [CupertinoTextField.maxLengthEnforced]
+  /// or
+  /// [TextField.maxLengthEnforced]
   final bool maxLengthEnforced;
+
+  /// [CupertinoTextField.onChanged]
+  /// or
+  /// [TextField.onChanged]
   final ValueChanged<String> onChanged;
+
+  /// [CupertinoTextField.onEditingComplete]
+  /// or
+  /// [TextField.onEditingComplete]
   final VoidCallback onEditingComplete;
+
+  /// [CupertinoTextField.onSubmitted]
+  /// or
+  /// [TextField.onSubmitted]
   final ValueChanged<String> onSubmitted;
+
+  /// [CupertinoTextField.inputFormatters]
+  /// or
+  /// [TextField.inputFormatters]
   final List<TextInputFormatter> inputFormatters;
+
+  /// [CupertinoTextField.enabled]
+  /// or
+  /// [TextField.enabled]
   final bool enabled;
+
+  /// [CupertinoTextField.cursorWidth]
+  /// or
+  /// [TextField.cursorWidth]
   final double cursorWidth;
+
+  /// [CupertinoTextField.cursorRadius]
+  /// or
+  /// [TextField.cursorRadius]
   final Radius cursorRadius;
+
+  /// [CupertinoTextField.cursorColor]
+  /// or
+  /// [TextField.cursorColor]
   final Color cursorColor;
+
+  /// [CupertinoTextField.keyboardAppearance]
+  /// or
+  /// [TextField.keyboardAppearance]
   final Brightness keyboardAppearance;
+
+  /// [CupertinoTextField.scrollPadding]
+  /// or
+  /// [TextField.scrollPadding]
   final EdgeInsets scrollPadding;
+
+  /// [CupertinoTextField.dragStartBehavior]
+  /// or
+  /// [TextField.dragStartBehavior]
   final DragStartBehavior dragStartBehavior;
 
-  // cupertino
+  /// *** general properties end ***
+
+  /// *** cupertino properties start ***
+
+  /// [CupertinoTextField.cupertinoDecoration]
   final BoxDecoration cupertinoDecoration;
+
+  /// [CupertinoTextField.padding]
   final EdgeInsetsGeometry padding;
+
+  /// [CupertinoTextField.placeholder]
   final String placeholder;
+
+  /// [CupertinoTextField.placeholderStyle]
   final TextStyle placeholderStyle;
+
+  /// [CupertinoTextField.prefix]
   final Widget prefix;
+
+  /// [CupertinoTextField.prefixMode]
   final OverlayVisibilityMode prefixMode;
+
+  /// [CupertinoTextField.suffix]
   final Widget suffix;
+
+  /// [CupertinoTextField.suffixMode]
   final OverlayVisibilityMode suffixMode;
+
+  /// [CupertinoTextField.clearButtonMode]
   final OverlayVisibilityMode clearButtonMode;
 
-  // material
+  /// *** cupertino properties end ***
+
+  /// *** material properties start ***
+
+  /// [TextField.materialDecoration]
   final InputDecoration materialDecoration;
+
+  /// [TextField.textDirection]
   final TextDirection textDirection;
+
+  /// [TextField.onTap]
   final GestureTapCallback onTap;
+
+  /// [TextField.buildCounter]
   final InputCounterWidgetBuilder buildCounter;
+
+  /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {

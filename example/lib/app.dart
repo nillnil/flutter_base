@@ -1,4 +1,6 @@
 import 'package:base/app/base_app.dart';
+import 'package:base/base.dart';
+import 'package:base/theme/base_theme_data.dart';
 import 'package:example/home.dart';
 import 'package:example/store/app_state.dart';
 import 'package:flutter/cupertino.dart';
@@ -57,6 +59,12 @@ class App extends StatelessWidget {
           ],
           home: Home(),
           targetPlatform: vm['targetPlatform'],
+          baseTheme: BaseThemeData(
+            // appBarHeight: 44.0,
+            material: const <String, dynamic> {
+              'appBarHeight': 56.0,
+            },
+          ),
           debugShowCheckedModeBanner: false,
         );
       },

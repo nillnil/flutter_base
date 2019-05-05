@@ -32,4 +32,6 @@ export 'switch/base_switch.dart';
 export 'tabbar/base_bar_item.dart';
 export 'tabbar/base_tab_bar.dart';
 export 'text_field/base_text_field.dart';
+export 'theme/base_theme.dart';
+export 'theme/base_theme_data.dart';
 export 'utils/bsae_utils.dart';

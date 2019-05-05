@@ -22,29 +22,48 @@ class BaseActionSheet extends BaseStatelessWidget {
     this.cancelButton,
     this.animationController,
     this.onClosing,
-    this.builder,
     this.elevation = 0.0,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
 
-  // general
+  // *** general properties start ***
+
   @override
   final Key key;
 
-  // cupertino
+  /// [CupertinoActionSheet.title]
   final Widget title;
+
+  /// [CupertinoActionSheet.message]
   final Widget message;
+
+  /// [CupertinoActionSheet.actions]
   final List<Widget> actions;
+
+  /// [CupertinoActionSheet.messageScrollController]
   final ScrollController messageScrollController;
+
+  /// [CupertinoActionSheet.actionScrollController]
   final ScrollController actionScrollController;
+
+  /// [CupertinoActionSheet.cancelButton]
   final Widget cancelButton;
 
-  // material
+  /// *** general properties end ***
+
+  /// *** material properties start ***
+
+  /// [BottomSheet.animationController]
   final AnimationController animationController;
+
+  /// [BottomSheet.onClosing]
   final VoidCallback onClosing;
-  final WidgetBuilder builder;
+
+  /// [BottomSheet.elevation], default is 0.0
   final double elevation;
+
+  /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {
@@ -94,7 +113,7 @@ class BaseActionSheet extends BaseStatelessWidget {
         );
       },
       enableDrag: false,
-      elevation: 0.0,
+      elevation: elevation,
     );
   }
 

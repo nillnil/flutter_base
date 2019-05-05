@@ -20,14 +20,36 @@ class BaseRoute<T> extends BaseClass {
     Map<String, dynamic> material,
   }) : super(cupertino: cupertino, material: material);
 
-  // general
+  /// *** general properties start ***
+
+  /// [CupertinoPageRoute.page]
+  /// or
+  /// [MaterialPageRoute.page]
   final Object page;
+
+  /// [CupertinoPageRoute.settings]
+  /// or
+  /// [MaterialPageRoute.settings]
   final RouteSettings settings;
+
+  /// [CupertinoPageRoute.maintainState]
+  /// or
+  /// [MaterialPageRoute.maintainState]
   final bool maintainState;
+
+  /// [CupertinoPageRoute.fullscreenDialog]
+  /// or
+  /// [MaterialPageRoute.fullscreenDialog]
   final bool fullscreenDialog;
 
-  // cupertino
+  /// *** general properties end ***
+
+  /// *** cupertino properties start ***
+
+  /// [CupertinoPageRoute.title]
   final String title;
+
+  /// *** cupertino properties end ***
 
   @override
   Object buildByCupertino(BuildContext context) {
@@ -57,6 +79,7 @@ class BaseRoute<T> extends BaseClass {
     );
   }
 
+  /// [Navigator.push]
   Future<T> push<T extends Object>(
     BuildContext context, {
     bool rootNavigator = false,
@@ -69,6 +92,7 @@ class BaseRoute<T> extends BaseClass {
     ).push(build(context));
   }
 
+  /// [Navigator.pushAndRemoveUntil]
   Future<T> pushAndRemoveUntil<T extends Object>(
     BuildContext context, {
     bool rootNavigator = false,
@@ -83,6 +107,7 @@ class BaseRoute<T> extends BaseClass {
   }
 }
 
+/// [Navigator.push]
 Future<T> pushBaseRoute<T extends Object>(
   BaseRoute<T> baseRoute,
   BuildContext context, {
@@ -96,6 +121,7 @@ Future<T> pushBaseRoute<T extends Object>(
   ).push(baseRoute.build(context));
 }
 
+/// [Navigator.pushAndRemoveUntil]
 Future<T> pushBaseRouteAndRemoveUntil<T extends Object>(
   BaseRoute<T> baseRoute,
   BuildContext context, {

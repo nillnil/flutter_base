@@ -20,11 +20,22 @@ class BaseBarItem extends BaseClass {
     Map<String, dynamic> material,
   }) : super(cupertino: cupertino, material: material);
 
-  // general
+  /// *** general properties start ***
+
+  /// [BottomNavigationBarItem.icon]
+  /// can be null, when is null, default will add an indicator
   final Widget icon;
+
+  /// [BottomNavigationBarItem.activeIcon]
   final Widget activeIcon;
+
+  /// [BottomNavigationBarItem.title]
   final Widget title;
+
+  /// [BottomNavigationBarItem.backgroundColor]
   final Color backgroundColor;
+
+  /// *** material properties end ***
 
   @override
   Object buildByCupertino(BuildContext context) {

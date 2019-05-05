@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart' hide RefreshCallback;
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../base_stateless_widget.dart';
 
@@ -25,27 +26,62 @@ class BaseRefresh extends BaseStatelessWidget {
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
 
-  // general
+  /// *** general properties start ***
+
+  /// [CupertinoSliverRefreshControl.key]
+  /// or
+  /// [RefreshIndicator.key]
   @override
   final Key key;
+
+  /// [CupertinoSliverRefreshControl.onRefresh]
+  /// or
+  /// [RefreshIndicator.onRefresh]
   final RefreshCallback onRefresh;
 
   /// It's SliverList on Cupertino，ListView or CustomScrollView on Material
   /// All three can be converted automatically.
+  ///
+  /// [CupertinoSliverRefreshControl.child]
+  /// or
+  /// [RefreshIndicator.child]
   final Widget child;
 
-  // cupertino
+  /// *** general properties end ***
+
+  /// *** cupertino properties start ***
+  
+  /// [CupertinoSliverRefreshControl.refreshTriggerPullDistance]
   final double refreshTriggerPullDistance;
+
+  /// [CupertinoSliverRefreshControl.refreshIndicatorExtent]
   final double refreshIndicatorExtent;
+
+  /// [CupertinoSliverRefreshControl.builder]
   final RefreshControlIndicatorBuilder builder;
 
-  // material
+  /// *** cupetino properties end ***
+
+  /// *** material properties start ***
+  
+  /// [RefreshIndicator.displacement]
   final double displacement;
+
+  /// [RefreshIndicator.color]
   final Color color;
+
+  /// [RefreshIndicator.backgroundColor]
   final Color backgroundColor;
+
+  /// [RefreshIndicator.notificationPredicate]
   final ScrollNotificationPredicate notificationPredicate;
 
+  /// *** material properties end ***
+
+  /// [CupertinoSliverRefreshControl]'s _defaultRefreshTriggerPullDistance
   static const double _defaultRefreshTriggerPullDistance = 100.0;
+
+  /// [CupertinoSliverRefreshControl]'s _defaultRefreshIndicatorExtent
   static const double _defaultRefreshIndicatorExtent = 60.0;
 
   @override
@@ -64,6 +100,11 @@ class BaseRefresh extends BaseStatelessWidget {
         delegate: SliverChildListDelegate(
           customScrollView.slivers,
         ),
+      );
+    } else if (child is BoxScrollView) {
+      final BoxScrollView boxScrollView = child;
+      _child = SliverToBoxAdapter(
+        child: boxScrollView,
       );
     }
     return CustomScrollView(

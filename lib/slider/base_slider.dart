@@ -27,22 +27,65 @@ class BaseSlider extends BaseStatelessWidget {
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
 
-  // general
+  /// *** general properties end ***
+
   @override
   final Key key;
+
+  /// [CupertinoSlider.value]
+  /// or
+  /// [Slider.value]
   final double value;
+
+  /// [CupertinoSlider.onChanged]
+  /// or
+  /// [Slider.onChanged]
   final ValueChanged<double> onChanged;
+
+  /// [CupertinoSlider.onChangeStart]
+  /// or
+  /// [Slider.onChangeStart]
   final ValueChanged<double> onChangeStart;
+
+  /// [CupertinoSlider.onChangeEnd]
+  /// or
+  /// [Slider.onChangeEnd]
   final ValueChanged<double> onChangeEnd;
+
+  /// [CupertinoSlider.min]
+  /// or
+  /// [Slider.min]
   final double min;
+
+  /// [CupertinoSlider.max]
+  /// or
+  /// [Slider.max]
   final double max;
+
+  /// [CupertinoSlider.divisions]
+  /// or
+  /// [Slider.divisions]
   final int divisions;
+
+  /// [CupertinoSlider.activeColor]
+  /// or
+  /// [Slider.activeColor]
   final Color activeColor;
 
-  // material
+  /// *** material properties end ***
+
+  /// *** material properties start ***
+
+  /// [Slider.label]
   final String label;
+
+  /// [Slider.inactiveColor]
   final Color inactiveColor;
+
+  /// [Slider.semanticFormatterCallback]
   final SemanticFormatterCallback semanticFormatterCallback;
+
+  /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {

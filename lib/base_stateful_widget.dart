@@ -85,8 +85,8 @@ abstract class BaseState<T extends BaseStatefulWidget> extends State<T>
   /// 从cupertino获取key对应的值，
   /// 如果为null取value的值，
   /// 如果还是null则取material里的值
-  Object valueFromCupertino(String key, Object value) {
-    Object newValue;
+  dynamic valueFromCupertino(String key, dynamic value) {
+    dynamic newValue;
     if (widget.cupertino != null) {
       newValue = widget.cupertino[key] ?? value;
     } else {
@@ -98,8 +98,8 @@ abstract class BaseState<T extends BaseStatefulWidget> extends State<T>
   /// 从material获取key对应的值，
   /// 如果为null取value的值，
   /// 如果还是null则取cupertino里的值
-  Object valueFromMaterial(String key, Object value) {
-    Object newValue;
+  dynamic valueFromMaterial(String key, dynamic value) {
+    dynamic newValue;
     if (widget.material != null) {
       newValue = widget.material[key] ?? value;
     } else {
@@ -108,7 +108,9 @@ abstract class BaseState<T extends BaseStatefulWidget> extends State<T>
     return newValue;
   }
 
+  /// build on cupertino mode
   Widget buildByCupertino(BuildContext context);
 
+  /// build on material mode
   Widget buildByMaterial(BuildContext context);
 }

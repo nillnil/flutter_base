@@ -48,27 +48,27 @@ class _Demo extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
           items: <BaseBarItem>[
             BaseBarItem(
-              icon: BaseIcon(
-                icon: IconFont.dialog,
-              ),
+              // icon: BaseIcon(
+              //   icon: IconFont.dialog,
+              // ),
               title: const Text('消息'),
             ),
             BaseBarItem(
-              icon: BaseIcon(
-                icon: IconFont.contacts,
-              ),
+              // icon: BaseIcon(
+              //   icon: IconFont.contacts,
+              // ),
               title: const Text('联系人'),
             ),
             BaseBarItem(
-              icon: BaseIcon(
-                icon: IconFont.discover,
-              ),
+              // icon: BaseIcon(
+              //   icon: IconFont.discover,
+              // ),
               title: const Text('发现'),
             ),
             BaseBarItem(
-              icon: BaseIcon(
-                icon: IconFont.profile,
-              ),
+              // icon: BaseIcon(
+              //   icon: IconFont.profile,
+              // ),
               title: const Text('我'),
             ),
           ],

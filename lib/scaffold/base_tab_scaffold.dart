@@ -46,38 +46,108 @@ class BaseTabScaffold extends BaseStatefulWidget {
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
 
-  // general
+  /// *** general properties start ***
+
   @override
   final Key key;
-  final Key tabViewKey;
 
+  /// [CupertinoPageScaffold.navigationBar]
+  /// or
+  /// [Scaffold.appBar]
+  /// If this properties is null, then [navBar] is use.
+  ///
+  /// 该参数为null，则会使用[navBar]
   final BaseAppBar appBar;
+
+  /// [CupertinoPageScaffold.navigationBar]
+  /// or
+  /// [Scaffold.appBar]
+  ///
+  /// If this properties is null, then [appBar] is use.
+  ///
+  /// 该参数为null，则会使用[appBar]
   final BaseAppBar navBar;
+
+  /// [CupertinoTabScaffold.backgroundColor]
+  /// or
+  /// [Scaffold.backgroundColor]
   final Color backgroundColor;
+
+  /// [CupertinoTabBar]
+  /// or
+  /// [BottomNavigationBar]
   final BaseTabBar tabBar;
+
+  /// [CupertinoTabView.builder]
+  /// or
+  /// [Scaffold.body]
   final List<Widget> tabViews;
+
+  /// [CupertinoTabScaffold.resizeToAvoidBottomInset]
+  /// or
+  /// [Scaffold.resizeToAvoidBottomInset]
   final bool resizeToAvoidBottomInset;
 
-  // cupertino
-  /// 在CupertinoTabView里自己维护一套路由
+  /// *** general properties end ***
+
+  /// *** cupertino properties start ***
+
+  /// [CupertinoTabView.tabViewKey]
+  final Key tabViewKey;
+
+  /// [CupertinoTabView.routes]
   final Map<String, WidgetBuilder> routes;
+
+  /// [CupertinoTabView.navigatorKey]
   final GlobalKey<NavigatorState> navigatorKey;
+
+  /// [CupertinoTabView.defaultTitle]
   final String defaultTitle;
+
+  /// [CupertinoTabView.onGenerateRoute]
   final RouteFactory onGenerateRoute;
+
+  /// [CupertinoTabView.onUnknownRoute]
   final RouteFactory onUnknownRoute;
+
+  /// [CupertinoTabView.navigatorObservers]
   final List<NavigatorObserver> navigatorObservers;
 
-  // material
+  /// *** cupertino properties end ***
+
+  /// *** material properties start ***
+
+  /// [Scaffold.floatingActionButton]
   final Widget floatingActionButton;
+
+  /// [Scaffold.floatingActionButtonLocation]
   final FloatingActionButtonLocation floatingActionButtonLocation;
+
+  /// [Scaffold.floatingActionButtonAnimator]
   final FloatingActionButtonAnimator floatingActionButtonAnimator;
+
+  /// [Scaffold.persistentFooterButtons]
   final List<Widget> persistentFooterButtons;
+
+  /// [Scaffold.drawer]
   final Widget drawer;
+
+  /// [Scaffold.endDrawer]
   final Widget endDrawer;
+
+  /// [Scaffold.bottomSheet]
   final Widget bottomSheet;
+
+  /// [Scaffold.primary]
   final bool primary;
+
+  /// [Scaffold.drawerDragStartBehavior]
   final DragStartBehavior drawerDragStartBehavior;
+
+  /// [Scaffold.extendBody]
   final bool extendBody;
+
+  /// *** material properties end ***
 
   @override
   State<BaseTabScaffold> createState() => _BaseTabScaffoldState();
@@ -90,11 +160,11 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
   void initState() {
     super.initState();
     if (useMaterial) {
-      // final BaseTabBar tabBar = valueFromMaterial('tabBar', widget.tabBar);
-      // _currentIndex = tabBar.valueFromMaterial(
-      //   'currentIndex',
-      //   tabBar.currentIndex,
-      // );
+      final BaseTabBar tabBar = valueFromMaterial('tabBar', widget.tabBar);
+      _currentIndex = tabBar.valueFromMaterial(
+        'currentIndex',
+        tabBar.currentIndex,
+      );
     }
   }
 

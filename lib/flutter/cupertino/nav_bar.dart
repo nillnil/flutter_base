@@ -377,6 +377,7 @@ class CupertinoNavigationBar extends StatefulWidget implements ObstructingPrefer
   final Object heroTag;
 
   /// effective only backgroundColor is transparent.
+  /// default is true, will add BackdropFilter when then backgroundColor is transparent.
   final bool backdropFilter;
 
   /// custom navBarPersistentHeight
@@ -389,7 +390,7 @@ class CupertinoNavigationBar extends StatefulWidget implements ObstructingPrefer
   ///
   /// See also:
   ///
-  ///  * [AppBar], which can be used to give an arbitrary widget a preferred size.
+  ///  * [AppBar.bottom], which can be used to give an arbitrary widget a preferred size.
   final PreferredSizeWidget bottom;
 
   /// How opaque the bottom part of the app bar is.
@@ -399,9 +400,17 @@ class CupertinoNavigationBar extends StatefulWidget implements ObstructingPrefer
   /// Typically, this value is not changed from its default value (1.0). It is
   /// used by [SliverAppBar] to animate the opacity of the toolbar when the app
   /// bar is scrolled.
+  /// 
+  /// See also:
+  ///
+  ///  * [AppBar.bottomOpacity]
   final double bottomOpacity;
 
   /// AppBar's toolbarOpacity
+  /// 
+  /// See also:
+  ///
+  ///  * [AppBar.toolbarOpacity]
   final double toolbarOpacity;
 
   /// Auto set leading's color follow the brightness
@@ -430,7 +439,7 @@ class CupertinoNavigationBar extends StatefulWidget implements ObstructingPrefer
     if (middle != null && bottom != null) {
       _height += bottom.preferredSize.height;
     }
-    return Size.fromHeight(_height + 100.0);
+    return Size.fromHeight(_height);
   }
 
   @override
@@ -491,21 +500,26 @@ class _CupertinoNavigationBarState extends State<CupertinoNavigationBar> {
       backdropFilter: widget.backdropFilter
     );
 
+    final Color statusBarTextColor = getStatusBarTextColor(backgroundColor).withOpacity(widget.toolbarOpacity);
+    Color actionsForegroundColor;
+    if (widget.autoSetLeadingColor || widget.autoSetTrailingColor) {
+      actionsForegroundColor = statusBarTextColor;
+    }
+
     if (!widget.transitionBetweenRoutes || !_isTransitionable(context)) {
       // Lint ignore to maintain backward compatibility.
-      return _wrapActiveColor(widget.actionsForegroundColor, context, navBar); // ignore: deprecated_member_use_from_same_package
+      return _wrapActiveColor(actionsForegroundColor ?? widget.actionsForegroundColor, context, navBar); // ignore: deprecated_member_use_from_same_package
     }
 
     return _wrapActiveColor(
       // Lint ignore to maintain backward compatibility.
-      widget.actionsForegroundColor, // ignore: deprecated_member_use_from_same_package
+      actionsForegroundColor ?? widget.actionsForegroundColor, // ignore: deprecated_member_use_from_same_package
       context,
       Builder(
         // Get the context that might have a possibly changed CupertinoTheme.
         builder: (BuildContext context) {
           TextStyle navActionTextStyle = CupertinoTheme.of(context).textTheme.navActionTextStyle;
           TextStyle navTitleTextStyle = CupertinoTheme.of(context).textTheme.navTitleTextStyle;
-          final Color statusBarTextColor = getStatusBarTextColor(backgroundColor);
           if (widget.autoSetLeadingColor) {
             navActionTextStyle = navActionTextStyle.copyWith(
               color: statusBarTextColor,
@@ -1061,6 +1075,7 @@ class _PersistentNavigationBar extends StatelessWidget {
       theme = theme.copyWith(
         splashFactory: _WithoutSplashFactory(),
         highlightColor: Colors.transparent,
+        cupertinoOverrideTheme: CupertinoTheme.of(context),
       );
       if (bottom is TabBar) {
         final TabBarTheme tabBarTheme = theme.tabBarTheme ?? const TabBarTheme();

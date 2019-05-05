@@ -82,8 +82,8 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
   /// 从cupertino获取key对应的值，
   /// 如果为null取value的值，
   /// 如果还是null则取material里的值
-  Object valueFromCupertino(String key, Object value) {
-    Object newValue;
+  dynamic valueFromCupertino(String key, dynamic value) {
+    dynamic newValue;
     if (cupertino != null) {
       newValue = cupertino[key] ?? value;
     } else {
@@ -95,8 +95,8 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
   /// 从material获取key对应的值，
   /// 如果为null取value的值，
   /// 如果还是null则取cupertino里的值
-  Object valueFromMaterial(String key, Object value) {
-    Object newValue;
+  dynamic valueFromMaterial(String key, dynamic value) {
+    dynamic newValue;
     if (material != null) {
       newValue = material[key] ?? value;
     } else {
@@ -105,9 +105,10 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
     return newValue;
   }
 
-  // 使用Cupertino组件构建
+  /// build on cupertino mode
   Widget buildByCupertino(BuildContext context);
 
-  // 使用Material组件构建
+
+  /// build on material mode
   Widget buildByMaterial(BuildContext context);
 }

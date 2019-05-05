@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 
 import '../base_stateless_widget.dart';
 
-/// 基础切换按钮
+/// BaseSwitch
+/// use CupertinoSwitch by cupertino
+/// *** use cupertino = { forceUseMaterial: true } force use Switch
+/// use Switch by material
+/// *** use material = { forceUseCupertino: true } force use CupertinoSwitch
 class BaseSwitch extends BaseStatelessWidget {
   BaseSwitch({
     Key baseKey,
@@ -23,21 +27,53 @@ class BaseSwitch extends BaseStatelessWidget {
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
 
-  // gerenal
+  /// *** gerenal properties start ***
   @override
   final Key key;
+
+  /// [CupertinoSwitch.value]
+  /// or
+  /// [Switch.value]
   final bool value;
+
+  /// [CupertinoSwitch.onChanged]
+  /// or
+  /// [Switch.onChanged]
   final ValueChanged<bool> onChanged;
+
+  /// [CupertinoSwitch.activeColor]
+  /// or
+  /// [Switch.activeColor]
   final Color activeColor;
+
+  /// [CupertinoSwitch.dragStartBehavior]
+  /// or
+  /// [Switch.dragStartBehavior]
   final DragStartBehavior dragStartBehavior;
 
-  // material
+  /// *** gerenal properties end ***
+
+  /// *** material properties start ***
+
+  /// [Switch.activeTrackColor]
   final Color activeTrackColor;
+
+  /// [Switch.inactiveThumbColor]
   final Color inactiveThumbColor;
+
+  /// [Switch.inactiveTrackColor]
   final Color inactiveTrackColor;
+
+  /// [Switch.activeThumbImage]
   final ImageProvider activeThumbImage;
+
+  /// [Switch.inactiveThumbImage]
   final ImageProvider inactiveThumbImage;
+
+  /// [Switch.materialTapTargetSize]
   final MaterialTapTargetSize materialTapTargetSize;
+
+  /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {

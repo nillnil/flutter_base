@@ -20,15 +20,23 @@ class BaseActionSheetAction extends BaseStatelessWidget {
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
 
-  // general
+  /// *** general properties start ***
   @override
   final Key key;
 
-  // cupertino;
+  /// [CupertinoActionSheetAction.onPressed]
   final VoidCallback onPressed;
+
+  /// [CupertinoActionSheetAction.isDefaultAction]
   final bool isDefaultAction;
+
+  /// [CupertinoActionSheetAction.isDestructiveAction]
   final bool isDestructiveAction;
+
+  /// [CupertinoActionSheetAction.child]
   final Widget child;
+
+  /// *** general properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {

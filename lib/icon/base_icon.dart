@@ -23,10 +23,20 @@ class BaseIcon extends BaseStatelessWidget {
 
   @override
   final Key key;
+
+  /// [Icon.icon]
   final IconData icon;
+
+  /// [Icon.size]
   final double size;
+
+  /// [Icon.color]
   final Color color;
+
+  /// [Icon.semanticLabel]
   final String semanticLabel;
+
+  /// [Icon.textDirection]
   final TextDirection textDirection;
 
   @override

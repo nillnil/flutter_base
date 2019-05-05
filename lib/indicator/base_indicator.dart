@@ -24,17 +24,37 @@ class BaseIndicator extends BaseStatelessWidget {
     Map<String, dynamic> material,
   }) : super(key: key, cupertino: cupertino, material: material);
 
-  // cupertino
+  /// *** cupertino properties start ***
+
+  /// [CupertinoActivityIndicator.animating]
   final bool animating;
+
+  /// [CupertinoActivityIndicator.radius]
   final double radius;
 
-  // material
+  /// *** cupertino properties end ***
+
+  /// *** material properties start ***
+
+  /// [CircularProgressIndicator.value]
   final double value;
+
+  /// [CircularProgressIndicator.backgroundColor]
   final Color backgroundColor;
+
+  /// [CircularProgressIndicator.valueColor]
   final Animation<Color> valueColor;
+
+  /// [CircularProgressIndicator.strokeWidth]
   final double strokeWidth;
+
+  /// [CircularProgressIndicator.semanticsLabel]
   final String semanticsLabel;
+
+  /// [CircularProgressIndicator.semanticsValue]
   final String semanticsValue;
+
+  /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {

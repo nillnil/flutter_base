@@ -50,6 +50,15 @@ class BaseButton extends BaseStatelessWidget {
     Map<String, Object> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
 
+  /// [CupertinoButton], child is Row(children:[icon, label])
+  /// or
+  /// [MaterialButton], child is Row(children:[icon, label])
+  /// or
+  /// [FlatButton.icon]
+  /// or
+  /// [OutlineButton.icon]
+  /// or
+  /// [RaisedButton.icon]
   BaseButton.icon({
     Key baseKey,
     this.key,
@@ -104,52 +113,127 @@ class BaseButton extends BaseStatelessWidget {
             : icon,
         super(key: baseKey, cupertino: cupertino, material: material);
 
-  // general
+  /// *** general properties start ***
+
   @override
   final Key key;
+
+  /// [CupertinoButton.color]
+  /// or
+  /// [MaterialButton.color]
   final Color color;
+
+  /// [CupertinoButton.onPressed]
+  /// or
+  /// [MaterialButton.onPressed]
   final VoidCallback onPressed;
+
+  /// [CupertinoButton.disabledColor]
+  /// or
+  /// [MaterialButton.disabledColor]
   final Color disabledColor;
+
+  /// [CupertinoButton.padding]
+  /// or
+  /// [MaterialButton.padding]
   final EdgeInsetsGeometry padding;
+
+  /// [CupertinoButton.child]
+  /// or
+  /// [MaterialButton.child]
   final Widget child;
 
-  // cupertino
+  /// *** general properties end ***
+
+  /// *** cupertino properties start ***
+
+  /// [CupertinoButton.minSize]
   final double minSize;
+
+  /// [CupertinoButton.pressedOpacity]
   final double pressedOpacity;
+
+  /// [CupertinoButton.borderRadius]
   final BorderRadius borderRadius;
 
+  /// [CupertinoButton.filled]
   /// use CupertinoButton.filled, will ignore the color, use primary color.
   final bool filled;
 
-  // material
+  /// *** cupertino properties ened ***
+
+  /// *** material properties start ***
+
+  /// [MaterialButton.onHighlightChanged]
   final ValueChanged<bool> onHighlightChanged;
+
+  /// [MaterialButton.textTheme]
   final ButtonTextTheme textTheme;
+
+  /// [MaterialButton.textColor]
   final Color textColor;
+
+  /// [MaterialButton.disabledTextColor]
   final Color disabledTextColor;
+
+  /// [MaterialButton.highlightColor]
   final Color highlightColor;
+
+  /// [MaterialButton.splashColor]
   final Color splashColor;
+
+  /// [MaterialButton.colorBrightness]
   final Brightness colorBrightness;
+
+  /// [MaterialButton.elevation]
   final double elevation;
+
+  /// [MaterialButton.highlightElevation]
   final double highlightElevation;
+
+  /// [MaterialButton.disabledElevation]
   final double disabledElevation;
+
+  /// [MaterialButton.shape]
   final ShapeBorder shape;
+
+  /// [MaterialButton.clipBehavior]
   final Clip clipBehavior;
+
+  /// [MaterialButton.materialTapTargetSize]
   final MaterialTapTargetSize materialTapTargetSize;
+
+  /// [MaterialButton.animationDuration]
   final Duration animationDuration;
+
+  /// [MaterialButton.minWidth]
   final double minWidth;
+
+  /// [MaterialButton.height]
   final double height;
 
+  /// [FlatButton]
   /// use FlatButton
   final bool flat;
 
+  /// [OutlineButton]
   /// use OutlineButton
   final bool outline;
+
+  /// [OutlineButton.borderSide]
   final BorderSide borderSide;
+
+  /// [OutlineButton.disabledBorderColor]
   final Color disabledBorderColor;
+
+  /// [OutlineButton.highlightedBorderColor]
   final Color highlightedBorderColor;
 
+  /// [RaisedButton]
   /// use RaisedButton
   final bool raised;
+
+  /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {

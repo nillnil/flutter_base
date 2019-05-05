@@ -36,35 +36,46 @@ class BaseTile extends BaseStatelessWidget {
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
 
-  // general
+  /// *** general properties start ***
+
   @override
   final Key key;
 
-  /// 最左边控件，一般用图标
+  /// [ListTile.leading]
   final Widget leading;
 
-  /// 标题
+  /// [ListTile.title]
   final Widget title;
 
-  /// title != null 时使用title，否则使用Text(titleText)
+  /// When [title != null] will use [title]，else use Text(titleText)
   final String titleText;
 
-  /// 副标题
+  /// [ListTile.subtitle]
   final Widget subtitle;
 
-  /// subtitle != null 时使用title，否则使用Text(subtitleText)
+  /// When [subtitleText != null] will use [title]，else use Text(titleText)
   final String subtitleText;
 
-  /// 最右边控件，多个时使用row包装，material下请指定宽度
+  /// [ListTile.trailing]
+  /// 多个时使用row包装，material下请指定宽度
   final Widget trailing;
+
+  /// [ListTile.contentPadding]
   final EdgeInsetsGeometry contentPadding;
+
+  /// [ListTile.onTap]
   final GestureTapCallback onTap;
+
+  /// [ListTile.onLongPress]
   final GestureLongPressCallback onLongPress;
 
-  /// 背景色默认白色
+  /// default is Colors.white
   final Color backgroundColor;
 
-  // cupertino
+  /// *** general properties end ***
+
+  /// *** cupertino properties start ***
+
   final Border border;
   final double height;
   final BorderRadius borderRadius;
@@ -72,11 +83,23 @@ class BaseTile extends BaseStatelessWidget {
   final Color highlightColor;
   final MainAxisAlignment mainAxisAlignment;
 
-  // material
+  /// *** cupertino properties end ***
+
+  /// *** material properties start ***
+
+  /// [ListTile.isThreeLine]
   final bool isThreeLine;
+
+  /// [ListTile.dense]
   final bool dense;
+
+  /// [ListTile.enabled]
   final bool enabled;
+
+  /// [ListTile.onLongselectedPress]
   final bool selected;
+
+  /// *** material properties end ***
 
   double get _defaultTileHeight {
     final bool hasSubtitle = subtitle != null;

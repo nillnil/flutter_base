@@ -29,26 +29,69 @@ class BaseIconButton extends BaseStatelessWidget {
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
 
-  // general
+  /// *** general properties start ***
+
   @override
   final Key key;
+
+  /// [CupertinoButton.padding]
+  /// or
+  /// [IconButton.padding]
   final EdgeInsets padding;
+
+  /// [CupertinoButton]
+  /// or
+  /// [IconButton.icon]
   final Widget icon;
+
+  /// [CupertinoButton.color]
+  /// or
+  /// [IconButton.color]
   final Color color;
+
+  /// [CupertinoButton.disabledColor]
+  /// or
+  /// [IconButton.disabledColor]
   final Color disabledColor;
+
+  /// [CupertinoButton.onPressed]
+  /// or
+  /// [IconButton.onPressed]
   final VoidCallback onPressed;
 
-  // cupertino
+  /// *** general properties end ***
+
+  /// *** cupertino properties start ***
+
+  /// [CupertinoButton.minSize]
   final double minSize;
+
+  /// [CupertinoButton.pressedOpacity]
   final double pressedOpacity;
+
+  /// [CupertinoButton.borderRadius]
   final BorderRadius borderRadius;
 
-  // material
+  /// *** cupertino properties end ***
+
+  /// *** material properties start ***
+
+  /// [IconButton.iconSize]
   final double iconSize;
+
+  /// [IconButton.alignment]
   final Alignment alignment;
+
+  /// [IconButton.highlightColor]
   final Color highlightColor;
+
+  /// [IconButton.splashColor]
   final Color splashColor;
+
+  /// [IconButton.tooltip]
   final String tooltip;
+
+  /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {
