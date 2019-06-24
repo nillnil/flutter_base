@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class NewsItem extends StatelessWidget{
-	NewsItem({
+	const NewsItem({
 		Key key,
 		this.news
 	}) : super(key: key);
@@ -38,7 +38,7 @@ class NewsItem extends StatelessWidget{
 										imageUrl: news['thumbnail_pic_s'],
 										placeholder: (BuildContext context, String url) {
                       return Center(
-                        child: SizedBox(
+                        child: const SizedBox(
                           height: 25,
                           width: 25,
                           child: BaseIndicator(),
@@ -58,7 +58,7 @@ class NewsItem extends StatelessWidget{
 										imageUrl: news['thumbnail_pic_s02'],
 										placeholder: (BuildContext context, String url) {
                       return Center(
-                        child: SizedBox(
+                        child: const SizedBox(
                           height: 25,
                           width: 25,
                           child: BaseIndicator(),
@@ -76,7 +76,7 @@ class NewsItem extends StatelessWidget{
 									imageUrl: news['thumbnail_pic_s03'],
 									placeholder: (BuildContext context, String url) {
                     return Center(
-                      child: SizedBox(
+                      child: const SizedBox(
                         height: 25,
                         width: 25,
                         child: BaseIndicator(),
@@ -130,7 +130,7 @@ class NewsItem extends StatelessWidget{
                 fit: BoxFit.fill,
 								placeholder: (BuildContext context, String url) {
                   return Center(
-                    child: SizedBox(
+                    child: const SizedBox(
                       height: 25,
                       width: 25,
                       child: BaseIndicator(),
@@ -168,7 +168,7 @@ class NewsItem extends StatelessWidget{
             ),
             initialChild: Container(
               alignment: Alignment.center,
-              child: BaseIndicator(
+              child: const BaseIndicator(
                 radius: 15.0,
               ),
             ),

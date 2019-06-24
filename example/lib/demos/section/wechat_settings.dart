@@ -47,9 +47,9 @@ class WechatSettings extends StatelessWidget {
               children: <Widget>[
                 BaseSection(
                   margin: const EdgeInsets.only(bottom: 10.0),
-                  children: <Widget>[
+                  children: const <Widget>[
                     BaseTile(
-                      title: const Text('账号与安全', style: style),
+                      title: Text('账号与安全', style: style),
                       contentPadding: contentPadding,
                       trailing: trailingIcon
                     )
@@ -68,13 +68,13 @@ class WechatSettings extends StatelessWidget {
                         // BaseRoute(ThemePage()).push(context);
                       }
                     ),
-                    BaseTile(
-                      title: const Text('隐私', style: style),
+                    const BaseTile(
+                      title: Text('隐私', style: style),
                       contentPadding: contentPadding,
                       trailing: trailingIcon
                     ),
-                    BaseTile(
-                      title: const Text('通用', style: style),
+                    const BaseTile(
+                      title: Text('通用', style: style),
                       contentPadding: contentPadding,
                       trailing: trailingIcon
                     )
@@ -85,8 +85,8 @@ class WechatSettings extends StatelessWidget {
                   backgroundColor: Colors.white,
                   dividerIndent: 20.0,
                   children: <Widget>[
-                    BaseTile(
-                      title: const Text('帮助与反馈'),
+                    const BaseTile(
+                      title: Text('帮助与反馈'),
                       contentPadding: contentPadding,
                       trailing: trailingIcon,
                     ),
@@ -108,9 +108,9 @@ class WechatSettings extends StatelessWidget {
                 ),
                 BaseSection(
                   margin: margin,
-                  children: <Widget>[
+                  children: const <Widget>[
                     BaseTile(
-                      title: const Text('插件', style: style),
+                      title: Text('插件', style: style),
                       contentPadding: contentPadding,
                       trailing: trailingIcon
                     )

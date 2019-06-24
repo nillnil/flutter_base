@@ -138,7 +138,7 @@ class _NewsListState extends State<NewsList> {
     return _news.isEmpty ? Container(
       alignment: Alignment.center,
       color: Colors.white,
-      child: BaseIndicator(),
+      child: const BaseIndicator(),
     ): ListView.custom(
       controller: PrimaryScrollController.of(context),
       childrenDelegate: SliverChildBuilderDelegate(

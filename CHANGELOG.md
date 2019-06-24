@@ -1,9 +1,12 @@
-## 0.1.10 - 2019.05.03
+## 0.2.0 - 2019.06.25
 
-* Release v0.1.10
+* Release v0.2.0
 * add BaseTheme
+* add general components, like custom drawer
+* modify the CupertinoPageRoute, let BaseRoute's CupertinoPageRoute can custom the backGestureWidth
 * fix code format
 * update document
+* update flutter version to 1.7.4
 
 ## 0.1.9 - 2019.05.02
 

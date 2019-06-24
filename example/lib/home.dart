@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,6 +32,7 @@ final List<Widget> _children = <Widget>[
       style: TextStyle(color: Colors.blueAccent),
     ),
     page: ScaffoldDemos(),
+    fullscreenGackGesture: false,
   ),
   _Item(
     icon: BaseIcon(icon: IconFont.tile, size: 40, color: Colors.redAccent),
@@ -53,6 +53,7 @@ final List<Widget> _children = <Widget>[
       style: TextStyle(color: Colors.greenAccent),
     ),
     page: ButtonDemos(),
+    fullscreenGackGesture: false,
   ),
   _Item(
     icon: BaseIcon(
@@ -80,7 +81,7 @@ final List<Widget> _children = <Widget>[
       'ActionSheet',
       style: TextStyle(color: Colors.blueGrey),
     ),
-    page: ActionSheetDemo(),
+    page: const ActionSheetDemo(),
   ),
   _Item(
     icon: BaseIcon(
@@ -90,6 +91,7 @@ final List<Widget> _children = <Widget>[
     ),
     title: const Text('Refresh', style: TextStyle(color: Colors.pinkAccent)),
     page: RefreshDemos(),
+    fullscreenGackGesture: false,
   ),
   _Item(
     icon: BaseIcon(
@@ -101,20 +103,30 @@ final List<Widget> _children = <Widget>[
       'TextField',
       style: TextStyle(color: Colors.deepOrangeAccent),
     ),
-    page: TextFieldDemo(),
-  )
+    page: const TextFieldDemo(),
+  ),
+  _Item(
+    icon: BaseIcon(
+        icon: IconFont.components, size: 40, color: Colors.red.withBlue(150)),
+    title: Text(
+      'Componentes',
+      style: TextStyle(color: Colors.red.withBlue(150)),
+    ),
+    page: const ComponentesDemo(),
+  ),
 ];
 
 const Widget _tipsWidget = Text(
-    '1、Material组件相对比较完善，没经过严格的测试，后续会完善优化\n\n'
-    '2、每个组件都保留有forceUseCupertino、forceUseMaterial参数，都未经过严格测试，请慎用！！！'
-    '因为各个组件之间有关联度，如果要切换组件的整体样式，强烈建议直接切换整个app使用的平台样式（并且不在app中动态切换），而不是使用'
-    '单个组件中的forceUseCupertino、forceUseMaterial，后续可能会删除这2参数。',
-    style: TextStyle(
-      color: Colors.red,
-      fontSize: 16.0,
-    ),
-    textAlign: TextAlign.left);
+  '1、Material组件相对比较完善，没经过严格的测试，后续会完善优化\n\n'
+  '2、每个组件都保留有forceUseCupertino、forceUseMaterial参数，都未经过严格测试，请慎用！！！'
+  '因为各个组件之间有关联度，如果要切换组件的整体样式，强烈建议直接切换整个app使用的平台样式（并且不在app中动态切换），而不是使用'
+  '单个组件中的forceUseCupertino、forceUseMaterial，后续可能会删除这2参数。',
+  style: TextStyle(
+    color: Colors.red,
+    fontSize: 16.0,
+  ),
+  textAlign: TextAlign.left,
+);
 
 class Home extends StatelessWidget {
   @override
@@ -125,35 +137,42 @@ class Home extends StatelessWidget {
         padding: const EdgeInsetsDirectional.only(start: 5.0, end: 5.0),
         cupertino: <String, dynamic>{
           'leading': BaseIconButton(
-            icon: BaseIcon(icon: IconFont.info, size: 24),
+            icon: const BaseIcon(icon: IconFont.info, size: 24),
             onPressed: () {
-              const Duration transitionDuration = Duration(milliseconds: 300);
-              Navigator.of(context).push<dynamic>(
-                PageRouteBuilder<dynamic>(
-                  opaque: false,
-                  transitionDuration: transitionDuration,
-                  transitionsBuilder: (
-                    BuildContext context,
-                    Animation<double> animation,
-                    Animation<double> secondaryAnimation,
-                    Widget child,
-                  ) {
-                    return CupertinoFullscreenDialogTransition(
-                      animation: animation,
-                      child: child,
-                    );
-                  },
-                  pageBuilder: (
-                    BuildContext context,
-                    Animation<double> animation,
-                    Animation<double> secondaryAnimation,
-                  ) {
-                    return const _CupertinoTipsPage(
-                      transitionDuration: transitionDuration,
-                    );
-                  },
+              final double paddingTop = MediaQuery.of(context).padding.top;
+              const GlobalObjectKey<BaseDrawerState> _drawerKey =
+                  GlobalObjectKey<BaseDrawerState>('home_drawer');
+              final BaseDrawer baseDrawer = BaseDrawer(
+                key: _drawerKey,
+                axisDirection: AxisDirection.up,
+                size: Size.fromHeight(MediaQuery.of(context).size.height - paddingTop),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(10.0),
+                    ),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      _TipsHeader(
+                        callback: () {
+                          _drawerKey.currentState.hideDrawer();
+                        },
+                      ),
+                      Expanded(
+                        child: IgnorePointer(
+                          child: ListView(
+                            padding: const EdgeInsets.all(10.0),
+                            children: const <Widget>[_tipsWidget],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
+              pushBaseDrawer<void>(context, baseDrawer);
             },
           )
         },
@@ -168,7 +187,10 @@ class Home extends StatelessWidget {
                 },
               ),
               onPressed: () {
-                BaseRoute<dynamic>(Settings()).push(context);
+                BaseRoute<dynamic>(
+                  Settings(),
+                  fullscreenGackGesture: true,
+                ).push(context);
               },
             ),
           )
@@ -212,123 +234,11 @@ class _MaterialTipsPage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(10.0),
               child: _tipsWidget,
-            )
+            ),
           ],
         ),
       ),
     );
-  }
-}
-
-class _CupertinoTipsPage extends StatefulWidget {
-  const _CupertinoTipsPage({this.height, this.child, this.transitionDuration});
-
-  final double height;
-  final Widget child;
-  final Duration transitionDuration;
-
-  @override
-  State<StatefulWidget> createState() => _CupertinoTipsPageState();
-}
-
-class _CupertinoTipsPageState extends State<_CupertinoTipsPage> {
-  double _offsetY = 0.0;
-  double _originalOffsetY;
-  double _height;
-  bool visible = false;
-
-  @override
-  void initState() {
-    super.initState();
-    Future<void>.delayed(widget.transitionDuration, () {
-      setState(() {
-        visible = true;
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    _height = widget.height ?? size.height;
-    if (_originalOffsetY == null) {
-      _originalOffsetY = size.height - _height;
-      _offsetY = _originalOffsetY;
-    }
-    final double paddingTop = MediaQuery.of(context).padding.top;
-    final Widget content = Container(
-      width: size.width,
-      height: _height,
-      margin: EdgeInsets.only(top: paddingTop),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(10.0),
-        ),
-      ),
-      child: Column(
-        children: <Widget>[
-          _TipsHeader(callback: close),
-          Expanded(
-            child: IgnorePointer(
-              child: ListView(
-                padding: const EdgeInsets.all(10.0),
-                children: const <Widget>[_tipsWidget],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-    final Widget gestureLayer = GestureDetector(
-      child: Container(
-        margin: EdgeInsets.only(top: paddingTop + 44.0),
-        color: Colors.transparent,
-      ),
-      onVerticalDragUpdate: (DragUpdateDetails details) {
-        setState(() {
-          final double _tempY = _offsetY + details.delta.dy;
-          if (_tempY < _originalOffsetY) {
-            _offsetY = _originalOffsetY;
-          } else {
-            _offsetY = _tempY;
-          }
-        });
-      },
-      onVerticalDragEnd: (DragEndDetails details) {
-        if (_offsetY > (_originalOffsetY + _height / 4)) {
-          close();
-        } else {
-          setState(() {
-            _offsetY = _originalOffsetY ?? 0.0;
-          });
-        }
-      },
-    );
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: <Widget>[
-        Visibility(
-          child: Container(
-            color: Colors.black.withOpacity(.5),
-          ),
-          visible: visible,
-        ),
-        AnimatedPositioned(
-          top: _offsetY,
-          duration: const Duration(milliseconds: 150),
-          child: content,
-        ),
-        gestureLayer
-      ],
-    );
-  }
-
-  void close() {
-    setState(() {
-      visible = false;
-    });
-    Navigator.of(context).pop();
   }
 }
 
@@ -381,11 +291,18 @@ class _TipsHeader extends StatelessWidget {
 }
 
 class _Item extends StatelessWidget {
-  const _Item({Key key, this.title, this.icon, this.page}) : super(key: key);
+  const _Item({
+    Key key,
+    this.title,
+    this.icon,
+    this.page,
+    this.fullscreenGackGesture = true,
+  }) : super(key: key);
 
   final Text title;
   final BaseIcon icon;
   final Widget page;
+  final bool fullscreenGackGesture;
 
   @override
   Widget build(BuildContext context) {
@@ -403,7 +320,10 @@ class _Item extends StatelessWidget {
         ),
       ),
       onTap: () {
-        BaseRoute<dynamic>(page).push(context);
+        BaseRoute<dynamic>(
+          page,
+          fullscreenGackGesture: fullscreenGackGesture,
+        ).push(context);
       },
     );
   }

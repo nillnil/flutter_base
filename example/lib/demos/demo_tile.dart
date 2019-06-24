@@ -11,11 +11,13 @@ class DemoTile extends StatelessWidget {
     this.title,
     this.onTop,
     this.page,
+    this.fullscreenGackGesture = true,
   }) : super(key: key);
 
   final Widget title;
   final Function(BuildContext context) onTop;
   final Widget page;
+  final bool fullscreenGackGesture;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,10 @@ class DemoTile extends StatelessWidget {
           if (onTop != null) {
             onTop(context);
           } else if (page != null) {
-            BaseRoute<dynamic>(page).push(context);
+            BaseRoute<dynamic>(
+              page,
+              fullscreenGackGesture: fullscreenGackGesture,
+            ).push(context);
           } else {
             return null;
           }

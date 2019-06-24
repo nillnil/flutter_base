@@ -19,7 +19,7 @@ import '../theme/base_theme_data.dart';
 /// *** use material = { forceUseCupertino: true } force use CupertinoNavigationBar on material.
 class BaseAppBar extends BaseStatelessWidget
     implements ObstructingPreferredSizeWidget {
-  BaseAppBar({
+  const BaseAppBar({
     Key baseKey,
     this.key,
     this.leading,
@@ -37,8 +37,7 @@ class BaseAppBar extends BaseStatelessWidget
       ),
     ),
     this.padding,
-    this.actionsForegroundColor = CupertinoColors.activeBlue,
-    this.transitionBetweenRoutes = true,
+    this.transitionBetweenRoutes,
     this.heroTag,
     this.backdropFilter,
     this.autoSetMiddleColor,
@@ -155,13 +154,6 @@ class BaseAppBar extends BaseStatelessWidget
 
   /// [CupertinoNavigationBar.padding]
   final EdgeInsetsDirectional padding;
-
-  /// [CupertinoNavigationBar.actionsForegroundColor]
-  ///
-  /// Deprecated, but [autoSetLeadingColor]，[autoSetTrailingColor] still use this property
-  ///
-  /// 已废弃，但[autoSetLeadingColor]，[autoSetTrailingColor]任然会使用该参数
-  final Color actionsForegroundColor;
 
   /// [CupertinoNavigationBar.transitionBetweenRoutes]
   final bool transitionBetweenRoutes;
@@ -348,7 +340,6 @@ class BaseAppBar extends BaseStatelessWidget
         border: border,
         backgroundColor: _backgroundColor,
         padding: padding,
-        actionsForegroundColor: actionsForegroundColor,
         transitionBetweenRoutes: transitionBetweenRoutes,
         heroTag: heroTag,
         backdropFilter: _backdropFilter,
@@ -376,7 +367,6 @@ class BaseAppBar extends BaseStatelessWidget
         border: border,
         backgroundColor: _backgroundColor,
         padding: padding,
-        actionsForegroundColor: actionsForegroundColor,
         transitionBetweenRoutes: transitionBetweenRoutes,
         backdropFilter: _backdropFilter,
         navBarPersistentHeight: _height,
@@ -424,6 +414,14 @@ class BaseAppBar extends BaseStatelessWidget
     final double _height = valueFromMaterial('height', height) ??
         baseTheme.valueFromMaterial('appBarHeight', baseTheme.appBarHeight) ??
         kToolbarHeight;
+    final bool centerTitle = this.centerTitle ??
+            baseTheme.valueFromMaterial(
+              'appBarCenterTitle',
+              baseTheme.appBarCenterTitle,
+            ) ??
+            Theme.of(context).platform == TargetPlatform.iOS
+        ? true
+        : false;
     return AppBar(
       key: valueFromMaterial('key', key),
       leading: _leading,

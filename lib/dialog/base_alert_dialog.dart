@@ -10,7 +10,7 @@ import '../base_stateless_widget.dart';
 /// use AlertDialog by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoAlertDialog on material.
 class BaseAlertDialog extends BaseStatelessWidget {
-  BaseAlertDialog({
+  const BaseAlertDialog({
     Key baseKey,
     this.key,
     this.title,

@@ -31,6 +31,8 @@ class App extends StatelessWidget {
         ThemeData _theme = Theme.of(context);
         _theme = _theme.copyWith(
           primaryColor: vm['primaryColor'],
+          focusColor: Colors.transparent,
+          hoverColor: Colors.transparent,
           scaffoldBackgroundColor: _backgroundColor,
           cupertinoOverrideTheme: _cupertinoTheme,
           textTheme: _theme.textTheme.copyWith(
@@ -64,6 +66,9 @@ class App extends StatelessWidget {
             material: const <String, dynamic> {
               'appBarHeight': 56.0,
             },
+            materialTheme: _theme,
+            appBarTransitionBetweenRoutes: false,
+            routeFullscreenGackGesture: true,
           ),
           debugShowCheckedModeBanner: false,
         );

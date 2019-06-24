@@ -1,6 +1,4 @@
-import 'package:flutter/widgets.dart'
-    show BuildContext, Color, Widget
-    hide BottomNavigationBarItem;
+import 'package:flutter/widgets.dart' show BuildContext, Color, Widget;
 
 import '../base_class.dart';
 import '../flutter/widgets/bottom_navigation_bar_item.dart';

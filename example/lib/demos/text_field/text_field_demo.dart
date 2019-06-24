@@ -8,7 +8,7 @@ import '../demo_tile.dart';
 
 /// TextField Demo
 class TextFieldDemo extends StatelessWidget {
-  TextFieldDemo({
+  const TextFieldDemo({
     Key key,
   }) : super(key: key);
 

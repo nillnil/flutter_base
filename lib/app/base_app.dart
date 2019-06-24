@@ -14,7 +14,7 @@ import '../theme/base_theme_data.dart';
 /// use MaterialApp by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoApp on material.
 class BaseApp extends BaseStatelessWidget {
-  BaseApp({
+  const BaseApp({
     Key baseKey,
     this.key,
     this.navigatorKey,
@@ -173,9 +173,9 @@ class BaseApp extends BaseStatelessWidget {
   final CupertinoThemeData cupertinoTheme;
 
   /// [withoutSplashOnCupertino], default is true
-  /// 
+  ///
   /// forbidden ripple effect on cupertino mode
-  /// 
+  ///
   /// 在cupertino模式下是否禁用水波纹效果
   final bool withoutSplashOnCupertino;
 
@@ -206,11 +206,21 @@ class BaseApp extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final BaseThemeData baseThemeData = valueFromCupertino(
+    BaseThemeData baseThemeData = valueFromCupertino(
           'baseTheme',
           baseTheme,
         ) ??
         BaseThemeData();
+    // 设置 materialTheme 和 cupertinoTheme 到 BaseThemeData 中
+    if (useCupertino) {
+      baseThemeData = baseThemeData.copyWith(
+        materialTheme: materialTheme,
+      );
+    } else {
+      baseThemeData = baseThemeData.copyWith(
+        cupertinoTheme: cupertinoTheme,
+      );
+    }
     return BaseTheme(
       data: baseThemeData,
       child: CupertinoApp(

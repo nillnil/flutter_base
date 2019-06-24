@@ -12,7 +12,7 @@ import '../theme/base_theme.dart';
 /// use Scaffold by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoPageScaffold/CupertinoTabScaffold on material.
 class BaseScaffold extends BaseStatelessWidget {
-  BaseScaffold({
+  const BaseScaffold({
     Key baseKey,
     this.key,
     this.appBar,
@@ -29,7 +29,6 @@ class BaseScaffold extends BaseStatelessWidget {
     this.drawer,
     this.endDrawer,
     this.bottomSheet,
-    this.resizeToAvoidBottomPadding = true,
     this.primary = true,
     this.drawerDragStartBehavior = DragStartBehavior.start,
     this.extendBody = false,
@@ -112,9 +111,6 @@ class BaseScaffold extends BaseStatelessWidget {
 
   /// [Scaffold.bottomSheet]
   final Widget bottomSheet;
-
-  /// [Scaffold.resizeToAvoidBottomPadding]
-  final bool resizeToAvoidBottomPadding;
 
   /// [Scaffold.primary]
   final bool primary;

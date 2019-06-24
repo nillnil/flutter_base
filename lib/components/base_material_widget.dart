@@ -1,46 +1,31 @@
 import 'package:flutter/material.dart';
 
-/// 当cupertino模式需要用到material组件时使用
-class CustomMaterialWidget extends StatelessWidget {
-  CustomMaterialWidget({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      type: MaterialType.transparency,
-      color: Colors.transparent,
-      child: child,
-    );
-  }
-}
-
 /// 自定义SplashFactory的Material组件
-class CustomSplashFactoryWidget extends CustomMaterialWidget {
-  CustomSplashFactoryWidget({
+class BaseMaterialWidget extends StatelessWidget {
+  BaseMaterialWidget({
     Key key,
     @required Widget child,
-    @required this.theme,
-    @required InteractiveInkFeatureFactory splashFactory,
+    this.theme,
+    InteractiveInkFeatureFactory splashFactory,
   })  : assert(child != null, 'child can not be null.'),
-        assert(theme != null, 'theme can not be null.'),
-        assert(splashFactory != null, 'factory can not be null.'),
-        child = Theme(
-          data: theme.copyWith(
-            splashFactory: splashFactory,
-          ),
-          child: child,
-        ),
-        super(key: key, child: child);
+        assert(
+            (theme == null && splashFactory == null) ||
+                (theme != null && splashFactory != null),
+            'theme and factory must be the same value.'),
+        child = (theme != null && splashFactory != null)
+            ? Theme(
+                data: theme.copyWith(
+                  splashFactory: splashFactory,
+                ),
+                child: child,
+              )
+            : child,
+        super(key: key);
 
   /// 没有水波纹的自定义material组件
   /// 适用于cupertino模式中使用material组件
   /// 会有200延迟高亮
-  CustomSplashFactoryWidget.withoutSplash({
+  BaseMaterialWidget.withoutSplash({
     Key key,
     @required Widget child,
     @required this.theme,
@@ -52,11 +37,19 @@ class CustomSplashFactoryWidget extends CustomMaterialWidget {
           ),
           child: child,
         ),
-        super(key: key, child: child);
+        super(key: key);
 
-  @override
   final Widget child;
   final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      type: MaterialType.transparency,
+      color: Colors.transparent,
+      child: child,
+    );
+  }
 }
 
 /// 去除水波纹效果，但还是有200毫秒的延迟高亮

@@ -34,11 +34,11 @@ class IconButtonDemo extends StatelessWidget {
       ),
     );
     children.add(
-      Padding(
-        padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+      const Padding(
+        padding: EdgeInsets.only(right: 10.0, bottom: 10.0),
         child: BaseIconButton(
-          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-          icon: const Icon(
+          padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+          icon: Icon(
             Icons.image,
             size: 40,
           ),

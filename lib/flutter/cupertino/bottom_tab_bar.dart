@@ -3,17 +3,16 @@
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/bottom_tab_bar.dart
-/// lastest push: 2019.03.01
-/// lastest update: flutter v1.5.9-pre.109 2019.05.02
-/// commit https://github.com/flutter/flutter/commit/387f885481cd8441237680de0cfcd0802c0af48c
-/// #28673 https://github.com/flutter/flutter/pull/28673
+/// lastest push: 2019.05.09
+/// lastest update: flutter v1.7.0 2019.06.04
+/// commit https://github.com/flutter/flutter/commit/d96c1c88b75e3478015db986e78469ed3763f436
+/// #32340 https://github.com/flutter/flutter/pull/32340
 
 import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoTheme;
-import 'package:flutter/material.dart' show UnderlineTabIndicator;
+import 'package:flutter/material.dart' hide BottomNavigationBarItem;
 import 'package:flutter/painting.dart';
-import 'package:flutter/widgets.dart' hide BottomNavigationBarItem;
 
 import '../widgets/bottom_navigation_bar_item.dart';
 
@@ -45,7 +44,7 @@ const Color _kDefaultTabBarBorderColor = Color(0x4C000000);
 ///  * [BottomNavigationBarItem], an item in a [CupertinoTabBar].
 class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
   /// Creates a tab bar in the iOS style.
-  CupertinoTabBar({
+  const CupertinoTabBar({
     Key key,
     @required this.items,
     this.onTap,
@@ -62,16 +61,16 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     ),
     this.showIndicator = true,
-  }) : assert(items != null),
-       assert(
-         items.length >= 2,
-         "Tabs need at least 2 items to conform to Apple's HIG",
-       ),
-       assert(currentIndex != null),
-       assert(0 <= currentIndex && currentIndex < items.length),
-       assert(iconSize != null),
-       assert(inactiveColor != null),
-       super(key: key);
+  })  : assert(items != null),
+        assert(
+          items.length >= 2,
+          "Tabs need at least 2 items to conform to Apple's HIG",
+        ),
+        assert(currentIndex != null),
+        assert(0 <= currentIndex && currentIndex < items.length),
+        assert(iconSize != null),
+        assert(inactiveColor != null),
+        super(key: key);
 
   /// The interactive items laid out within the bottom navigation bar.
   ///
@@ -141,7 +140,7 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final double bottomPadding = MediaQuery.of(context).padding.bottom;
-    
+
     Widget result = DecoratedBox(
       decoration: BoxDecoration(
         border: border,
@@ -149,13 +148,18 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       child: SizedBox(
         height: _kTabBarHeight + bottomPadding,
-        child: IconTheme.merge( // Default with the inactive state.
+        child: IconTheme.merge(
+          // Default with the inactive state.
           data: IconThemeData(
             color: inactiveColor,
             size: iconSize,
           ),
-          child: DefaultTextStyle( // Default with the inactive state.
-            style: CupertinoTheme.of(context).textTheme.tabLabelTextStyle.copyWith(color: inactiveColor),
+          child: DefaultTextStyle(
+            // Default with the inactive state.
+            style: CupertinoTheme.of(context)
+                .textTheme
+                .tabLabelTextStyle
+                .copyWith(color: inactiveColor),
             child: Padding(
               padding: EdgeInsets.only(bottom: bottomPadding),
               child: Row(
@@ -197,7 +201,11 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
               hint: 'tab, ${index + 1} of ${items.length}',
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: onTap == null ? null : () { onTap(index); },
+                onTap: onTap == null
+                    ? null
+                    : () {
+                        onTap(index);
+                      },
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 4.0),
                   child: Column(
@@ -220,24 +228,20 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
     // icon can be null
     final List<Widget> components = <Widget>[];
     if (item.icon != null) {
-      components.add(
-        Expanded(
-          child: Center(child: active ? item.activeIcon : item.icon),
-        )
-      );
+      components.add(Expanded(
+        child: Center(child: active ? item.activeIcon : item.icon),
+      ));
     }
     if (item.title != null) {
       if (components.isEmpty) {
-        components.add(
-          Expanded(
-            child: Center(
-              child: DefaultTextStyle.merge(
-                style: TextStyle(fontSize: 17.0),
-                child: item.title,
-              ),
+        components.add(Expanded(
+          child: Center(
+            child: DefaultTextStyle.merge(
+              style: TextStyle(fontSize: 17.0),
+              child: item.title,
             ),
-          )
-        );
+          ),
+        ));
         if (showIndicator && active) {
           components.add(
             Container(
@@ -246,7 +250,7 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
                   color: activeColor,
                   width: 2,
                 ),
-                insets: const EdgeInsets.symmetric(horizontal: 40.0),
+                insets: const EdgeInsets.symmetric(horizontal: 30.0),
               ),
             ),
           );
@@ -259,11 +263,12 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   /// Change the active tab item's icon and title colors to active.
-  Widget _wrapActiveItem(BuildContext context, Widget item, { @required bool active }) {
-    if (!active)
-      return item;
+  Widget _wrapActiveItem(BuildContext context, Widget item,
+      {@required bool active}) {
+    if (!active) return item;
 
-    final Color activeColor = this.activeColor ?? CupertinoTheme.of(context).primaryColor;
+    final Color activeColor =
+        this.activeColor ?? CupertinoTheme.of(context).primaryColor;
     return IconTheme.merge(
       data: IconThemeData(color: activeColor),
       child: DefaultTextStyle.merge(

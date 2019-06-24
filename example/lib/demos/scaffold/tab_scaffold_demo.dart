@@ -1,5 +1,4 @@
 import 'package:base/base.dart';
-import 'package:example/iconfont/iconfont.dart';
 import 'package:flutter/material.dart';
 
 import '../demo_page.dart';
@@ -36,10 +35,10 @@ class _Demo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Widget> children = <Widget>[
-      _TabPage(title: '消息'),
-      _TabPage(title: '联系人'),
-      _TabPage(title: '发现'),
-      _TabPage(title: '我'),
+      const _TabPage(title: '消息'),
+      const _TabPage(title: '联系人'),
+      const _TabPage(title: '发现'),
+      const _TabPage(title: '我'),
     ];
     return WillPopScope(
       onWillPop: () => Future<bool>.value(false),
@@ -81,7 +80,7 @@ class _Demo extends StatelessWidget {
 }
 
 class _TabPage extends StatelessWidget {
-  _TabPage({
+  const _TabPage({
     Key key,
     this.title,
   }) : super(key: key);
@@ -108,7 +107,7 @@ class _TabPage extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  _Body({
+  const _Body({
     Key key,
     this.title = '',
   }) : super(key: key);

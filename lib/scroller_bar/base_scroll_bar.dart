@@ -9,7 +9,7 @@ import '../base_stateless_widget.dart';
 /// use Scrollbar by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoScrollbar on material.
 class BaseScrollBar extends BaseStatelessWidget {
-  BaseScrollBar({
+  const BaseScrollBar({
     Key baseKey,
     this.key,
     this.child,

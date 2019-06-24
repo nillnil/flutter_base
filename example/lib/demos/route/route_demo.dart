@@ -1,4 +1,5 @@
 import 'package:base/base.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../demo_page.dart';
@@ -18,6 +19,12 @@ class RouteDemo extends StatelessWidget {
       widgetName: 'BaseRoute',
       materialDesc: 'use MaterialPageRoute',
       cupertinoDesc: 'use CupertinoPageRoute',
+      parameterDesc: const <String, String> {
+        'backGestureWidth': 'Cupertino模式下有效，默认20.0，设置右滑返回时离屏幕边缘的宽度',
+        'fullscreenGackGesture': 'Cupertino模式下有效，默认false，该值设置成true时，'
+          'backGestureWidth = MediaQuery.of(context).size.width, 可以实现全屏右滑返回，且'
+          'backGestureWidth参数失效',
+      },
       tips: 'Use like: \nBaseRoute<void>('
           '\n\t\t...\n).push(context);'
           '\nor\n'
@@ -52,7 +59,29 @@ class _Demo extends StatelessWidget {
               onPressed: () {
                 pushBaseRoute(
                   BaseRoute<void>(
-                    _NewPage(title: 'normal route'),
+                    const _NewPage(title: 'normal route'),
+                    fullscreenGackGesture: false,
+                  ),
+                  context,
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: BaseButton(
+              color: Colors.white,
+              child: const Text(
+                'fullscreenGackGesture',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              onPressed: () {
+                pushBaseRoute(
+                  BaseRoute<void>(
+                    const _NewPage(title: 'fullscreenGackGesture'),
+                    fullscreenGackGesture: true,
                   ),
                   context,
                 );
@@ -71,7 +100,7 @@ class _Demo extends StatelessWidget {
               ),
               onPressed: () {
                 BaseRoute<void>(
-                  _NewPage(title: 'fullscreen route'),
+                  const _NewPage(title: 'fullscreen route'),
                   fullscreenDialog: true,
                 ).push(context);
               },
@@ -84,7 +113,7 @@ class _Demo extends StatelessWidget {
 }
 
 class _NewPage extends StatelessWidget {
-  _NewPage({
+  const _NewPage({
     Key key,
     this.title,
   }) : super(key: key);
@@ -94,8 +123,8 @@ class _NewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      appBar: BaseAppBar(
-        title: const Text('New Page'),
+      appBar: const BaseAppBar(
+        title: Text('New Page'),
       ),
       body: Container(
         alignment: Alignment.center,

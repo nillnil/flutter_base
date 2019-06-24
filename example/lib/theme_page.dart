@@ -23,8 +23,8 @@ class ThemePage extends StatelessWidget {
           );
         }
         return BaseScaffold(
-          appBar: BaseAppBar(
-            title: const Text('主题'),
+          appBar: const BaseAppBar(
+            title: Text('主题'),
             transitionBetweenRoutes: false,
           ),
           body: Container(

@@ -12,7 +12,7 @@ class IndicatorDemo extends StatelessWidget {
         page: Container(
           padding: const EdgeInsets.all(50.0),
           alignment: Alignment.center,
-          child: BaseIndicator(
+          child: const BaseIndicator(
             radius: 20.0,
           ),
         ),

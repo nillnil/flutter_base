@@ -9,7 +9,7 @@ import '../base_stateless_widget.dart';
 /// use IconButton by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoButton on material.
 class BaseIconButton extends BaseStatelessWidget {
-  BaseIconButton({
+  const BaseIconButton({
     Key baseKey,
     this.key,
     this.icon,

@@ -10,7 +10,7 @@ import '../base_stateless_widget.dart';
 /// use Switch by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoSwitch
 class BaseSwitch extends BaseStatelessWidget {
-  BaseSwitch({
+  const BaseSwitch({
     Key baseKey,
     this.key,
     this.value,

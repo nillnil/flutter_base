@@ -5,7 +5,7 @@ import '../platform/platform.dart';
 
 @deprecated
 class BaseGeneralDialog extends BaseStatelessWidget {
-  BaseGeneralDialog({
+  const BaseGeneralDialog({
     Key baseKey,
     this.barrierDismissible = true,
     this.barrierLabel,

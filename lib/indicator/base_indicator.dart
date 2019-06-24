@@ -10,7 +10,7 @@ import '../base_stateless_widget.dart';
 /// use CircularProgressIndicator by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoActivityIndicator on material.
 class BaseIndicator extends BaseStatelessWidget {
-  BaseIndicator({
+  const BaseIndicator({
     Key key,
     this.animating = true,
     this.radius = 10.0,

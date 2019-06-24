@@ -6,7 +6,7 @@ import '../demo_tile.dart';
 
 /// ActionSheet Demo
 class ActionSheetDemo extends StatelessWidget {
-  ActionSheetDemo({
+  const ActionSheetDemo({
     Key key,
   }) : super(key: key);
 

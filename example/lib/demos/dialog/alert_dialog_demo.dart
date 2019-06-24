@@ -6,8 +6,8 @@ class AlertDialogDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      appBar: BaseAppBar(
-        title: const Text('Alert Dialog'),
+      appBar: const BaseAppBar(
+        title: Text('Alert Dialog'),
       ),
       body: Container(
         margin: const EdgeInsets.all(10.0),

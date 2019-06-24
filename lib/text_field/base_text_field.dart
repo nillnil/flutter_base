@@ -12,7 +12,7 @@ import '../base_stateless_widget.dart';
 /// use TextField by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoTextField on material.
 class BaseTextField extends BaseStatelessWidget {
-  BaseTextField({
+  const BaseTextField({
     Key baseKey,
     this.key,
     this.controller,

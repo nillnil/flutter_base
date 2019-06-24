@@ -16,10 +16,12 @@ class AppBarDemo extends StatelessWidget {
       DemoTile(
         title: const Text('height'),
         page: CustomHeight(),
+        fullscreenGackGesture: false,
       ),
       DemoTile(
         title: const Text('bottom'),
         page: News(),
+        fullscreenGackGesture: false,
       ),
     ];
 

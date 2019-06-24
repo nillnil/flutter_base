@@ -10,7 +10,7 @@ import '../base_stateless_widget.dart';
 /// use RefreshIndicator by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoSliverRefreshControl on material.
 class BaseRefresh extends BaseStatelessWidget {
-  BaseRefresh({
+  const BaseRefresh({
     Key baseKey,
     this.key,
     this.refreshTriggerPullDistance = _defaultRefreshTriggerPullDistance,

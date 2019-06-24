@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './components/base_material_widget.dart';
 import './platform/platform.dart';
-import './utils/custom_material_widget.dart';
 import 'base_constants.dart';
 import 'base_mixin.dart';
 
@@ -20,7 +20,7 @@ import 'base_mixin.dart';
 /// *** material模式使用 valueFromMaterial(key, value) 获取
 /// ***
 abstract class BaseStatefulWidget extends StatefulWidget {
-  BaseStatefulWidget({
+  const BaseStatefulWidget({
     Key key,
     this.cupertino = const <String, dynamic>{},
     this.material = const <String, dynamic>{},
@@ -55,12 +55,12 @@ abstract class BaseState<T extends BaseStatefulWidget> extends State<T>
         buildByMaterialBefore(context);
         // 去除水波纹效果
         if (withoutSplashOnCupertino) {
-          return CustomSplashFactoryWidget.withoutSplash(
+          return BaseMaterialWidget.withoutSplash(
             child: buildByMaterial(context),
             theme: Theme.of(context),
           );
         }
-        return CustomMaterialWidget(child: buildByMaterial(context));
+        return BaseMaterialWidget(child: buildByMaterial(context));
       }
       buildByCupertinoBefore(context);
       return buildByCupertino(context);

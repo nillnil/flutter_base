@@ -7,12 +7,12 @@ import '../demo_tile.dart';
 class AppDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return DemoPage(
+    return const DemoPage(
       title: 'App',
       widgetName: 'BaseApp',
       materialDesc: 'use MaterialApp',
       cupertinoDesc: 'use CupertinoApp',
-      parameterDesc: const <String, String>{
+      parameterDesc: <String, String>{
         'targetPlatform': '平台，iOS使用Cupertino模式构建，android使用Material模式构建',
         'cupertinoTheme': '对应CupertinoApp.theme',
         'materialTheme': '对应MaterialApp.theme',
@@ -23,7 +23,7 @@ class AppDemo extends StatelessWidget {
         'withoutSplashOnCupertino': '当Cupertino模式下使用Material组件时是否去除水波纹效果，'
             '默认true',
       },
-      demos: const <DemoTile>[],
+      demos: <DemoTile>[],
     );
   }
 }

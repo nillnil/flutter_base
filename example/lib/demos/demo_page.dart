@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'utils/color_block.dart';
 
 class DemoPage extends StatelessWidget {
-  DemoPage({
+  const DemoPage({
     Key key,
     this.title,
     this.doc,

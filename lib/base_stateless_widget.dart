@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import './base_constants.dart';
-import './base_mixin.dart';
+import './components/base_material_widget.dart';
 import './platform/platform.dart';
-import './utils/custom_material_widget.dart';
+import 'base_constants.dart';
+import 'base_mixin.dart';
 
 /// 基础无状态组件
 /// cupertino使用buildByCupertino方法构建，material使用buildByMaterial方法构建
@@ -20,7 +20,7 @@ import './utils/custom_material_widget.dart';
 /// *** material模式使用 valueFromMaterial(key, value) 获取
 /// ***
 abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
-  BaseStatelessWidget({
+  const BaseStatelessWidget({
     Key key,
     this.cupertino = const <String, dynamic>{},
     this.material = const <String, dynamic>{},
@@ -46,12 +46,12 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
           // 默认套多一层 Material
           buildByMaterialBefore(context);
           if (withoutSplashOnCupertino) {
-            return CustomSplashFactoryWidget.withoutSplash(
+            return BaseMaterialWidget.withoutSplash(
               child: buildByMaterial(context),
               theme: Theme.of(context),
             );
           }
-          return CustomMaterialWidget(child: buildByMaterial(context));
+          return BaseMaterialWidget(child: buildByMaterial(context));
         }
       }
       buildByCupertinoBefore(context);

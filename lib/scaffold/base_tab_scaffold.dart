@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart'
-    show CupertinoTabView
-    hide CupertinoTabScaffold;
+import 'package:flutter/cupertino.dart' show CupertinoTabView;
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart' hide BottomNavigationBar;
+import 'package:flutter/material.dart';
 
 import '../appbar/base_app_bar.dart';
 import '../base_stateful_widget.dart';
@@ -16,7 +14,7 @@ import '../tabbar/base_tab_bar.dart';
 /// material，use Scaffold by material
 /// *** use material = { forceUseCupertino: true } to force use CupertinoTabScaffold
 class BaseTabScaffold extends BaseStatefulWidget {
-  BaseTabScaffold({
+  const BaseTabScaffold({
     Key baseKey,
     this.key,
     this.appBar,
@@ -25,6 +23,7 @@ class BaseTabScaffold extends BaseStatefulWidget {
     this.tabBar,
     this.tabViews,
     this.resizeToAvoidBottomInset = true,
+    this.controller,
     this.routes = const <String, WidgetBuilder>{},
     this.navigatorKey,
     this.onGenerateRoute,
@@ -91,6 +90,9 @@ class BaseTabScaffold extends BaseStatefulWidget {
   /// *** general properties end ***
 
   /// *** cupertino properties start ***
+  
+  /// [CupertinoTabScaffold.controller]
+  final CupertinoTabController controller;
 
   /// [CupertinoTabView.tabViewKey]
   final Key tabViewKey;
@@ -198,6 +200,7 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
           navigatorObservers: widget.navigatorObservers,
         );
       },
+      controller: widget.controller,
       backgroundColor: valueFromMaterial(
         'backgroundColor',
         widget.backgroundColor,

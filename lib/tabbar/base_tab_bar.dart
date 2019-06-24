@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart'
-    show CupertinoColors
-    hide CupertinoTabBar, BottomNavigationBarItem;
+import 'package:flutter/cupertino.dart' show CupertinoColors;
 import 'package:flutter/material.dart'
     hide BottomNavigationBarItem, BottomNavigationBar;
 
@@ -16,7 +14,7 @@ import 'base_bar_item.dart';
 /// use BottomNavigationBar by material
 /// *** not support material = { forceUseCupertino: true }.
 class BaseTabBar extends BaseStatelessWidget {
-  BaseTabBar({
+  const BaseTabBar({
     this.key,
     this.items,
     this.onTap,
@@ -38,8 +36,12 @@ class BaseTabBar extends BaseStatelessWidget {
     this.fixedColor,
     this.selectedItemColor,
     this.unselectedItemColor,
+    this.selectedIconTheme = const IconThemeData(),
+    this.unselectedIconTheme = const IconThemeData(),
     this.selectedFontSize = 14.0,
     this.unselectedFontSize = 12.0,
+    this.selectedLabelStyle,
+    this.unselectedLabelStyle,
     this.showSelectedLabels = true,
     this.showUnselectedLabels,
     Map<String, dynamic> cupertino,
@@ -111,12 +113,24 @@ class BaseTabBar extends BaseStatelessWidget {
 
   /// [BottomNavigationBar.unselectedItemColor]
   final Color unselectedItemColor;
+  
+  /// [BottomNavigationBar.selectedIconTheme]
+  final IconThemeData selectedIconTheme;
+
+  /// [BottomNavigationBar.unselectedIconTheme]
+  final IconThemeData unselectedIconTheme;
 
   /// [BottomNavigationBar.selectedFontSize]
   final double selectedFontSize;
 
   /// [BottomNavigationBar.unselectedFontSize]
   final double unselectedFontSize;
+
+  /// [BottomNavigationBar.selectedLabelStyle]
+  final TextStyle selectedLabelStyle;
+
+  /// [BottomNavigationBar.unselectedLabelStyle]
+  final TextStyle unselectedLabelStyle;
 
   /// [BottomNavigationBar.showSelectedLabels]
   final bool showSelectedLabels;
@@ -184,8 +198,12 @@ class BaseTabBar extends BaseStatelessWidget {
       iconSize: valueFromMaterial('iconSize', iconSize) ?? 24.0,
       selectedItemColor: selectedItemColor,
       unselectedItemColor: unselectedItemColor,
+      selectedIconTheme: selectedIconTheme,
+      unselectedIconTheme: unselectedIconTheme,
       selectedFontSize: selectedFontSize,
       unselectedFontSize: unselectedFontSize,
+      selectedLabelStyle: selectedLabelStyle,
+      unselectedLabelStyle: unselectedLabelStyle,
       showSelectedLabels: showSelectedLabels,
       showUnselectedLabels: showSelectedLabels,
       showIndicator: valueFromMaterial('showIndicator', showIndicator),

@@ -9,7 +9,7 @@ import '../base_stateless_widget.dart';
 /// use MaterialButton or FlatButton or OutlineButton or RaisedButton by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoButton or CupertinoButton.filled on material.
 class BaseButton extends BaseStatelessWidget {
-  BaseButton({
+  const BaseButton({
     Key baseKey,
     this.key,
     this.color,
@@ -25,6 +25,8 @@ class BaseButton extends BaseStatelessWidget {
     this.textTheme,
     this.textColor,
     this.disabledTextColor,
+    this.focusColor,
+    this.hoverColor,
     this.highlightColor,
     this.splashColor,
     this.colorBrightness,
@@ -74,6 +76,8 @@ class BaseButton extends BaseStatelessWidget {
     this.textTheme,
     this.textColor,
     this.disabledTextColor,
+    this.focusColor,
+    this.hoverColor,
     this.highlightColor,
     this.splashColor,
     this.colorBrightness,
@@ -175,6 +179,12 @@ class BaseButton extends BaseStatelessWidget {
 
   /// [MaterialButton.disabledTextColor]
   final Color disabledTextColor;
+
+  /// [MaterialButton.focusColor]
+  final Color focusColor;
+
+  /// [MaterialButton.hoverColor]
+  final Color hoverColor;
 
   /// [MaterialButton.highlightColor]
   final Color highlightColor;
@@ -281,6 +291,8 @@ class BaseButton extends BaseStatelessWidget {
         disabledTextColor: disabledTextColor,
         color: valueFromMaterial('color', color),
         disabledColor: valueFromMaterial('disabledColor', disabledColor),
+        focusColor: focusColor,
+        hoverColor: hoverColor,
         highlightColor: highlightColor,
         splashColor: splashColor,
         colorBrightness: colorBrightness,
@@ -298,6 +310,8 @@ class BaseButton extends BaseStatelessWidget {
         textColor: textColor,
         disabledTextColor: disabledTextColor,
         color: valueFromMaterial('color', color),
+        focusColor: focusColor,
+        hoverColor: hoverColor,
         highlightColor: highlightColor,
         splashColor: splashColor,
         highlightElevation: highlightElevation,
@@ -320,6 +334,8 @@ class BaseButton extends BaseStatelessWidget {
         color: valueFromMaterial('color', color),
         disabledColor: valueFromMaterial('disabledColor', disabledColor),
         highlightColor: highlightColor,
+        focusColor: focusColor,
+        hoverColor: hoverColor,
         splashColor: splashColor,
         colorBrightness: colorBrightness,
         elevation: elevation,
@@ -342,6 +358,8 @@ class BaseButton extends BaseStatelessWidget {
       disabledTextColor: disabledTextColor,
       color: valueFromMaterial('color', color),
       disabledColor: valueFromMaterial('disabledColor', disabledColor),
+      focusColor: focusColor,
+      hoverColor: hoverColor,
       highlightColor: highlightColor,
       splashColor: splashColor,
       colorBrightness: colorBrightness,

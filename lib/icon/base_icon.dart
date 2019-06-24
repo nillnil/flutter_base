@@ -9,7 +9,7 @@ import '../base_stateless_widget.dart';
 /// use Icon by material
 /// *** use material = { forceUseCupertino: true } force use Icon on material.
 class BaseIcon extends BaseStatelessWidget {
-  BaseIcon({
+  const BaseIcon({
     Key baseKey,
     this.key,
     this.icon,

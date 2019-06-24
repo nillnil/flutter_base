@@ -9,7 +9,7 @@ import '../base_stateless_widget.dart';
 /// use FlatButton by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoDialogAction on material.
 class BaseDialogAction extends BaseStatelessWidget {
-  BaseDialogAction({
+  const BaseDialogAction({
     Key baseKey,
     this.key,
     this.onPressed,

@@ -9,7 +9,7 @@ import '../base_stateless_widget.dart';
 /// use InkWell by material, must has a Material Widget ancestor
 /// *** use material = { forceUseCupertino: true } force use CupertinoActionSheetAction on material.
 class BaseActionSheetAction extends BaseStatelessWidget {
-  BaseActionSheetAction({
+  const BaseActionSheetAction({
     Key baseKey,
     this.key,
     this.onPressed,

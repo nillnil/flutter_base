@@ -2,15 +2,16 @@
   <img src="https://github.com/nillnil/flutter_base/blob/master/screenshot/logo.png?raw=true" alt="logo">
 </p>
 
+# flutter_base
 
 ## 实现一套代码，2种模式，ios使用Cupertino风格组件，andriod、fuchsia使用Material风格组件
-
 
 ### [English](./README-EN.md)
 
 ### 当前只针对Cupertino模式进行了测试，Material组件相对比较完善了，后期也会补上Material模式的测试。
 
 ## 基础类
+
 * BaseStatelessWidget
 
   继承于StatelessWidget，用于构建无状态组件
@@ -39,8 +40,8 @@
 
   默认 `TargetPlatform.iOS` 使用 `Cupertino` 构建， `TargetPlatform.android` 或 `TargetPlatform.fuchsia` 使用 `Material` 构建
 
-
 ## Features
+
 * `useCupertino, useMaterial` 
   使用这2个方法可以判断当前使用的模式，进行差异化构建。
 
@@ -107,5 +108,6 @@
 |BaseBarItem|BottomNavigationBarItem|BottomNavigationBarItem|
 |BaseTabBar|BottomNavigationBar|CupertinoTabBar|
 |BaseTextField|TextField|CupertinoTextField|
+|BaseDrawer|/|/|
 
 ## [简单示例](./example/)

@@ -1,8 +1,11 @@
-import 'package:flutter/cupertino.dart' show CupertinoPageRoute, RoutePredicate;
+import 'package:flutter/cupertino.dart' show RoutePredicate;
 import 'package:flutter/material.dart'
     show BuildContext, MaterialPageRoute, Navigator, RouteSettings;
+import 'package:flutter/material.dart';
 
 import '../base_class.dart';
+import '../flutter/cupertino/route.dart';
+import '../theme/base_theme.dart';
 
 /// BaseRoute
 /// use CupertinoPageRoute or CupertinoButton.filled by cupertino
@@ -16,6 +19,8 @@ class BaseRoute<T> extends BaseClass {
     this.settings,
     this.maintainState = true,
     this.fullscreenDialog = false,
+    this.backGestureWidth = 20.0,
+    this.fullscreenGackGesture,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
   }) : super(cupertino: cupertino, material: material);
@@ -49,10 +54,29 @@ class BaseRoute<T> extends BaseClass {
   /// [CupertinoPageRoute.title]
   final String title;
 
+  /// default is [CupertinoPageRoute._kBackGestureWidth] = 20.0.
+  /// 向右滑返回时离屏幕边缘的宽度
+  final double backGestureWidth;
+
+  /// if is true, [backGestureWidth] = MediaQuery.of(context).size.width.
+  /// if is null, default is [BaseThemeData.routeFullscreenGackGesture]
+  /// **Please pay attention to gesture conflict when using
+  /// 
+  /// 是否启用全屏右滑返回, [backGestureWidth]参数会失效
+  /// 默认是 [BaseThemeData.routeFullscreenGackGesture]
+  /// ** 使用时请注意手势冲突
+  final bool fullscreenGackGesture;
+
   /// *** cupertino properties end ***
 
   @override
   Object buildByCupertino(BuildContext context) {
+    double _backGestureWidth = backGestureWidth;
+    final bool fullscreenGackGesture = this.fullscreenGackGesture ??
+        BaseTheme.of(context).routeFullscreenGackGesture;
+    if (fullscreenGackGesture) {
+      _backGestureWidth = MediaQuery.of(context).size.width;
+    }
     return CupertinoPageRoute<T>(
       title: title,
       settings: valueFromCupertino('settings', settings),
@@ -64,6 +88,7 @@ class BaseRoute<T> extends BaseClass {
       builder: (BuildContext context) {
         return valueFromCupertino('page', page);
       },
+      backGestureWidth: _backGestureWidth,
     );
   }
 

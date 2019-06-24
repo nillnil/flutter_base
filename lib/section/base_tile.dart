@@ -9,7 +9,7 @@ import '../base_stateless_widget.dart';
 /// use ListTile by material
 /// *** use material = { forceUseCupertino: true } force use custom InkWell on material.
 class BaseTile extends BaseStatelessWidget {
-  BaseTile({
+  const BaseTile({
     Key baseKey,
     this.key,
     this.leading,
@@ -194,7 +194,7 @@ class BaseTile extends BaseStatelessWidget {
     );
     return Material(
       key: valueFromCupertino('key', key),
-      animationDuration: Duration(milliseconds: 10),
+      animationDuration: const Duration(milliseconds: 10),
       color: valueFromCupertino('backgroundColor', backgroundColor),
       borderOnForeground: false,
       child: Ink(
@@ -217,6 +217,8 @@ class BaseTile extends BaseStatelessWidget {
           highlightColor: highlightColor ?? Theme.of(context).highlightColor,
           onTap: onTap,
           onLongPress: onLongPress,
+          focusColor: Colors.transparent,
+          hoverColor: Colors.transparent,
         ),
       ),
     );

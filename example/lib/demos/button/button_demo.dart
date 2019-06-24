@@ -31,12 +31,12 @@ class ButtonDemo extends StatelessWidget {
       ),
     );
     children.add(
-      Padding(
+      const Padding(
         padding: _padding,
         child: BaseButton(
           padding: _buttonPadding,
           color: Colors.white,
-          child: const Text(
+          child: Text(
             'disabled',
             style: TextStyle(color: Colors.black),
           ),
