@@ -22,14 +22,14 @@ class DrawerDemo extends StatelessWidget {
         'size': 'Drawer的大小',
         'percent': '高度/宽度的百分比，默认50. 当有size参数时，该参数失效',
       },
-      tips: 'Use like: \npushBaseDrawer<void>(\n\t\t\t'
+      tips: 'Use like: \nopenBaseDrawer<void>(\n\t\t\t'
           'context: ...\n\t\t\t'
           'drawer: BaseDrawer(...)\n'
           ');'
           '\nor\n'
           'BaseDrawer(\n\t\t\t'
           '...\n'
-          ').push<void>(context);',
+          ').open<void>(context);',
       demos: <DemoTile>[
         DemoTile(
           page: _Demo(),
@@ -247,7 +247,7 @@ class _DemoState extends State<_Demo> {
             color: Colors.white,
             onPressed: () {
               // pushBaseDrawer<void>(context, _buildDrawer());
-              _buildDrawer().push<void>(context);
+              _buildDrawer().open<void>(context);
             },
           ),
         ],

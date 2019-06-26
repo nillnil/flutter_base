@@ -157,7 +157,7 @@ class Home extends StatelessWidget {
                     children: <Widget>[
                       _TipsHeader(
                         callback: () {
-                          _drawerKey.currentState.hideDrawer();
+                          _drawerKey.currentState.close();
                         },
                       ),
                       Expanded(
@@ -172,7 +172,7 @@ class Home extends StatelessWidget {
                   ),
                 ),
               );
-              pushBaseDrawer<void>(context, baseDrawer);
+              openBaseDrawer<void>(context, baseDrawer);
             },
           )
         },

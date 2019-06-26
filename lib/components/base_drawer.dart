@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 const Duration _drawerTransitionDuration = Duration(milliseconds: 300);
@@ -51,7 +53,7 @@ class BaseDrawer extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => BaseDrawerState();
 
-  Future<T> push<T>(
+  Future<T> open<T>(
     BuildContext context, {
     bool rootNavigator = true,
   }) {
@@ -72,20 +74,26 @@ class BaseDrawer extends StatefulWidget {
       ),
     );
   }
+
+  void close(
+    GlobalObjectKey<BaseDrawerState> drawerKey,
+  ) {
+    drawerKey.currentState.close();
+  }
 }
 
-class BaseDrawerState extends State<BaseDrawer> with TickerProviderStateMixin {
-  AnimationController _fadeAimationController;
-  AnimationController _slideAimationController;
-  Color _backgroundColor = Colors.transparent;
+class BaseDrawerState extends State<BaseDrawer>
+    with SingleTickerProviderStateMixin {
+  AnimationController _slideAnimationController;
 
   Widget _child;
+
   Size _size;
   Size _drawerSize;
-  Alignment _alignment;
   Axis _axis;
   double _tweenBegin;
   double _tweenEnd;
+  ColorTween _colorTween;
 
   double _offset = 0.0;
   final double _hideDrawerOffsetPercent = .5;
@@ -93,260 +101,185 @@ class BaseDrawerState extends State<BaseDrawer> with TickerProviderStateMixin {
 
   double _flingVelocitySize;
 
+  final Map<Type, GestureRecognizerFactory> _gestures =
+      <Type, GestureRecognizerFactory>{};
   final GlobalKey _gestureDetectorKey = GlobalKey();
   final GlobalKey _backgroundGestureDetectorKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    _fadeAimationController = AnimationController(
+
+    _colorTween = ColorTween(
+      begin: Colors.transparent,
+      end: widget.backgroundColor,
+    );
+
+    // slideAnimation
+    _slideAnimationController = AnimationController(
       duration: widget.duration,
       vsync: this,
     );
     CurvedAnimation(
-      parent: _fadeAimationController,
+      parent: _slideAnimationController,
       curve: widget.curve,
       reverseCurve: widget.reverseCurve,
     );
-    _fadeAimationController.addListener(() {
+    _slideAnimationController.addListener(() {
       setState(() {
-        _backgroundColor = _lerpFadeTween(_fadeAimationController.value);
+        _offset = _lerpOffsetTween(_slideAnimationController.value);
       });
     });
-    _fadeAimationController.forward();
+    _slideAnimationController.forward();
 
-    _slideAimationController = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
-    CurvedAnimation(
-      parent: _slideAimationController,
-      curve: widget.curve,
-      reverseCurve: widget.reverseCurve,
-    );
+    Timer(const Duration(milliseconds: 0), () {
+      _init();
+    });
+  }
+
+  void _init() {
+    _size ??= MediaQuery.of(context).size;
     switch (widget.axisDirection) {
       case AxisDirection.left:
+        // widget params
+        _drawerSize = widget.size ??
+            Size.fromWidth(
+              _size.width * widget.percent / 100,
+            );
+        _hideDrawerOffset = _drawerSize.width * _hideDrawerOffsetPercent;
+        _flingVelocitySize = _drawerSize.width;
+
+        // animation params
         _axis = Axis.horizontal;
-        _tweenBegin = 1.0;
-        _tweenEnd = 0.0;
+        _tweenBegin = _size.width;
+        _tweenEnd = _size.width - _drawerSize.width;
         break;
       case AxisDirection.right:
+        // widget params
+        _drawerSize = widget.size ??
+            Size.fromWidth(
+              _size.width * widget.percent / 100,
+            );
+        _hideDrawerOffset = _drawerSize.width * _hideDrawerOffsetPercent;
+        _flingVelocitySize = _drawerSize.width;
+
+        // animation params
         _axis = Axis.horizontal;
-        _tweenBegin = -1.0;
+        _tweenBegin = -_drawerSize.width;
         _tweenEnd = 0.0;
         break;
       case AxisDirection.up:
+        // widget params
+        _drawerSize = widget.size ??
+            Size.fromHeight(
+              _size.height * widget.percent / 100,
+            );
+        _hideDrawerOffset = _drawerSize.height * _hideDrawerOffsetPercent;
+        _flingVelocitySize = _drawerSize.height;
+
+        // animation params
         _axis = Axis.vertical;
-        _tweenBegin = 1.0;
-        _tweenEnd = 0.0;
+        _tweenBegin = _size.height;
+        _tweenEnd = _size.height - _drawerSize.height;
         break;
       case AxisDirection.down:
+        // widget params
+        _drawerSize = widget.size ??
+            Size.fromHeight(
+              _size.height * widget.percent / 100,
+            );
+        _hideDrawerOffset = _drawerSize.height * _hideDrawerOffsetPercent;
+        _flingVelocitySize = _drawerSize.height;
+
+        // animation params
         _axis = Axis.vertical;
-        _tweenBegin = -1.0;
+        _tweenBegin = -_drawerSize.height;
         _tweenEnd = 0.0;
         break;
     }
-    _slideAimationController.addListener(() {
-      setState(() {
-        _offset = _lerpSilderTween(_slideAimationController.value);
-      });
-    });
-    _slideAimationController.forward();
-  }
 
-  void _buildInit() {
-    if (_drawerSize == null) {
-      _size ??= MediaQuery.of(context).size;
-      final Widget blankWidget = GestureDetector(
-        child: Container(
-          color: Colors.transparent,
-        ),
-        onTap: () {
-          _fadeAimationController.reverse();
-          _slideAimationController.reverse();
-          Navigator.of(context).pop();
+    // child
+    _child = Container(
+      child: SizedBox(
+        width: _drawerSize.width,
+        height: _drawerSize.height,
+        child: widget.child,
+      ),
+    );
+
+    // gestures
+    if (_axis == Axis.horizontal) {
+      _gestures[HorizontalDragGestureRecognizer] =
+          GestureRecognizerFactoryWithHandlers<HorizontalDragGestureRecognizer>(
+        () => HorizontalDragGestureRecognizer(),
+        (HorizontalDragGestureRecognizer instance) {
+          instance.onUpdate =
+              (DragUpdateDetails details) => _onDragUpdate(details);
+          instance.onEnd = (DragEndDetails details) => _onDragEnd(details);
         },
       );
-      _child = widget.child;
-      switch (widget.axisDirection) {
-        case AxisDirection.left:
-          _drawerSize = widget.size ??
-              Size.fromWidth(
-                _size.width * widget.percent / 100,
-              );
-          _alignment = Alignment.topRight;
-          _hideDrawerOffset = _drawerSize.width * _hideDrawerOffsetPercent;
-          _flingVelocitySize = _drawerSize.width;
-          _child = Row(
-            children: <Widget>[
-              Expanded(
-                child: blankWidget,
-              ),
-              SizedBox(
-                width: _drawerSize.width,
-                height: _drawerSize.height,
-                child: _child,
-              ),
-            ],
-          );
-          break;
-        case AxisDirection.right:
-          _drawerSize = widget.size ??
-              Size.fromWidth(
-                _size.width * widget.percent / 100,
-              );
-          _alignment = Alignment.topLeft;
-          _hideDrawerOffset = _drawerSize.width * _hideDrawerOffsetPercent;
-          _flingVelocitySize = _drawerSize.width;
-          _child = Row(
-            children: <Widget>[
-              SizedBox(
-                width: _drawerSize.width,
-                height: _drawerSize.height,
-                child: _child,
-              ),
-              Expanded(
-                child: blankWidget,
-              ),
-            ],
-          );
-          break;
-        case AxisDirection.up:
-          _drawerSize = widget.size ??
-              Size.fromHeight(
-                _size.height * widget.percent / 100,
-              );
-          _alignment = Alignment.bottomLeft;
-          _hideDrawerOffset = _drawerSize.height * _hideDrawerOffsetPercent;
-          _flingVelocitySize = _drawerSize.height;
-          _child = Column(
-            children: <Widget>[
-              Expanded(
-                child: blankWidget,
-              ),
-              SizedBox(
-                width: _drawerSize.width,
-                height: _drawerSize.height,
-                child: _child,
-              ),
-            ],
-          );
-          break;
-        case AxisDirection.down:
-          _drawerSize = widget.size ??
-              Size.fromHeight(
-                _size.height * widget.percent / 100,
-              );
-          _alignment = Alignment.topLeft;
-          _hideDrawerOffset = _drawerSize.height * _hideDrawerOffsetPercent;
-          _flingVelocitySize = _drawerSize.height;
-          _child = Column(
-            children: <Widget>[
-              SizedBox(
-                width: _drawerSize.width,
-                height: _drawerSize.height,
-                child: _child,
-              ),
-              Expanded(
-                child: blankWidget,
-              ),
-            ],
-          );
-          break;
-      }
-      if (_axis == Axis.horizontal) {
-        _child = GestureDetector(
-          key: _gestureDetectorKey,
-          child: Container(
-            alignment: _alignment,
-            child: _child,
-          ),
-          onHorizontalDragUpdate: (DragUpdateDetails details) {
-            _onDragUpdate(details);
-          },
-          onHorizontalDragEnd: (DragEndDetails details) {
-            _onDragEnd(details);
-          },
-        );
-      } else {
-        _child = GestureDetector(
-          key: _gestureDetectorKey,
-          child: Container(
-            alignment: _alignment,
-            child: _child,
-          ),
-          onVerticalDragUpdate: (DragUpdateDetails details) {
-            _onDragUpdate(details);
-          },
-          onVerticalDragEnd: (DragEndDetails details) {
-            _onDragEnd(details);
-          },
-        );
-      }
+    } else {
+      _gestures[VerticalDragGestureRecognizer] =
+          GestureRecognizerFactoryWithHandlers<VerticalDragGestureRecognizer>(
+        () => VerticalDragGestureRecognizer(),
+        (VerticalDragGestureRecognizer instance) {
+          instance.onUpdate =
+              (DragUpdateDetails details) => _onDragUpdate(details);
+          instance.onEnd = (DragEndDetails details) => _onDragEnd(details);
+        },
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    _buildInit();
-    return Stack(
-      children: <Widget>[
-        GestureDetector(
-          key: _backgroundGestureDetectorKey,
-          child: Container(
-            color: _backgroundColor,
+    return RawGestureDetector(
+      key: _gestureDetectorKey,
+      gestures: _gestures,
+      child: Stack(
+        children: <Widget>[
+          GestureDetector(
+            key: _backgroundGestureDetectorKey,
+            child: Container(
+              color: _colorTween.evaluate(_slideAnimationController),
+            ),
+            onTap: () {
+              close();
+            },
           ),
-          onTap: () {
-            hideDrawer();
-          },
-        ),
-        Transform.translate(
-          offset: _axis == Axis.horizontal
-              ? Offset(_offset, 0.0)
-              : Offset(0.0, _offset),
-          child: _child,
-        ),
-      ],
+          Transform.translate(
+            offset: _axis == Axis.horizontal
+                ? Offset(_offset, 0.0)
+                : Offset(0.0, _offset),
+            child: _child,
+          ),
+        ],
+      ),
     );
   }
 
   void _onDragUpdate(DragUpdateDetails details) {
-    double offset;
     switch (widget.axisDirection) {
       case AxisDirection.left:
-        offset = max(0.0, _offset + details.delta.dx);
+        _offset = max(0.0, _offset + details.delta.dx);
         break;
       case AxisDirection.right:
-        offset = min(0.0, _offset + details.delta.dx);
+        _offset = min(0.0, _offset + details.delta.dx);
         break;
       case AxisDirection.up:
-        offset = max(0.0, _offset + details.delta.dy);
+        _offset = max(0.0, _offset + details.delta.dy);
         break;
       case AxisDirection.down:
-        offset = min(0.0, _offset + details.delta.dy);
+        _offset = min(0.0, _offset + details.delta.dy);
         break;
     }
-    final double opacity = (calculateRatio() * widget.backgroundColor.opacity)
-        .clamp(0.0, widget.backgroundColor.opacity);
-    setState(() {
-      _offset = offset;
-      _backgroundColor = _backgroundColor.withOpacity(opacity);
-    });
-  }
-
-  double calculateRatio() {
-    double _size = 0.0;
-    if (_axis == Axis.horizontal) {
-      _size = _drawerSize.width;
-    } else {
-      _size = _drawerSize.height;
-    }
-    return (_size - _offset.abs()) / _size;
+    _slideAnimationController.value = _lerpOffset();
   }
 
   void _onDragEnd(DragEndDetails details) {
     final double _primaryVelocity =
         details.primaryVelocity / _flingVelocitySize;
+    final double _interval = _offset.abs() - _tweenEnd;
     if (_primaryVelocity.abs() > _minFlingVelocity) {
       bool _open = false;
       switch (widget.axisDirection) {
@@ -368,73 +301,46 @@ class BaseDrawerState extends State<BaseDrawer> with TickerProviderStateMixin {
           break;
       }
       if (_open) {
-        showDrawer();
+        open();
       } else {
-        hideDrawer();
+        close();
       }
-    } else if (_offset.abs() > _hideDrawerOffset) {
-      hideDrawer();
+    } else if (_interval > _hideDrawerOffset) {
+      close();
     } else {
-      showDrawer();
+      open();
     }
   }
 
-  double _lerpSilderTween(double value) {
-    value = _tweenBegin + (_tweenEnd - _tweenBegin) * value;
-    if (_axis == Axis.horizontal) {
-      value = value * _size.width;
-    } else {
-      value = value * _size.height;
-    }
-    return value;
+  double _lerpOffsetTween(double value) {
+    return _tweenBegin + (_tweenEnd - _tweenBegin) * value;
   }
 
   double _lerpOffset() {
-    double offset = _offset;
-    if (_axis == Axis.horizontal) {
-      offset = offset / _size.width;
-    } else {
-      offset = offset / _size.height;
-    }
-    return (offset - _tweenBegin) / (_tweenEnd - _tweenBegin);
+    return (_offset - _tweenBegin) / (_tweenEnd - _tweenBegin);
   }
 
-  Color _lerpFadeTween(double value) {
-    return widget.backgroundColor
-        .withOpacity(0.0 + (widget.backgroundColor.opacity - 0.0) * value);
-  }
-
-  double _lerpFade() {
-    return (_backgroundColor.opacity - 0.0) /
-        (widget.backgroundColor.opacity - 0.0);
-  }
-
-  void hideDrawer() {
-    _fadeAimationController.reverse(
-      from: _lerpFade(),
-    );
-    _slideAimationController.reverse(
+  void close() {
+    _slideAnimationController.reverse(
       from: _lerpOffset(),
     );
     Navigator.of(context).pop();
   }
 
-  void showDrawer() {
-    _fadeAimationController.forward(
-      from: _lerpFade(),
+  void open() {
+    _slideAnimationController.forward(
+      from: _lerpOffset(),
     );
-    _slideAimationController.forward(from: _lerpOffset());
   }
 
   @override
   void dispose() {
-    _fadeAimationController.dispose();
-    _slideAimationController.dispose();
+    _slideAnimationController.dispose();
     super.dispose();
   }
 }
 
-Future<T> pushBaseDrawer<T>(
+Future<T> openBaseDrawer<T>(
   BuildContext context,
   BaseDrawer drawer, {
   bool rootNavigator = true,
@@ -457,8 +363,8 @@ Future<T> pushBaseDrawer<T>(
   );
 }
 
-bool popBaseDrawer<T>(
-  BuildContext context,
+void closeBaseDrawer(
+  GlobalObjectKey<BaseDrawerState> drawerKey,
 ) {
-  return Navigator.of(context).pop<T>();
+  drawerKey.currentState.close();
 }
