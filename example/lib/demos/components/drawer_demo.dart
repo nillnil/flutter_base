@@ -1,6 +1,7 @@
 import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import '../demo_page.dart';
@@ -21,6 +22,8 @@ class DrawerDemo extends StatelessWidget {
         'backgroundColor': '背景颜色, 默认 Colors.black54',
         'size': 'Drawer的大小',
         'percent': '高度/宽度的百分比，默认50. 当有size参数时，该参数失效',
+        'allowMultipleGesture': '是否允许多手势，默认false，允许多手势时，子widget必须自己处理冲突\n'
+          '可使用allowMultipleGesture()，notAllowMultipleGesture()开启或关闭多手势，以便于解决手势冲突'
       },
       tips: 'Use like: \nopenBaseDrawer<void>(\n\t\t\t'
           'context: ...\n\t\t\t'
@@ -60,6 +63,10 @@ class _DemoState extends State<_Demo> {
     vertical: 5.0,
     horizontal: 5.0,
   );
+
+  final GlobalObjectKey<BaseDrawerState> _drawerKey = const GlobalObjectKey<BaseDrawerState>('DrawerDemoKey');
+  bool _gestureConflict = true;
+  bool _allowMutipleGesture = false;
 
   @override
   void initState() {
@@ -235,6 +242,48 @@ class _DemoState extends State<_Demo> {
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text('允许多手势  '),
+                useCupertino ? Container(
+                  height: 31.0,
+                  width: 48.0,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(25.0),
+                    )
+                  ),
+                  child: BaseSwitch(
+                    value: _allowMutipleGesture,
+                    onChanged: (bool value) {
+                      setState(() {
+                        if (value) {
+                          _axisDirection = AxisDirection.up;
+                          _directionText = '向上';
+                        }
+                        _allowMutipleGesture = value;
+                      });
+                    },
+                  ),
+                ) : BaseSwitch(
+                  value: _allowMutipleGesture,
+                  onChanged: (bool value) {
+                    setState(() {
+                      if (value) {
+                        _axisDirection = AxisDirection.up;
+                        _directionText = '向上';
+                      }
+                      _allowMutipleGesture = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
           BaseButton(
             padding: const EdgeInsets.symmetric(
               vertical: 5.0,
@@ -271,7 +320,24 @@ class _DemoState extends State<_Demo> {
       percent = 50;
     }
     percent = percent.clamp(0.0, 100.0);
+    final ScrollController _scrollController = ScrollController();
+    _gestureConflict = true;
+    if (_axisDirection == AxisDirection.up) {
+      _scrollController.addListener(() {
+        if (_scrollController.offset < 0) {
+          _scrollController.jumpTo(0.0);
+          if (!_gestureConflict) {
+            _gestureConflict = true;
+            _drawerKey.currentState.allowMultipleGesture();
+          }
+        } else if (_scrollController.offset > 0 && _gestureConflict) {
+          _gestureConflict = false;
+          _drawerKey.currentState.notAllowMultipleGesture();
+        }
+      });
+    }
     return BaseDrawer(
+      key: _drawerKey,
       backgroundColor: _stringToColor(_colorController.text),
       duration: Duration(
         milliseconds: duration,
@@ -281,6 +347,8 @@ class _DemoState extends State<_Demo> {
       child: Container(
         color: Colors.white,
         child: ListView.separated(
+          padding: EdgeInsets.zero,
+          controller: _scrollController,
           itemCount: 20,
           separatorBuilder: (_, __) => const Divider(
             height: 0.0,
@@ -292,6 +360,7 @@ class _DemoState extends State<_Demo> {
           },
         ),
       ),
+      allowMultipleGesture: _allowMutipleGesture,
     );
   }
 

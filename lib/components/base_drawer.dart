@@ -22,6 +22,7 @@ class BaseDrawer extends StatefulWidget {
     @required this.child,
     this.curve = Curves.linearToEaseOut,
     this.reverseCurve = Curves.easeInToLinear,
+    this.allowMultipleGesture = false,
   })  : assert(percent > 0 && percent <= 100),
         assert(child != null),
         super(key: key);
@@ -49,6 +50,10 @@ class BaseDrawer extends StatefulWidget {
   final Curve curve;
 
   final Curve reverseCurve;
+
+  // 是否允许多手势
+  // 允许多手势时，子widget必须自己处理冲突
+  final bool allowMultipleGesture;
 
   @override
   State<StatefulWidget> createState() => BaseDrawerState();
@@ -101,8 +106,10 @@ class BaseDrawerState extends State<BaseDrawer>
 
   double _flingVelocitySize;
 
+  bool _gestureConflict = true;
   final Map<Type, GestureRecognizerFactory> _gestures =
       <Type, GestureRecognizerFactory>{};
+
   final GlobalKey _gestureDetectorKey = GlobalKey();
   final GlobalKey _backgroundGestureDetectorKey = GlobalKey();
 
@@ -208,21 +215,32 @@ class BaseDrawerState extends State<BaseDrawer>
     );
 
     // gestures
+    if (widget.allowMultipleGesture) {
+      _gestureConflict = true;
+    } else {
+      _gestureConflict = false;
+    }
     if (_axis == Axis.horizontal) {
-      _gestures[HorizontalDragGestureRecognizer] =
-          GestureRecognizerFactoryWithHandlers<HorizontalDragGestureRecognizer>(
-        () => HorizontalDragGestureRecognizer(),
-        (HorizontalDragGestureRecognizer instance) {
+      _gestures[_DrawerHorizontalDragGestureRecognizer] =
+          GestureRecognizerFactoryWithHandlers<
+              _DrawerHorizontalDragGestureRecognizer>(
+        () => _DrawerHorizontalDragGestureRecognizer(
+          conflict: _gestureConflict,
+        ),
+        (_DrawerHorizontalDragGestureRecognizer instance) {
           instance.onUpdate =
               (DragUpdateDetails details) => _onDragUpdate(details);
           instance.onEnd = (DragEndDetails details) => _onDragEnd(details);
         },
       );
     } else {
-      _gestures[VerticalDragGestureRecognizer] =
-          GestureRecognizerFactoryWithHandlers<VerticalDragGestureRecognizer>(
-        () => VerticalDragGestureRecognizer(),
-        (VerticalDragGestureRecognizer instance) {
+      _gestures[_DrawerVerticalDragGestureRecognizer] =
+          GestureRecognizerFactoryWithHandlers<
+              _DrawerVerticalDragGestureRecognizer>(
+        () => _DrawerVerticalDragGestureRecognizer(
+          conflict: _gestureConflict,
+        ),
+        (_DrawerVerticalDragGestureRecognizer instance) {
           instance.onUpdate =
               (DragUpdateDetails details) => _onDragUpdate(details);
           instance.onEnd = (DragEndDetails details) => _onDragEnd(details);
@@ -259,56 +277,62 @@ class BaseDrawerState extends State<BaseDrawer>
   }
 
   void _onDragUpdate(DragUpdateDetails details) {
-    switch (widget.axisDirection) {
-      case AxisDirection.left:
-        _offset = max(0.0, _offset + details.delta.dx);
-        break;
-      case AxisDirection.right:
-        _offset = min(0.0, _offset + details.delta.dx);
-        break;
-      case AxisDirection.up:
-        _offset = max(0.0, _offset + details.delta.dy);
-        break;
-      case AxisDirection.down:
-        _offset = min(0.0, _offset + details.delta.dy);
-        break;
+    if (!widget.allowMultipleGesture ||
+        (widget.allowMultipleGesture && _gestureConflict)) {
+      switch (widget.axisDirection) {
+        case AxisDirection.left:
+          _offset = max(0.0, _offset + details.delta.dx);
+          break;
+        case AxisDirection.right:
+          _offset = min(0.0, _offset + details.delta.dx);
+          break;
+        case AxisDirection.up:
+          _offset = max(0.0, _offset + details.delta.dy);
+          break;
+        case AxisDirection.down:
+          _offset = min(0.0, _offset + details.delta.dy);
+          break;
+      }
+      _slideAnimationController.value = _lerpOffset();
     }
-    _slideAnimationController.value = _lerpOffset();
   }
 
   void _onDragEnd(DragEndDetails details) {
-    final double _primaryVelocity =
-        details.primaryVelocity / _flingVelocitySize;
-    final double _interval = _offset.abs() - _tweenEnd;
-    if (_primaryVelocity.abs() > _minFlingVelocity) {
-      bool _open = false;
-      switch (widget.axisDirection) {
-        case AxisDirection.left:
-        case AxisDirection.up:
-          if (_primaryVelocity > 0) {
-            _open = false;
-          } else {
-            _open = true;
-          }
-          break;
-        case AxisDirection.right:
-        case AxisDirection.down:
-          if (_primaryVelocity > 0) {
-            _open = true;
-          } else {
-            _open = false;
-          }
-          break;
-      }
-      if (_open) {
-        open();
-      } else {
+    if (!widget.allowMultipleGesture ||
+        (widget.allowMultipleGesture && _gestureConflict)) {
+      final double _primaryVelocity =
+          details.primaryVelocity / _flingVelocitySize;
+      final double _interval = _offset.abs() - _tweenEnd;
+      if (_primaryVelocity.abs() > _minFlingVelocity) {
+        bool _open = false;
+        switch (widget.axisDirection) {
+          case AxisDirection.left:
+          case AxisDirection.up:
+            if (_primaryVelocity > 0) {
+              _open = false;
+            } else {
+              _open = true;
+            }
+            break;
+          case AxisDirection.right:
+          case AxisDirection.down:
+            if (_primaryVelocity > 0) {
+              _open = true;
+            } else {
+              _open = false;
+            }
+            break;
+        }
+        if (_open) {
+          open();
+        } else {
+          close();
+        }
+      } else if (_interval > _hideDrawerOffset) {
         close();
+      } else {
+        open();
       }
-    } else if (_interval > _hideDrawerOffset) {
-      close();
-    } else {
-      open();
     }
   }
 
@@ -333,10 +357,62 @@ class BaseDrawerState extends State<BaseDrawer>
     );
   }
 
+  void allowMultipleGesture() {
+    setState(() {
+      _gestureConflict = true;
+    });
+  }
+
+  void notAllowMultipleGesture() {
+    setState(() {
+      _gestureConflict = false;
+    });
+  }
+
   @override
   void dispose() {
     _slideAnimationController.dispose();
     super.dispose();
+  }
+}
+
+class _DrawerVerticalDragGestureRecognizer
+    extends VerticalDragGestureRecognizer {
+  _DrawerVerticalDragGestureRecognizer({
+    this.conflict = false,
+  });
+
+  // 是否允许手势冲突
+  // 允许冲突时，子widget必须自己处理冲突
+  final bool conflict;
+
+  @override
+  void rejectGesture(int pointer) {
+    if (!conflict) {
+      super.rejectGesture(pointer);
+    } else {
+      super.acceptGesture(pointer);
+    }
+  }
+}
+
+class _DrawerHorizontalDragGestureRecognizer
+    extends HorizontalDragGestureRecognizer {
+  _DrawerHorizontalDragGestureRecognizer({
+    this.conflict = false,
+  });
+
+  // 是否允许手势冲突
+  // 允许冲突时，子widget必须自己处理冲突
+  final bool conflict;
+
+  @override
+  void rejectGesture(int pointer) {
+    if (!conflict) {
+      super.rejectGesture(pointer);
+    } else {
+      super.acceptGesture(pointer);
+    }
   }
 }
 
