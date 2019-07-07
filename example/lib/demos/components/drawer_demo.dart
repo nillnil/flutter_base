@@ -213,10 +213,12 @@ class _DemoState extends State<_Demo> {
                                 case 0:
                                   _axisDirection = AxisDirection.right;
                                   _directionText = '向右';
+                                  _allowMutipleGesture = false;
                                   break;
                                 case 1:
                                   _axisDirection = AxisDirection.left;
                                   _directionText = '向左';
+                                  _allowMutipleGesture = false;
                                   break;
                                 case 2:
                                   _axisDirection = AxisDirection.up;
@@ -225,10 +227,12 @@ class _DemoState extends State<_Demo> {
                                 case 3:
                                   _axisDirection = AxisDirection.down;
                                   _directionText = '向下';
+                                  _allowMutipleGesture = false;
                                   break;
                                 default:
                                   _axisDirection = AxisDirection.right;
                                   _directionText = '向右';
+                                  _allowMutipleGesture = false;
                                   break;
                               }
                               setState(() {});
