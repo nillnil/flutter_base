@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart' show CupertinoTabView;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../appbar/base_app_bar.dart';
 import '../base_stateful_widget.dart';
 import '../flutter/cupertino/tab_scaffold.dart';
 import '../platform/platform.dart';
@@ -17,8 +16,6 @@ class BaseTabScaffold extends BaseStatefulWidget {
   const BaseTabScaffold({
     Key baseKey,
     this.key,
-    this.appBar,
-    this.navBar,
     this.backgroundColor,
     this.tabBar,
     this.tabViews,
@@ -49,23 +46,6 @@ class BaseTabScaffold extends BaseStatefulWidget {
 
   @override
   final Key key;
-
-  /// [CupertinoPageScaffold.navigationBar]
-  /// or
-  /// [Scaffold.appBar]
-  /// If this properties is null, then [navBar] is use.
-  ///
-  /// 该参数为null，则会使用[navBar]
-  final BaseAppBar appBar;
-
-  /// [CupertinoPageScaffold.navigationBar]
-  /// or
-  /// [Scaffold.appBar]
-  ///
-  /// If this properties is null, then [appBar] is use.
-  ///
-  /// 该参数为null，则会使用[appBar]
-  final BaseAppBar navBar;
 
   /// [CupertinoTabScaffold.backgroundColor]
   /// or

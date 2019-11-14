@@ -1,12 +1,13 @@
+
 // Copyright 2017 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/nav_bar.dart
 /// lastest push: 2019.06.14
-/// lastest update: flutter v1.7.4 2019.06.14
-/// commit https://github.com/flutter/flutter/commit/731e9819e2ec30232295d4a34cca7d075d0266e0
-/// #32842 https://github.com/flutter/flutter/pull/32842
+/// lastest update: flutter v1.11.0 2019.11.09
+/// commit https://github.com/flutter/flutter/commit/09c80aa45a271f6951e4b2e6d16c7cbeacf6c4d5
+/// #44391 https://github.com/flutter/flutter/pull/44391
 
 import 'dart:math' as math;
 import 'dart:ui' show ImageFilter;
@@ -21,7 +22,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:flutter/cupertino.dart' 
-  show CupertinoButton, CupertinoIcons, CupertinoPageRoute, 
+  show CupertinoButton, CupertinoDynamicColor, CupertinoIcons, CupertinoPageRoute, 
     CupertinoPageScaffold, CupertinoTheme, ObstructingPreferredSizeWidget;
 
 /// Standard iOS navigation bar height without the status bar.
@@ -44,7 +45,7 @@ const double _kNavBarBackButtonTapWidth = 50.0;
 /// Title text transfer fade.
 const Duration _kNavBarTitleFadeDuration = Duration(milliseconds: 150);
 
-const Color _kDefaultNavBarBorderColor = Color(0x4C000000);
+const Color _kDefaultNavBarBorderColor = Color(0x4D000000);
 
 const Border _kDefaultNavBarBorder = Border(
   bottom: BorderSide(
@@ -188,6 +189,14 @@ bool _isTransitionable(BuildContext context) {
 /// Use [transitionBetweenRoutes] or [heroTag] to customize the transition
 /// behavior for multiple navigation bars per route.
 ///
+/// When used in a [CupertinoPageScaffold], [CupertinoPageScaffold.navigationBar]
+/// has its text scale factor set to 1.0 and does not respond to text scale factor
+/// changes from the operating system, to match the native iOS behavior. To override
+/// this behavior, wrap each of the `navigationBar`'s components inside a [MediaQuery]
+/// with the desired [MediaQueryData.textScaleFactor] value. The text scale factor
+/// value from the operating system can be retrieved in many ways, such as querying
+/// [MediaQuery.textScaleFactorOf] against [CupertinoApp]'s [BuildContext].
+///
 /// See also:
 ///
 ///  * [CupertinoPageScaffold], a page layout helper typically hosting the
@@ -300,7 +309,8 @@ class CupertinoNavigationBar extends StatefulWidget implements ObstructingPrefer
   /// {@endtemplate}
   final Widget trailing;
 
-  // TODO(xster): implement support for double row navigation bars.
+  // TODO(xster): https://github.com/flutter/flutter/issues/10469 implement
+  // support for double row navigation bars.
 
   /// {@template flutter.cupertino.navBar.backgroundColor}
   /// The background color of the navigation bar. If it contains transparency, the
@@ -436,7 +446,11 @@ class CupertinoNavigationBar extends StatefulWidget implements ObstructingPrefer
 
   /// True if the navigation bar's background color has no transparency.
   @override
-  bool get fullObstruction => backgroundColor == null ? null : backgroundColor.alpha == 0xFF;
+  bool shouldFullyObstruct(BuildContext context) {
+    final Color backgroundColor = CupertinoDynamicColor.resolve(this.backgroundColor, context)
+                               ?? CupertinoTheme.of(context).barBackgroundColor;
+    return backgroundColor.alpha == 0xFF;
+  }
 
   @override
   Size get preferredSize {
@@ -468,7 +482,7 @@ class _CupertinoNavigationBarState extends State<CupertinoNavigationBar> {
   @override
   Widget build(BuildContext context) {
     final Color backgroundColor =
-        widget.backgroundColor ?? CupertinoTheme.of(context).barBackgroundColor;
+      CupertinoDynamicColor.resolve(widget.backgroundColor, context) ?? CupertinoTheme.of(context).barBackgroundColor;
 
     final _NavigationBarStaticComponents components = _NavigationBarStaticComponents(
       keys: keys,
@@ -603,6 +617,14 @@ class _CupertinoNavigationBarState extends State<CupertinoNavigationBar> {
 /// should be present in each [PageRoute] to support the default transitions.
 /// Use [transitionBetweenRoutes] or [heroTag] to customize the transition
 /// behavior for multiple navigation bars per route.
+///
+/// `CupertinoSliverNavigationBar` has its text scale factor set to 1.0 by default
+/// and does not respond to text scale factor changes from the operating system,
+/// to match the native iOS behavior. To override this behavior, wrap each of the
+/// `CupertinoSliverNavigationBar`'s components inside a [MediaQuery] with the
+/// desired [MediaQueryData.textScaleFactor] value. The text scale factor value
+/// from the operating system can be retrieved in many ways, such as querying
+/// [MediaQuery.textScaleFactorOf] against [CupertinoApp]'s [BuildContext].
 ///
 /// See also:
 ///
@@ -749,7 +771,8 @@ class _CupertinoSliverNavigationBarState extends State<CupertinoSliverNavigation
   @override
   Widget build(BuildContext context) {
     // Lint ignore to maintain backward compatibility.
-    final Color actionsForegroundColor = widget.actionsForegroundColor ?? CupertinoTheme.of(context).primaryColor; // ignore: deprecated_member_use_from_same_package
+    final Color actionsForegroundColor = CupertinoDynamicColor.resolve(widget.actionsForegroundColor, context)  // ignore: deprecated_member_use_from_same_package
+                                       ?? CupertinoTheme.of(context).primaryColor;
 
     final _NavigationBarStaticComponents components = _NavigationBarStaticComponents(
       keys: keys,
@@ -767,26 +790,29 @@ class _CupertinoSliverNavigationBarState extends State<CupertinoSliverNavigation
 
     return _wrapActiveColor(
       // Lint ignore to maintain backward compatibility.
-      widget.actionsForegroundColor, // ignore: deprecated_member_use_from_same_package
+      actionsForegroundColor,
       context,
-      SliverPersistentHeader(
-        pinned: true, // iOS navigation bars are always pinned.
-        delegate: _LargeTitleNavigationBarSliverDelegate(
-          keys: keys,
-          components: components,
-          userMiddle: widget.middle,
-          backgroundColor: widget.backgroundColor ?? CupertinoTheme.of(context).barBackgroundColor,
-          border: widget.border,
-          padding: widget.padding,
-          actionsForegroundColor: actionsForegroundColor,
-          transitionBetweenRoutes: widget.transitionBetweenRoutes,
-          heroTag: widget.heroTag,
-          persistentHeight: (widget.navBarPersistentHeight ?? _kNavBarPersistentHeight) + MediaQuery.of(context).padding.top,
-          alwaysShowMiddle: widget.middle != null,
-          navBarLargeTitleHeightExtension: widget.navBarLargeTitleHeightExtension,
-          backdropFilter: widget.backdropFilter,
-          navBarPersistentHeight: widget.navBarPersistentHeight ?? _kNavBarPersistentHeight
-        ),
+      MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+        child: SliverPersistentHeader(
+          pinned: true, // iOS navigation bars are always pinned.
+          delegate: _LargeTitleNavigationBarSliverDelegate(
+            keys: keys,
+            components: components,
+            userMiddle: widget.middle,
+            backgroundColor: CupertinoDynamicColor.resolve(widget.backgroundColor, context) ?? CupertinoTheme.of(context).barBackgroundColor,
+            border: widget.border,
+            padding: widget.padding,
+            actionsForegroundColor: actionsForegroundColor,
+            transitionBetweenRoutes: widget.transitionBetweenRoutes,
+            heroTag: widget.heroTag,
+            persistentHeight: (widget.navBarPersistentHeight ?? _kNavBarPersistentHeight) + MediaQuery.of(context).padding.top,
+            alwaysShowMiddle: widget.middle != null,
+            navBarLargeTitleHeightExtension: widget.navBarLargeTitleHeightExtension,
+            backdropFilter: widget.backdropFilter,
+            navBarPersistentHeight: widget.navBarPersistentHeight ?? _kNavBarPersistentHeight
+          ),
+	      ),
       ),
     );
   }
@@ -851,7 +877,7 @@ class _LargeTitleNavigationBarSliverDelegate
 
     final Widget navBar = _wrapWithBackground(
       border: border,
-      backgroundColor: backgroundColor,
+      backgroundColor: CupertinoDynamicColor.resolve(backgroundColor, context),
       child: DefaultTextStyle(
         style: CupertinoTheme.of(context).textTheme.textStyle,
         child: Stack(
@@ -925,7 +951,7 @@ class _LargeTitleNavigationBarSliverDelegate
       // needs to wrap the top level RenderBox rather than a RenderSliver.
       child: _TransitionableNavigationBar(
         componentsKeys: keys,
-        backgroundColor: backgroundColor,
+        backgroundColor: CupertinoDynamicColor.resolve(backgroundColor, context),
         backButtonTextStyle: CupertinoTheme.of(context).textTheme.navActionTextStyle,
         titleTextStyle: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
         largeTitleTextStyle: CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle,
@@ -1500,7 +1526,8 @@ class CupertinoNavigationBarBackButton extends StatelessWidget {
   /// to pop the [Navigator].
   ///
   /// It can, for instance, be used to pop the platform's navigation stack
-  /// instead of Flutter's [Navigator].
+  /// via [SystemNavigator] instead of Flutter's [Navigator] in add-to-app
+  /// situations.
   ///
   /// Defaults to null.
   final VoidCallback onPressed;
@@ -1521,7 +1548,7 @@ class CupertinoNavigationBarBackButton extends StatelessWidget {
 
     TextStyle actionTextStyle = CupertinoTheme.of(context).textTheme.navActionTextStyle;
     if (color != null) {
-      actionTextStyle = actionTextStyle.copyWith(color: color);
+      actionTextStyle = actionTextStyle.copyWith(color: CupertinoDynamicColor.resolve(color, context));
     }
 
     return CupertinoButton(

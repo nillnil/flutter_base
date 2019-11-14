@@ -1,4 +1,7 @@
+import 'package:base/base.dart';
+import 'package:base/theme/base_theme.dart';
 import 'package:flutter/cupertino.dart' show CupertinoTheme;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../base_stateless_widget.dart';
@@ -21,7 +24,7 @@ class BaseTile extends BaseStatelessWidget {
     this.contentPadding,
     this.onTap,
     this.onLongPress,
-    this.backgroundColor = Colors.white,
+    this.backgroundColor,
     this.splashColor = Colors.transparent,
     this.highlightColor = const Color.fromRGBO(153, 153, 153, .4),
     this.border,
@@ -69,7 +72,7 @@ class BaseTile extends BaseStatelessWidget {
   /// [ListTile.onLongPress]
   final GestureLongPressCallback onLongPress;
 
-  /// default is Colors.white
+  /// default is [BaseTheme.baseTileBackgroundColor]
   final Color backgroundColor;
 
   /// *** general properties end ***
@@ -176,6 +179,7 @@ class BaseTile extends BaseStatelessWidget {
         ),
       );
     }
+    final CupertinoThemeData cupertinoTheme = CupertinoTheme.of(context);
     final Widget content = Container(
       key: key,
       decoration: BoxDecoration(
@@ -185,17 +189,25 @@ class BaseTile extends BaseStatelessWidget {
           const EdgeInsets.symmetric(horizontal: 10.0),
       child: SizedBox(
         height: height ?? _defaultTileHeight,
-        child: Row(
-          mainAxisAlignment:
-              mainAxisAlignment ?? MainAxisAlignment.spaceBetween,
-          children: rows,
+        child: DefaultTextStyle(
+          style: cupertinoTheme.textTheme.textStyle.copyWith(
+            fontSize: 14.0,
+          ),
+          child: Row(
+            mainAxisAlignment:
+                mainAxisAlignment ?? MainAxisAlignment.spaceBetween,
+            children: rows,
+          ),
         ),
       ),
     );
+    final Color _backgroundColor =
+        valueFromCupertino('backgroundColor', backgroundColor) ??
+            BaseTheme.of(context).tileBackgroundColor;
     return Material(
       key: valueFromCupertino('key', key),
       animationDuration: const Duration(milliseconds: 10),
-      color: valueFromCupertino('backgroundColor', backgroundColor),
+      color: _backgroundColor,
       borderOnForeground: false,
       child: Ink(
         child: InkWell(
@@ -212,9 +224,9 @@ class BaseTile extends BaseStatelessWidget {
               child: content,
             ),
           ),
-          splashColor:
-              splashColor ?? CupertinoTheme.of(context).primaryContrastingColor,
-          highlightColor: highlightColor ?? Theme.of(context).highlightColor,
+          splashColor: splashColor ?? cupertinoTheme.primaryContrastingColor,
+          highlightColor:
+              highlightColor ?? cupertinoTheme.primaryContrastingColor,
           onTap: onTap,
           onLongPress: onLongPress,
           focusColor: Colors.transparent,
@@ -226,10 +238,9 @@ class BaseTile extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final Color _backgroundColor = valueFromMaterial(
-      'backgroundColor',
-      backgroundColor,
-    );
+    final Color _backgroundColor =
+        valueFromMaterial('backgroundColor', backgroundColor) ??
+            BaseTheme.of(context).tileBackgroundColor;
     Widget _text = valueFromMaterial('title', title);
     _text ??= titleText != null
         ? Text(

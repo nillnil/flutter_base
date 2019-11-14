@@ -206,23 +206,18 @@ class BaseApp extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    BaseThemeData baseThemeData = valueFromCupertino(
+    BaseThemeData baseTheme = valueFromCupertino(
           'baseTheme',
-          baseTheme,
+          this.baseTheme,
         ) ??
         BaseThemeData();
     // 设置 materialTheme 和 cupertinoTheme 到 BaseThemeData 中
-    if (useCupertino) {
-      baseThemeData = baseThemeData.copyWith(
-        materialTheme: materialTheme,
-      );
-    } else {
-      baseThemeData = baseThemeData.copyWith(
-        cupertinoTheme: cupertinoTheme,
-      );
-    }
+    baseTheme = baseTheme.copyWith(
+      materialTheme: materialTheme,
+      cupertinoTheme: cupertinoTheme,
+    );
     return BaseTheme(
-      data: baseThemeData,
+      data: baseTheme,
       child: CupertinoApp(
         key: valueFromCupertino('key', key),
         navigatorKey: valueFromCupertino('navigatorKey', navigatorKey),
@@ -283,13 +278,18 @@ class BaseApp extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final BaseThemeData baseThemeData = valueFromCupertino(
+    BaseThemeData baseTheme = valueFromCupertino(
           'baseTheme',
-          baseTheme,
+          this.baseTheme,
         ) ??
         BaseThemeData();
+    // 设置 materialTheme 和 cupertinoTheme 到 BaseThemeData 中
+    baseTheme = baseTheme.copyWith(
+      materialTheme: materialTheme,
+      cupertinoTheme: cupertinoTheme,
+    );
     return BaseTheme(
-      data: baseThemeData,
+      data: baseTheme,
       child: MaterialApp(
         key: valueFromMaterial('key', key),
         navigatorKey: valueFromMaterial('navigatorKey', navigatorKey),

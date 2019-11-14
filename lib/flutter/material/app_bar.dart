@@ -4,9 +4,9 @@
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/material/app_bar.dart
 /// lastest push: 2019.05.21
-/// lastest update: flutter v1.7.0 2019.06.04
-/// commit https://github.com/flutter/flutter/commit/3265e15925eaf12db9ff5c6fdb26b9eee31dac4e
-/// #33073 https://github.com/flutter/flutter/pull/33073
+/// lastest update: flutter v1.11.0 2019.11.05
+/// commit https://github.com/flutter/flutter/commit/11e1c24069d595e36a9939e8749f308115bc473e
+/// #42250 https://github.com/flutter/flutter/pull/42250
 
 import 'dart:math' as math;
 
@@ -87,7 +87,7 @@ class _ToolbarContainerLayout extends SingleChildLayoutDelegate {
 /// to false. In that case a null leading widget will result in the middle/title widget
 /// stretching to start.
 ///
-/// {@tool snippet --template=stateless_widget_material}
+/// {@tool dartpad --template=stateless_widget_material}
 ///
 /// This sample shows an [AppBar] with two simple actions. The first action
 /// opens a [SnackBar], while the second action navigates to a new page.
@@ -382,15 +382,15 @@ class AppBar extends StatefulWidget implements PreferredSizeWidget {
   /// A size whose height is the sum of [kToolbarHeight] and the [bottom] widget's
   /// preferred height.
   ///
-  /// [Scaffold] uses this this size to set its app bar's height.
+  /// [Scaffold] uses this size to set its app bar's height.
   @override
   final Size preferredSize;
 
-  bool _getEffectiveCenterTitle(ThemeData themeData) {
+  bool _getEffectiveCenterTitle(ThemeData theme) {
     if (centerTitle != null)
       return centerTitle;
-    assert(themeData.platform != null);
-    switch (themeData.platform) {
+    assert(theme.platform != null);
+    switch (theme.platform) {
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
         return false;
@@ -419,7 +419,7 @@ class _AppBarState extends State<AppBar> {
   Widget build(BuildContext context) {
     assert(!widget.primary || debugCheckHasMediaQuery(context));
     assert(debugCheckHasMaterialLocalizations(context));
-    final ThemeData themeData = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
     final AppBarTheme appBarTheme = AppBarTheme.of(context);
     final ScaffoldState scaffold = Scaffold.of(context, nullOk: true);
     final ModalRoute<dynamic> parentRoute = ModalRoute.of(context);
@@ -431,16 +431,16 @@ class _AppBarState extends State<AppBar> {
 
     IconThemeData overallIconTheme = widget.iconTheme
       ?? appBarTheme.iconTheme
-      ?? themeData.primaryIconTheme;
+      ?? theme.primaryIconTheme;
     IconThemeData actionsIconTheme = widget.actionsIconTheme
       ?? appBarTheme.actionsIconTheme
       ?? overallIconTheme;
     TextStyle centerStyle = widget.textTheme?.title
       ?? appBarTheme.textTheme?.title
-      ?? themeData.primaryTextTheme.title;
+      ?? theme.primaryTextTheme.title;
     TextStyle sideStyle = widget.textTheme?.body1
       ?? appBarTheme.textTheme?.body1
-      ?? themeData.primaryTextTheme.body1;
+      ?? theme.primaryTextTheme.body1;
 
     if (widget.toolbarOpacity != 1.0) {
       final double opacity = const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn).transform(widget.toolbarOpacity);
@@ -479,7 +479,7 @@ class _AppBarState extends State<AppBar> {
     Widget title = widget.title;
     if (title != null) {
       bool namesRoute;
-      switch (defaultTargetPlatform) {
+      switch (theme.platform) {
         case TargetPlatform.android:
         case TargetPlatform.fuchsia:
            namesRoute = true;
@@ -493,7 +493,7 @@ class _AppBarState extends State<AppBar> {
         overflow: TextOverflow.ellipsis,
         child: Semantics(
           namesRoute: namesRoute,
-          child: title,
+          child: _AppBarTitleBox(child: title),
           header: true,
         ),
       );
@@ -538,7 +538,7 @@ class _AppBarState extends State<AppBar> {
       leading: leading,
       middle: title,
       trailing: actions,
-      centerMiddle: widget._getEffectiveCenterTitle(themeData),
+      centerMiddle: widget._getEffectiveCenterTitle(theme),
       middleSpacing: widget.titleSpacing,
     );
 
@@ -597,7 +597,7 @@ class _AppBarState extends State<AppBar> {
     }
     final Brightness brightness = widget.brightness
       ?? appBarTheme.brightness
-      ?? themeData.primaryColorBrightness;
+      ?? theme.primaryColorBrightness;
     final SystemUiOverlayStyle overlayStyle = brightness == Brightness.dark
       ? SystemUiOverlayStyle.light
       : SystemUiOverlayStyle.dark;
@@ -609,7 +609,7 @@ class _AppBarState extends State<AppBar> {
         child: Material(
           color: widget.backgroundColor
             ?? appBarTheme.color
-            ?? themeData.primaryColor,
+            ?? theme.primaryColor,
           elevation: widget.elevation
             ?? appBarTheme.elevation
             ?? _defaultElevation,
@@ -700,6 +700,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     @required this.floating,
     @required this.pinned,
     @required this.snapConfiguration,
+    @required this.stretchConfiguration,
     @required this.shape,
     @required this.toolbarHeight
   }) : assert(primary || topPadding == 0.0),
@@ -739,6 +740,9 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   final FloatingHeaderSnapConfiguration snapConfiguration;
+
+  @override
+  final OverScrollHeaderStretchConfiguration stretchConfiguration;
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
@@ -813,6 +817,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         || pinned != oldDelegate.pinned
         || floating != oldDelegate.floating
         || snapConfiguration != oldDelegate.snapConfiguration
+        || stretchConfiguration != oldDelegate.stretchConfiguration
         || toolbarHeight != oldDelegate.toolbarHeight;
   }
 
@@ -927,6 +932,9 @@ class SliverAppBar extends StatefulWidget {
     this.floating = false,
     this.pinned = false,
     this.snap = false,
+    this.stretch = false,
+    this.stretchTriggerOffset = 100.0,
+    this.onStretchTrigger,
     this.shape,
     this.toolbarHeight = kToolbarHeight
   }) : assert(automaticallyImplyLeading != null),
@@ -936,7 +944,9 @@ class SliverAppBar extends StatefulWidget {
        assert(floating != null),
        assert(pinned != null),
        assert(snap != null),
+       assert(stretch != null),
        assert(floating || !snap, 'The "snap" argument only makes sense for floating app bars.'),
+       assert(stretchTriggerOffset > 0.0),
        super(key: key);
 
   /// A widget to display before the [title].
@@ -1146,10 +1156,9 @@ class SliverAppBar extends StatefulWidget {
   ///    behavior of the app bar in combination with [floating].
   final bool pinned;
 
-  /// The material's shape as well its shadow.
+  /// The material's shape as well as its shadow.
   ///
-  /// A shadow is only displayed if the [elevation] is greater than
-  /// zero.
+  /// A shadow is only displayed if the [elevation] is greater than zero.
   final ShapeBorder shape;
 
   /// If [snap] and [floating] are true then the floating app bar will "snap"
@@ -1179,6 +1188,21 @@ class SliverAppBar extends StatefulWidget {
   ///    behavior of the app bar in combination with [pinned] and [floating].
   final bool snap;
 
+  /// Whether the app bar should stretch to fill the over-scroll area.
+  ///
+  /// The app bar can still expand and contract as the user scrolls, but it will
+  /// also stretch when the user over-scrolls.
+  final bool stretch;
+
+  /// The offset of overscroll required to activate [onStretchTrigger].
+  ///
+  /// This defaults to 100.0.
+  final double stretchTriggerOffset;
+
+  /// The callback function to be executed when a user over-scrolls to the
+  /// offset specified by [stretchTriggerOffset].
+  final AsyncCallback onStretchTrigger;
+  
   /// custom toolbarHeight
   final double toolbarHeight;
 
@@ -1190,6 +1214,7 @@ class SliverAppBar extends StatefulWidget {
 // by the floating appbar snap animation (via FloatingHeaderSnapConfiguration).
 class _SliverAppBarState extends State<SliverAppBar> with TickerProviderStateMixin {
   FloatingHeaderSnapConfiguration _snapConfiguration;
+  OverScrollHeaderStretchConfiguration _stretchConfiguration;
 
   void _updateSnapConfiguration() {
     if (widget.snap && widget.floating) {
@@ -1203,10 +1228,22 @@ class _SliverAppBarState extends State<SliverAppBar> with TickerProviderStateMix
     }
   }
 
+  void _updateStretchConfiguration() {
+    if (widget.stretch) {
+      _stretchConfiguration = OverScrollHeaderStretchConfiguration(
+        stretchTriggerOffset: widget.stretchTriggerOffset,
+        onStretchTrigger: widget.onStretchTrigger,
+      );
+    } else {
+      _stretchConfiguration = null;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _updateSnapConfiguration();
+    _updateStretchConfiguration();
   }
 
   @override
@@ -1214,6 +1251,8 @@ class _SliverAppBarState extends State<SliverAppBar> with TickerProviderStateMix
     super.didUpdateWidget(oldWidget);
     if (widget.snap != oldWidget.snap || widget.floating != oldWidget.floating)
       _updateSnapConfiguration();
+    if (widget.stretch != oldWidget.stretch)
+      _updateStretchConfiguration();
   }
 
   @override
@@ -1253,9 +1292,44 @@ class _SliverAppBarState extends State<SliverAppBar> with TickerProviderStateMix
           pinned: widget.pinned,
           shape: widget.shape,
           snapConfiguration: _snapConfiguration,
+          stretchConfiguration: _stretchConfiguration,
           toolbarHeight: widget.toolbarHeight
         ),
       ),
     );
+  }
+}
+
+// Layout the AppBar's title with unconstrained height, vertically
+// center it within its (NavigationToolbar) parent, and allow the
+// parent to constrain the title's actual height.
+class _AppBarTitleBox extends SingleChildRenderObjectWidget {
+  const _AppBarTitleBox({ Key key, @required Widget child }) : assert(child != null), super(key: key, child: child);
+
+  @override
+  _RenderAppBarTitleBox createRenderObject(BuildContext context) {
+    return _RenderAppBarTitleBox(
+      textDirection: Directionality.of(context),
+    );
+  }
+
+  @override
+  void updateRenderObject(BuildContext context, _RenderAppBarTitleBox renderObject) {
+    renderObject.textDirection = Directionality.of(context);
+  }
+}
+
+class _RenderAppBarTitleBox extends RenderAligningShiftedBox {
+  _RenderAppBarTitleBox({
+    RenderBox child,
+    TextDirection textDirection,
+  }) : super(child: child, alignment: Alignment.center, textDirection: textDirection);
+
+  @override
+  void performLayout() {
+    final BoxConstraints innerConstraints = constraints.copyWith(maxHeight: double.infinity);
+    child.layout(innerConstraints, parentUsesSize: true);
+    size = constraints.constrain(child.size);
+    alignChild();
   }
 }

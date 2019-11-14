@@ -147,9 +147,9 @@ class Home extends StatelessWidget {
                 axisDirection: AxisDirection.up,
                 size: Size.fromHeight(MediaQuery.of(context).size.height - paddingTop),
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: const BorderRadius.vertical(
+                    borderRadius: BorderRadius.vertical(
                       top: Radius.circular(10.0),
                     ),
                   ),
@@ -179,10 +179,10 @@ class Home extends StatelessWidget {
         actions: <Widget>[
           ClipOval(
             child: BaseIconButton(
-              icon: BaseIcon(
+              icon: const BaseIcon(
                 icon: IconFont.settings,
                 size: 20,
-                material: const <String, dynamic>{
+                material: <String, dynamic>{
                   'color': Colors.white,
                 },
               ),
@@ -224,8 +224,8 @@ class _MaterialTipsPage extends StatelessWidget {
               padding: EdgeInsets.only(
                 top: MediaQuery.of(context).padding.top,
               ),
-              child: Center(
-                child: const Text(
+              child: const Center(
+                child: Text(
                   '特别说明',
                   style: TextStyle(fontSize: 16, color: Colors.white),
                 ),

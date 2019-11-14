@@ -45,9 +45,9 @@ class WechatSettings extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return Column(
               children: <Widget>[
-                BaseSection(
-                  margin: const EdgeInsets.only(bottom: 10.0),
-                  children: const <Widget>[
+                const BaseSection(
+                  margin: EdgeInsets.only(bottom: 10.0),
+                  children: <Widget>[
                     BaseTile(
                       title: Text('账号与安全', style: style),
                       contentPadding: contentPadding,
@@ -57,8 +57,9 @@ class WechatSettings extends StatelessWidget {
                 ),
                 BaseSection(
                   margin: margin,
-                  backgroundColor: Colors.white,
-                  dividerIndent: 20.0,
+                  divider: const BaseSectionDivider(
+                    insets: EdgeInsets.only(left: 20),
+                  ),
                   children: <Widget>[
                     BaseTile(
                       title: const Text('新消息通知', style: style),
@@ -82,8 +83,9 @@ class WechatSettings extends StatelessWidget {
                 ),
                 BaseSection(
                   margin: margin,
-                  backgroundColor: Colors.white,
-                  dividerIndent: 20.0,
+                  divider: const BaseSectionDivider(
+                    insets: EdgeInsets.only(left: 20),
+                  ),
                   children: <Widget>[
                     const BaseTile(
                       title: Text('帮助与反馈'),
@@ -106,9 +108,9 @@ class WechatSettings extends StatelessWidget {
                     )
                   ]
                 ),
-                BaseSection(
+                const BaseSection(
                   margin: margin,
-                  children: const <Widget>[
+                  children: <Widget>[
                     BaseTile(
                       title: Text('插件', style: style),
                       contentPadding: contentPadding,
@@ -116,13 +118,13 @@ class WechatSettings extends StatelessWidget {
                     )
                   ],
                 ),
-                BaseSection(
+                const BaseSection(
                   margin: margin,
                   children: <Widget>[
                     BaseTile(
                       mainAxisAlignment: MainAxisAlignment.center,
                       title: Center(
-                        child: const Text('切换账号', style: style),
+                        child: Text('切换账号', style: style),
                       ),
                     )
                   ],
@@ -132,8 +134,8 @@ class WechatSettings extends StatelessWidget {
                   children: <Widget>[
                     BaseTile(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      title: Center(
-                        child: const Text('退出登录',
+                      title: const Center(
+                        child: Text('退出登录',
                           style: TextStyle(
                             fontSize: 16.0
                           )

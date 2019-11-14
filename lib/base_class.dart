@@ -19,7 +19,7 @@ import 'base_mixin.dart';
 /// *** material模式使用 valueFromMaterial(key, value) 获取
 /// ***
 abstract class BaseClass with BaseMixin {
-  BaseClass({
+  const BaseClass({
     this.cupertino = const <String, dynamic>{},
     this.material = const <String, dynamic>{},
   });

@@ -29,8 +29,8 @@ class _BackdropFilterDemoState extends State<BackdropFilterDemo> {
         children: <Widget>[
           Container(
             height: 88.0,
-            child: Center(
-              child: const Text('Now you can see me.'),
+            child: const Center(
+              child: Text('Now you can see me.'),
             ),
           ),
           Container(

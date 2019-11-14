@@ -95,12 +95,13 @@ class BaseIconButton extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
+    final Color _disabledColor = valueFromCupertino('disabledColor', disabledColor) ?? CupertinoColors.quaternarySystemFill;
     return CupertinoButton(
       key: valueFromCupertino('key', key),
       child: valueFromCupertino('icon', icon),
       padding: valueFromCupertino('padding', padding),
       color: valueFromCupertino('color', color),
-      disabledColor: valueFromCupertino('disabledColor', disabledColor),
+      disabledColor: _disabledColor,
       minSize: minSize,
       pressedOpacity: pressedOpacity,
       borderRadius: borderRadius,

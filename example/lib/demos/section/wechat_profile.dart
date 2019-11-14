@@ -10,7 +10,7 @@ class WechatProfile extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
-    final Widget cameraWidget = BaseIcon(
+    const Widget cameraWidget = BaseIcon(
       icon: IconFont.camera, 
       size: 20, 
       color: Colors.black,
@@ -25,8 +25,8 @@ class WechatProfile extends StatelessWidget {
           brightness: Brightness.light,
           elevation: 0.0,
           actions: <Widget>[
-            useMaterial ? Padding(
-              padding: const EdgeInsets.only(right: 10.0),
+            useMaterial ? const Padding(
+              padding: EdgeInsets.only(right: 10.0),
               child: cameraWidget,
             ) : cameraWidget,
           ],
@@ -80,11 +80,12 @@ class WechatProfile extends StatelessWidget {
                       )
                     ]
                   ),
-                  BaseSection(
-                    margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    backgroundColor: Colors.white,
-                    dividerIndent: 60.0,
-                    children: const <Widget>[
+                  const BaseSection(
+                    margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    divider: BaseSectionDivider(
+                      insets: EdgeInsets.only(left: 20),
+                    ),
+                    children: <Widget>[
                       BaseTile(
                         leading: Padding(
                           padding: EdgeInsets.only(right: 20.0, left: 10.0),
@@ -135,8 +136,8 @@ class WechatProfile extends StatelessWidget {
                   BaseSection(
                     children: <Widget>[
                       BaseTile(
-                        leading: Padding(
-                          padding: const EdgeInsets.only(right: 20.0, left: 10.0),
+                        leading: const Padding(
+                          padding: EdgeInsets.only(right: 20.0, left: 10.0),
                           child: Icon(
                             IconFont.settings,
                             color: Colors.blueGrey
@@ -166,8 +167,8 @@ class WechatProfile extends StatelessWidget {
                     margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                     children: <Widget>[
                       BaseTile(
-                        title: Center(
-                          child: const Text('返回'),
+                        title: const Center(
+                          child: Text('返回'),
                         ),
                         onTap: () {
                           Navigator.of(context).pop();

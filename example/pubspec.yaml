@@ -29,14 +29,14 @@ dependencies:
   base:
     path: ../
   
-  flutter_redux: ^0.5.3
-  cached_network_image: ^0.7.0
-  flutter_webview_plugin: ^0.3.4
+  flutter_redux: ^0.5.4
+  cached_network_image: ^2.0.0-rc.1
+  flutter_webview_plugin: ^0.3.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ^1.5.0
+  pedantic: ^1.8.0+1
 
 
 # For information on the generic Dart part of this file, see the

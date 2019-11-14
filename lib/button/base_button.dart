@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart' show CupertinoButton, ShapeBorder;
+import 'package:flutter/cupertino.dart' show CupertinoButton, ShapeBorder, CupertinoColors;
 import 'package:flutter/material.dart';
 
 import '../base_stateless_widget.dart';
@@ -247,12 +247,13 @@ class BaseButton extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
+    final Color _disabledColor = valueFromCupertino('disabledColor', disabledColor) ?? CupertinoColors.quaternarySystemFill;
     if (filled) {
       return CupertinoButton.filled(
         key: valueFromCupertino('key', key),
         child: valueFromCupertino('child', child),
         padding: valueFromCupertino('padding', padding),
-        disabledColor: valueFromCupertino('disabledColor', disabledColor),
+        disabledColor: _disabledColor,
         minSize: minSize,
         pressedOpacity: pressedOpacity,
         borderRadius: borderRadius,
@@ -264,7 +265,7 @@ class BaseButton extends BaseStatelessWidget {
       child: valueFromCupertino('child', child),
       padding: valueFromCupertino('padding', padding),
       color: valueFromCupertino('color', color),
-      disabledColor: valueFromCupertino('disabledColor', disabledColor),
+      disabledColor: _disabledColor,
       minSize: minSize,
       pressedOpacity: pressedOpacity,
       borderRadius: borderRadius,

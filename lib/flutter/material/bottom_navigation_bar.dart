@@ -4,9 +4,9 @@
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/material/app_bar.dart
 /// lastest push: 2019.05.15
-/// lastest update: flutter v1.7.0 2019.06.04
-/// commit https://github.com/flutter/flutter/commit/da0a3a275aaf30becb0c74a2375c4532d685dbe4
-/// #32727 https://github.com/flutter/flutter/pull/32727
+/// lastest update: flutter v1.11.0 2019.10.11
+/// commit https://github.com/flutter/flutter/commit/ce1509714c28fec0462fc702c8d9b8d2d4878bf4
+/// #42278 https://github.com/flutter/flutter/pull/42278
 
 import 'dart:collection' show Queue;
 import 'dart:math' as math;
@@ -187,7 +187,7 @@ class BottomNavigationBar extends StatefulWidget {
        assert(elevation != null && elevation >= 0.0),
        assert(iconSize != null && iconSize >= 0.0),
        assert(
-         selectedItemColor != null ? fixedColor == null : true,
+         selectedItemColor == null || fixedColor == null,
          'Either selectedItemColor or fixedColor can be specified, but not both'
        ),
        assert(selectedFontSize != null && selectedFontSize >= 0.0),
@@ -315,8 +315,8 @@ class BottomNavigationBar extends StatefulWidget {
   // [BottomNavigationBarType.fixed] is used for 3 or fewer items, and
   // [BottomNavigationBarType.shifting] is used for 4+ items.
   static BottomNavigationBarType _type(
-      BottomNavigationBarType type,
-      List<BottomNavigationBarItem> items,
+    BottomNavigationBarType type,
+    List<BottomNavigationBarItem> items,
   ) {
     if (type != null) {
       return type;
@@ -509,9 +509,7 @@ class _BottomNavigationTile extends StatelessWidget {
       flex: size,
       child: Semantics(
         container: true,
-        header: true,
         selected: selected,
-        child: Focus(
         child: Stack(
           children: <Widget>[
             InkResponse(
@@ -530,7 +528,6 @@ class _BottomNavigationTile extends StatelessWidget {
               label: indexLabel,
             ),
           ],
-          ),
         ),
       ),
     );

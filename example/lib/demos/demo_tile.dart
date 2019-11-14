@@ -24,7 +24,7 @@ class DemoTile extends StatelessWidget {
     if (title != null) {
       return BaseTile(
         title: title,
-        trailing: BaseIcon(
+        trailing: const BaseIcon(
           icon: CupertinoIcons.right_chevron,
           color: Colors.grey,
         ),

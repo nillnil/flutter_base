@@ -87,8 +87,8 @@ class _DemoState extends State<_Demo> {
               clearButtonMode: OverlayVisibilityMode.editing,
               textInputAction: TextInputAction.next,
               placeholder: 'name',
-              prefix: Padding(
-                padding: const EdgeInsets.only(left: 10.0),
+              prefix: const Padding(
+                padding: EdgeInsets.only(left: 10.0),
                 child: BaseIcon(
                   icon: IconFont.profile,
                   color: Colors.black54,
@@ -97,7 +97,7 @@ class _DemoState extends State<_Demo> {
               materialDecoration: InputDecoration(
                 labelText: 'name',
                 contentPadding: padding,
-                prefixIcon: BaseIcon(
+                prefixIcon: const BaseIcon(
                   icon: IconFont.profile,
                 ),
               ),

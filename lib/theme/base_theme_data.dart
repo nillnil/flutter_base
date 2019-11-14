@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart' show CupertinoThemeData;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart'
     show Diagnosticable, immutable, required;
-import 'package:flutter/material.dart' show ThemeData;
+import 'package:flutter/material.dart' show Color, ThemeData;
+import 'package:flutter/material.dart';
 
 /// BaseThemeData
 /// Special properties values global setting
@@ -9,6 +11,7 @@ import 'package:flutter/material.dart' show ThemeData;
 @immutable
 class BaseThemeData extends Diagnosticable {
   factory BaseThemeData({
+    Brightness brightness,
     double appBarHeight,
     bool appBarBackdropFilter = true,
     bool appBarAutoSetMiddleColor = true,
@@ -20,10 +23,15 @@ class BaseThemeData extends Diagnosticable {
     ThemeData materialTheme,
     CupertinoThemeData cupertinoTheme,
     bool routeFullscreenGackGesture = false,
+    Color sectionDividerColor,
+    Color tileBackgroundColor = const Color(0xFFFFFFFF),
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
   }) {
+    brightness ??= Brightness.light;
+    final bool isDark = brightness == Brightness.dark;
     return BaseThemeData.raw(
+      brightness: brightness,
       appBarHeight: appBarHeight,
       appBarBackdropFilter: appBarBackdropFilter,
       appBarAutoSetMiddleColor: appBarAutoSetMiddleColor,
@@ -35,11 +43,15 @@ class BaseThemeData extends Diagnosticable {
       materialTheme: materialTheme,
       cupertinoTheme: cupertinoTheme,
       routeFullscreenGackGesture: routeFullscreenGackGesture,
+      sectionDividerColor: sectionDividerColor ??
+          (isDark ? const Color(0x1FFFFFFF) : const Color(0x1F000000)),
+      tileBackgroundColor: tileBackgroundColor,
       cupertino: cupertino ?? const <String, dynamic>{},
       material: material ?? const <String, dynamic>{},
     );
   }
   const BaseThemeData.raw({
+    @required this.brightness,
     @required this.appBarHeight,
     @required this.cupertino,
     @required this.material,
@@ -53,7 +65,11 @@ class BaseThemeData extends Diagnosticable {
     @required this.materialTheme,
     @required this.cupertinoTheme,
     @required this.routeFullscreenGackGesture,
+    @required this.sectionDividerColor,
+    @required this.tileBackgroundColor,
   });
+
+  final Brightness brightness;
 
   /// [BaseAppBar.height]
   final double appBarHeight;
@@ -96,6 +112,14 @@ class BaseThemeData extends Diagnosticable {
   /// Cupertino模式下为null
   final CupertinoThemeData cupertinoTheme;
 
+  /// BaseSection's divider's color
+  /// BaseSection 的diviver的颜色
+  final Color sectionDividerColor;
+
+  /// BaseTile's BackgroundColor
+  /// BaseTile 的背景颜色
+  final Color tileBackgroundColor;
+
   /// See also:
   ///
   ///  * [BaseStatelessWidget.cupertino], special parameters values on cupertino mode.
@@ -104,6 +128,7 @@ class BaseThemeData extends Diagnosticable {
   final Map<String, dynamic> material;
 
   BaseThemeData copyWith({
+    Brightness brightness,
     double appBarHeight,
     bool appBarBackdropFilter,
     bool appBarAutoSetMiddleColor,
@@ -113,12 +138,15 @@ class BaseThemeData extends Diagnosticable {
     bool appBarTransitionBetweenRoutes,
     bool appBarCenterTitle,
     ThemeData materialTheme,
-    bool routeFullscreenGackGesture,
     CupertinoThemeData cupertinoTheme,
+    bool routeFullscreenGackGesture,
+    Color sectionDividerColor,
+    Color tileBackgroundColor,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
   }) {
     return BaseThemeData.raw(
+      brightness: brightness ?? this.brightness,
       appBarHeight: appBarHeight ?? this.appBarHeight,
       appBarBackdropFilter: appBarBackdropFilter ?? this.appBarBackdropFilter,
       appBarAutoSetMiddleColor:
@@ -136,6 +164,8 @@ class BaseThemeData extends Diagnosticable {
       cupertinoTheme: cupertinoTheme ?? this.cupertinoTheme,
       routeFullscreenGackGesture:
           routeFullscreenGackGesture ?? this.routeFullscreenGackGesture,
+      sectionDividerColor: sectionDividerColor ?? this.sectionDividerColor,
+      tileBackgroundColor: tileBackgroundColor ?? this.tileBackgroundColor,
       cupertino: cupertino ?? this.cupertino,
       material: material ?? this.material,
     );

@@ -1,4 +1,9 @@
-## 0.2.0 - 2019.06.26
+## 0.2.1 - 2019.11.14
+
+* Release v0.2.1
+* update flutter version to 1.11.0
+
+## 0.2.0 - 2019.07.16
 
 * Release v0.2.0
 * add BaseTheme
@@ -6,7 +11,7 @@
 * modify the CupertinoPageRoute, let BaseRoute's CupertinoPageRoute can custom the backGestureWidth
 * fix code format
 * update document
-* update flutter version to 1.7.9
+* update flutter version to 1.8.1
 
 ## 0.1.9 - 2019.05.02
 

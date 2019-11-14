@@ -113,15 +113,15 @@ class Settings extends StatelessWidget {
                         )
                       ],
                     ),
-                    BaseSection(
-                      margin: const EdgeInsets.only(top: 20.0),
-                      children: const <Widget>[
+                    const BaseSection(
+                      margin: EdgeInsets.only(top: 20.0),
+                      children: <Widget>[
                         BaseTile(
                           titleText: '版本',
                           trailing: Padding(
                             padding: EdgeInsets.only(right: 5.0),
                             child: Text(
-                              '0.2.0',
+                              '0.2.1',
                               style: TextStyle(
                                 color: Colors.grey,
                               ),

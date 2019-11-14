@@ -4,13 +4,13 @@
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/bottom_tab_bar.dart
 /// lastest push: 2019.05.09
-/// lastest update: flutter v1.7.0 2019.06.04
-/// commit https://github.com/flutter/flutter/commit/d96c1c88b75e3478015db986e78469ed3763f436
-/// #32340 https://github.com/flutter/flutter/pull/32340
+/// lastest update: flutter v1.11.0 2019.11.08
+/// commit https://github.com/flutter/flutter/commit/62db22d152b7a4c8f7d0a6836fb18412cc988274
+/// #44317 https://github.com/flutter/flutter/pull/44317
 
 import 'dart:ui' show ImageFilter;
 
-import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoTheme;
+import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoDynamicColor, CupertinoTheme;
 import 'package:flutter/material.dart' hide BottomNavigationBarItem;
 import 'package:flutter/painting.dart';
 
@@ -19,7 +19,11 @@ import '../widgets/bottom_navigation_bar_item.dart';
 // Standard iOS 10 tab bar height.
 const double _kTabBarHeight = 50.0;
 
-const Color _kDefaultTabBarBorderColor = Color(0x4C000000);
+const Color _kDefaultTabBarBorderColor = CupertinoDynamicColor.withBrightness(
+  color: Color(0x4C000000),
+  darkColor: Color(0x29000000),
+);
+const Color _kDefaultTabBarInactiveColor = CupertinoColors.inactiveGray;
 
 /// An iOS-styled bottom navigation tab bar.
 ///
@@ -38,6 +42,14 @@ const Color _kDefaultTabBarBorderColor = Color(0x4C000000);
 /// If the given [backgroundColor]'s opacity is not 1.0 (which is the case by
 /// default), it will produce a blurring effect to the content behind it.
 ///
+/// When used as [CupertinoTabScaffold.tabBar], by default `CupertinoTabBar` has
+/// its text scale factor set to 1.0 and does not respond to text scale factor
+/// changes from the operating system, to match the native iOS behavior. To override
+/// this behavior, wrap each of the `navigationBar`'s components inside a [MediaQuery]
+/// with the desired [MediaQueryData.textScaleFactor] value. The text scale factor
+/// value from the operating system can be retrieved in many ways, such as querying
+/// [MediaQuery.textScaleFactorOf] against [CupertinoApp]'s [BuildContext].
+///
 /// See also:
 ///
 ///  * [CupertinoTabScaffold], which hosts the [CupertinoTabBar] at the bottom.
@@ -51,7 +63,7 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
     this.currentIndex = 0,
     this.backgroundColor,
     this.activeColor,
-    this.inactiveColor = CupertinoColors.inactiveGray,
+    this.inactiveColor = _kDefaultTabBarInactiveColor,
     this.iconSize = 30.0,
     this.border = const Border(
       top: BorderSide(
@@ -106,7 +118,8 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
   /// The foreground color of the icon and title for the [BottomNavigationBarItem]s
   /// in the unselected state.
   ///
-  /// Defaults to [CupertinoColors.inactiveGray] and cannot be null.
+  /// Defaults to a [CupertinoDynamicColor] that matches the disabled foreground
+  /// color of the native `UITabBar` component. Cannot be null.
   final Color inactiveColor;
 
   /// The size of all of the [BottomNavigationBarItem] icons.
@@ -134,32 +147,46 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
   bool opaque(BuildContext context) {
     final Color backgroundColor =
         this.backgroundColor ?? CupertinoTheme.of(context).barBackgroundColor;
-    return backgroundColor.alpha == 0xFF;
+    return CupertinoDynamicColor.resolve(backgroundColor, context).alpha == 0xFF;
   }
 
   @override
   Widget build(BuildContext context) {
     final double bottomPadding = MediaQuery.of(context).padding.bottom;
 
+    final Color backgroundColor = CupertinoDynamicColor.resolve(
+      this.backgroundColor ?? CupertinoTheme.of(context).barBackgroundColor,
+      context,
+    );
+
+    BorderSide resolveBorderSide(BorderSide side) {
+      return side == BorderSide.none
+        ? side
+        : side.copyWith(color: CupertinoDynamicColor.resolve(side.color, context));
+    }
+
+    // Return the border as is when it's a subclass.
+    final Border resolvedBorder = border == null || border.runtimeType != Border
+      ? border
+      : Border(
+        top: resolveBorderSide(border.top),
+        left: resolveBorderSide(border.left),
+        bottom: resolveBorderSide(border.bottom),
+        right: resolveBorderSide(border.right),
+      );
+
+    final Color inactive = CupertinoDynamicColor.resolve(inactiveColor, context);
     Widget result = DecoratedBox(
       decoration: BoxDecoration(
-        border: border,
-        color: backgroundColor ?? CupertinoTheme.of(context).barBackgroundColor,
+        border: resolvedBorder,
+        color: backgroundColor,
       ),
       child: SizedBox(
         height: _kTabBarHeight + bottomPadding,
-        child: IconTheme.merge(
-          // Default with the inactive state.
-          data: IconThemeData(
-            color: inactiveColor,
-            size: iconSize,
-          ),
-          child: DefaultTextStyle(
-            // Default with the inactive state.
-            style: CupertinoTheme.of(context)
-                .textTheme
-                .tabLabelTextStyle
-                .copyWith(color: inactiveColor),
+        child: IconTheme.merge( // Default with the inactive state.
+          data: IconThemeData(color: inactive, size: iconSize),
+          child: DefaultTextStyle( // Default with the inactive state.
+            style: CupertinoTheme.of(context).textTheme.tabLabelTextStyle.copyWith(color: inactive),
             child: Padding(
               padding: EdgeInsets.only(bottom: bottomPadding),
               child: Row(
@@ -201,11 +228,7 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
               hint: 'tab, ${index + 1} of ${items.length}',
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: onTap == null
-                    ? null
-                    : () {
-                        onTap(index);
-                      },
+                onTap: onTap == null ? null : () { onTap(index); },
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 4.0),
                   child: Column(
@@ -263,12 +286,14 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   /// Change the active tab item's icon and title colors to active.
-  Widget _wrapActiveItem(BuildContext context, Widget item,
-      {@required bool active}) {
-    if (!active) return item;
+  Widget _wrapActiveItem(BuildContext context, Widget item, { @required bool active }) {
+    if (!active)
+      return item;
 
-    final Color activeColor =
-        this.activeColor ?? CupertinoTheme.of(context).primaryColor;
+    final Color activeColor = CupertinoDynamicColor.resolve(
+      this.activeColor ?? CupertinoTheme.of(context).primaryColor,
+      context,
+    );
     return IconTheme.merge(
       data: IconThemeData(color: activeColor),
       child: DefaultTextStyle.merge(

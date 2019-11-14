@@ -448,8 +448,14 @@ class BaseAppBar extends BaseStatelessWidget
   }
 
   @override
-  bool get fullObstruction =>
-      backgroundColor == null ? null : backgroundColor.alpha == 0xFF;
+  bool shouldFullyObstruct(BuildContext context) {
+    if (useCupertino) {
+      final Color backgroundColor = CupertinoDynamicColor.resolve(this.backgroundColor, context)
+                                ?? CupertinoTheme.of(context).barBackgroundColor;
+      return backgroundColor.alpha == 0xFF;
+    }
+    return true;
+  }
 
   /// 1. use by { appBar: BaseAppBar() }, the [BaseThemeData.appBarHeight] won't work,
   ///   will use [preferredSize]'s height

@@ -13,6 +13,7 @@ class BaseScrollBar extends BaseStatelessWidget {
     Key baseKey,
     this.key,
     this.child,
+    this.padding,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
@@ -25,8 +26,22 @@ class BaseScrollBar extends BaseStatelessWidget {
   /// [Scrollbar.child]
   final Widget child;
 
+  /// [MediaQuery.of(context).padding]
+  final EdgeInsets padding;
+
   @override
   Widget buildByCupertino(BuildContext context) {
+    if (padding != null) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(
+          padding: padding,
+        ),
+        child: CupertinoScrollbar(
+          key: valueFromCupertino('key', key),
+          child: child,
+        ),
+      );
+    }
     return CupertinoScrollbar(
       key: valueFromCupertino('key', key),
       child: child,
@@ -35,6 +50,17 @@ class BaseScrollBar extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
+    if (padding != null) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(
+          padding: padding,
+        ),
+        child: Scrollbar(
+          key: valueFromMaterial('key', key),
+          child: child,
+        ),
+      );
+    }
     return Scrollbar(
       key: valueFromMaterial('key', key),
       child: child,

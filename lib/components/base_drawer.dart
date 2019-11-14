@@ -11,6 +11,7 @@ const Color _drawerBackgroundColor = Colors.black54;
 
 const double _minFlingVelocity = 1.0;
 
+// default is 50% width or height
 class BaseDrawer extends StatefulWidget {
   const BaseDrawer({
     Key key,
@@ -21,9 +22,81 @@ class BaseDrawer extends StatefulWidget {
     this.backgroundColor = _drawerBackgroundColor,
     @required this.child,
     this.curve = Curves.linearToEaseOut,
-    this.reverseCurve = Curves.easeInToLinear,
+    this.reverseCurve = Curves.linearToEaseOut,
+    this.allowGesture = true,
     this.allowMultipleGesture = false,
+    this.barrierDismissible = true,
   })  : assert(percent > 0 && percent <= 100),
+        assert(child != null),
+        super(key: key);
+
+  const BaseDrawer.size({
+    Key key,
+    this.duration = _drawerTransitionDuration,
+    this.axisDirection = AxisDirection.right,
+    this.backgroundColor = _drawerBackgroundColor,
+    @required this.size,
+    @required this.child,
+    this.curve = Curves.linearToEaseOut,
+    this.reverseCurve = Curves.linearToEaseOut,
+    this.allowGesture = true,
+    this.allowMultipleGesture = false,
+    this.barrierDismissible = true,
+  })  : percent = 0.0,
+        assert(size != null),
+        assert(child != null),
+        super(key: key);
+
+  const BaseDrawer.percent({
+    Key key,
+    this.duration = _drawerTransitionDuration,
+    this.axisDirection = AxisDirection.right,
+    this.backgroundColor = _drawerBackgroundColor,
+    @required this.percent,
+    @required this.child,
+    this.curve = Curves.linearToEaseOut,
+    this.reverseCurve = Curves.linearToEaseOut,
+    this.allowGesture = true,
+    this.allowMultipleGesture = false,
+    this.barrierDismissible = true,
+  })  : size = null,
+        assert(percent > 0 && percent <= 100),
+        assert(child != null),
+        super(key: key);
+
+  BaseDrawer.width({
+    Key key,
+    this.duration = _drawerTransitionDuration,
+    this.axisDirection = AxisDirection.right,
+    this.backgroundColor = _drawerBackgroundColor,
+    @required double width,
+    @required this.child,
+    this.curve = Curves.linearToEaseOut,
+    this.reverseCurve = Curves.linearToEaseOut,
+    this.allowGesture = true,
+    this.allowMultipleGesture = false,
+    this.barrierDismissible = true,
+  })  : size = Size.fromWidth(width),
+        percent = 0.0,
+        assert(width > 0),
+        assert(child != null),
+        super(key: key);
+
+  BaseDrawer.height({
+    Key key,
+    this.duration = _drawerTransitionDuration,
+    this.axisDirection = AxisDirection.right,
+    this.backgroundColor = _drawerBackgroundColor,
+    @required double height,
+    @required this.child,
+    this.curve = Curves.linearToEaseOut,
+    this.reverseCurve = Curves.linearToEaseOut,
+    this.allowGesture = true,
+    this.allowMultipleGesture = false,
+    this.barrierDismissible = true,
+  })  : size = Size.fromHeight(height),
+        percent = 0.0,
+        assert(height > 0),
         assert(child != null),
         super(key: key);
 
@@ -51,9 +124,16 @@ class BaseDrawer extends StatefulWidget {
 
   final Curve reverseCurve;
 
+  // 是否允许手势
+  // true 则可以滑动
+  final bool allowGesture;
+
   // 是否允许多手势
   // 允许多手势时，子widget必须自己处理冲突
   final bool allowMultipleGesture;
+
+  // 点击背景是否关闭，默认true
+  final bool barrierDismissible;
 
   @override
   State<StatefulWidget> createState() => BaseDrawerState();
@@ -94,10 +174,10 @@ class BaseDrawerState extends State<BaseDrawer>
   Widget _child;
 
   Size _size;
-  Size _drawerSize;
+  Size _drawerSize = Size.zero;
   Axis _axis;
   double _tweenBegin;
-  double _tweenEnd;
+  double _tweenEnd = 0.0;
   ColorTween _colorTween;
 
   double _offset = 0.0;
@@ -215,56 +295,63 @@ class BaseDrawerState extends State<BaseDrawer>
     );
 
     // gestures
-    if (widget.allowMultipleGesture) {
-      _gestureConflict = true;
-    } else {
-      _gestureConflict = false;
-    }
-    if (_axis == Axis.horizontal) {
-      _gestures[_DrawerHorizontalDragGestureRecognizer] =
-          GestureRecognizerFactoryWithHandlers<
-              _DrawerHorizontalDragGestureRecognizer>(
-        () => _DrawerHorizontalDragGestureRecognizer(
-          conflict: _gestureConflict,
-        ),
-        (_DrawerHorizontalDragGestureRecognizer instance) {
-          instance.onUpdate =
-              (DragUpdateDetails details) => _onDragUpdate(details);
-          instance.onEnd = (DragEndDetails details) => _onDragEnd(details);
-        },
-      );
-    } else {
-      _gestures[_DrawerVerticalDragGestureRecognizer] =
-          GestureRecognizerFactoryWithHandlers<
-              _DrawerVerticalDragGestureRecognizer>(
-        () => _DrawerVerticalDragGestureRecognizer(
-          conflict: _gestureConflict,
-        ),
-        (_DrawerVerticalDragGestureRecognizer instance) {
-          instance.onUpdate =
-              (DragUpdateDetails details) => _onDragUpdate(details);
-          instance.onEnd = (DragEndDetails details) => _onDragEnd(details);
-        },
-      );
+    if (widget.allowGesture) {
+      if (widget.allowMultipleGesture) {
+        _gestureConflict = true;
+      } else {
+        _gestureConflict = false;
+      }
+      if (_axis == Axis.horizontal) {
+        _gestures[_DrawerHorizontalDragGestureRecognizer] =
+            GestureRecognizerFactoryWithHandlers<
+                _DrawerHorizontalDragGestureRecognizer>(
+          () => _DrawerHorizontalDragGestureRecognizer(
+            conflict: _gestureConflict,
+          ),
+          (_DrawerHorizontalDragGestureRecognizer instance) {
+            instance.onUpdate =
+                (DragUpdateDetails details) => _onDragUpdate(details);
+            instance.onEnd = (DragEndDetails details) => _onDragEnd(details);
+          },
+        );
+      } else {
+        _gestures[_DrawerVerticalDragGestureRecognizer] =
+            GestureRecognizerFactoryWithHandlers<
+                _DrawerVerticalDragGestureRecognizer>(
+          () => _DrawerVerticalDragGestureRecognizer(
+            conflict: _gestureConflict,
+          ),
+          (_DrawerVerticalDragGestureRecognizer instance) {
+            instance.onUpdate =
+                (DragUpdateDetails details) => _onDragUpdate(details);
+            instance.onEnd = (DragEndDetails details) => _onDragEnd(details);
+          },
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget backgroundWidget = Container(
+      color: _colorTween.evaluate(_slideAnimationController),
+    );
+
+    if (widget.barrierDismissible) {
+      backgroundWidget = GestureDetector(
+        key: _backgroundGestureDetectorKey,
+        child: backgroundWidget,
+        onTap: () {
+          close();
+        },
+      );
+    }
     return RawGestureDetector(
       key: _gestureDetectorKey,
       gestures: _gestures,
       child: Stack(
         children: <Widget>[
-          GestureDetector(
-            key: _backgroundGestureDetectorKey,
-            child: Container(
-              color: _colorTween.evaluate(_slideAnimationController),
-            ),
-            onTap: () {
-              close();
-            },
-          ),
+          backgroundWidget,
           Transform.translate(
             offset: _axis == Axis.horizontal
                 ? Offset(_offset, 0.0)

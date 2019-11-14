@@ -35,7 +35,7 @@ class _CustomHeightState extends State<CustomHeight> {
         actions: <Widget>[
           Padding(
             padding: useCupertino ? EdgeInsets.zero : const EdgeInsets.only(right: 20.0),
-            child: BaseIcon(
+            child: const BaseIcon(
               icon: IconFont.camera,
               size: 20,
             ),

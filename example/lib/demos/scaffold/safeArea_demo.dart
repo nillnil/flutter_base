@@ -33,7 +33,6 @@ class _SateAreaDemoState extends State<SateAreaDemo> {
               color: Colors.deepPurple,
             ),
             BaseSection(
-              backgroundColor: Colors.white,
               children: <Widget>[
                 BaseTile(
                   titleText: 'safeAreaTop',

@@ -66,6 +66,7 @@ class _DemoState extends State<_Demo> {
 
   final GlobalObjectKey<BaseDrawerState> _drawerKey = const GlobalObjectKey<BaseDrawerState>('DrawerDemoKey');
   bool _gestureConflict = true;
+  bool _allowGesture = true;
   bool _allowMutipleGesture = false;
 
   @override
@@ -251,6 +252,40 @@ class _DemoState extends State<_Demo> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                const Text('允许手势滑动  '),
+                useCupertino ? Container(
+                  height: 31.0,
+                  width: 48.0,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(25.0),
+                    )
+                  ),
+                  child: BaseSwitch(
+                    value: _allowGesture,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _allowGesture = value;
+                      });
+                    },
+                  ),
+                ) : BaseSwitch(
+                  value: _allowGesture,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _allowGesture = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                 const Text('允许多手势  '),
                 useCupertino ? Container(
                   height: 31.0,
@@ -364,6 +399,7 @@ class _DemoState extends State<_Demo> {
           },
         ),
       ),
+      allowGesture: _allowGesture,
       allowMultipleGesture: _allowMutipleGesture,
     );
   }

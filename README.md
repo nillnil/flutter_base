@@ -32,7 +32,7 @@
 
 * basePlatform 参数
 
-  当前构建的平台，默认为 `defaultTargetPlatform` 
+  当前构建的平台，默认为 `defaultTargetPlatform`
 
   使用 `setPlatform(TargetPlatform targetPlatform)` 方法修改平台
 
@@ -42,7 +42,7 @@
 
 ## Features
 
-* `useCupertino, useMaterial` 
+* `useCupertino, useMaterial`
   使用这2个方法可以判断当前使用的模式，进行差异化构建。
 
 * 每个基础组件都含有 `Map<String, dynamic> cupertino, Map<String, dynamic> material` 2个参数，用于组件模式差异化设置，2种模式有公共参数的，会优先取当前模式下的值，再取公共值，如：
@@ -81,10 +81,10 @@
 
     很多material组件是需要有Material祖先的，在Cupertino模式下设置forceUseMaterial: true时，会默认套上一层Material，且默认会去除水波纹效果，此时BaseApp上的cupertinoTheme参数是不生效的，可能会出现样式混乱等不可预知的bug，所以请慎用，后续可能会删除这2个参数
 
-    ### 如果要切换模式，强烈建议直接设置BaseApp's targetPlatform参数
-
+### 如果要切换模式，强烈建议直接设置BaseApp's targetPlatform参数
 
 ## 组件列表
+
 |组件|Material组件|Cupertino组件|
 |:---------------|:--------|:----------|
 |BaseActionSheet|custom BottomSheet|CupertinoActionSheet|

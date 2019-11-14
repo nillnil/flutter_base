@@ -12,6 +12,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   _setTargetPlatformForDesktop();
   SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,

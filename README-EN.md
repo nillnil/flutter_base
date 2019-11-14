@@ -32,7 +32,7 @@
 
 * basePlatform (parameter)
 
-  currently platform，default is the `defaultTargetPlatform` 
+  currently platform，default is the `defaultTargetPlatform`
 
   use `setPlatform(TargetPlatform targetPlatform)` to change the platform.
 
@@ -82,10 +82,10 @@
 
     Many material widgets need Material as there are ancestor widget，on Cupertino mode set forceUseMaterial: true，will default to add Material() as there are parent widget，and will remove the splash，and the BaseApp's cupertinoTheme parameter is not valid. Unpredictable bugs such as style confusion may occur, so use them carefully. These two parameters may be deleted later.
 
-    ### If want to change the mode, suggest use BaseApp's targetPlatform to change the platform.
-
+### If want to change the mode, suggest use BaseApp's targetPlatform to change the platform.
 
 ## Widgets List
+
 |Widget|Material mode|Cupertino mode|
 |:---------------|:--------|:----------|
 |BaseActionSheet|custom BottomSheet|CupertinoActionSheet|

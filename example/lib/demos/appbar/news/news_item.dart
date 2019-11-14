@@ -37,8 +37,8 @@ class NewsItem extends StatelessWidget{
 									child: CachedNetworkImage(
 										imageUrl: news['thumbnail_pic_s'],
 										placeholder: (BuildContext context, String url) {
-                      return Center(
-                        child: const SizedBox(
+                      return const Center(
+                        child: SizedBox(
                           height: 25,
                           width: 25,
                           child: BaseIndicator(),
@@ -57,8 +57,8 @@ class NewsItem extends StatelessWidget{
 									child: CachedNetworkImage(
 										imageUrl: news['thumbnail_pic_s02'],
 										placeholder: (BuildContext context, String url) {
-                      return Center(
-                        child: const SizedBox(
+                      return const Center(
+                        child: SizedBox(
                           height: 25,
                           width: 25,
                           child: BaseIndicator(),
@@ -75,8 +75,8 @@ class NewsItem extends StatelessWidget{
 								child: CachedNetworkImage(
 									imageUrl: news['thumbnail_pic_s03'],
 									placeholder: (BuildContext context, String url) {
-                    return Center(
-                      child: const SizedBox(
+                    return const Center(
+                      child: SizedBox(
                         height: 25,
                         width: 25,
                         child: BaseIndicator(),
@@ -129,8 +129,8 @@ class NewsItem extends StatelessWidget{
                 height: 100,
                 fit: BoxFit.fill,
 								placeholder: (BuildContext context, String url) {
-                  return Center(
-                    child: const SizedBox(
+                  return const Center(
+                    child: SizedBox(
                       height: 25,
                       width: 25,
                       child: BaseIndicator(),

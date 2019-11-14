@@ -43,32 +43,32 @@ class _Demo extends StatelessWidget {
     return WillPopScope(
       onWillPop: () => Future<bool>.value(false),
       child: BaseTabScaffold(
-        tabBar: BaseTabBar(
+        tabBar: const BaseTabBar(
           type: BottomNavigationBarType.fixed,
           items: <BaseBarItem>[
             BaseBarItem(
               // icon: BaseIcon(
               //   icon: IconFont.dialog,
               // ),
-              title: const Text('消息'),
+              title: Text('消息'),
             ),
             BaseBarItem(
               // icon: BaseIcon(
               //   icon: IconFont.contacts,
               // ),
-              title: const Text('联系人'),
+              title: Text('联系人'),
             ),
             BaseBarItem(
               // icon: BaseIcon(
               //   icon: IconFont.discover,
               // ),
-              title: const Text('发现'),
+              title: Text('发现'),
             ),
             BaseBarItem(
               // icon: BaseIcon(
               //   icon: IconFont.profile,
               // ),
-              title: const Text('我'),
+              title: Text('我'),
             ),
           ],
           iconSize: 24.0,

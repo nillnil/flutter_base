@@ -9,7 +9,7 @@ import '../flutter/widgets/bottom_navigation_bar_item.dart';
 /// use BottomNavigationBarItem by material
 /// *** use material = { forceUseCupertino: true } force use BottomNavigationBarItem on material.
 class BaseBarItem extends BaseClass {
-  BaseBarItem({
+  const BaseBarItem({
     this.icon,
     this.title,
     this.activeIcon,

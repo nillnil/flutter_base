@@ -146,8 +146,8 @@ class _NewsListState extends State<NewsList> {
           if (index == _news.length * 2) {
             return Container(
               height: 60.0,
-              child: Center(
-                child: const Text('没有更多数据',
+              child: const Center(
+                child: Text('没有更多数据',
                   style: TextStyle(fontSize: 12.0, color: Colors.grey))
               ),
             );
