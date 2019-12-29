@@ -83,31 +83,18 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
   /// 如果为null取value的值，
   /// 如果还是null则取material里的值
   dynamic valueFromCupertino(String key, dynamic value) {
-    dynamic newValue;
-    if (cupertino != null) {
-      newValue = cupertino[key] ?? value;
-    } else {
-      newValue = value;
-    }
-    return newValue;
+    return valueFromMap(cupertino, key, value);
   }
 
   /// 从material获取key对应的值，
   /// 如果为null取value的值，
   /// 如果还是null则取cupertino里的值
   dynamic valueFromMaterial(String key, dynamic value) {
-    dynamic newValue;
-    if (material != null) {
-      newValue = material[key] ?? value;
-    } else {
-      newValue = value;
-    }
-    return newValue;
+    return valueFromMap(material, key, value);
   }
 
   /// build on cupertino mode
   Widget buildByCupertino(BuildContext context);
-
 
   /// build on material mode
   Widget buildByMaterial(BuildContext context);

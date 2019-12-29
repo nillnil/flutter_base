@@ -23,6 +23,8 @@ class BaseActionSheet extends BaseStatelessWidget {
     this.animationController,
     this.onClosing,
     this.elevation = 0.0,
+    this.shape,
+    this.clipBehavior,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
@@ -62,6 +64,12 @@ class BaseActionSheet extends BaseStatelessWidget {
 
   /// [BottomSheet.elevation], default is 0.0
   final double elevation;
+
+  /// [BottomSheet.shape]
+  final ShapeBorder shape;
+
+  /// [BottomSheet.clipBehavior]
+  final Clip clipBehavior;
 
   /// *** material properties end ***
 
@@ -114,6 +122,8 @@ class BaseActionSheet extends BaseStatelessWidget {
       },
       enableDrag: false,
       elevation: elevation,
+      shape: shape,
+      clipBehavior: clipBehavior,
     );
   }
 

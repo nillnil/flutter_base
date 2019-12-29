@@ -3,7 +3,8 @@ import 'package:flutter/material.dart' hide AppBar;
 import 'package:flutter/widgets.dart';
 
 import '../base_stateless_widget.dart';
-import '../flutter/flutter_modify.dart' show AppBar, CupertinoNavigationBar;
+import '../flutter/cupertino/nav_bar.dart';
+import '../flutter/material/app_bar.dart';
 import '../platform/platform.dart';
 import '../theme/base_theme.dart';
 import '../theme/base_theme_data.dart';
@@ -52,6 +53,7 @@ class BaseAppBar extends BaseStatelessWidget
     this.elevation = 4.0,
     this.brightness,
     this.iconTheme,
+    this.actionsIconTheme,
     this.textTheme,
     this.primary = true,
     this.centerTitle,
@@ -236,6 +238,9 @@ class BaseAppBar extends BaseStatelessWidget
   /// [AppBar.iconTheme]
   final IconThemeData iconTheme;
 
+  /// [AppBar.actionsIconTheme]
+  final IconThemeData actionsIconTheme;
+
   /// [AppBar.textTheme]
   final TextTheme textTheme;
 
@@ -279,7 +284,7 @@ class BaseAppBar extends BaseStatelessWidget
     final Color _backgroundColor =
         valueFromCupertino('backgroundColor', backgroundColor) ??
             CupertinoTheme.of(context).barBackgroundColor ??
-            const Color(0xCCF8F8F8);
+            _defaultBackgroundColor;
     final double _toolbarOpacity =
         valueFromCupertino('toolbarOpacity', toolbarOpacity);
 
@@ -288,27 +293,26 @@ class BaseAppBar extends BaseStatelessWidget
           'appBarAutoSetMiddleColor',
           baseTheme.appBarAutoSetMiddleColor,
         ) ??
-        true;
+        false;
     final bool autoSetBottomColor = this.autoSetBottomColor ??
         baseTheme.valueFromCupertino(
           'appBarAutoSetBottomColor',
           baseTheme.appBarAutoSetBottomColor,
         ) ??
-        true;
-
+        false;
     final bool autoSetLeadingColor = this.autoSetLeadingColor ??
         baseTheme.valueFromCupertino(
           'appBarAutoSetLeadingColor',
           baseTheme.appBarAutoSetLeadingColor,
         ) ??
-        true;
+        false;
     final bool autoSetTrailingColor = this.autoSetTrailingColor ??
         baseTheme.valueFromCupertino(
           'appBarAutoSetTrailingColor',
           baseTheme.appBarAutoSetTrailingColor,
         ) ??
-        true;
-    // 当背景颜色非透明的，不加入高斯模糊
+        false;
+    // 当背景颜色透明时，不加入高斯模糊
     bool _backdropFilter = backdropFilter ??
         baseTheme.valueFromCupertino(
           'appBarBackdropFilter',
@@ -433,14 +437,15 @@ class BaseAppBar extends BaseStatelessWidget
       actions: _actions,
       flexibleSpace: flexibleSpace,
       bottom: valueFromMaterial('bottom', bottom),
-      elevation: elevation,
+      elevation: valueFromMaterial('elevation', elevation),
       backgroundColor: _backgroundColor,
-      brightness: brightness,
-      iconTheme: iconTheme,
-      textTheme: textTheme,
-      primary: primary,
-      centerTitle: centerTitle,
-      titleSpacing: titleSpacing,
+      brightness: valueFromMaterial('brightness', brightness),
+      iconTheme: valueFromMaterial('iconTheme', iconTheme),
+      actionsIconTheme: valueFromMaterial('actionsIconTheme', actionsIconTheme),
+      textTheme: valueFromMaterial('textTheme', textTheme),
+      primary: valueFromMaterial('primary', primary),
+      centerTitle: valueFromMaterial('centerTitle', centerTitle),
+      titleSpacing: valueFromMaterial('titleSpacing', titleSpacing),
       toolbarOpacity: valueFromMaterial('toolbarOpacity', toolbarOpacity),
       bottomOpacity: valueFromMaterial('bottomOpacity', bottomOpacity),
       toolbarHeight: _height,
@@ -450,8 +455,9 @@ class BaseAppBar extends BaseStatelessWidget
   @override
   bool shouldFullyObstruct(BuildContext context) {
     if (useCupertino) {
-      final Color backgroundColor = CupertinoDynamicColor.resolve(this.backgroundColor, context)
-                                ?? CupertinoTheme.of(context).barBackgroundColor;
+      final Color backgroundColor =
+          CupertinoDynamicColor.resolve(this.backgroundColor, context) ??
+              CupertinoTheme.of(context).barBackgroundColor;
       return backgroundColor.alpha == 0xFF;
     }
     return true;
@@ -485,3 +491,9 @@ class BaseAppBar extends BaseStatelessWidget
     return Size.fromHeight(_height);
   }
 }
+
+const CupertinoDynamicColor _defaultBackgroundColor =
+    CupertinoDynamicColor.withBrightness(
+  color: Color(0xF0F9F9F9),
+  darkColor: Color(0xF01D1D1D),
+);

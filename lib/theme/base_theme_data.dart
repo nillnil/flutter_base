@@ -14,17 +14,17 @@ class BaseThemeData extends Diagnosticable {
     Brightness brightness,
     double appBarHeight,
     bool appBarBackdropFilter = true,
-    bool appBarAutoSetMiddleColor = true,
-    bool appBarAutoSetLeadingColor = true,
-    bool appBarAutoSetTrailingColor = true,
-    bool appBarAutoSetBottomColor = true,
+    bool appBarAutoSetMiddleColor = false,
+    bool appBarAutoSetLeadingColor = false,
+    bool appBarAutoSetTrailingColor = false,
+    bool appBarAutoSetBottomColor = false,
     bool appBarTransitionBetweenRoutes = true,
     bool appBarCenterTitle,
     ThemeData materialTheme,
     CupertinoThemeData cupertinoTheme,
     bool routeFullscreenGackGesture = false,
     Color sectionDividerColor,
-    Color tileBackgroundColor = const Color(0xFFFFFFFF),
+    Color tileBackgroundColor,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
   }) {
@@ -118,6 +118,7 @@ class BaseThemeData extends Diagnosticable {
 
   /// BaseTile's BackgroundColor
   /// BaseTile 的背景颜色
+  /// 建议适应BaseColor().build(context), 构建2种颜色
   final Color tileBackgroundColor;
 
   /// See also:
@@ -175,25 +176,13 @@ class BaseThemeData extends Diagnosticable {
   ///
   /// 会先获取 [cupertino] 里的值
   dynamic valueFromCupertino(String key, dynamic value) {
-    Object newValue;
-    if (cupertino != null) {
-      newValue = cupertino[key] ?? value;
-    } else {
-      newValue = value;
-    }
-    return newValue;
+    return cupertino != null ? cupertino[key] ?? value : value;
   }
 
   /// will get the parameter value from [material] first.
   ///
   /// 会先获取 [material] 里的值
   dynamic valueFromMaterial(String key, dynamic value) {
-    Object newValue;
-    if (cupertino != null) {
-      newValue = material[key] ?? value;
-    } else {
-      newValue = value;
-    }
-    return newValue;
+    return material != null ? material[key] ?? value : value;
   }
 }

@@ -15,6 +15,7 @@ class BaseGeneralDialog extends BaseStatelessWidget {
     this.child,
     this.transitionBuilder,
     this.useSafeArea = false,
+    this.useRootNavigator = true,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
@@ -27,6 +28,7 @@ class BaseGeneralDialog extends BaseStatelessWidget {
   final Widget child;
   final RouteTransitionsBuilder transitionBuilder;
   final bool useSafeArea;
+  final bool useRootNavigator;
 
   @override
   Widget buildByCupertino(BuildContext context) {
@@ -67,6 +69,7 @@ class BaseGeneralDialog extends BaseStatelessWidget {
       transitionDuration: _transitionDuration,
       pageBuilder: _pageBuilder ?? _defaultPageBuilder,
       transitionBuilder: _transitionBuilder ?? _defaultTransitions,
+      useRootNavigator: useRootNavigator,
     );
   }
 
@@ -114,3 +117,10 @@ class BaseGeneralDialog extends BaseStatelessWidget {
     );
   }
 }
+
+// Future<T> showBaseGeneralDialog<T>(
+//   BaseGeneralDialog baseGeneralDialog,
+//   BuildContext context,
+// ) {
+//   return baseGeneralDialog.show(context);
+// }

@@ -25,8 +25,8 @@ class BaseTheme extends StatelessWidget {
   }
 
   static BaseThemeData of(BuildContext context, { bool shadowThemeOnly = false }) {
-    final _InheritedTheme inheritedTheme = context.inheritFromWidgetOfExactType(_InheritedTheme);
-    return inheritedTheme.theme.data;
+    final _InheritedTheme inheritedTheme = context.dependOnInheritedWidgetOfExactType<_InheritedTheme>();
+    return inheritedTheme.theme.data ?? BaseThemeData();
   }
 }
 

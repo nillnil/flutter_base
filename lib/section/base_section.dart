@@ -33,8 +33,10 @@ class BaseSection extends BaseStatelessWidget {
   Widget buildByCupertino(BuildContext context) {
     final Key key = valueFromCupertino('key', this.key);
     final EdgeInsets margin = valueFromCupertino('margin', this.margin);
-    final BaseSectionDivider divider =
-        valueFromCupertino('divider', this.divider);
+    final BaseSectionDivider divider = valueFromCupertino(
+      'divider',
+      this.divider,
+    );
     final List<Widget> children = valueFromCupertino('children', this.children);
     final Widget header = valueFromCupertino('header', this.header);
     final Widget footer = valueFromCupertino('footer', this.footer);
@@ -45,8 +47,10 @@ class BaseSection extends BaseStatelessWidget {
   Widget buildByMaterial(BuildContext context) {
     final Key key = valueFromMaterial('key', this.key);
     final EdgeInsets margin = valueFromMaterial('margin', this.margin);
-    final BaseSectionDivider divider =
-        valueFromMaterial('divider', this.divider);
+    final BaseSectionDivider divider = valueFromMaterial(
+      'divider',
+      this.divider,
+    );
     final List<Widget> children = valueFromMaterial('children', this.children);
     final Widget header = valueFromMaterial('header', this.header);
     final Widget footer = valueFromMaterial('footer', this.footer);

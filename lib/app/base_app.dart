@@ -40,10 +40,13 @@ class BaseApp extends BaseStatelessWidget {
     this.debugShowCheckedModeBanner = true,
     this.targetPlatform,
     this.baseTheme,
+    this.shortcuts,
+    this.actions,
     this.cupertinoTheme,
     this.withoutSplashOnCupertino = true,
     this.materialTheme,
-    this.dartTheme,
+    this.darkTheme,
+    this.themeMode = ThemeMode.system,
     this.debugShowMaterialGrid = false,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
@@ -165,6 +168,16 @@ class BaseApp extends BaseStatelessWidget {
   /// [BaseThemeData]
   final BaseThemeData baseTheme;
 
+  /// [CupertinoApp.shortcuts]
+  /// or
+  /// [MaterialApp.shortcuts]
+  final Map<LogicalKeySet, Intent> shortcuts;
+
+  /// [CupertinoApp.actions]
+  /// or
+  /// [MaterialApp.actions]
+  final Map<LocalKey, ActionFactory> actions;
+
   /// *** general properties end ***
 
   /// *** cupertino properties start ***
@@ -186,8 +199,11 @@ class BaseApp extends BaseStatelessWidget {
   /// [MaterialApp.theme]
   final ThemeData materialTheme;
 
-  /// [MaterialApp.dartTheme]
-  final ThemeData dartTheme;
+  /// [MaterialApp.darkTheme]
+  final ThemeData darkTheme;
+
+  /// [MaterialApp.themeMode]
+  final ThemeMode themeMode;
 
   /// [MaterialApp.debugShowMaterialGrid]
   final bool debugShowMaterialGrid;
@@ -272,6 +288,8 @@ class BaseApp extends BaseStatelessWidget {
           'debugShowCheckedModeBanner',
           debugShowCheckedModeBanner,
         ),
+        shortcuts: valueFromCupertino('shortcuts', shortcuts),
+        actions: valueFromCupertino('actions', actions),
       ),
     );
   }
@@ -307,7 +325,8 @@ class BaseApp extends BaseStatelessWidget {
         onGenerateTitle: valueFromMaterial('onGenerateTitle', onGenerateTitle),
         color: valueFromMaterial('color', color),
         theme: valueFromMaterial('theme', materialTheme),
-        darkTheme: dartTheme,
+        darkTheme: darkTheme,
+        themeMode: themeMode,
         locale: valueFromMaterial('locale', locale),
         localizationsDelegates: valueFromMaterial(
           'localizationsDelegates',
@@ -321,8 +340,14 @@ class BaseApp extends BaseStatelessWidget {
           'localeResolutionCallback',
           localeResolutionCallback,
         ),
-        supportedLocales:
-            valueFromMaterial('supportedLocales', supportedLocales),
+        supportedLocales: valueFromMaterial(
+          'supportedLocales',
+          supportedLocales,
+        ),
+        debugShowMaterialGrid: valueFromMaterial(
+          'debugShowMaterialGrid',
+          debugShowMaterialGrid,
+        ),
         showPerformanceOverlay: valueFromMaterial(
           'showPerformanceOverlay',
           showPerformanceOverlay,
@@ -343,10 +368,8 @@ class BaseApp extends BaseStatelessWidget {
           'debugShowCheckedModeBanner',
           debugShowCheckedModeBanner,
         ),
-        debugShowMaterialGrid: valueFromMaterial(
-          'debugShowMaterialGrid',
-          debugShowMaterialGrid,
-        ),
+        shortcuts: valueFromMaterial('shortcuts', shortcuts),
+        actions: valueFromMaterial('actions', actions),
       ),
     );
   }

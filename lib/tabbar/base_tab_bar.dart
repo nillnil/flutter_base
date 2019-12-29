@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart' show CupertinoColors;
+import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoDynamicColor;
 import 'package:flutter/material.dart'
     hide BottomNavigationBarItem, BottomNavigationBar;
 
@@ -26,7 +26,7 @@ class BaseTabBar extends BaseStatelessWidget {
     this.inactiveColor = CupertinoColors.inactiveGray,
     this.border = const Border(
       top: BorderSide(
-        color: Color(0x4C000000),
+        color: _kDefaultTabBarBorderColor,
         width: 0.0, // One physical pixel.
         style: BorderStyle.solid,
       ),
@@ -173,8 +173,7 @@ class BaseTabBar extends BaseStatelessWidget {
       items: _buildBarItem(context, items),
       onTap: valueFromCupertino('onTap', onTap),
       currentIndex: valueFromCupertino('currentIndex', currentIndex),
-      backgroundColor: valueFromCupertino('backgroundColor', backgroundColor) ??
-          const Color(0xCCF8F8F8),
+      backgroundColor: valueFromCupertino('backgroundColor', backgroundColor),
       activeColor: activeColor,
       inactiveColor: inactiveColor,
       iconSize: valueFromCupertino('iconSize', iconSize) ?? 30.0,
@@ -221,3 +220,8 @@ class BaseTabBar extends BaseStatelessWidget {
     return barItems;
   }
 }
+
+const Color _kDefaultTabBarBorderColor = CupertinoDynamicColor.withBrightness(
+  color: Color(0x4C000000),
+  darkColor: Color(0x29000000),
+);

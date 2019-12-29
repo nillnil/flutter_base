@@ -1,194 +1,241 @@
-
 import 'package:base/base.dart';
 import 'package:base/indicator/base_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:example/iconfont/iconfont.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-class NewsItem extends StatelessWidget{
-	const NewsItem({
-		Key key,
-		this.news
-	}) : super(key: key);
+class NewsItem extends StatefulWidget {
+  const NewsItem({Key key, this.news}) : super(key: key);
 
-	final Map<String, dynamic> news;
+  final Map<String, dynamic> news;
 
-	@override
-	Widget build(BuildContext context) {
-		Widget child;
-		if (news['thumbnail_pic_s02'] != null && news['thumbnail_pic_s03'] != null) {
-			child = Column(
-				mainAxisAlignment: MainAxisAlignment.spaceBetween,
-				children: <Widget>[
-					Row(
-						children: <Widget>[
-							Expanded(
-								child: Text(news['title'])
-							)
-						]
-					),
-					Row(
-						children: <Widget>[
-							Expanded(
-								child: Padding(
-									padding: const EdgeInsets.only(right: 5.0),
-									child: CachedNetworkImage(
-										imageUrl: news['thumbnail_pic_s'],
-										placeholder: (BuildContext context, String url) {
+  @override
+  _NewsItemState createState() => _NewsItemState();
+}
+
+class _NewsItemState extends State<NewsItem>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    Widget child;
+    if (widget.news['thumbnail_pic_s02'] != null &&
+        widget.news['thumbnail_pic_s03'] != null) {
+      child = Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(child: Text(widget.news['title'])),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5.0),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.news['thumbnail_pic_s'],
+                    placeholder: (BuildContext context, String url) {
                       return const Center(
                         child: SizedBox(
                           height: 25,
                           width: 25,
                           child: BaseIndicator(),
-                        )
+                        ),
                       );
                     },
-										errorWidget: (BuildContext context, String url, Object error) {
+                    errorWidget: (
+                      BuildContext context,
+                      String url,
+                      Object error,
+                    ) {
                       return const Icon(IconFont.brokenImage, size: 72);
-                    }
-									)
-								)
-							),
-							Expanded(
-								child: Padding(
-									padding: const EdgeInsets.only(right: 5.0),
-									child: CachedNetworkImage(
-										imageUrl: news['thumbnail_pic_s02'],
-										placeholder: (BuildContext context, String url) {
+                    },
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 5.0),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.news['thumbnail_pic_s02'],
+                    placeholder: (BuildContext context, String url) {
                       return const Center(
                         child: SizedBox(
                           height: 25,
                           width: 25,
                           child: BaseIndicator(),
-                        )
+                        ),
                       );
                     },
-										errorWidget: (BuildContext context, String url, Object error) {
+                    errorWidget: (
+                      BuildContext context,
+                      String url,
+                      Object error,
+                    ) {
                       return const Icon(IconFont.brokenImage, size: 72);
-                    }
-									)
-								)
-							),
-							Expanded(
-								child: CachedNetworkImage(
-									imageUrl: news['thumbnail_pic_s03'],
-									placeholder: (BuildContext context, String url) {
+                    },
+                  ),
+                ),
+              ),
+              Expanded(
+                child: CachedNetworkImage(
+                  imageUrl: widget.news['thumbnail_pic_s03'],
+                  placeholder: (BuildContext context, String url) {
                     return const Center(
                       child: SizedBox(
                         height: 25,
                         width: 25,
                         child: BaseIndicator(),
-                      )
+                      ),
                     );
                   },
-                  errorWidget: (BuildContext context, String url, Object error) {
+                  errorWidget: (
+                    BuildContext context,
+                    String url,
+                    Object error,
+                  ) {
                     return const Icon(IconFont.brokenImage, size: 72);
-                  }
-								)
-							)
-						]
-					),
-					Row(
-						children: <Widget>[
-							Text(news['author_name'] + ' ' + news['date'],
-								style: const TextStyle(fontSize: 11.0, color: Colors.grey)
-							)
-						],
-					)
-				],
-			);
-		} else {
-			child = Row(
-				crossAxisAlignment: CrossAxisAlignment.start,
-				children: <Widget>[
-					Expanded(
-						flex: 2,
-						child: Container(
+                  },
+                ),
+              )
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Text(
+                widget.news['author_name'] + ' ' + widget.news['date'],
+                style: const TextStyle(fontSize: 11.0, color: Colors.grey),
+              ),
+            ],
+          ),
+        ],
+      );
+    } else {
+      child = Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: Container(
               height: 100,
               margin: const EdgeInsets.only(right: 10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(news['title']),
-                  Text((news['author_name'] ?? '') + ' ' + (news['date'] ?? ''),
-                    style: const TextStyle(fontSize: 11.0, color: Colors.grey)
-                  )
-                ]
-              )
-            )
-					),
-					news['thumbnail_pic_s'] != null ? Expanded(
-						flex: 1,
-						child: Padding(
-							padding: const EdgeInsets.all(0.0),
-							child: CachedNetworkImage(
-								imageUrl: news['thumbnail_pic_s'],
-                height: 100,
-                fit: BoxFit.fill,
-								placeholder: (BuildContext context, String url) {
-                  return const Center(
-                    child: SizedBox(
-                      height: 25,
-                      width: 25,
-                      child: BaseIndicator(),
-                    )
-                  );
-                },
-                errorWidget: (BuildContext context, String url, Object error) {
-                  return const Icon(IconFont.brokenImage, size: 72);
-                }
-							)
-						)
-					): Container()
-				]
-			);
-		}
-		return GestureDetector(
-			child: Container(
-				padding: const EdgeInsets.only(top: 10.0, right: 10.0, bottom: 5.0, left: 10.0),
-				color: Colors.white,
-				child: child
-			),
-			onTap: () {
-				// _launchDetail(news['url']);
+                  Text(widget.news['title']),
+                  Text(
+                    (widget.news['author_name'] ?? '') +
+                        ' ' +
+                        (widget.news['date'] ?? ''),
+                    style: const TextStyle(fontSize: 11.0, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          widget.news['thumbnail_pic_s'] != null
+              ? Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.news['thumbnail_pic_s'],
+                      height: 100,
+                      fit: BoxFit.fill,
+                      placeholder: (BuildContext context, String url) {
+                        return const Center(
+                          child: SizedBox(
+                            height: 25,
+                            width: 25,
+                            child: BaseIndicator(),
+                          ),
+                        );
+                      },
+                      errorWidget: (
+                        BuildContext context,
+                        String url,
+                        Object error,
+                      ) {
+                        return const Icon(IconFont.brokenImage, size: 72);
+                      },
+                    ),
+                  ),
+                )
+              : Container()
+        ],
+      );
+    }
+    return GestureDetector(
+      child: Container(
+        padding: const EdgeInsets.only(
+          top: 10.0,
+          right: 10.0,
+          bottom: 5.0,
+          left: 10.0,
+        ),
+        child: child,
+      ),
+      onTap: () {
         BaseRoute<void>(
-          WebviewScaffold(
-            url: news['url'],
+          builder: (_) => BaseScaffold(
             appBar: BaseAppBar(
-              title: SizedBox(
-                width: 120,
-                child: Text(news['title'],
-                  overflow: TextOverflow.ellipsis,
-                ),
+              title: Text(
+                widget.news['title'],
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: const SizedBox(
+                width: 34.0,
               ),
               transitionBetweenRoutes: false,
             ),
-            initialChild: Container(
-              alignment: Alignment.center,
-              child: const BaseIndicator(
-                radius: 15.0,
-              ),
+            safeAreaTop: true,
+            body: WebView(
+              initialUrl: widget.news['url'],
+              javascriptMode: JavascriptMode.disabled,
             ),
-          )
+          ),
+          fullscreenGackGesture: false,
         ).push(context);
-			}
-		);
-	}
+        // BaseRoute<void>(
+        //   WebviewScaffold(
+        //     url: news['url'],
+        //     appBar: BaseAppBar(
+        //       title: SizedBox(
+        //         width: 120,
+        //         child: Text(
+        //           news['title'],
+        //           overflow: TextOverflow.ellipsis,
+        //         ),
+        //       ),
+        //       transitionBetweenRoutes: false,
+        //     ),
+        //     initialChild: Container(
+        //       alignment: Alignment.center,
+        //       child: const BaseIndicator(
+        //         radius: 15.0,
+        //       ),
+        //     ),
+        //   ),
+        // ).push(context);
+      },
+    );
+  }
 
-	// Future<void> _launchDetail(String url) async {
-	// 	if (await canLaunch(url)) {
-	// 		await launch(
-  //       url, 
-  //       forceWebView: true, 
-  //       forceSafariVC: true,
-  //       statusBarBrightness: Brightness.light,
-  //     );
-	// 	} else {
-	// 		throw 'Could not launch $url';
-	// 	}
-	// }
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -20,6 +20,8 @@ class BaseAlertDialog extends BaseStatelessWidget {
     // cupertino
     this.scrollController,
     this.actionScrollController,
+    this.insetAnimationDuration = const Duration(milliseconds: 100),
+    this.insetAnimationCurve = Curves.decelerate,
 
     // material
     this.titlePadding,
@@ -64,6 +66,12 @@ class BaseAlertDialog extends BaseStatelessWidget {
   /// [CupertinoAlertDialog.actionScrollController]
   final ScrollController actionScrollController;
 
+  /// [CupertinoAlertDialog.insetAnimationDuration]
+  final Duration insetAnimationDuration;
+
+  /// [CupertinoAlertDialog.insetAnimationCurve]
+  final Curve insetAnimationCurve;
+
   /// *** cupertino properties end ***
 
   /// *** material properties start ***
@@ -103,6 +111,8 @@ class BaseAlertDialog extends BaseStatelessWidget {
       actions: valueFromCupertino('actions', actions),
       scrollController: scrollController,
       actionScrollController: actionScrollController,
+      insetAnimationDuration: insetAnimationDuration,
+      insetAnimationCurve: insetAnimationCurve,
     );
   }
 
@@ -111,8 +121,8 @@ class BaseAlertDialog extends BaseStatelessWidget {
     return AlertDialog(
       key: valueFromMaterial('key', key),
       title: valueFromMaterial('title', title),
-      titleTextStyle: titleTextStyle,
       titlePadding: titlePadding,
+      titleTextStyle: titleTextStyle,
       content: valueFromMaterial('content', content),
       contentPadding: contentPadding,
       contentTextStyle: contentTextStyle,
@@ -128,11 +138,20 @@ class BaseAlertDialog extends BaseStatelessWidget {
   Future<T> show<T>(
     BuildContext context, {
     bool barrierDismissible = true,
+    bool useRootNavigator = true,
   }) {
+    // if (useCupertino) {
+    //   return showCupertinoDialog<T>(
+    //     context: context,
+    //     builder: (BuildContext context) => build(context),
+    //     useRootNavigator: useRootNavigator,
+    //   );
+    // }
     return showDialog<T>(
       context: context,
       barrierDismissible: barrierDismissible,
       builder: (BuildContext context) => build(context),
+      useRootNavigator: useRootNavigator,
     );
   }
 }
@@ -142,10 +161,19 @@ Future<T> showBaseAlertDialog<T>(
   BaseAlertDialog alertDialog,
   BuildContext context, {
   bool barrierDismissible = true,
+  bool useRootNavigator = true,
 }) {
+  // if (useCupertino) {
+  //   return showCupertinoDialog<T>(
+  //     context: context,
+  //     builder: (BuildContext context) => alertDialog,
+  //     useRootNavigator: useRootNavigator,
+  //   );
+  // }
   return showDialog<T>(
     context: context,
     barrierDismissible: barrierDismissible,
     builder: (BuildContext context) => alertDialog,
+    useRootNavigator: useRootNavigator,
   );
 }

@@ -28,10 +28,14 @@ class BaseScaffold extends BaseStatelessWidget {
     this.persistentFooterButtons,
     this.drawer,
     this.endDrawer,
+    this.bottomNavigationBar,
     this.bottomSheet,
     this.primary = true,
     this.drawerDragStartBehavior = DragStartBehavior.start,
     this.extendBody = false,
+    this.extendBodyBehindAppBar = false,
+    this.drawerScrimColor,
+    this.drawerEdgeDragWidth,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
@@ -109,6 +113,9 @@ class BaseScaffold extends BaseStatelessWidget {
   /// [Scaffold.endDrawer]
   final Widget endDrawer;
 
+  /// [Scaffold.bottomNavigationBar]
+  final Widget bottomNavigationBar;
+
   /// [Scaffold.bottomSheet]
   final Widget bottomSheet;
 
@@ -120,6 +127,15 @@ class BaseScaffold extends BaseStatelessWidget {
 
   /// [Scaffold.extendBody]
   final bool extendBody;
+
+  /// [Scaffold.extendBodyBehindAppBar]
+  final bool extendBodyBehindAppBar;
+
+  /// [Scaffold.drawerScrimColor]
+  final Color drawerScrimColor;
+
+  /// [Scaffold.drawerEdgeDragWidth]
+  final double drawerEdgeDragWidth;
 
   /// *** material properties end ***
 
@@ -140,7 +156,10 @@ class BaseScaffold extends BaseStatelessWidget {
         child: body,
       );
     }
-    final double appBarHeight = BaseTheme.of(context).appBarHeight;
+    final double appBarHeight = BaseTheme.of(context).valueFromCupertino(
+      'appBarHeight',
+      null,
+    );
     return CupertinoPageScaffold(
       key: valueFromCupertino('key', key),
       navigationBar: appBarHeight == null ? appBar : appBar?.build(context),
@@ -157,7 +176,10 @@ class BaseScaffold extends BaseStatelessWidget {
   Widget buildByMaterial(BuildContext context) {
     final BaseAppBar appBar = valueFromMaterial('appBar', this.appBar) ??
         valueFromMaterial('navBar', navBar);
-    final double appBarHeight = BaseTheme.of(context).appBarHeight;
+    final double appBarHeight = BaseTheme.of(context).valueFromMaterial(
+      'appBarHeight',
+      null,
+    );
     return Scaffold(
       key: valueFromMaterial('key', key),
       appBar: appBarHeight == null ? appBar : appBar?.build(context),
@@ -168,6 +190,7 @@ class BaseScaffold extends BaseStatelessWidget {
       persistentFooterButtons: persistentFooterButtons,
       drawer: drawer,
       endDrawer: endDrawer,
+      bottomNavigationBar: bottomNavigationBar,
       bottomSheet: bottomSheet,
       backgroundColor: valueFromMaterial('backgroundColor', backgroundColor),
       resizeToAvoidBottomInset: valueFromMaterial(
@@ -177,6 +200,9 @@ class BaseScaffold extends BaseStatelessWidget {
       primary: primary,
       drawerDragStartBehavior: drawerDragStartBehavior,
       extendBody: extendBody,
+      extendBodyBehindAppBar: extendBodyBehindAppBar,
+      drawerScrimColor: drawerScrimColor,
+      drawerEdgeDragWidth: drawerEdgeDragWidth,
     );
   }
 }

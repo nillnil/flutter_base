@@ -11,4 +11,5 @@ export 'route/route_demo.dart';
 export 'scaffold/scaffold_demo.dart';
 export 'section/section_demo.dart';
 export 'text_field/text_field_demo.dart';
+export 'tools/tools_demo.dart';
 export 'utils/color_block.dart';

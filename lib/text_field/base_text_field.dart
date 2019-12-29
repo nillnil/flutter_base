@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart'
-    show CupertinoColors, CupertinoTextField, OverlayVisibilityMode;
+    show
+        CupertinoColors,
+        CupertinoDynamicColor,
+        CupertinoTextField,
+        OverlayVisibilityMode;
 import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show TextInputFormatter;
@@ -23,9 +27,16 @@ class BaseTextField extends BaseStatelessWidget {
     this.style,
     this.strutStyle,
     this.textAlign = TextAlign.start,
+    this.textAlignVertical,
+    this.readOnly = false,
+    this.showCursor,
+    this.toolbarOptions,
     this.autofocus = false,
     this.obscureText = false,
     this.autocorrect = true,
+    this.smartDashesType,
+    this.smartQuotesType,
+    this.enableSuggestions = true,
     this.maxLines = 1,
     this.minLines,
     this.expands = false,
@@ -42,21 +53,16 @@ class BaseTextField extends BaseStatelessWidget {
     this.keyboardAppearance,
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.dragStartBehavior = DragStartBehavior.start,
+    this.enableInteractiveSelection = true,
+    this.scrollController,
+    this.scrollPhysics,
     // cupertino
-    this.cupertinoDecoration = const BoxDecoration(
-      border: Border(
-        top: _kDefaultRoundedBorderSide,
-        bottom: _kDefaultRoundedBorderSide,
-        left: _kDefaultRoundedBorderSide,
-        right: _kDefaultRoundedBorderSide,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(4.0)),
-    ),
+    this.cupertinoDecoration = _kDefaultRoundedBorderDecoration,
     this.padding = const EdgeInsets.all(6.0),
     this.placeholder,
     this.placeholderStyle = const TextStyle(
-      fontWeight: FontWeight.w300,
-      color: _kInactiveTextColor,
+      fontWeight: FontWeight.w400,
+      color: CupertinoColors.placeholderText,
     ),
     this.prefix,
     this.prefixMode = OverlayVisibilityMode.always,
@@ -117,6 +123,26 @@ class BaseTextField extends BaseStatelessWidget {
   /// [TextField.textAlign]
   final TextAlign textAlign;
 
+  /// [CupertinoTextField.toolbarOptions]
+  /// or
+  /// [TextField.toolbarOptions]
+  final ToolbarOptions toolbarOptions;
+
+  /// [CupertinoTextField.textAlignVertical]
+  /// or
+  /// [TextField.textAlignVertical]
+  final TextAlignVertical textAlignVertical;
+
+  /// [CupertinoTextField.readOnly]
+  /// or
+  /// [TextField.readOnly]
+  final bool readOnly;
+
+  /// [CupertinoTextField.showCursor]
+  /// or
+  /// [TextField.showCursor]
+  final bool showCursor;
+
   /// [CupertinoTextField.autofocus]
   /// or
   /// [TextField.autofocus]
@@ -131,6 +157,21 @@ class BaseTextField extends BaseStatelessWidget {
   /// or
   /// [TextField.autocorrect]
   final bool autocorrect;
+
+  /// [CupertinoTextField.smartDashesType]
+  /// or
+  /// [TextField.smartDashesType]
+  final SmartDashesType smartDashesType;
+
+  /// [CupertinoTextField.smartQuotesType]
+  /// or
+  /// [TextField.smartQuotesType]
+  final SmartQuotesType smartQuotesType;
+
+  /// [CupertinoTextField.enableSuggestions]
+  /// or
+  /// [TextField.enableSuggestions]
+  final bool enableSuggestions;
 
   /// [CupertinoTextField.maxLines]
   /// or
@@ -212,6 +253,21 @@ class BaseTextField extends BaseStatelessWidget {
   /// [TextField.dragStartBehavior]
   final DragStartBehavior dragStartBehavior;
 
+  /// [CupertinoTextField.enableInteractiveSelection]
+  /// or
+  /// [TextField.enableInteractiveSelection]
+  final bool enableInteractiveSelection;
+
+  /// [CupertinoTextField.scrollController]
+  /// or
+  /// [TextField.scrollController]
+  final ScrollController scrollController;
+
+  /// [CupertinoTextField.scrollPhysics]
+  /// or
+  /// [TextField.scrollPhysics]
+  final ScrollPhysics scrollPhysics;
+
   /// *** general properties end ***
 
   /// *** cupertino properties start ***
@@ -276,9 +332,20 @@ class BaseTextField extends BaseStatelessWidget {
       style: valueFromCupertino('style', style),
       strutStyle: valueFromCupertino('strutStyle', strutStyle),
       textAlign: valueFromCupertino('textAlign', textAlign),
+      textAlignVertical: valueFromCupertino(
+        'textAlignVertical',
+        textAlignVertical,
+      ),
+      readOnly: valueFromCupertino('readOnly', readOnly),
+      toolbarOptions: valueFromCupertino('toolbarOptions', toolbarOptions),
+      showCursor: valueFromCupertino('showCursor', showCursor),
       autofocus: valueFromCupertino('autofocus', autofocus),
       obscureText: valueFromCupertino('obscureText', obscureText),
       autocorrect: valueFromCupertino('autocorrect', autocorrect),
+      smartDashesType: valueFromCupertino('smartDashesType', smartDashesType),
+      smartQuotesType: valueFromCupertino('smartQuotesType', smartQuotesType),
+      enableSuggestions:
+          valueFromCupertino('enableSuggestions', enableSuggestions),
       maxLines: valueFromCupertino('maxLines', maxLines),
       minLines: valueFromCupertino('minLines', minLines),
       expands: valueFromCupertino('expands', expands),
@@ -307,6 +374,16 @@ class BaseTextField extends BaseStatelessWidget {
         'dragStartBehavior',
         dragStartBehavior,
       ),
+      enableInteractiveSelection: valueFromCupertino(
+        'enableInteractiveSelection',
+        enableInteractiveSelection,
+      ),
+      onTap: valueFromCupertino('onTap', onTap),
+      scrollController: valueFromCupertino(
+        'scrollController',
+        scrollController,
+      ),
+      scrollPhysics: valueFromCupertino('scrollPhysics', scrollPhysics),
       // cupertino
       decoration: cupertinoDecoration,
       padding: padding,
@@ -335,9 +412,22 @@ class BaseTextField extends BaseStatelessWidget {
       style: valueFromMaterial('style', style),
       strutStyle: valueFromMaterial('strutStyle', strutStyle),
       textAlign: valueFromMaterial('textAlign', textAlign),
+      textAlignVertical: valueFromMaterial(
+        'textAlignVertical',
+        textAlignVertical,
+      ),
+      readOnly: valueFromMaterial('readOnly', readOnly),
+      toolbarOptions: valueFromMaterial('toolbarOptions', toolbarOptions),
+      showCursor: valueFromMaterial('showCursor', showCursor),
       autofocus: valueFromMaterial('autofocus', autofocus),
       obscureText: valueFromMaterial('obscureText', obscureText),
       autocorrect: valueFromMaterial('autocorrect', autocorrect),
+      smartDashesType: valueFromMaterial('smartDashesType', smartDashesType),
+      smartQuotesType: valueFromMaterial('smartQuotesType', smartQuotesType),
+      enableSuggestions: valueFromMaterial(
+        'enableSuggestions',
+        enableSuggestions,
+      ),
       maxLines: valueFromMaterial('maxLines', maxLines),
       minLines: valueFromMaterial('minLines', minLines),
       expands: valueFromMaterial('expands', expands),
@@ -366,6 +456,15 @@ class BaseTextField extends BaseStatelessWidget {
         'dragStartBehavior',
         dragStartBehavior,
       ),
+      enableInteractiveSelection: valueFromMaterial(
+        'enableInteractiveSelection',
+        enableInteractiveSelection,
+      ),
+      scrollController: valueFromMaterial(
+        'scrollController',
+        scrollController,
+      ),
+      scrollPhysics: valueFromMaterial('scrollPhysics', scrollPhysics),
       // material
       decoration: materialDecoration,
       textDirection: textDirection,
@@ -375,9 +474,28 @@ class BaseTextField extends BaseStatelessWidget {
   }
 }
 
+// Value inspected from Xcode 11 & iOS 13.0 Simulator.
 const BorderSide _kDefaultRoundedBorderSide = BorderSide(
-  color: CupertinoColors.lightBackgroundGray,
+  color: CupertinoDynamicColor.withBrightness(
+    color: Color(0x33000000),
+    darkColor: Color(0x33FFFFFF),
+  ),
   style: BorderStyle.solid,
   width: 0.0,
 );
-const Color _kInactiveTextColor = Color(0xFFC2C2C2);
+
+const Border _kDefaultRoundedBorder = Border(
+  top: _kDefaultRoundedBorderSide,
+  bottom: _kDefaultRoundedBorderSide,
+  left: _kDefaultRoundedBorderSide,
+  right: _kDefaultRoundedBorderSide,
+);
+
+const BoxDecoration _kDefaultRoundedBorderDecoration = BoxDecoration(
+  color: CupertinoDynamicColor.withBrightness(
+    color: CupertinoColors.white,
+    darkColor: CupertinoColors.black,
+  ),
+  border: _kDefaultRoundedBorder,
+  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+);

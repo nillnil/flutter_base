@@ -1,12 +1,14 @@
-// Copyright 2017 The Chromium Authors. All rights reserved.
+// Copyright 2014 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/tab_scaffold.dart
-/// lastest push: 2019.06.12
-/// lastest update: flutter v1.11.0 2019.10.11
-/// commit https://github.com/flutter/flutter/commit/ce1509714c28fec0462fc702c8d9b8d2d4878bf4
-/// #42278 https://github.com/flutter/flutter/pull/42278
+/// lastest push: 2019.12.29
+/// flutter v1.13.5
+/// 
+/// lastest commit: 2019.12.17
+/// commit https://github.com/flutter/flutter/commit/a82a39973369db5101d5cae9ae674a1f75fcd3eb
+/// #46106 https://github.com/flutter/flutter/pull/46106
 
 import 'package:flutter/cupertino.dart' show CupertinoTheme, CupertinoDynamicColor;
 import 'package:flutter/widgets.dart';
@@ -63,8 +65,8 @@ import 'bottom_tab_bar.dart';
 ///
 /// See also:
 ///
-/// * [CupertinoTabScaffold], a tabbed application root layout that can be
-///   controlled by a [CupertinoTabController].
+///  * [CupertinoTabScaffold], a tabbed application root layout that can be
+///    controlled by a [CupertinoTabController].
 class CupertinoTabController extends ChangeNotifier {
   /// Creates a [CupertinoTabController] to control the tab index of [CupertinoTabScaffold]
   /// and [CupertinoTabBar].
@@ -123,7 +125,7 @@ class CupertinoTabController extends ChangeNotifier {
 ///
 /// Tabs' contents are built with the provided [tabBuilder] at the active
 /// tab index. The [tabBuilder] must be able to build the same number of
-/// pages as there are [tabBar.items]. Inactive tabs will be moved [Offstage]
+/// pages as there are [tabBar] items. Inactive tabs will be moved [Offstage]
 /// and their animations disabled.
 ///
 /// Adding/removing tabs, or changing the order of tabs is supported but not
@@ -284,7 +286,7 @@ class CupertinoTabScaffold extends StatefulWidget {
   /// By default uses [CupertinoTheme]'s `scaffoldBackgroundColor` when null.
   final Color backgroundColor;
 
-  /// Whether the [child] should size itself to avoid the window's bottom inset.
+  /// Whether the body should size itself to avoid the window's bottom inset.
   ///
   /// For example, if there is an onscreen keyboard displayed above the
   /// scaffold, the body can be resized to avoid overlapping the keyboard, which
@@ -384,6 +386,7 @@ class _CupertinoTabScaffoldState extends State<CupertinoTabScaffold> {
       // obstructed area.
       if (widget.tabBar.opaque(context)) {
         contentPadding = EdgeInsets.only(bottom: bottomPadding);
+        newMediaQuery = newMediaQuery.removePadding(removeBottom: true);
       } else {
         newMediaQuery = newMediaQuery.copyWith(
           padding: newMediaQuery.padding.copyWith(

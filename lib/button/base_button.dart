@@ -21,6 +21,7 @@ class BaseButton extends BaseStatelessWidget {
     this.pressedOpacity = 0.1,
     this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
     this.filled = false,
+    this.onLongPress,
     this.onHighlightChanged,
     this.textTheme,
     this.textColor,
@@ -31,10 +32,14 @@ class BaseButton extends BaseStatelessWidget {
     this.splashColor,
     this.colorBrightness,
     this.elevation,
+    this.focusElevation,
     this.highlightElevation,
     this.disabledElevation,
+    this.visualDensity,
     this.shape,
     this.clipBehavior = Clip.none,
+    this.focusNode,
+    this.autofocus = false,
     this.materialTapTargetSize,
     this.animationDuration,
     this.minWidth,
@@ -69,9 +74,10 @@ class BaseButton extends BaseStatelessWidget {
     this.disabledColor,
     this.padding,
     this.minSize = 44.0,
-    this.pressedOpacity = 0.1,
+    this.pressedOpacity = 0.4,
     this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
     this.filled = false,
+    this.onLongPress,
     this.onHighlightChanged,
     this.textTheme,
     this.textColor,
@@ -82,10 +88,14 @@ class BaseButton extends BaseStatelessWidget {
     this.splashColor,
     this.colorBrightness,
     this.elevation,
+    this.focusElevation,
     this.highlightElevation,
     this.disabledElevation,
+    this.visualDensity,
     this.shape,
     this.clipBehavior = Clip.none,
+    this.focusNode,
+    this.autofocus = false,
     this.materialTapTargetSize,
     this.animationDuration,
     this.minWidth,
@@ -167,6 +177,9 @@ class BaseButton extends BaseStatelessWidget {
   /// *** cupertino properties ened ***
 
   /// *** material properties start ***
+  
+  /// [MaterialButton.onLongPress]
+  final VoidCallback onLongPress;
 
   /// [MaterialButton.onHighlightChanged]
   final ValueChanged<bool> onHighlightChanged;
@@ -198,17 +211,29 @@ class BaseButton extends BaseStatelessWidget {
   /// [MaterialButton.elevation]
   final double elevation;
 
+  /// [MaterialButton.focusElevation]
+  final double focusElevation;
+
   /// [MaterialButton.highlightElevation]
   final double highlightElevation;
 
   /// [MaterialButton.disabledElevation]
   final double disabledElevation;
 
+  /// [MaterialButton.visualDensity]
+  final VisualDensity visualDensity;
+
   /// [MaterialButton.shape]
   final ShapeBorder shape;
 
   /// [MaterialButton.clipBehavior]
   final Clip clipBehavior;
+
+  /// [MaterialButton.focusNode]
+  final FocusNode focusNode;
+
+  /// [MaterialButton.autofocus]
+  final bool autofocus;
 
   /// [MaterialButton.materialTapTargetSize]
   final MaterialTapTargetSize materialTapTargetSize;
@@ -286,6 +311,7 @@ class BaseButton extends BaseStatelessWidget {
       return FlatButton(
         key: valueFromMaterial('key', key),
         onPressed: valueFromMaterial('onPressed', onPressed),
+        onLongPress: onLongPress,
         onHighlightChanged: onHighlightChanged,
         textTheme: textTheme,
         textColor: textColor,
@@ -298,8 +324,11 @@ class BaseButton extends BaseStatelessWidget {
         splashColor: splashColor,
         colorBrightness: colorBrightness,
         padding: valueFromMaterial('padding', padding),
+        visualDensity: visualDensity,
         shape: shape,
         clipBehavior: clipBehavior,
+        focusNode: focusNode,
+        autofocus: autofocus,
         materialTapTargetSize: materialTapTargetSize,
         child: valueFromMaterial('child', child),
       );
@@ -307,6 +336,7 @@ class BaseButton extends BaseStatelessWidget {
       return OutlineButton(
         key: valueFromMaterial('key', key),
         onPressed: valueFromMaterial('onPressed', onPressed),
+        onLongPress: onLongPress,
         textTheme: textTheme,
         textColor: textColor,
         disabledTextColor: disabledTextColor,
@@ -320,14 +350,18 @@ class BaseButton extends BaseStatelessWidget {
         disabledBorderColor: disabledBorderColor,
         highlightedBorderColor: highlightedBorderColor,
         padding: valueFromMaterial('padding', padding),
+        visualDensity: visualDensity,
         shape: shape,
         clipBehavior: clipBehavior,
+        focusNode: focusNode,
+        autofocus: autofocus,
         child: valueFromMaterial('child', child),
       );
     } else if (raised) {
       return RaisedButton(
         key: valueFromMaterial('key', key),
         onPressed: valueFromMaterial('onPressed', onPressed),
+        onLongPress: onLongPress,
         onHighlightChanged: onHighlightChanged,
         textTheme: textTheme,
         textColor: textColor,
@@ -345,6 +379,8 @@ class BaseButton extends BaseStatelessWidget {
         padding: valueFromMaterial('padding', padding),
         shape: shape,
         clipBehavior: clipBehavior,
+        focusNode: focusNode,
+        autofocus: autofocus,
         materialTapTargetSize: materialTapTargetSize,
         animationDuration: animationDuration,
         child: valueFromMaterial('child', child),
@@ -353,6 +389,7 @@ class BaseButton extends BaseStatelessWidget {
     return MaterialButton(
       key: valueFromMaterial('key', key),
       onPressed: valueFromMaterial('onPressed', onPressed),
+      onLongPress: onLongPress,
       onHighlightChanged: onHighlightChanged,
       textTheme: textTheme,
       textColor: textColor,
@@ -365,9 +402,11 @@ class BaseButton extends BaseStatelessWidget {
       splashColor: splashColor,
       colorBrightness: colorBrightness,
       elevation: elevation,
+      focusElevation: focusElevation,
       highlightElevation: highlightElevation,
       disabledElevation: disabledElevation,
       padding: valueFromMaterial('padding', padding),
+      visualDensity: visualDensity,
       shape: shape,
       clipBehavior: clipBehavior,
       materialTapTargetSize: materialTapTargetSize,

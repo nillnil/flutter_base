@@ -19,11 +19,11 @@ class RouteDemo extends StatelessWidget {
       widgetName: 'BaseRoute',
       materialDesc: 'use MaterialPageRoute',
       cupertinoDesc: 'use CupertinoPageRoute',
-      parameterDesc: const <String, String> {
+      parameterDesc: const <String, String>{
         'backGestureWidth': 'Cupertino模式下有效，默认20.0，设置右滑返回时离屏幕边缘的宽度',
         'fullscreenGackGesture': 'Cupertino模式下有效，默认false，该值设置成true时，'
-          'backGestureWidth = MediaQuery.of(context).size.width, 可以实现全屏右滑返回，且'
-          'backGestureWidth参数失效',
+            'backGestureWidth = MediaQuery.of(context).size.width, 可以实现全屏右滑返回，且'
+            'backGestureWidth参数失效',
       },
       tips: 'Use like: \nBaseRoute<void>('
           '\n\t\t...\n).push(context);'
@@ -39,74 +39,70 @@ class RouteDemo extends StatelessWidget {
 }
 
 class _Demo extends StatelessWidget {
+  final List<Widget> _routes = <Widget>[];
   @override
   Widget build(BuildContext context) {
+    _routes.add(
+      const _RouteButton(title: 'normal'),
+    );
+    if (useCupertino) {
+      _routes.add(
+        const _RouteButton(
+          title: 'fullscreenGackGesture',
+          fullscreenGackGesture: true,
+        ),
+      );
+    }
+    _routes.add(
+      const _RouteButton(
+        title: 'fullscreen',
+        fullscreenDialog: true,
+      ),
+    );
     return Container(
       alignment: Alignment.center,
       margin: const EdgeInsets.all(10.0),
       child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: BaseButton(
-              color: Colors.white,
-              child: const Text(
-                'normal',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              onPressed: () {
-                pushBaseRoute(
-                  BaseRoute<void>(
-                    const _NewPage(title: 'normal route'),
-                    fullscreenGackGesture: false,
-                  ),
-                  context,
-                );
-              },
-            ),
+        children: _routes,
+      ),
+    );
+  }
+}
+
+class _RouteButton extends StatelessWidget {
+  const _RouteButton({
+    Key key,
+    @required this.title,
+    this.fullscreenGackGesture = false,
+    this.fullscreenDialog = false,
+  }) : super(key: key);
+
+  final String title;
+  final bool fullscreenGackGesture;
+  final bool fullscreenDialog;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: BaseButton(
+        color: Colors.white,
+        child: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.black,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: BaseButton(
-              color: Colors.white,
-              child: const Text(
-                'fullscreenGackGesture',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              onPressed: () {
-                pushBaseRoute(
-                  BaseRoute<void>(
-                    const _NewPage(title: 'fullscreenGackGesture'),
-                    fullscreenGackGesture: true,
-                  ),
-                  context,
-                );
-              },
+        ),
+        onPressed: () {
+          pushBaseRoute(
+            BaseRoute<void>(
+              builder: (_) => _NewPage(title: '$title route'),
+              fullscreenGackGesture: fullscreenGackGesture,
+              fullscreenDialog: fullscreenDialog,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: BaseButton(
-              color: Colors.white,
-              child: const Text(
-                'fullscreen',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              onPressed: () {
-                BaseRoute<void>(
-                  const _NewPage(title: 'fullscreen route'),
-                  fullscreenDialog: true,
-                ).push(context);
-              },
-            ),
-          ),
-        ],
+            context,
+          );
+        },
       ),
     );
   }
@@ -130,6 +126,9 @@ class _NewPage extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(title),
       ),
+      cupertino: const <String, dynamic>{
+        'backgroundColor': CupertinoColors.systemGroupedBackground,
+      },
     );
   }
 }

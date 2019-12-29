@@ -1,12 +1,14 @@
-// Copyright 2015 The Chromium Authors. All rights reserved.
+// Copyright 2014 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/material/app_bar.dart
-/// lastest push: 2019.05.21
-/// lastest update: flutter v1.11.0 2019.11.05
-/// commit https://github.com/flutter/flutter/commit/11e1c24069d595e36a9939e8749f308115bc473e
-/// #42250 https://github.com/flutter/flutter/pull/42250
+/// lastest push: 2019.12.29
+/// flutter v1.13.5
+/// 
+/// lastest commit: 2019.12.13
+/// commit https://github.com/flutter/flutter/commit/d81d91606a47259d7f52f62fcc466c3aa3eb5f41
+/// #45567 https://github.com/flutter/flutter/pull/45567
 
 import 'dart:math' as math;
 
@@ -252,7 +254,7 @@ class AppBar extends StatefulWidget implements PreferredSizeWidget {
   /// If leading widget is not null, this parameter has no effect.
   final bool automaticallyImplyLeading;
 
-  /// The primary widget displayed in the appbar.
+  /// The primary widget displayed in the app bar.
   ///
   /// Typically a [Text] widget containing a description of the current contents
   /// of the app.
@@ -395,6 +397,7 @@ class AppBar extends StatefulWidget implements PreferredSizeWidget {
       case TargetPlatform.fuchsia:
         return false;
       case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
         return actions == null || actions.length < 2;
     }
     return null;
@@ -482,9 +485,10 @@ class _AppBarState extends State<AppBar> {
       switch (theme.platform) {
         case TargetPlatform.android:
         case TargetPlatform.fuchsia:
-           namesRoute = true;
-           break;
+          namesRoute = true;
+          break;
         case TargetPlatform.iOS:
+        case TargetPlatform.macOS:
           break;
       }
       title = DefaultTextStyle(
@@ -656,7 +660,7 @@ class _FloatingAppBarState extends State<_FloatingAppBar> {
   }
 
   RenderSliverFloatingPersistentHeader _headerRenderer() {
-    return context.ancestorRenderObjectOfType(const TypeMatcher<RenderSliverFloatingPersistentHeader>());
+    return context.findAncestorRenderObjectOfType<RenderSliverFloatingPersistentHeader>();
   }
 
   void _isScrollingListener() {
@@ -966,7 +970,7 @@ class SliverAppBar extends StatefulWidget {
   /// If leading widget is not null, this parameter has no effect.
   final bool automaticallyImplyLeading;
 
-  /// The primary widget displayed in the appbar.
+  /// The primary widget displayed in the app bar.
   ///
   /// Typically a [Text] widget containing a description of the current contents
   /// of the app.
@@ -1011,7 +1015,7 @@ class SliverAppBar extends StatefulWidget {
   /// Typically a [FlexibleSpaceBar]. See [FlexibleSpaceBar] for details.
   final Widget flexibleSpace;
 
-  /// This widget appears across the bottom of the appbar.
+  /// This widget appears across the bottom of the app bar.
   ///
   /// Typically a [TabBar]. Only widgets that implement [PreferredSizeWidget] can
   /// be used at the bottom of an app bar.
@@ -1169,7 +1173,7 @@ class SliverAppBar extends StatefulWidget {
   /// a scroll dismisses the app bar, the animation will slide the app bar
   /// completely out of view.
   ///
-  /// Snapping only applies when the app bar is floating, not when the appbar
+  /// Snapping only applies when the app bar is floating, not when the app bar
   /// appears at the top of its scroll view.
   ///
   /// ## Animated Examples

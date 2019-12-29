@@ -6,6 +6,8 @@
 
 ## 实现一套代码，2种模式，ios使用Cupertino风格组件，andriod、fuchsia使用Material风格组件
 
+## 使用dev分支
+
 ### [English](./README-EN.md)
 
 ### 当前只针对Cupertino模式进行了测试，Material组件相对比较完善了，后期也会补上Material模式的测试。

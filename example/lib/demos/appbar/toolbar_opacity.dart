@@ -17,6 +17,8 @@ class _ToolbarOpacityState extends State<ToolbarOpacity>
   final double _maxOpacity = .99;
   ScrollController _scrollController;
   final double hieght = 400;
+  Color _barBackgroundColor = Colors.transparent;
+  double _height = 1000;
 
   @override
   void initState() {
@@ -35,40 +37,40 @@ class _ToolbarOpacityState extends State<ToolbarOpacity>
           });
         }
       });
+    Future<void>.delayed(const Duration(microseconds: 0), () {
+      _barBackgroundColor = CupertinoTheme.of(context).barBackgroundColor;
+      _height = MediaQuery.of(context).size.height;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-        appBar: BaseAppBar(
-          title: const Text('toolbarOpacity'),
-          backgroundColor: _opacity == 0.0
-              ? Colors.black.withOpacity(0.0)
-              : Colors.white.withOpacity(_opacity),
-          backdropFilter: false,
-          border: null,
-          toolbarOpacity: _opacity,
-          elevation: 0.0,
-          trailing: Text('${_opacity.toStringAsPrecision(1)}'),
-          brightness: Brightness.light,
-          centerTitle: true,
-        ),
-        body: ListView(
+      appBar: BaseAppBar(
+        title: const Text('toolbarOpacity'),
+        backgroundColor: _barBackgroundColor.withOpacity(_opacity),
+        backdropFilter: false,
+        border: null,
+        toolbarOpacity: _opacity,
+        elevation: 0.0,
+        trailing: Text('${_opacity.toStringAsPrecision(1)}'),
+        brightness: Brightness.light,
+        centerTitle: true,
+      ),
+      body: BaseScrollBar(
+        padding: EdgeInsets.zero,
+        child: ListView(
           padding: EdgeInsets.zero,
           physics: const ClampingScrollPhysics(),
           controller: _scrollController,
           children: <Widget>[
             Container(
-              color: Colors.indigo,
-              height: hieght,
+              height: _height,
+              alignment: Alignment.center,
+              child: const Text('向下滑动↓'),
             ),
             Container(
-              color: Colors.limeAccent,
-              height: hieght,
-            ),
-            Container(
-              color: Colors.purpleAccent,
-              height: 1800,
+              height: _height / 4,
             ),
             Container(
               height: 60,
@@ -77,7 +79,9 @@ class _ToolbarOpacityState extends State<ToolbarOpacity>
               child: const Text('到底了', style: TextStyle(color: Colors.grey)),
             ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 
   @override

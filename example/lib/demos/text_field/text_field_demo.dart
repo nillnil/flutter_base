@@ -60,6 +60,7 @@ class _DemoState extends State<_Demo> {
     final BaseIconButton eyeButton = BaseIconButton(
       icon: BaseIcon(
         icon: showPassword ? IconFont.eyeopen : IconFont.eyeclose,
+        color: Colors.grey.withOpacity(.5),
       ),
       onPressed: () {
         setState(() {
@@ -72,13 +73,12 @@ class _DemoState extends State<_Demo> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            color: Colors.white,
             child: BaseTextField(
               controller: controller1,
               autofocus: true,
               padding: padding,
               // 暂时解决中文光标上移问题，emoji依旧还是有点上移
-              style: DefaultTextStyle.of(context).style.copyWith(height: 1.2),
+              // style: DefaultTextStyle.of(context).style.copyWith(height: 1.2),
               onChanged: (String value) {
                 setState(() {
                   name = value;
@@ -87,24 +87,25 @@ class _DemoState extends State<_Demo> {
               clearButtonMode: OverlayVisibilityMode.editing,
               textInputAction: TextInputAction.next,
               placeholder: 'name',
-              prefix: const Padding(
-                padding: EdgeInsets.only(left: 10.0),
+              cupertinoDecoration: _kDefaultRoundedBorderDecoration,
+              prefix: Padding(
+                padding: const EdgeInsets.only(left: 10.0),
                 child: BaseIcon(
                   icon: IconFont.profile,
-                  color: Colors.black54,
+                  color: Colors.grey.withOpacity(.5),
                 ),
               ),
               materialDecoration: InputDecoration(
                 labelText: 'name',
                 contentPadding: padding,
-                prefixIcon: const BaseIcon(
+                prefixIcon: BaseIcon(
                   icon: IconFont.profile,
+                  color: Colors.grey.withOpacity(.5),
                 ),
               ),
             ),
           ),
           Container(
-            color: Colors.white,
             child: BaseTextField(
               controller: controller2,
               autofocus: true,
@@ -119,21 +120,19 @@ class _DemoState extends State<_Demo> {
               obscureText: showPassword ? false : true,
               textInputAction: TextInputAction.done,
               placeholder: 'password',
+              cupertinoDecoration: _kDefaultRoundedBorderDecoration,
               prefix: Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: BaseIcon(
                   icon: IconFont.password,
-                  color: Colors.black54,
+                  color: Colors.grey.withOpacity(.5),
                 ),
               ),
-              suffix: Padding(
-                padding: const EdgeInsets.only(right: 10.0),
-                child: eyeButton,
-              ),
+              suffix: eyeButton,
               materialDecoration: InputDecoration(
                 labelText: 'password',
                 contentPadding: padding,
-                prefixIcon: BaseIcon(
+                prefixIcon: const BaseIcon(
                   icon: IconFont.password,
                 ),
                 suffixIcon: eyeButton,
@@ -145,3 +144,26 @@ class _DemoState extends State<_Demo> {
     );
   }
 }
+
+const BoxDecoration _kDefaultRoundedBorderDecoration = BoxDecoration(
+  color: CupertinoDynamicColor.withBrightness(
+    color: CupertinoColors.white,
+    darkColor: CupertinoColors.black,
+  ),
+  border: _kDefaultRoundedBorder,
+  // borderRadius: BorderRadius.all(Radius.circular(5.0)),
+);
+
+const BorderSide _kDefaultRoundedBorderSide = BorderSide(
+  color: CupertinoDynamicColor.withBrightness(
+    color: Color(0x33000000),
+    darkColor: Color(0x33FFFFFF),
+  ),
+  style: BorderStyle.solid,
+  width: 0.0,
+);
+
+const Border _kDefaultRoundedBorder = Border(
+  top: _kDefaultRoundedBorderSide,
+  bottom: _kDefaultRoundedBorderSide,
+);

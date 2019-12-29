@@ -13,8 +13,8 @@ import '../theme/base_theme.dart';
 /// use MaterialPageRoute
 /// *** use material = { forceUseCupertino: true } force use CupertinoPageRoute on material.
 class BaseRoute<T> extends BaseClass {
-  BaseRoute(
-    this.page, {
+  BaseRoute({
+    this.builder,
     this.title,
     this.settings,
     this.maintainState = true,
@@ -27,10 +27,10 @@ class BaseRoute<T> extends BaseClass {
 
   /// *** general properties start ***
 
-  /// [CupertinoPageRoute.page]
+  /// [CupertinoPageRoute.builder]
   /// or
-  /// [MaterialPageRoute.page]
-  final Object page;
+  /// [MaterialPageRoute.builder]
+  final WidgetBuilder builder;
 
   /// [CupertinoPageRoute.settings]
   /// or
@@ -85,9 +85,7 @@ class BaseRoute<T> extends BaseClass {
         'fullscreenDialog',
         fullscreenDialog,
       ),
-      builder: (BuildContext context) {
-        return valueFromCupertino('page', page);
-      },
+      builder: valueFromCupertino('builder', builder),
       backGestureWidth: _backGestureWidth,
     );
   }
@@ -98,9 +96,7 @@ class BaseRoute<T> extends BaseClass {
       settings: valueFromMaterial('settings', settings),
       maintainState: valueFromMaterial('maintainState', maintainState),
       fullscreenDialog: valueFromMaterial('fullscreenDialog', fullscreenDialog),
-      builder: (BuildContext context) {
-        return valueFromMaterial('page', page);
-      },
+      builder: valueFromCupertino('builder', builder),
     );
   }
 

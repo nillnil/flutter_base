@@ -13,9 +13,12 @@ class IconButtonDemo extends StatelessWidget {
         padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
         child: BaseIconButton(
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-          icon: const Icon(
+          icon: Icon(
             Icons.add_circle,
-            color: Colors.black,
+            color: const BaseColor.highContrast(
+              color: Colors.white,
+              darkColor: Colors.black,
+            ).build(context),
           ),
           onPressed: () {},
         ),

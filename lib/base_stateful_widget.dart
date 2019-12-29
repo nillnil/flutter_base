@@ -86,26 +86,14 @@ abstract class BaseState<T extends BaseStatefulWidget> extends State<T>
   /// 如果为null取value的值，
   /// 如果还是null则取material里的值
   dynamic valueFromCupertino(String key, dynamic value) {
-    dynamic newValue;
-    if (widget.cupertino != null) {
-      newValue = widget.cupertino[key] ?? value;
-    } else {
-      newValue = value;
-    }
-    return newValue;
+    return valueFromMap(widget.cupertino, key, value);
   }
 
   /// 从material获取key对应的值，
   /// 如果为null取value的值，
   /// 如果还是null则取cupertino里的值
   dynamic valueFromMaterial(String key, dynamic value) {
-    dynamic newValue;
-    if (widget.material != null) {
-      newValue = widget.material[key] ?? value;
-    } else {
-      newValue = value;
-    }
-    return newValue;
+    return valueFromMap(widget.material, key, value);
   }
 
   /// build on cupertino mode

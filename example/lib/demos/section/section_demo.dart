@@ -18,7 +18,7 @@ class SectionDemo extends StatelessWidget {
       widgetName: 'BaseSection, BaseTile',
       materialDesc: 'BaseSection: use custom Container\n'
           'BaseTile: use ListTile',
-      cupertinoDesc: 'use costom Container\n'
+      cupertinoDesc: 'BaseSection: use costom Container\n'
           'BaseTile: use custom InkWell, 去除水波纹效果，按住时会有200ms延迟高亮',
       demos: _demos,
     );

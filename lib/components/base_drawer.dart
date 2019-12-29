@@ -11,14 +11,19 @@ const Color _drawerBackgroundColor = Colors.black54;
 
 const double _minFlingVelocity = 1.0;
 
-// default is 50% width or height
+/// alose see [Drawer._kWidth]
+const double _defaultDrawerSize = 304;
+
+/// 自定义drawer
+/// 不可指定起点位置跟终点位置
+/// default is 304 width or height
 class BaseDrawer extends StatefulWidget {
   const BaseDrawer({
     Key key,
     this.duration = _drawerTransitionDuration,
     this.axisDirection = AxisDirection.right,
     this.size,
-    this.percent = 50,
+    this.percent,
     this.backgroundColor = _drawerBackgroundColor,
     @required this.child,
     this.curve = Curves.linearToEaseOut,
@@ -26,7 +31,8 @@ class BaseDrawer extends StatefulWidget {
     this.allowGesture = true,
     this.allowMultipleGesture = false,
     this.barrierDismissible = true,
-  })  : assert(percent > 0 && percent <= 100),
+  })  : assert(size == null || percent == null,
+            'Cannot provide both a size and a percent'),
         assert(child != null),
         super(key: key);
 
@@ -47,6 +53,7 @@ class BaseDrawer extends StatefulWidget {
         assert(child != null),
         super(key: key);
 
+  /// 指定百分比
   const BaseDrawer.percent({
     Key key,
     this.duration = _drawerTransitionDuration,
@@ -64,6 +71,8 @@ class BaseDrawer extends StatefulWidget {
         assert(child != null),
         super(key: key);
 
+  /// 指定宽度
+  /// axisDirection 只能为 AxisDirection.left or AxisDirection.right
   BaseDrawer.width({
     Key key,
     this.duration = _drawerTransitionDuration,
@@ -79,13 +88,18 @@ class BaseDrawer extends StatefulWidget {
   })  : size = Size.fromWidth(width),
         percent = 0.0,
         assert(width > 0),
+        assert(axisDirection == AxisDirection.right ||
+            axisDirection == AxisDirection.left,
+            'the axisDirection must be AxisDirection.left or AxisDirection.right.'),
         assert(child != null),
         super(key: key);
 
+  /// 指定高度
+  /// axisDirection 只能为 AxisDirection.up or AxisDirection.down
   BaseDrawer.height({
     Key key,
     this.duration = _drawerTransitionDuration,
-    this.axisDirection = AxisDirection.right,
+    this.axisDirection = AxisDirection.up,
     this.backgroundColor = _drawerBackgroundColor,
     @required double height,
     @required this.child,
@@ -97,6 +111,10 @@ class BaseDrawer extends StatefulWidget {
   })  : size = Size.fromHeight(height),
         percent = 0.0,
         assert(height > 0),
+        assert(
+            axisDirection == AxisDirection.up ||
+                axisDirection == AxisDirection.down,
+            'the axisDirection must be AxisDirection.up or AxisDirection.down.'),
         assert(child != null),
         super(key: key);
 
@@ -109,7 +127,9 @@ class BaseDrawer extends StatefulWidget {
   /// size
   final Size size;
 
-  /// (width or height)'s percent, when the size is null, percent will use, default is 50
+  /// (width or height)'s percent
+  /// Cannot provide both a size and a percent
+  /// size == null && percent == null, the size = _defaultDrawerSize
   /// axisDirection = up / down, width = 100%, height = percent
   /// axisDirection = left / right, width = percent, height = 100%
   final double percent;
@@ -226,13 +246,19 @@ class BaseDrawerState extends State<BaseDrawer>
 
   void _init() {
     _size ??= MediaQuery.of(context).size;
+    Size widgetSize = widget.size;
+    final double percent = widget.percent;
     switch (widget.axisDirection) {
       case AxisDirection.left:
         // widget params
-        _drawerSize = widget.size ??
+        if (widgetSize == null && percent == null) {
+          widgetSize = const Size.fromWidth(_defaultDrawerSize);
+        }
+        _drawerSize = widgetSize ??
             Size.fromWidth(
-              _size.width * widget.percent / 100,
+              _size.width * percent / 100,
             );
+        _drawerSize = resetSize(_drawerSize, context);
         _hideDrawerOffset = _drawerSize.width * _hideDrawerOffsetPercent;
         _flingVelocitySize = _drawerSize.width;
 
@@ -243,10 +269,14 @@ class BaseDrawerState extends State<BaseDrawer>
         break;
       case AxisDirection.right:
         // widget params
-        _drawerSize = widget.size ??
+        if (widgetSize == null && percent == null) {
+          widgetSize = const Size.fromWidth(_defaultDrawerSize);
+        }
+        _drawerSize = widgetSize ??
             Size.fromWidth(
-              _size.width * widget.percent / 100,
+              _size.width * percent / 100,
             );
+        _drawerSize = resetSize(_drawerSize, context);
         _hideDrawerOffset = _drawerSize.width * _hideDrawerOffsetPercent;
         _flingVelocitySize = _drawerSize.width;
 
@@ -257,10 +287,14 @@ class BaseDrawerState extends State<BaseDrawer>
         break;
       case AxisDirection.up:
         // widget params
-        _drawerSize = widget.size ??
+        if (widgetSize == null && percent == null) {
+          widgetSize = const Size.fromHeight(_defaultDrawerSize);
+        }
+        _drawerSize = widgetSize ??
             Size.fromHeight(
-              _size.height * widget.percent / 100,
+              _size.height * percent / 100,
             );
+        _drawerSize = resetSize(_drawerSize, context);
         _hideDrawerOffset = _drawerSize.height * _hideDrawerOffsetPercent;
         _flingVelocitySize = _drawerSize.height;
 
@@ -271,10 +305,14 @@ class BaseDrawerState extends State<BaseDrawer>
         break;
       case AxisDirection.down:
         // widget params
-        _drawerSize = widget.size ??
+        if (widgetSize == null && percent == null) {
+          widgetSize = const Size.fromHeight(_defaultDrawerSize);
+        }
+        _drawerSize = widgetSize ??
             Size.fromHeight(
-              _size.height * widget.percent / 100,
+              _size.height * percent / 100,
             );
+        _drawerSize = resetSize(_drawerSize, context);
         _hideDrawerOffset = _drawerSize.height * _hideDrawerOffsetPercent;
         _flingVelocitySize = _drawerSize.height;
 
@@ -329,6 +367,19 @@ class BaseDrawerState extends State<BaseDrawer>
         );
       }
     }
+  }
+
+  // 保证size不超过屏幕物理大小
+  Size resetSize(Size size, BuildContext context) {
+    double width = size.width;
+    double height = size.height;
+    final Size physicalSize = MediaQuery.of(context, nullOk: true)?.size;
+    if (physicalSize != null) {
+      width = min(width, physicalSize.width);
+      height = min(height, physicalSize.height);
+      size = Size(width, height);
+    }
+    return size;
   }
 
   @override

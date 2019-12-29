@@ -1,4 +1,5 @@
 import 'package:base/base.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../demo_page.dart';
@@ -102,6 +103,9 @@ class _TabPage extends StatelessWidget {
         title: Text(title),
       ),
       body: _Body(title: title),
+      cupertino: const <String, dynamic>{
+        'backgroundColor': CupertinoColors.systemGroupedBackground,
+      },
     );
   }
 }

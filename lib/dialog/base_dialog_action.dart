@@ -23,12 +23,17 @@ class BaseDialogAction extends BaseStatelessWidget {
     this.disabledTextColor,
     this.color,
     this.disabledColor,
+    this.focusColor,
+    this.hoverColor,
     this.highlightColor,
     this.splashColor,
     this.colorBrightness,
     this.padding,
+    this.visualDensity,
     this.shape,
     this.clipBehavior = Clip.none,
+    this.focusNode,
+    this.autofocus = false,
     this.materialTapTargetSize,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
@@ -84,6 +89,12 @@ class BaseDialogAction extends BaseStatelessWidget {
   /// [FlatButton.disabledColor]
   final Color disabledColor;
 
+  /// [FlatButton.focusColor]
+  final Color focusColor;
+
+  /// [FlatButton.hoverColor]
+  final Color hoverColor;
+
   /// [FlatButton.highlightColor]
   final Color highlightColor;
 
@@ -96,11 +107,20 @@ class BaseDialogAction extends BaseStatelessWidget {
   /// [FlatButton.padding]
   final EdgeInsetsGeometry padding;
 
+  /// [FlatButton.visualDensity]
+  final VisualDensity visualDensity;
+
   /// [FlatButton.shape]
   final ShapeBorder shape;
 
   /// [FlatButton.clipBehavior]
   final Clip clipBehavior;
+
+  /// [FlatButton.focusNode]
+  final FocusNode focusNode;
+
+  /// [FlatButton.autofocus]
+  final bool autofocus;
 
   /// [FlatButton.materialTapTargetSize]
   final MaterialTapTargetSize materialTapTargetSize;
@@ -129,12 +149,17 @@ class BaseDialogAction extends BaseStatelessWidget {
       disabledTextColor: disabledTextColor,
       color: color,
       disabledColor: disabledColor,
+      focusColor: focusColor,
+      hoverColor: hoverColor,
       highlightColor: highlightColor,
       splashColor: splashColor,
       colorBrightness: colorBrightness,
       padding: padding,
+      visualDensity: visualDensity,
       shape: shape,
       clipBehavior: clipBehavior,
+      focusNode: focusNode,
+      autofocus: autofocus,
       materialTapTargetSize: materialTapTargetSize,
       child: valueFromMaterial('child', child),
     );

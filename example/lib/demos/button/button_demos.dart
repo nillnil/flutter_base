@@ -35,7 +35,16 @@ class _ButtonDemosState extends State<ButtonDemos>
               text: 'IconButton',
             )
           ],
-          indicatorColor: Colors.white,
+          indicator: UnderlineTabIndicator(
+            borderSide: BorderSide(
+              width: 1.0,
+              color: const BaseColor.highContrast(
+                color: Colors.white,
+                darkColor: Colors.white,
+              ).build(context),
+            ),
+            insets: const EdgeInsets.symmetric(horizontal: 50.0),
+          ),
         ),
         trailing: Container(
           width: 40,

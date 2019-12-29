@@ -1,3 +1,4 @@
+import 'package:base/base.dart';
 import 'package:base/button/base_button.dart';
 import 'package:base/platform/platform.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +11,9 @@ import '../demo_tile.dart';
 class ButtonDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final bool _isLightness =
+        (MediaQuery.of(context).platformBrightness ?? Brightness.light) ==
+            Brightness.light;
     final List<Widget> children = <Widget>[];
     const EdgeInsets _padding = EdgeInsets.only(bottom: 10.0);
     const EdgeInsets _buttonPadding = EdgeInsets.symmetric(
@@ -85,10 +89,13 @@ class ButtonDemo extends StatelessWidget {
             color: Colors.white,
             icon: const Icon(
               CupertinoIcons.bell_solid,
+              color: Colors.white,
             ),
             label: const Text(
               'filled icon',
-              style: TextStyle(),
+              style: TextStyle(
+                color: Colors.white,
+              ),
             ),
             onPressed: () {},
             filled: true,
@@ -103,7 +110,7 @@ class ButtonDemo extends StatelessWidget {
           child: BaseButton.icon(
             padding: _buttonPadding,
             color: Colors.white,
-            icon: const Icon(Icons.account_balance),
+            icon: const Icon(Icons.account_balance, color: Colors.black),
             label: const Text(
               'normal icon',
               style: TextStyle(
@@ -139,6 +146,7 @@ class ButtonDemo extends StatelessWidget {
             color: Colors.white,
             icon: const Icon(
               Icons.access_time,
+              color: Colors.black,
             ),
             label: const Text(
               'flat icon',
@@ -157,10 +165,12 @@ class ButtonDemo extends StatelessWidget {
           child: BaseButton(
             padding: _buttonPadding,
             color: Colors.white,
-            child: const Text(
+            child: Text(
               'outline',
               style: TextStyle(
-                color: Colors.black,
+                color: (useMaterial && !_isLightness)
+                    ? Colors.white
+                    : Colors.black,
               ),
             ),
             onPressed: () {},
@@ -177,10 +187,12 @@ class ButtonDemo extends StatelessWidget {
             icon: const Icon(
               Icons.add_location,
             ),
-            label: const Text(
+            label: Text(
               'outline icon',
               style: TextStyle(
-                color: Colors.black,
+                color: (useMaterial && !_isLightness)
+                    ? Colors.white
+                    : Colors.black,
               ),
             ),
             onPressed: () {},
@@ -213,6 +225,7 @@ class ButtonDemo extends StatelessWidget {
             color: Colors.white,
             icon: const Icon(
               Icons.assignment_ind,
+              color: Colors.black,
             ),
             label: const Text(
               'raised icon',

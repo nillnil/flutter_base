@@ -181,7 +181,7 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
         );
       },
       controller: widget.controller,
-      backgroundColor: valueFromMaterial(
+      backgroundColor: valueFromCupertino(
         'backgroundColor',
         widget.backgroundColor,
       ),

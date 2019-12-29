@@ -1,12 +1,14 @@
-// Copyright 2017 The Chromium Authors. All rights reserved.
+// Copyright 2014 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/bottom_tab_bar.dart
-/// lastest push: 2019.05.09
-/// lastest update: flutter v1.11.0 2019.11.08
-/// commit https://github.com/flutter/flutter/commit/62db22d152b7a4c8f7d0a6836fb18412cc988274
-/// #44317 https://github.com/flutter/flutter/pull/44317
+/// lastest push: 2019.12.29
+/// flutter v1.13.5
+/// 
+/// lastest commit:  2019.12.17
+/// commit https://github.com/flutter/flutter/commit/449f4a6673f6d89609b078eb2b595dee62fd1c79
+/// #45502 https://github.com/flutter/flutter/pull/45502
 
 import 'dart:ui' show ImageFilter;
 
@@ -260,7 +262,7 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
         components.add(Expanded(
           child: Center(
             child: DefaultTextStyle.merge(
-              style: TextStyle(fontSize: 17.0),
+              style: const TextStyle(fontSize: 17.0),
               child: item.title,
             ),
           ),
@@ -311,7 +313,7 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
     Color backgroundColor,
     Color activeColor,
     Color inactiveColor,
-    Size iconSize,
+    double iconSize,
     Border border,
     int currentIndex,
     ValueChanged<int> onTap,

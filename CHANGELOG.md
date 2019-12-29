@@ -1,3 +1,14 @@
+# 0.3.0 - 2019.12.29
+
+* Release v0.3.0
+* incompatible with older versions
+* rename package utils to tools
+* remove base_theme's tileBackgroundColor
+* update flutter version to 1.13.5
+* fix bugs
+* the example instead provider to flutter_redux
+* the example support iOS13 dart mode
+
 ## 0.2.1 - 2019.11.14
 
 * Release v0.2.1

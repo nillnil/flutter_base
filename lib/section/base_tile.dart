@@ -201,9 +201,11 @@ class BaseTile extends BaseStatelessWidget {
         ),
       ),
     );
-    final Color _backgroundColor =
-        valueFromCupertino('backgroundColor', backgroundColor) ??
-            BaseTheme.of(context).tileBackgroundColor;
+    final BaseThemeData _baaseTheme = BaseTheme.of(context);
+    final Color _backgroundColor = valueFromCupertino(
+            'backgroundColor', backgroundColor) ??
+        _baaseTheme.tileBackgroundColor ??
+        CupertinoColors.secondarySystemGroupedBackground.resolveFrom(context);
     return Material(
       key: valueFromCupertino('key', key),
       animationDuration: const Duration(milliseconds: 10),
@@ -238,9 +240,11 @@ class BaseTile extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
+    final BaseThemeData _baseTheme = BaseTheme.of(context);
     final Color _backgroundColor =
         valueFromMaterial('backgroundColor', backgroundColor) ??
-            BaseTheme.of(context).tileBackgroundColor;
+            _baseTheme.tileBackgroundColor ??
+            Theme.of(context).cardColor;
     Widget _text = valueFromMaterial('title', title);
     _text ??= titleText != null
         ? Text(

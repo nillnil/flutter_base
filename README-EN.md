@@ -6,6 +6,8 @@
 
 ## One code, two mode, use cupertino's widgets on ios, use material's widget on android or fuchsia.
 
+## Use the dev branch.
+
 ### [简体中文](./README.md)
 
 ### At present, only the Cupertino mode has been tested. Material components are relatively perfect. Material mode testing will be supplemented later.

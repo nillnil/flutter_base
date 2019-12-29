@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart' show CupertinoSlider;
+import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoSlider;
 import 'package:flutter/material.dart';
 
 import '../base_stateless_widget.dart';
@@ -20,6 +20,7 @@ class BaseSlider extends BaseStatelessWidget {
     this.max = 1.0,
     this.divisions,
     this.activeColor,
+    this.thumbColor = CupertinoColors.white,
     this.label,
     this.inactiveColor,
     this.semanticFormatterCallback,
@@ -72,7 +73,14 @@ class BaseSlider extends BaseStatelessWidget {
   /// [Slider.activeColor]
   final Color activeColor;
 
-  /// *** material properties end ***
+  /// *** general properties end ***
+
+  /// *** cupertino properties start ***
+
+  /// [CupertinoSlider.thumbColor]
+  final Color thumbColor;
+
+  /// *** cupertino properties end ***
 
   /// *** material properties start ***
 
@@ -99,6 +107,7 @@ class BaseSlider extends BaseStatelessWidget {
       max: valueFromCupertino('max', max),
       divisions: valueFromCupertino('divisions', divisions),
       activeColor: valueFromCupertino('activeColor', activeColor),
+      thumbColor: thumbColor,
     );
   }
 

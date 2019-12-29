@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 const Duration _expansionTransitionDuration = Duration(milliseconds: 300);
 
+/// 伸缩面板，目前还很不完善
+/// 可以指定位置画滑出
 class BaseExpansion extends StatefulWidget {
   const BaseExpansion({
     Key key,
@@ -45,13 +47,13 @@ class BaseExpansion extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => BaseExpansionState();
 
-  Future<void> open(
+  Future<T> open<T>(
     BuildContext context,
     BaseExpansion baseExpansion, {
     Duration duration = const Duration(milliseconds: 0),
   }) {
-    return Navigator.of(context).push(
-      PageRouteBuilder<void>(
+    return Navigator.of(context).push<T>(
+      PageRouteBuilder<T>(
         opaque: false,
         transitionDuration: duration,
         barrierDismissible: true,
@@ -124,12 +126,12 @@ class BaseExpansionState extends State<BaseExpansion> {
   }
 }
 
-Future<void> openBaseExpansion(
+Future<T> openBaseExpansion<T>(
   BuildContext context,
   BaseExpansion baseExpansion,
 ) {
-  return Navigator.of(context).push(
-    PageRouteBuilder<void>(
+  return Navigator.of(context).push<T>(
+    PageRouteBuilder<T>(
       opaque: false,
       transitionDuration: const Duration(milliseconds: 0),
       pageBuilder: (

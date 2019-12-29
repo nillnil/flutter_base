@@ -69,4 +69,6 @@ class IconFont {
   static const IconData eyeclose = IconData(0xe723, fontFamily: _kFontFam);
 
   static const IconData components = IconData(0xe60b, fontFamily: _kFontFam);
+
+  static const IconData tools = IconData(0xe648, fontFamily: _kFontFam);
 }

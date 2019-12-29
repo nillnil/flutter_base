@@ -52,12 +52,18 @@ class _RefreshPageState extends State<_RefreshPage> {
                       return null;
                     }
                     if (index.isOdd) {
-                      return const Divider(height: .2);
+                      return const Divider(height: .3);
                     }
                     return BaseTile(
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 10.0),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                      ),
                       titleText: '${count - (index + 1) ~/ 2 + 1}',
+                      cupertino: <String, dynamic>{
+                        'backgroundColor': CupertinoColors
+                            .tertiarySystemBackground
+                            .resolveFrom(context),
+                      },
                     );
                   },
                 ),

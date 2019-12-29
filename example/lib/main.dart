@@ -1,15 +1,14 @@
 import 'dart:io' show Platform;
 
 import 'package:example/app.dart';
-import 'package:example/store/app_state.dart';
-import 'package:example/store/reducer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart'
-    show debugDefaultTargetPlatformOverride, defaultTargetPlatform;
+    show debugDefaultTargetPlatformOverride;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show DeviceOrientation, SystemChrome;
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
+import 'package:provider/provider.dart';
+
+import 'provider/app_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,16 +17,14 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
   ]).then((_) {
-    runApp(StoreProvider<AppState>(
-      store: Store<AppState>(
-        appReducer,
-        initialState: AppState(
-          targetPlatform: defaultTargetPlatform,
-          primaryColor: Colors.indigo,
+    runApp(
+      ChangeNotifierProvider<AppProvider>.value(
+        value: AppProvider(
+          brightness: WidgetsBinding.instance.window.platformBrightness,
         ),
+        child: App(),
       ),
-      child: App(),
-    ));
+    );
   });
 }
 

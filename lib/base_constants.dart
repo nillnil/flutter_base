@@ -3,25 +3,25 @@
 /// 如需更改模式，建议直接在app级别上修改整个app的模式（设置targetPlatform参数）
 ///
 /// 如何使用
-/// cupertino: {
-///   'forceUseMaterial': true
+/// cupertino: const <String, dynamic>{
+///   forceUseMaterial: true
 /// }
 /// 强制使用material组件，在参数cupertino中使用，慎用，后续可能会删除
 const String forceUseMaterial = 'forceUseMaterial';
 
-/// material: {
-///   'forceUseCupertino': true
+/// material: const <String, dynamic>{
+///   forceUseCupertino: true
 /// }
 /// 强制使用cupertino组件，在参数material中使用，慎用，后续可能会删除
 const String forceUseCupertino = 'forceUseCupertino';
 
 /// 如何使用
-/// cupertino: {
-///   'disabled': true
+/// cupertino: const <String, dynamic>{
+///   disabled: true
 /// }
 ///
-/// material: {
-///   'disabled': true
+/// material: const <String, dynamic>{
+///   disabled: true
 /// }
 /// 某个模式下禁止
 const String disabled = 'disabled';

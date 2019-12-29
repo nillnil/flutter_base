@@ -1,4 +1,3 @@
-
 import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,8 +60,10 @@ final List<Widget> _children = <Widget>[
       size: 40,
       color: Colors.deepOrangeAccent,
     ),
-    title:
-        const Text('Routes', style: TextStyle(color: Colors.deepOrangeAccent)),
+    title: const Text(
+      'Routes',
+      style: TextStyle(color: Colors.deepOrangeAccent),
+    ),
     page: RouteDemo(),
   ),
   _Item(
@@ -71,8 +72,10 @@ final List<Widget> _children = <Widget>[
       size: 40,
       color: Colors.purpleAccent,
     ),
-    title: const Text('Alert Dialog',
-        style: TextStyle(color: Colors.purpleAccent)),
+    title: const Text(
+      'Alert Dialog',
+      style: TextStyle(color: Colors.purpleAccent),
+    ),
     page: DialogDemo(),
   ),
   _Item(
@@ -107,12 +110,27 @@ final List<Widget> _children = <Widget>[
   ),
   _Item(
     icon: BaseIcon(
-        icon: IconFont.components, size: 40, color: Colors.red.withBlue(150)),
+      icon: IconFont.components,
+      size: 40,
+      color: Colors.red.withBlue(150),
+    ),
     title: Text(
       'Componentes',
       style: TextStyle(color: Colors.red.withBlue(150)),
     ),
     page: const ComponentesDemo(),
+  ),
+  _Item(
+    icon: BaseIcon(
+      icon: IconFont.tools,
+      size: 40,
+      color: Colors.indigo.withBlue(125),
+    ),
+    title: Text(
+      'Tools',
+      style: TextStyle(color: Colors.indigo.withBlue(125)),
+    ),
+    page: const ToolsDemo(),
   ),
 ];
 
@@ -122,7 +140,6 @@ const Widget _tipsWidget = Text(
   '因为各个组件之间有关联度，如果要切换组件的整体样式，强烈建议直接切换整个app使用的平台样式（并且不在app中动态切换），而不是使用'
   '单个组件中的forceUseCupertino、forceUseMaterial，后续可能会删除这2参数。',
   style: TextStyle(
-    color: Colors.red,
     fontSize: 16.0,
   ),
   textAlign: TextAlign.left,
@@ -145,11 +162,14 @@ class Home extends StatelessWidget {
               final BaseDrawer baseDrawer = BaseDrawer(
                 key: _drawerKey,
                 axisDirection: AxisDirection.up,
-                size: Size.fromHeight(MediaQuery.of(context).size.height - paddingTop),
+                size: Size.fromHeight(
+                  MediaQuery.of(context).size.height - paddingTop,
+                ),
                 child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(
+                  decoration: BoxDecoration(
+                    color: CupertinoColors.secondarySystemGroupedBackground
+                        .resolveFrom(context),
+                    borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(10.0),
                     ),
                   ),
@@ -174,7 +194,7 @@ class Home extends StatelessWidget {
               );
               openBaseDrawer<void>(context, baseDrawer);
             },
-          )
+          ),
         },
         actions: <Widget>[
           ClipOval(
@@ -188,7 +208,7 @@ class Home extends StatelessWidget {
               ),
               onPressed: () {
                 BaseRoute<dynamic>(
-                  Settings(),
+                  builder: (_) => Settings(),
                   fullscreenGackGesture: true,
                 ).push(context);
               },
@@ -196,14 +216,9 @@ class Home extends StatelessWidget {
           )
         ],
       ),
-      body: Container(
-        color: Colors.white,
-        child: GridView.count(
-          crossAxisCount: 3,
-          children: _children,
-          mainAxisSpacing: 2.0,
-          crossAxisSpacing: 2.0,
-        ),
+      body: GridView.count(
+        crossAxisCount: 3,
+        children: _children,
       ),
       drawer: _MaterialTipsPage(),
     );
@@ -252,11 +267,16 @@ class _TipsHeader extends StatelessWidget {
     return Container(
       height: 44,
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            width: 1.0,
-            color: Colors.grey.withOpacity(.3),
-          ),
+        color: CupertinoTheme.of(context).barBackgroundColor,
+        // border: Border(
+        //   bottom: BorderSide(
+        //     width: 1.0,
+        //     color: Colors.grey.withOpacity(.3),
+        //   ),
+        // ),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
         ),
       ),
       child: Row(
@@ -269,7 +289,7 @@ class _TipsHeader extends StatelessWidget {
               child: BaseIcon(
                 icon: CupertinoIcons.clear,
                 size: 40,
-                color: Colors.black,
+                color: const BaseColor.highContrast().build(context),
               ),
               onPressed: () {
                 if (callback != null) {
@@ -308,6 +328,9 @@ class _Item extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
+        color: const BaseColor(
+          dynamicColor: CupertinoColors.secondarySystemGroupedBackground,
+        ).build(context),
         child: Column(
           children: <Widget>[
             icon,
@@ -321,7 +344,7 @@ class _Item extends StatelessWidget {
       ),
       onTap: () {
         BaseRoute<dynamic>(
-          page,
+          builder: (_) => page,
           fullscreenGackGesture: fullscreenGackGesture,
         ).push(context);
       },

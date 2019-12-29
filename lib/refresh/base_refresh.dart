@@ -22,6 +22,8 @@ class BaseRefresh extends BaseStatelessWidget {
     this.color,
     this.backgroundColor,
     this.notificationPredicate = defaultScrollNotificationPredicate,
+    this.semanticsLabel,
+    this.semanticsValue,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
@@ -75,6 +77,12 @@ class BaseRefresh extends BaseStatelessWidget {
 
   /// [RefreshIndicator.notificationPredicate]
   final ScrollNotificationPredicate notificationPredicate;
+
+  /// [RefreshIndicator.semanticsLabel]
+  final String semanticsLabel;
+
+  /// [RefreshIndicator.semanticsValue]
+  final String semanticsValue;
 
   /// *** material properties end ***
 
@@ -138,6 +146,8 @@ class BaseRefresh extends BaseStatelessWidget {
       color: color,
       backgroundColor: backgroundColor,
       notificationPredicate: notificationPredicate,
+      semanticsLabel: semanticsLabel,
+      semanticsValue: semanticsValue,
       onRefresh: valueFromMaterial('onRefresh', onRefresh),
     );
   }

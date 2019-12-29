@@ -12,6 +12,7 @@ class BaseScrollBar extends BaseStatelessWidget {
   const BaseScrollBar({
     Key baseKey,
     this.key,
+    this.controller,
     this.child,
     this.padding,
     Map<String, dynamic> cupertino,
@@ -20,6 +21,11 @@ class BaseScrollBar extends BaseStatelessWidget {
 
   @override
   final Key key;
+
+  /// [CupertinoScrollbar.controller]
+  /// or
+  /// [Scrollbar.controller]
+  final ScrollController controller;
 
   /// [CupertinoScrollbar.child]
   /// or
@@ -38,12 +44,14 @@ class BaseScrollBar extends BaseStatelessWidget {
         ),
         child: CupertinoScrollbar(
           key: valueFromCupertino('key', key),
+          controller: valueFromCupertino('controller', controller),
           child: child,
         ),
       );
     }
     return CupertinoScrollbar(
       key: valueFromCupertino('key', key),
+      controller: valueFromCupertino('controller', controller),
       child: child,
     );
   }
@@ -58,12 +66,14 @@ class BaseScrollBar extends BaseStatelessWidget {
         child: Scrollbar(
           key: valueFromMaterial('key', key),
           child: child,
+          controller: valueFromMaterial('controller', controller),
         ),
       );
     }
     return Scrollbar(
       key: valueFromMaterial('key', key),
       child: child,
+      controller: valueFromMaterial('controller', controller),
     );
   }
 }

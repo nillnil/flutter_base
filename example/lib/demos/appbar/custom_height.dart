@@ -42,8 +42,8 @@ class _CustomHeightState extends State<CustomHeight> {
           )
         ],
       ),
+      safeAreaTop: true,
       body: Container(
-        color: Colors.white,
         width: MediaQuery.of(context).size.width,
         alignment: Alignment.center,
         padding: const EdgeInsets.only(top: 100),

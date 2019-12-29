@@ -33,7 +33,7 @@ class DemoTile extends StatelessWidget {
             onTop(context);
           } else if (page != null) {
             BaseRoute<dynamic>(
-              page,
+              builder: (_) => page,
               fullscreenGackGesture: fullscreenGackGesture,
             ).push(context);
           } else {

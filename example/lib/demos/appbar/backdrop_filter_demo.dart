@@ -1,5 +1,6 @@
 
 import 'package:base/base.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -19,11 +20,11 @@ class _BackdropFilterDemoState extends State<BackdropFilterDemo> {
     return BaseScaffold(
       appBar: BaseAppBar(
         title: const Text('backdropFilter'),
-        backgroundColor: Colors.white.withOpacity(0.0),
+        backgroundColor: CupertinoTheme.of(context).barBackgroundColor.withOpacity(0.0),
         backdropFilter: _backdropFilter,
         border: null,
       ),
-      backgroundColor: Colors.deepPurple,
+      backgroundColor: CupertinoColors.systemGroupedBackground,
       body: ListView(
         padding: const EdgeInsets.only(top: 0.0),
         children: <Widget>[
@@ -47,7 +48,7 @@ class _BackdropFilterDemoState extends State<BackdropFilterDemo> {
             ),
           )
         ],
-      )
+      ),
     );
   }
 

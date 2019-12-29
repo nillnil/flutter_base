@@ -1,12 +1,14 @@
-// Copyright 2016 The Chromium Authors. All rights reserved.
+// Copyright 2014 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/material/app_bar.dart
-/// lastest push: 2019.05.15
-/// lastest update: flutter v1.11.0 2019.10.11
-/// commit https://github.com/flutter/flutter/commit/ce1509714c28fec0462fc702c8d9b8d2d4878bf4
-/// #42278 https://github.com/flutter/flutter/pull/42278
+/// lastest push: 2019.12.29
+/// flutter v1.13.5
+/// 
+/// lastest commit: 2019.11.28
+/// commit https://github.com/flutter/flutter/commit/449f4a6673f6d89609b078eb2b595dee62fd1c79
+/// #45375 https://github.com/flutter/flutter/pull/45375
 
 import 'dart:collection' show Queue;
 import 'dart:math' as math;

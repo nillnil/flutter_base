@@ -1,12 +1,14 @@
-// Copyright 2017 The Chromium Authors. All rights reserved.
+// Copyright 2014 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/widgets/bottom_navigation_bar_item.dart
-/// lastest push: 2019.02.22
-/// lastest update: flutter v1.5.9-pre.109 2019.05.02
-/// commit https://github.com/flutter/flutter/commit/617ca62709bfa0ce64f6ee90cab2e1e9d46aa173
-/// #28159 https://github.com/flutter/flutter/pull/28159
+/// lastest push: 2019.12.29
+/// flutter v1.13.5
+/// 
+/// lastest update: 2019.12.06
+/// commit https://github.com/flutter/flutter/commit/c6fe7bb9e13dc630d04a0553ae74c9bdfd913688
+/// #46126 https://github.com/flutter/flutter/pull/46126
 
 import 'dart:ui' show Color;
 
@@ -81,6 +83,6 @@ class BottomNavigationBarItem {
   /// See also:
   ///
   ///  * [Icon.color] and [ImageIcon.color] to control the foreground color of
-  ///     the icons themselves.
+  ///    the icons themselves.
   final Color backgroundColor;
 }

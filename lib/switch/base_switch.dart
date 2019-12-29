@@ -16,6 +16,7 @@ class BaseSwitch extends BaseStatelessWidget {
     this.value,
     this.onChanged,
     this.activeColor,
+    this.trackColor,
     this.dragStartBehavior = DragStartBehavior.start,
     this.activeTrackColor,
     this.inactiveThumbColor,
@@ -23,6 +24,10 @@ class BaseSwitch extends BaseStatelessWidget {
     this.activeThumbImage,
     this.inactiveThumbImage,
     this.materialTapTargetSize,
+    this.focusColor,
+    this.hoverColor,
+    this.focusNode,
+    this.autofocus = false,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
@@ -53,6 +58,13 @@ class BaseSwitch extends BaseStatelessWidget {
 
   /// *** gerenal properties end ***
 
+  /// *** cupertino properties start ***
+
+  /// [CupertinoSwitch.trackColor]
+  final Color trackColor;
+
+  /// *** cupertino properties end ***
+
   /// *** material properties start ***
 
   /// [Switch.activeTrackColor]
@@ -73,6 +85,18 @@ class BaseSwitch extends BaseStatelessWidget {
   /// [Switch.materialTapTargetSize]
   final MaterialTapTargetSize materialTapTargetSize;
 
+  /// [Switch.focusColor]
+  final Color focusColor;
+
+  /// [Switch.hoverColor]
+  final Color hoverColor;
+
+  /// [Switch.focusNode]
+  final FocusNode focusNode;
+
+  /// [Switch.autofocus]
+  final bool autofocus;
+
   /// *** material properties end ***
 
   @override
@@ -81,6 +105,7 @@ class BaseSwitch extends BaseStatelessWidget {
       key: valueFromCupertino('key', key),
       value: valueFromCupertino('value', value),
       activeColor: valueFromCupertino('activeColor', activeColor),
+      trackColor: valueFromCupertino('trackColor', trackColor),
       dragStartBehavior: valueFromCupertino(
         'dragStartBehavior',
         dragStartBehavior,
@@ -106,6 +131,10 @@ class BaseSwitch extends BaseStatelessWidget {
       activeThumbImage: activeThumbImage,
       inactiveThumbImage: inactiveThumbImage,
       materialTapTargetSize: materialTapTargetSize,
+      focusColor: focusColor,
+      hoverColor: hoverColor,
+      focusNode: focusNode,
+      autofocus: autofocus,
     );
   }
 }
