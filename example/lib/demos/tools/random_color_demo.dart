@@ -6,19 +6,26 @@ import 'package:flutter/widgets.dart';
 import '../demo_page.dart';
 import '../demo_tile.dart';
 
+final FocusNode _focusNode = FocusNode();
+
 class RandomColorDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return DemoPage(
-      title: 'RandomColor',
-      desc: '\n用于创建随机颜色\nColor color = RandomColor().color;'
-          '\nRandomColor.ranget()可限定范围'
-          '\ntoString() 可以把颜色转成16进制(argb)，不包含0x',
-      demos: <DemoTile>[
-        DemoTile(
-          page: _Demo(),
-        ),
-      ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context)?.requestFocus(_focusNode);
+      },
+      child: DemoPage(
+        title: 'RandomColor',
+        desc: '\n用于创建随机颜色\nColor color = RandomColor().color;'
+            '\nRandomColor.ranget()可限定范围'
+            '\ntoString() 可以把颜色转成16进制(argb)，不包含0x',
+        demos: <DemoTile>[
+          DemoTile(
+            page: _Demo(),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -145,6 +152,9 @@ class _DemoState extends State<_Demo> {
                   onSubmited: (_) {
                     _refresh();
                   },
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
                 ),
                 _Item(
                   key: _alphaItemKey,
@@ -275,6 +285,7 @@ class _Item extends StatefulWidget {
     this.controller,
     this.tapCallback,
     this.onSubmited,
+    this.keyboardType = TextInputType.number,
   }) : super(key: key);
 
   final String text;
@@ -285,6 +296,7 @@ class _Item extends StatefulWidget {
   final TextEditingController controller;
   final VoidCallback tapCallback;
   final ValueChanged<String> onSubmited;
+  final TextInputType keyboardType;
 
   @override
   _ItemState createState() => _ItemState();
@@ -352,7 +364,7 @@ class _ItemState extends State<_Item> {
               contentPadding: _textPadding,
             ),
             textInputAction: TextInputAction.done,
-            keyboardType: const TextInputType.numberWithOptions(signed: true),
+            keyboardType: widget.keyboardType,
           ),
         ),
       ],

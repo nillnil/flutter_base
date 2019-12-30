@@ -33,7 +33,7 @@ class _ButtonDemosState extends State<ButtonDemos>
             ),
             Tab(
               text: 'IconButton',
-            )
+            ),
           ],
           indicator: UnderlineTabIndicator(
             borderSide: BorderSide(

@@ -1,4 +1,8 @@
-# 0.3.0 - 2019.12.29
+# 0.3.1 - 2019.12.30
+
+* fix example's bugs
+
+## 0.3.0 - 2019.12.29
 
 * Release v0.3.0
 * incompatible with older versions

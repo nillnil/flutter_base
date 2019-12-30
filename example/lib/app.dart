@@ -98,6 +98,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             appBarAutoSetLeadingColor: true,
             // 默认值已修改成falase, 后续可能会删除这变量
             appBarAutoSetTrailingColor: true,
+            // 默认值已修改成falase, 后续可能会删除这变量
+            appBarAutoSetBottomColor: true,
           ),
           debugShowCheckedModeBanner: false,
         );

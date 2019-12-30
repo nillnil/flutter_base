@@ -1109,10 +1109,16 @@ class _PersistentNavigationBar extends StatelessWidget {
     }
     Widget bottom = this.bottom;
     ThemeData theme = Theme.of(context);
+    final bool isDark = MediaQuery.of(context)?.platformBrightness == Brightness.dark ?? false;
+    if (isDark) {
+      theme = ThemeData.dark();
+    }
     if (bottom != null) {
       theme = theme.copyWith(
         splashFactory: _WithoutSplashFactory(),
         highlightColor: Colors.transparent,
+        focusColor: Colors.transparent,
+        hoverColor: Colors.transparent,
         cupertinoOverrideTheme: CupertinoTheme.of(context),
       );
       if (bottom is TabBar) {
