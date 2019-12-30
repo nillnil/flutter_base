@@ -95,8 +95,8 @@ class AlertDialogDemo extends StatelessWidget {
                           },
                         ),
                       ],
-                    ), 
-                    context, 
+                    ),
+                    context,
                     barrierDismissible: false,
                   );
                 },

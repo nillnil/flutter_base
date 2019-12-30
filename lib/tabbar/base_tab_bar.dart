@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoDynamicColor;
+import 'package:flutter/cupertino.dart'
+    show CupertinoColors, CupertinoDynamicColor;
 import 'package:flutter/material.dart'
     hide BottomNavigationBarItem, BottomNavigationBar;
 
@@ -113,7 +114,7 @@ class BaseTabBar extends BaseStatelessWidget {
 
   /// [BottomNavigationBar.unselectedItemColor]
   final Color unselectedItemColor;
-  
+
   /// [BottomNavigationBar.selectedIconTheme]
   final IconThemeData selectedIconTheme;
 

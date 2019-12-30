@@ -1,4 +1,4 @@
-/// One code, two mode, use cupertino's widgets on ios, 
+/// One code, two mode, use cupertino's widgets on ios,
 /// use material's widget on android or fuchsia.
 
 library base;

@@ -1,18 +1,14 @@
-
 import 'package:base/base.dart';
 import 'package:example/iconfont/iconfont.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class CustomHeight extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() => _CustomHeightState();
-
 }
 
 class _CustomHeightState extends State<CustomHeight> {
-
   int _height = 44;
 
   @override
@@ -34,12 +30,14 @@ class _CustomHeightState extends State<CustomHeight> {
         padding: const EdgeInsetsDirectional.only(end: 10.0),
         actions: <Widget>[
           Padding(
-            padding: useCupertino ? EdgeInsets.zero : const EdgeInsets.only(right: 20.0),
+            padding: useCupertino
+                ? EdgeInsets.zero
+                : const EdgeInsets.only(right: 20.0),
             child: const BaseIcon(
               icon: IconFont.camera,
               size: 20,
             ),
-          )
+          ),
         ],
       ),
       safeAreaTop: true,
@@ -77,5 +75,4 @@ class _CustomHeightState extends State<CustomHeight> {
       ),
     );
   }
-  
 }

@@ -24,8 +24,10 @@ class BaseTheme extends StatelessWidget {
     );
   }
 
-  static BaseThemeData of(BuildContext context, { bool shadowThemeOnly = false }) {
-    final _InheritedTheme inheritedTheme = context.dependOnInheritedWidgetOfExactType<_InheritedTheme>();
+  static BaseThemeData of(BuildContext context,
+      {bool shadowThemeOnly = false}) {
+    final _InheritedTheme inheritedTheme =
+        context.dependOnInheritedWidgetOfExactType<_InheritedTheme>();
     return inheritedTheme.theme.data ?? BaseThemeData();
   }
 }

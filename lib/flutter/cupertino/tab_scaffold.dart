@@ -5,12 +5,13 @@
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/tab_scaffold.dart
 /// lastest push: 2019.12.29
 /// flutter v1.13.5
-/// 
+///
 /// lastest commit: 2019.12.17
 /// commit https://github.com/flutter/flutter/commit/a82a39973369db5101d5cae9ae674a1f75fcd3eb
 /// #46106 https://github.com/flutter/flutter/pull/46106
 
-import 'package:flutter/cupertino.dart' show CupertinoTheme, CupertinoDynamicColor;
+import 'package:flutter/cupertino.dart'
+    show CupertinoTheme, CupertinoDynamicColor;
 import 'package:flutter/widgets.dart';
 import 'bottom_tab_bar.dart';
 
@@ -73,10 +74,10 @@ class CupertinoTabController extends ChangeNotifier {
   ///
   /// The [initialIndex] must not be null and defaults to 0. The value must be
   /// greater than or equal to 0, and less than the total number of tabs.
-  CupertinoTabController({ int initialIndex = 0 })
-    : _index = initialIndex,
-      assert(initialIndex != null),
-      assert(initialIndex >= 0);
+  CupertinoTabController({int initialIndex = 0})
+      : _index = initialIndex,
+        assert(initialIndex != null),
+        assert(initialIndex >= 0);
 
   bool _isDisposed = false;
 
@@ -217,14 +218,13 @@ class CupertinoTabScaffold extends StatefulWidget {
     this.controller,
     this.backgroundColor,
     this.resizeToAvoidBottomInset = true,
-  }) : assert(tabBar != null),
-       assert(tabBuilder != null),
-       assert(
-         controller == null || controller.index < tabBar.items.length,
-         "The CupertinoTabController's current index ${controller.index} is "
-         'out of bounds for the tab bar with ${tabBar.items.length} tabs'
-       ),
-       super(key: key);
+  })  : assert(tabBar != null),
+        assert(tabBuilder != null),
+        assert(
+            controller == null || controller.index < tabBar.items.length,
+            "The CupertinoTabController's current index ${controller.index} is "
+            'out of bounds for the tab bar with ${tabBar.items.length} tabs'),
+        super(key: key);
 
   /// The [tabBar] is a [CupertinoTabBar] drawn at the bottom of the screen
   /// that lets the user switch between different tabs in the main content area
@@ -308,11 +308,11 @@ class _CupertinoTabScaffoldState extends State<CupertinoTabScaffold> {
     _updateTabController();
   }
 
-  void _updateTabController({ bool shouldDisposeOldController = false }) {
+  void _updateTabController({bool shouldDisposeOldController = false}) {
     final CupertinoTabController newController =
-      // User provided a new controller, update `_controller` with it.
-      widget.controller
-      ?? CupertinoTabController(initialIndex: widget.tabBar.currentIndex);
+        // User provided a new controller, update `_controller` with it.
+        widget.controller ??
+            CupertinoTabController(initialIndex: widget.tabBar.currentIndex);
 
     if (newController == _controller) {
       return;
@@ -330,10 +330,10 @@ class _CupertinoTabScaffoldState extends State<CupertinoTabScaffold> {
 
   void _onCurrentIndexChange() {
     assert(
-      _controller.index >= 0 && _controller.index < widget.tabBar.items.length,
-      "The $runtimeType's current index ${_controller.index} is "
-      'out of bounds for the tab bar with ${widget.tabBar.items.length} tabs'
-    );
+        _controller.index >= 0 &&
+            _controller.index < widget.tabBar.items.length,
+        "The $runtimeType's current index ${_controller.index} is "
+        'out of bounds for the tab bar with ${widget.tabBar.items.length} tabs');
 
     // The value of `_controller.index` has already been updated at this point.
     // Calling `setState` to rebuild using `_controller.index`.
@@ -344,7 +344,8 @@ class _CupertinoTabScaffoldState extends State<CupertinoTabScaffold> {
   void didUpdateWidget(CupertinoTabScaffold oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
-      _updateTabController(shouldDisposeOldController: oldWidget.controller == null);
+      _updateTabController(
+          shouldDisposeOldController: oldWidget.controller == null);
     } else if (_controller.index >= widget.tabBar.items.length) {
       // If a new [tabBar] with less than (_controller.index + 1) items is provided,
       // clamp the current index.
@@ -367,7 +368,8 @@ class _CupertinoTabScaffoldState extends State<CupertinoTabScaffold> {
     if (widget.resizeToAvoidBottomInset) {
       // Remove the view inset and add it back as a padding in the inner content.
       newMediaQuery = newMediaQuery.removeViewInsets(removeBottom: true);
-      contentPadding = EdgeInsets.only(bottom: existingMediaQuery.viewInsets.bottom);
+      contentPadding =
+          EdgeInsets.only(bottom: existingMediaQuery.viewInsets.bottom);
     }
 
     if (widget.tabBar != null &&
@@ -375,11 +377,12 @@ class _CupertinoTabScaffoldState extends State<CupertinoTabScaffold> {
         // isn't already entirely obstructed by a keyboard or other view insets.
         // Don't double pad.
         (!widget.resizeToAvoidBottomInset ||
-            widget.tabBar.preferredSize.height > existingMediaQuery.viewInsets.bottom)) {
+            widget.tabBar.preferredSize.height >
+                existingMediaQuery.viewInsets.bottom)) {
       // TODO(xster): Use real size after partial layout instead of preferred size.
       // https://github.com/flutter/flutter/issues/12912
-      final double bottomPadding =
-          widget.tabBar.preferredSize.height + existingMediaQuery.padding.bottom;
+      final double bottomPadding = widget.tabBar.preferredSize.height +
+          existingMediaQuery.padding.bottom;
 
       // If tab bar opaque, directly stop the main content higher. If
       // translucent, let main content draw behind the tab bar but hint the
@@ -406,8 +409,8 @@ class _CupertinoTabScaffoldState extends State<CupertinoTabScaffold> {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: CupertinoDynamicColor.resolve(widget.backgroundColor, context)
-            ?? CupertinoTheme.of(context).scaffoldBackgroundColor,
+        color: CupertinoDynamicColor.resolve(widget.backgroundColor, context) ??
+            CupertinoTheme.of(context).scaffoldBackgroundColor,
       ),
       child: Stack(
         children: <Widget>[
@@ -456,9 +459,9 @@ class _TabSwitchingView extends StatefulWidget {
     @required this.currentTabIndex,
     @required this.tabCount,
     @required this.tabBuilder,
-  }) : assert(currentTabIndex != null),
-       assert(tabCount != null && tabCount > 0),
-       assert(tabBuilder != null);
+  })  : assert(currentTabIndex != null),
+        assert(tabCount != null && tabCount > 0),
+        assert(tabBuilder != null);
 
   final int currentTabIndex;
   final int tabCount;
@@ -519,7 +522,9 @@ class _TabSwitchingViewState extends State<_TabSwitchingView> {
         tabFocusNodes.addAll(
           List<FocusScopeNode>.generate(
             widget.tabCount - tabFocusNodes.length,
-              (int index) => FocusScopeNode(debugLabel: '$CupertinoTabScaffold Tab ${index + tabFocusNodes.length}'),
+            (int index) => FocusScopeNode(
+                debugLabel:
+                    '$CupertinoTabScaffold Tab ${index + tabFocusNodes.length}'),
           ),
         );
       }
@@ -553,7 +558,9 @@ class _TabSwitchingViewState extends State<_TabSwitchingView> {
             child: FocusScope(
               node: tabFocusNodes[index],
               child: Builder(builder: (BuildContext context) {
-                return shouldBuildTab[index] ? widget.tabBuilder(context, index) : Container();
+                return shouldBuildTab[index]
+                    ? widget.tabBuilder(context, index)
+                    : Container();
               }),
             ),
           ),

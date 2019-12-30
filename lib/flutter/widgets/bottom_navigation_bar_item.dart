@@ -5,7 +5,7 @@
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/widgets/bottom_navigation_bar_item.dart
 /// lastest push: 2019.12.29
 /// flutter v1.13.5
-/// 
+///
 /// lastest update: 2019.12.06
 /// commit https://github.com/flutter/flutter/commit/c6fe7bb9e13dc630d04a0553ae74c9bdfd913688
 /// #46126 https://github.com/flutter/flutter/pull/46126
@@ -35,8 +35,8 @@ class BottomNavigationBarItem {
     this.title,
     Widget activeIcon,
     this.backgroundColor,
-  }) : activeIcon = activeIcon ?? icon,
-       assert(icon != null || title != null);
+  })  : activeIcon = activeIcon ?? icon,
+        assert(icon != null || title != null);
 
   /// The icon of the item.
   ///

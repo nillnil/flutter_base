@@ -52,7 +52,7 @@ class BaseRefresh extends BaseStatelessWidget {
   /// *** general properties end ***
 
   /// *** cupertino properties start ***
-  
+
   /// [CupertinoSliverRefreshControl.refreshTriggerPullDistance]
   final double refreshTriggerPullDistance;
 
@@ -65,7 +65,7 @@ class BaseRefresh extends BaseStatelessWidget {
   /// *** cupetino properties end ***
 
   /// *** material properties start ***
-  
+
   /// [RefreshIndicator.displacement]
   final double displacement;
 

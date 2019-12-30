@@ -115,7 +115,7 @@ class BaseExpansionState extends State<BaseExpansion> {
       ],
     );
   }
-  
+
   Future<void> close() {
     setState(() {
       _height = 0.0;

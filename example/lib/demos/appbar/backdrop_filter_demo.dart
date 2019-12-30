@@ -1,18 +1,14 @@
-
 import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class BackdropFilterDemo extends StatefulWidget {
-
   @override
   _BackdropFilterDemoState createState() => _BackdropFilterDemoState();
-
 }
 
 class _BackdropFilterDemoState extends State<BackdropFilterDemo> {
-
   bool _backdropFilter = true;
 
   @override
@@ -20,7 +16,8 @@ class _BackdropFilterDemoState extends State<BackdropFilterDemo> {
     return BaseScaffold(
       appBar: BaseAppBar(
         title: const Text('backdropFilter'),
-        backgroundColor: CupertinoTheme.of(context).barBackgroundColor.withOpacity(0.0),
+        backgroundColor:
+            CupertinoTheme.of(context).barBackgroundColor.withOpacity(0.0),
         backdropFilter: _backdropFilter,
         border: null,
       ),
@@ -46,10 +43,9 @@ class _BackdropFilterDemoState extends State<BackdropFilterDemo> {
                 },
               ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
-
 }

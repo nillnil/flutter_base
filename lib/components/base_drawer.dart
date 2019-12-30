@@ -88,8 +88,9 @@ class BaseDrawer extends StatefulWidget {
   })  : size = Size.fromWidth(width),
         percent = 0.0,
         assert(width > 0),
-        assert(axisDirection == AxisDirection.right ||
-            axisDirection == AxisDirection.left,
+        assert(
+            axisDirection == AxisDirection.right ||
+                axisDirection == AxisDirection.left,
             'the axisDirection must be AxisDirection.left or AxisDirection.right.'),
         assert(child != null),
         super(key: key);

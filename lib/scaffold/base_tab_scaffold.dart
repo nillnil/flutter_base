@@ -70,7 +70,7 @@ class BaseTabScaffold extends BaseStatefulWidget {
   /// *** general properties end ***
 
   /// *** cupertino properties start ***
-  
+
   /// [CupertinoTabScaffold.controller]
   final CupertinoTabController controller;
 

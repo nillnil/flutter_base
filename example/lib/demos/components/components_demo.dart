@@ -51,7 +51,7 @@ class ComponentesDemo extends StatelessWidget {
           ],
         ),
       ),
-      cupertino: const <String, dynamic> {
+      cupertino: const <String, dynamic>{
         'backgroundColor': CupertinoColors.systemGroupedBackground,
       },
     );

@@ -5,8 +5,9 @@ import 'package:flutter/cupertino.dart'
         CupertinoTextField,
         OverlayVisibilityMode;
 import 'package:flutter/gestures.dart' show DragStartBehavior;
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show TextInputFormatter;
+import 'package:flutter/material.dart' hide SmartDashesType, SmartQuotesType;
+import 'package:flutter/services.dart'
+    show TextInputFormatter, SmartDashesType, SmartQuotesType;
 
 import '../base_stateless_widget.dart';
 

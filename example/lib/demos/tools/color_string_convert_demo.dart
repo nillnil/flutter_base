@@ -10,8 +10,8 @@ class ColorStringConvertDemo extends StatelessWidget {
     return DemoPage(
       title: 'Color String Convert',
       desc: '\n用于color与argb，rgb，rgba互转，参数请自行检验'
-        '\ncolorToArgb(color), colorToRgb(color), colorToRgba(color)'
-        '\nargbToColor(argb), rgbToColor(rgb), rgbaToColor(rgba)',
+          '\ncolorToArgb(color), colorToRgb(color), colorToRgba(color)'
+          '\nargbToColor(argb), rgbToColor(rgb), rgbaToColor(rgba)',
       demos: <DemoTile>[
         DemoTile(
           page: _Demo(),
@@ -62,13 +62,9 @@ class _DemoState extends State<_Demo> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: Row(
-              children: <Widget>[
-                const Text('rgb: '),
-                Text(colorToRgb(_color))
-              ],
+              children: <Widget>[const Text('rgb: '), Text(colorToRgb(_color))],
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: Row(
