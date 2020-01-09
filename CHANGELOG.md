@@ -1,4 +1,8 @@
-# 0.3.2 - 2019.12.30
+# 0.3.3 - 2020.01.09
+
+* BaseTile add child property
+
+## 0.3.2 - 2019.12.30
 
 * format files
 

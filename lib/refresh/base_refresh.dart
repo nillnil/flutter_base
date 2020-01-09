@@ -18,6 +18,7 @@ class BaseRefresh extends BaseStatelessWidget {
     this.builder = CupertinoSliverRefreshControl.buildSimpleRefreshIndicator,
     this.onRefresh,
     this.child,
+    this.padding,
     this.displacement = 40.0,
     this.color,
     this.backgroundColor,
@@ -61,6 +62,9 @@ class BaseRefresh extends BaseStatelessWidget {
 
   /// [CupertinoSliverRefreshControl.builder]
   final RefreshControlIndicatorBuilder builder;
+
+  /// [SliverPadding.padding]
+  final EdgeInsetsGeometry padding;
 
   /// *** cupetino properties end ***
 
@@ -115,6 +119,7 @@ class BaseRefresh extends BaseStatelessWidget {
         child: boxScrollView,
       );
     }
+    _child = buildSlivers(context, _child);
     return CustomScrollView(
       key: valueFromCupertino('key', key),
       slivers: <Widget>[
@@ -150,5 +155,26 @@ class BaseRefresh extends BaseStatelessWidget {
       semanticsValue: semanticsValue,
       onRefresh: valueFromMaterial('onRefresh', onRefresh),
     );
+  }
+
+  Widget buildSlivers(BuildContext context, Widget child) {
+    EdgeInsetsGeometry effectivePadding = padding;
+    if (padding == null) {
+      final MediaQueryData mediaQuery = MediaQuery.of(context, nullOk: true);
+      if (mediaQuery != null) {
+        effectivePadding = mediaQuery.padding.copyWith(left: 0.0, right: 0.0);
+        child = MediaQuery(
+          data: mediaQuery.copyWith(
+            padding: effectivePadding,
+          ),
+          child: child,
+        );
+      }
+    }
+
+    if (effectivePadding != null) {
+      child = SliverPadding(padding: effectivePadding, sliver: child);
+    }
+    return child;
   }
 }

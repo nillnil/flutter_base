@@ -110,7 +110,7 @@ class BaseRoute<T> extends BaseClass {
       context,
       rootNavigator: rootNavigator,
       nullOk: nullOk,
-    ).push(build(context));
+    ).push<T>(build(context));
   }
 
   /// [Navigator.pushAndRemoveUntil]
@@ -124,7 +124,7 @@ class BaseRoute<T> extends BaseClass {
       context,
       rootNavigator: rootNavigator,
       nullOk: nullOk,
-    ).pushAndRemoveUntil(build(context), predicate);
+    ).pushAndRemoveUntil<T>(build(context), predicate);
   }
 }
 

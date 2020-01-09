@@ -25,6 +25,7 @@ class BaseTile extends BaseStatelessWidget {
     this.onTap,
     this.onLongPress,
     this.backgroundColor,
+    this.child,
     this.splashColor = Colors.transparent,
     this.highlightColor = const Color.fromRGBO(153, 153, 153, .4),
     this.border,
@@ -75,6 +76,10 @@ class BaseTile extends BaseStatelessWidget {
   /// default is [BaseTheme.baseTileBackgroundColor]
   final Color backgroundColor;
 
+  /// child != null, title, subTitle, leading, trailing will not be use.
+  /// child 不为null时，直接使用child，title、subtitle、leading、trailing将失效。
+  final Widget child;
+
   /// *** general properties end ***
 
   /// *** cupertino properties start ***
@@ -108,7 +113,6 @@ class BaseTile extends BaseStatelessWidget {
     final bool hasSubtitle = subtitle != null;
     final bool isTwoLine = !isThreeLine && hasSubtitle;
     final bool isOneLine = !isThreeLine && !hasSubtitle;
-
     if (isOneLine) {
       return dense ? 48.0 : 56.0;
     }
@@ -118,67 +122,9 @@ class BaseTile extends BaseStatelessWidget {
     return dense ? 76.0 : 88.0;
   }
 
-  // final TextStyle _defaultTextStyle = TextStyle(
-  //   fontFamily: '.SF UI Text',
-  //   fontSize: 16.0,
-  //   color: CupertinoColors.black
-  // );
-
   @override
   Widget buildByCupertino(BuildContext context) {
-    final List<Widget> rows = <Widget>[];
-    final Widget _leading = valueFromCupertino('leading', leading);
-    final Widget _trailing = valueFromCupertino('trailing', trailing);
-    Widget _title = valueFromCupertino('title', title);
-    _title ??= titleText != null
-        ? Text(
-            valueFromCupertino('titleText', titleText),
-          )
-        : null;
-    Widget _subtitle = valueFromCupertino('subtitle', subtitle);
-    _subtitle ??= subtitleText != null
-        ? Text(
-            valueFromCupertino('subtitleText', subtitleText),
-          )
-        : null;
-    if (_leading != null) {
-      rows.add(_leading);
-    }
-    if (_subtitle != null) {
-      rows.add(
-        Expanded(
-          child: Padding(
-            padding: contentPadding ?? EdgeInsets.zero,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              verticalDirection: VerticalDirection.down,
-              children: <Widget>[
-                _title,
-                _subtitle,
-              ],
-            ),
-          ),
-        ),
-      );
-    } else {
-      rows.add(
-        Expanded(
-          child: Container(
-            alignment: Alignment.centerLeft,
-            child: _title,
-          ),
-        ),
-      );
-    }
-    if (_trailing != null) {
-      rows.add(
-        Container(
-          alignment: Alignment.centerRight,
-          child: _trailing,
-        ),
-      );
-    }
+    final Widget _child = _buildContent();
     final CupertinoThemeData cupertinoTheme = CupertinoTheme.of(context);
     final Widget content = Container(
       key: key,
@@ -187,18 +133,11 @@ class BaseTile extends BaseStatelessWidget {
       ),
       padding: valueFromCupertino('contentPadding', contentPadding) ??
           const EdgeInsets.symmetric(horizontal: 10.0),
-      child: SizedBox(
-        height: height ?? _defaultTileHeight,
-        child: DefaultTextStyle(
-          style: cupertinoTheme.textTheme.textStyle.copyWith(
-            fontSize: 14.0,
-          ),
-          child: Row(
-            mainAxisAlignment:
-                mainAxisAlignment ?? MainAxisAlignment.spaceBetween,
-            children: rows,
-          ),
+      child: DefaultTextStyle(
+        style: cupertinoTheme.textTheme.textStyle.copyWith(
+          fontSize: 14.0,
         ),
+        child: _child,
       ),
     );
     final BaseThemeData _baaseTheme = BaseTheme.of(context);
@@ -277,5 +216,69 @@ class BaseTile extends BaseStatelessWidget {
             child: listTile,
           )
         : listTile;
+  }
+
+  Widget _buildContent() {
+    final Widget _child = valueFromCupertino('child', child);
+    if (_child != null) {
+      return _child;
+    }
+    final List<Widget> rows = <Widget>[];
+    final Widget _leading = valueFromCupertino('leading', leading);
+    final Widget _trailing = valueFromCupertino('trailing', trailing);
+    Widget _title = valueFromCupertino('title', title);
+    final String _titleText = valueFromCupertino('titleText', titleText);
+    _title ??= _titleText != null ? Text(_titleText) : null;
+    Widget _subtitle = valueFromCupertino('subtitle', subtitle);
+    final String _subtitleText = valueFromCupertino(
+      'subtitleText',
+      subtitleText,
+    );
+    _subtitle ??= subtitleText != null ? Text(_subtitleText) : null;
+    if (_leading != null) {
+      rows.add(_leading);
+    }
+    if (_subtitle != null) {
+      rows.add(
+        Expanded(
+          child: Padding(
+            padding: contentPadding ?? EdgeInsets.zero,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              verticalDirection: VerticalDirection.down,
+              children: <Widget>[
+                _title,
+                _subtitle,
+              ],
+            ),
+          ),
+        ),
+      );
+    } else {
+      rows.add(
+        Expanded(
+          child: Container(
+            alignment: Alignment.centerLeft,
+            child: _title,
+          ),
+        ),
+      );
+    }
+    if (_trailing != null) {
+      rows.add(
+        Container(
+          alignment: Alignment.centerRight,
+          child: _trailing,
+        ),
+      );
+    }
+    return SizedBox(
+      height: height ?? _defaultTileHeight,
+      child: Row(
+        mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.spaceBetween,
+        children: rows,
+      ),
+    );
   }
 }
