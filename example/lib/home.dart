@@ -9,7 +9,7 @@ import 'settings.dart';
 
 final List<Widget> _children = <Widget>[
   _Item(
-    icon: BaseIcon(icon: Icons.apps, size: 40, color: Colors.blueGrey),
+    icon: const BaseIcon(icon: Icons.apps, size: 40, color: Colors.blueGrey),
     title: const Text(
       'App',
       style: TextStyle(color: Colors.blueGrey),
@@ -17,7 +17,7 @@ final List<Widget> _children = <Widget>[
     page: AppDemo(),
   ),
   _Item(
-    icon: BaseIcon(icon: IconFont.nav, size: 40, color: Colors.orangeAccent),
+    icon: const BaseIcon(icon: IconFont.nav, size: 40, color: Colors.orangeAccent),
     title: const Text(
       'AppBar',
       style: TextStyle(color: Colors.orangeAccent),
@@ -25,7 +25,7 @@ final List<Widget> _children = <Widget>[
     page: AppBarDemo(),
   ),
   _Item(
-    icon: BaseIcon(icon: IconFont.page, size: 40, color: Colors.blueAccent),
+    icon: const BaseIcon(icon: IconFont.page, size: 40, color: Colors.blueAccent),
     title: const Text(
       'Scaffold',
       style: TextStyle(color: Colors.blueAccent),
@@ -34,7 +34,7 @@ final List<Widget> _children = <Widget>[
     fullscreenGackGesture: false,
   ),
   _Item(
-    icon: BaseIcon(icon: IconFont.tile, size: 40, color: Colors.redAccent),
+    icon: const BaseIcon(icon: IconFont.tile, size: 40, color: Colors.redAccent),
     title: const Text(
       'Section & Tile',
       style: TextStyle(color: Colors.redAccent),
@@ -42,7 +42,7 @@ final List<Widget> _children = <Widget>[
     page: SectionDemo(),
   ),
   _Item(
-    icon: BaseIcon(
+    icon: const BaseIcon(
       icon: IconFont.buttons,
       size: 40,
       color: Colors.greenAccent,
@@ -55,7 +55,7 @@ final List<Widget> _children = <Widget>[
     fullscreenGackGesture: false,
   ),
   _Item(
-    icon: BaseIcon(
+    icon: const BaseIcon(
       icon: IconFont.routes,
       size: 40,
       color: Colors.deepOrangeAccent,
@@ -67,7 +67,7 @@ final List<Widget> _children = <Widget>[
     page: RouteDemo(),
   ),
   _Item(
-    icon: BaseIcon(
+    icon: const BaseIcon(
       icon: IconFont.dialog,
       size: 40,
       color: Colors.purpleAccent,
@@ -78,16 +78,16 @@ final List<Widget> _children = <Widget>[
     ),
     page: DialogDemo(),
   ),
-  _Item(
+  const _Item(
     icon: BaseIcon(icon: IconFont.rows, size: 40, color: Colors.blueGrey),
-    title: const Text(
+    title: Text(
       'ActionSheet',
       style: TextStyle(color: Colors.blueGrey),
     ),
-    page: const ActionSheetDemo(),
+    page: ActionSheetDemo(),
   ),
   _Item(
-    icon: BaseIcon(
+    icon: const BaseIcon(
       icon: IconFont.refresh,
       size: 40,
       color: Colors.pinkAccent,
@@ -96,17 +96,17 @@ final List<Widget> _children = <Widget>[
     page: RefreshDemos(),
     fullscreenGackGesture: false,
   ),
-  _Item(
+  const _Item(
     icon: BaseIcon(
       icon: IconFont.text,
       size: 40,
       color: Colors.deepOrangeAccent,
     ),
-    title: const Text(
+    title: Text(
       'TextField',
       style: TextStyle(color: Colors.deepOrangeAccent),
     ),
-    page: const TextFieldDemo(),
+    page: TextFieldDemo(),
   ),
   _Item(
     icon: BaseIcon(

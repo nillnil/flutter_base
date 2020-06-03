@@ -196,17 +196,17 @@ class _Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseTile(
+    return const BaseTile(
       leading: Padding(
-        padding: const EdgeInsets.only(right: 20.0, left: 10.0),
+        padding: EdgeInsets.only(right: 20.0, left: 10.0),
         child: Icon(IconFont.card, color: Colors.green),
       ),
-      title: const Text(
+      title: Text(
         '卡包',
         style: _style,
       ),
       height: _tileHeight,
-      trailing: const Icon(
+      trailing: Icon(
         CupertinoIcons.right_chevron,
         color: Colors.grey,
       ),
@@ -277,11 +277,11 @@ class _Pay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseSection(
+    return const BaseSection(
       children: <Widget>[
         BaseTile(
           leading: Padding(
-            padding: const EdgeInsets.only(
+            padding: EdgeInsets.only(
               right: 20.0,
               left: 10.0,
             ),
@@ -291,11 +291,11 @@ class _Pay extends StatelessWidget {
             ),
           ),
           height: _tileHeight,
-          title: const Text(
+          title: Text(
             '支付',
             style: _style,
           ),
-          trailing: const Icon(
+          trailing: Icon(
             CupertinoIcons.right_chevron,
             color: Colors.grey,
           ),

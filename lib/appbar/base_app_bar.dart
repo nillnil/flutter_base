@@ -41,10 +41,6 @@ class BaseAppBar extends BaseStatelessWidget
     this.transitionBetweenRoutes,
     this.heroTag,
     this.backdropFilter,
-    this.autoSetMiddleColor,
-    this.autoSetLeadingColor,
-    this.autoSetTrailingColor,
-    this.autoSetBottomColor,
     this.height,
     this.title,
     this.actions,
@@ -172,42 +168,6 @@ class BaseAppBar extends BaseStatelessWidget
   /// 想实现全透明可以设置成false
   final bool backdropFilter;
 
-  /// [CupertinoNavigationBar.autoSetMiddleColor], default is true
-  ///
-  /// Auto set middle's color follow the barightness
-  /// will cover the navTitleTextStyle's color
-  ///
-  /// 标题跟随背景亮度自动改变黑白色
-  final bool autoSetMiddleColor;
-
-  /// [CupertinoNavigationBar.autoSetLeadingColor], defautl is true
-  ///
-  /// Auto set [leading]'s color follow the brightness
-  /// event the BcakButton，will cover the navActionTextStyle's color
-  ///
-  /// leading跟随背景亮度自动改变黑白色, 当为true时，actionsForegroundColor参数会失效
-  /// 当leading为icon时，实际上是actionsForegroundColor参数修改颜色，
-  /// 此时的autoSetTrailingColor会失效
-  final bool autoSetLeadingColor;
-
-  /// [CupertinoNavigationBar.autoSetTrailingColor], default is true
-  ///
-  /// Auto set [trailing]'s color follow the barightness
-  /// will cover the navActionTextStyle's color
-  ///
-  /// trailing跟随背景亮度自动改变黑白色, 当为true时，actionsForegroundColor参数会失效
-  /// 当trailing为icon时，实际上是actionsForegroundColor参数修改颜色，
-  /// 此时的autoSetLeadingColor会失效
-  final bool autoSetTrailingColor;
-
-  /// [CupertinoNavigationBar.autoSetBottomColor], default is true
-  ///
-  /// Auto set [bottom]'s color follow the barightness
-  /// will cover the navActionTextStyle's color
-  ///
-  /// [bottom]跟随背景亮度自动改变黑白色
-  final bool autoSetBottomColor;
-
   /// *** cupertino properties ened ***
 
   /// *** material properties start ***
@@ -288,30 +248,6 @@ class BaseAppBar extends BaseStatelessWidget
     final double _toolbarOpacity =
         valueFromCupertino('toolbarOpacity', toolbarOpacity);
 
-    final bool autoSetMiddleColor = this.autoSetMiddleColor ??
-        baseTheme.valueFromCupertino(
-          'appBarAutoSetMiddleColor',
-          baseTheme.appBarAutoSetMiddleColor,
-        ) ??
-        false;
-    final bool autoSetBottomColor = this.autoSetBottomColor ??
-        baseTheme.valueFromCupertino(
-          'appBarAutoSetBottomColor',
-          baseTheme.appBarAutoSetBottomColor,
-        ) ??
-        false;
-    final bool autoSetLeadingColor = this.autoSetLeadingColor ??
-        baseTheme.valueFromCupertino(
-          'appBarAutoSetLeadingColor',
-          baseTheme.appBarAutoSetLeadingColor,
-        ) ??
-        false;
-    final bool autoSetTrailingColor = this.autoSetTrailingColor ??
-        baseTheme.valueFromCupertino(
-          'appBarAutoSetTrailingColor',
-          baseTheme.appBarAutoSetTrailingColor,
-        ) ??
-        false;
     // 当背景颜色透明时，不加入高斯模糊
     bool _backdropFilter = backdropFilter ??
         baseTheme.valueFromCupertino(
@@ -351,10 +287,6 @@ class BaseAppBar extends BaseStatelessWidget
         bottom: valueFromCupertino('bottom', bottom),
         bottomOpacity: valueFromCupertino('bottomOpacity', bottomOpacity),
         toolbarOpacity: _toolbarOpacity,
-        autoSetLeadingColor: autoSetLeadingColor,
-        autoSetMiddleColor: autoSetMiddleColor,
-        autoSetTrailingColor: autoSetTrailingColor,
-        autoSetBottomColor: autoSetBottomColor,
       );
     } else {
       cupertinoNavigationBar = CupertinoNavigationBar(
@@ -377,10 +309,6 @@ class BaseAppBar extends BaseStatelessWidget
         bottom: valueFromCupertino('bottom', bottom),
         bottomOpacity: valueFromCupertino('bottomOpacity', bottomOpacity),
         toolbarOpacity: _toolbarOpacity,
-        autoSetLeadingColor: autoSetLeadingColor,
-        autoSetMiddleColor: autoSetMiddleColor,
-        autoSetTrailingColor: autoSetTrailingColor,
-        autoSetBottomColor: autoSetBottomColor,
       );
     }
     return cupertinoNavigationBar;

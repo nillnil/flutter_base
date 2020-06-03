@@ -37,7 +37,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           hoverColor: Colors.transparent,
           // cupertinoOverrideTheme: _cupertinoTheme,
           textTheme: _theme.textTheme.copyWith(
-            body1: _theme.textTheme.body1.copyWith(
+            bodyText2: _theme.textTheme.bodyText2.copyWith(
               fontSize: 17.0,
               letterSpacing: -0.41,
             ),
@@ -54,7 +54,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           hoverColor: Colors.transparent,
           // cupertinoOverrideTheme: _cupertinoTheme,
           textTheme: _darkTheme.textTheme.copyWith(
-            body1: _darkTheme.textTheme.body1.copyWith(
+            bodyText2: _darkTheme.textTheme.bodyText2.copyWith(
               fontSize: 17.0,
               letterSpacing: -0.41,
             ),
@@ -95,11 +95,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             appBarTransitionBetweenRoutes: false,
             routeFullscreenGackGesture: true,
             // 默认值已修改成falase, 后续可能会删除这变量
-            appBarAutoSetLeadingColor: true,
-            // 默认值已修改成falase, 后续可能会删除这变量
-            appBarAutoSetTrailingColor: true,
-            // 默认值已修改成falase, 后续可能会删除这变量
-            appBarAutoSetBottomColor: true,
+            // appBarAutoSetLeadingColor: true,
+            // // 默认值已修改成falase, 后续可能会删除这变量
+            // appBarAutoSetTrailingColor: true,
+            // // 默认值已修改成falase, 后续可能会删除这变量
+            // appBarAutoSetBottomColor: true,
           ),
           debugShowCheckedModeBanner: false,
         );

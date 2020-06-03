@@ -54,16 +54,16 @@ class AppBarDemo extends StatelessWidget {
         'bottom': 'Cupertino模式下也有效, 如加入TabBar，会去除水波纹跟高亮效果。',
         'toolbarOpacity':
             'Cupertino模式下也有效, 只是简单是设置leading，middle，trailing字体的透明度。',
-        'autoSetBottomColor': 'Cupertino模式下有效, 默认true，bottom自动跟随状态栏字体颜色。\n'
-            '可使用BaseTheme.autoSetBottomColor全局设置',
-        'autoSetMiddleColor': 'Cupertino模式下有效, 默认true，middle自动跟随状态栏字体颜色。\n'
-            '可使用BaseTheme.autoSetMiddleColor全局设置',
-        'autoSetLeadingColor': 'Cupertino模式下有效, 默认true，leading自动跟随状态栏字体颜色。\n'
-            '受autoSetTrailingColor影响\n'
-            '可使用BaseTheme.autoSetLeadingColor全局设置',
-        'autoSetTrailingColor': 'Cupertino模式下有效, 默认true，trailing自动跟随状态栏字体颜色。\n'
-            '受autoSetLeadingColor影响\n'
-            '可使用BaseTheme.autoSetTrailingColor全局设置',
+        // 'autoSetBottomColor': 'Cupertino模式下有效, 默认true，bottom自动跟随状态栏字体颜色。\n'
+        //     '可使用BaseTheme.autoSetBottomColor全局设置',
+        // 'autoSetMiddleColor': 'Cupertino模式下有效, 默认true，middle自动跟随状态栏字体颜色。\n'
+        //     '可使用BaseTheme.autoSetMiddleColor全局设置',
+        // 'autoSetLeadingColor': 'Cupertino模式下有效, 默认true，leading自动跟随状态栏字体颜色。\n'
+        //     '受autoSetTrailingColor影响\n'
+        //     '可使用BaseTheme.autoSetLeadingColor全局设置',
+        // 'autoSetTrailingColor': 'Cupertino模式下有效, 默认true，trailing自动跟随状态栏字体颜色。\n'
+        //     '受autoSetLeadingColor影响\n'
+        //     '可使用BaseTheme.autoSetTrailingColor全局设置',
       },
       demos: _demos,
     );

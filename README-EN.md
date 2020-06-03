@@ -6,7 +6,7 @@
 
 ## One code, two mode, use cupertino's widgets on ios, use material's widget on android or fuchsia.
 
-## Use the dev branch.
+## Use the stable branch.
 
 ### [简体中文](./README.md)
 

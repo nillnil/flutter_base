@@ -9,15 +9,15 @@ import 'package:flutter/material.dart';
 /// Special properties values global setting
 /// 参考 [ThemeData]
 @immutable
-class BaseThemeData extends Diagnosticable {
+class BaseThemeData with Diagnosticable {
   factory BaseThemeData({
     Brightness brightness,
     double appBarHeight,
     bool appBarBackdropFilter = true,
-    bool appBarAutoSetMiddleColor = false,
-    bool appBarAutoSetLeadingColor = false,
-    bool appBarAutoSetTrailingColor = false,
-    bool appBarAutoSetBottomColor = false,
+    // bool appBarAutoSetMiddleColor = false,
+    // bool appBarAutoSetLeadingColor = false,
+    // bool appBarAutoSetTrailingColor = false,
+    // bool appBarAutoSetBottomColor = false,
     bool appBarTransitionBetweenRoutes = true,
     bool appBarCenterTitle,
     ThemeData materialTheme,
@@ -34,10 +34,10 @@ class BaseThemeData extends Diagnosticable {
       brightness: brightness,
       appBarHeight: appBarHeight,
       appBarBackdropFilter: appBarBackdropFilter,
-      appBarAutoSetMiddleColor: appBarAutoSetMiddleColor,
-      appBarAutoSetLeadingColor: appBarAutoSetLeadingColor,
-      appBarAutoSetTrailingColor: appBarAutoSetTrailingColor,
-      appBarAutoSetBottomColor: appBarAutoSetBottomColor,
+      // appBarAutoSetMiddleColor: appBarAutoSetMiddleColor,
+      // appBarAutoSetLeadingColor: appBarAutoSetLeadingColor,
+      // appBarAutoSetTrailingColor: appBarAutoSetTrailingColor,
+      // appBarAutoSetBottomColor: appBarAutoSetBottomColor,
       appBarTransitionBetweenRoutes: appBarTransitionBetweenRoutes,
       appBarCenterTitle: appBarCenterTitle,
       materialTheme: materialTheme,
@@ -56,10 +56,10 @@ class BaseThemeData extends Diagnosticable {
     @required this.cupertino,
     @required this.material,
     @required this.appBarBackdropFilter,
-    @required this.appBarAutoSetMiddleColor,
-    @required this.appBarAutoSetLeadingColor,
-    @required this.appBarAutoSetTrailingColor,
-    @required this.appBarAutoSetBottomColor,
+    // @required this.appBarAutoSetMiddleColor,
+    // @required this.appBarAutoSetLeadingColor,
+    // @required this.appBarAutoSetTrailingColor,
+    // @required this.appBarAutoSetBottomColor,
     @required this.appBarTransitionBetweenRoutes,
     @required this.appBarCenterTitle,
     @required this.materialTheme,
@@ -78,16 +78,16 @@ class BaseThemeData extends Diagnosticable {
   final bool appBarBackdropFilter;
 
   /// [BaseAppBar.appBarAutoSetMiddleColor]
-  final bool appBarAutoSetMiddleColor;
+  // final bool appBarAutoSetMiddleColor;
 
-  /// [BaseAppBar.appBarAutoSetLeadingColor]
-  final bool appBarAutoSetLeadingColor;
+  // /// [BaseAppBar.appBarAutoSetLeadingColor]
+  // final bool appBarAutoSetLeadingColor;
 
-  /// [BaseAppBar.autoSetTrailingColor]
-  final bool appBarAutoSetTrailingColor;
+  // /// [BaseAppBar.autoSetTrailingColor]
+  // final bool appBarAutoSetTrailingColor;
 
-  /// [BaseAppBar.autoSetBottomColor]
-  final bool appBarAutoSetBottomColor;
+  // /// [BaseAppBar.autoSetBottomColor]
+  // final bool appBarAutoSetBottomColor;
 
   /// [BaseAppBar.appBarTransitionBetweenRoutes]
   final bool appBarTransitionBetweenRoutes;
@@ -150,14 +150,14 @@ class BaseThemeData extends Diagnosticable {
       brightness: brightness ?? this.brightness,
       appBarHeight: appBarHeight ?? this.appBarHeight,
       appBarBackdropFilter: appBarBackdropFilter ?? this.appBarBackdropFilter,
-      appBarAutoSetMiddleColor:
-          appBarAutoSetMiddleColor ?? this.appBarAutoSetMiddleColor,
-      appBarAutoSetLeadingColor:
-          appBarAutoSetLeadingColor ?? this.appBarAutoSetLeadingColor,
-      appBarAutoSetTrailingColor:
-          appBarAutoSetTrailingColor ?? this.appBarAutoSetTrailingColor,
-      appBarAutoSetBottomColor:
-          appBarAutoSetBottomColor ?? this.appBarAutoSetBottomColor,
+      // appBarAutoSetMiddleColor:
+      //     appBarAutoSetMiddleColor ?? this.appBarAutoSetMiddleColor,
+      // appBarAutoSetLeadingColor:
+      //     appBarAutoSetLeadingColor ?? this.appBarAutoSetLeadingColor,
+      // appBarAutoSetTrailingColor:
+      //     appBarAutoSetTrailingColor ?? this.appBarAutoSetTrailingColor,
+      // appBarAutoSetBottomColor:
+      //     appBarAutoSetBottomColor ?? this.appBarAutoSetBottomColor,
       appBarTransitionBetweenRoutes:
           appBarTransitionBetweenRoutes ?? this.appBarTransitionBetweenRoutes,
       appBarCenterTitle: appBarCenterTitle ?? this.appBarCenterTitle,

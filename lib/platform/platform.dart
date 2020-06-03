@@ -15,12 +15,8 @@ void setPlatform({
 
 /// build by Cupertino
 bool get useCupertino => basePlatform != null
-    ? basePlatform == TargetPlatform.iOS
-    : defaultTargetPlatform == TargetPlatform.iOS;
+    ? (basePlatform == TargetPlatform.iOS || basePlatform == TargetPlatform.macOS)
+    : (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.macOS);
 
 /// build by Material
-bool get useMaterial => basePlatform != null
-    ? (basePlatform == TargetPlatform.android ||
-        basePlatform == TargetPlatform.fuchsia)
-    : (defaultTargetPlatform == TargetPlatform.android ||
-        defaultTargetPlatform == TargetPlatform.fuchsia);
+bool get useMaterial => !useCupertino;

@@ -18,7 +18,7 @@ class RandomColorDemo extends StatelessWidget {
       child: DemoPage(
         title: 'RandomColor',
         desc: '\n用于创建随机颜色\nColor color = RandomColor().color;'
-            '\nRandomColor.ranget()可限定范围'
+            '\nRandomColor.range()可限定范围'
             '\ntoString() 可以把颜色转成16进制(argb)，不包含0x',
         demos: <DemoTile>[
           DemoTile(
@@ -260,7 +260,7 @@ class _TipsState extends State<_Tips> with SingleTickerProviderStateMixin {
       child: Opacity(
         opacity: _controller.value,
         child: const Text(
-          '点击标签切换编辑模式',
+          '双击标签切换编辑模式',
           style: TextStyle(fontSize: 18.0),
         ),
       ),

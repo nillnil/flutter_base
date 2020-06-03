@@ -76,7 +76,7 @@ class _NewsState extends State<News> with SingleTickerProviderStateMixin {
             child: FloatingActionButton(
               backgroundColor: Colors.white.withOpacity(.5),
               foregroundColor: Colors.black,
-              child: BaseIcon(
+              child: const BaseIcon(
                 icon: Icons.arrow_back,
                 size: 30,
               ),

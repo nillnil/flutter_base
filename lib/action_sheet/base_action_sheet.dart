@@ -227,7 +227,7 @@ class _MaterialAlertContentSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Widget> titleContentGroup = <Widget>[];
-    final TextStyle _contentStyle = Theme.of(context).textTheme.title.copyWith(
+    final TextStyle _contentStyle = Theme.of(context).textTheme.headline6.copyWith(
           inherit: false,
           fontSize: 13.0,
           fontWeight: FontWeight.w400,

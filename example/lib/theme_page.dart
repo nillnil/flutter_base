@@ -55,7 +55,7 @@ class _ThemeItem extends StatelessWidget {
             height: 50,
             width: 50,
             child: selected
-                ? BaseIcon(
+                ? const BaseIcon(
                     icon: CupertinoIcons.check_mark,
                     size: 40,
                     color: Colors.white,

@@ -6,7 +6,7 @@
 
 ## 实现一套代码，2种模式，ios使用Cupertino风格组件，andriod、fuchsia使用Material风格组件
 
-## 使用dev分支
+## 使用stable分支
 
 ### [English](./README-EN.md)
 
@@ -113,3 +113,4 @@
 |BaseDrawer|/|/|
 
 ## [简单示例](./example/)
+
