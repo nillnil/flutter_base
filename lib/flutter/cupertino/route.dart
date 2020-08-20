@@ -3,12 +3,12 @@
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/route.dart
-/// https://github.com/flutter/flutter/commit/6c9071d3c27841e5aa49dac1df01d4fe0700db65
-/// #50180 https://github.com/flutter/flutter/pull/50180
-/// lastest push: 2020.03.28
-/// flutter v1.17.2
+/// https://github.com/flutter/flutter/commit/3e5c700fd722157cb987089e8358521d7c5cde23
+/// #58511 https://github.com/flutter/flutter/pull/58511
+/// lastest push: 2020.06.26
+/// flutter v1.20.2
 ///
-/// lastest modify: 2020.06.04
+/// lastest modify: 2020.08.20
 
 import 'dart:async';
 import 'dart:math';
@@ -22,6 +22,7 @@ import 'package:flutter/animation.dart' show Curves;
 import 'package:flutter/cupertino.dart'
     show
         CupertinoDynamicColor,
+        CupertinoLocalizations,
         CupertinoUserInterfaceLevel,
         CupertinoUserInterfaceLevelData;
 
@@ -85,61 +86,35 @@ final DecorationTween _kGradientShadowTween = DecorationTween(
   ),
 );
 
-/// A modal route that replaces the entire screen with an iOS transition.
+/// A mixin that replaces the entire screen with an iOS transition for a
+/// [PageRoute].
 ///
+/// {@template flutter.cupertino.cupertinoRouteTransitionMixin}
 /// The page slides in from the right and exits in reverse. The page also shifts
 /// to the left in parallax when another page enters to cover it.
 ///
 /// The page slides in from the bottom and exits in reverse with no parallax
 /// effect for fullscreen dialogs.
-///
-/// By default, when a modal route is replaced by another, the previous route
-/// remains in memory. To free all the resources when this is not necessary, set
-/// [maintainState] to false.
-///
-/// The type `T` specifies the return type of the route which can be supplied as
-/// the route is popped from the stack via [Navigator.pop] when an optional
-/// `result` can be provided.
+/// {@endtemplate}
 ///
 /// See also:
 ///
-///  * [MaterialPageRoute], for an adaptive [PageRoute] that uses a
-///    platform-appropriate transition.
-///  * [CupertinoPageScaffold], for applications that have one page with a fixed
-///    navigation bar on top.
-///  * [CupertinoTabScaffold], for applications that have a tab bar at the
-///    bottom with multiple pages.
-class CupertinoPageRoute<T> extends PageRoute<T> {
-  /// Creates a page route for use in an iOS designed app.
-  ///
-  /// The [builder], [maintainState], and [fullscreenDialog] arguments must not
-  /// be null.
-  CupertinoPageRoute({
-    @required this.builder,
-    this.title,
-    RouteSettings settings,
-    this.maintainState = true,
-    bool fullscreenDialog = false,
-    this.backGestureWidth = _kBackGestureWidth,
-  }) : assert(builder != null),
-       assert(maintainState != null),
-       assert(fullscreenDialog != null),
-       assert(opaque),
-       super(settings: settings, fullscreenDialog: fullscreenDialog);
-
+///  * [MaterialRouteTransitionMixin], which is a mixin that provides
+///    platform-appropriate transitions for a [PageRoute]
+///  * [CupertinoPageRoute], which is a [PageRoute] that leverages this mixin.
+mixin CupertinoRouteTransitionMixin<T> on PageRoute<T> {
   /// Builds the primary contents of the route.
-  final WidgetBuilder builder;
+  WidgetBuilder get builder;
 
+  /// {@template flutter.cupertino.cupertinoRouteTransitionMixin.title}
   /// A title string for this route.
   ///
   /// Used to auto-populate [CupertinoNavigationBar] and
   /// [CupertinoSliverNavigationBar]'s `middle`/`largeTitle` widgets when
   /// one is not manually supplied.
-  final String title;
+  /// {@endtemplate}
+  String get title;
 
-  /// the backGestureWidth, default is 20.0.
-  /// can set to MediaQuery.of(context).size.with
-  final double backGestureWidth;
 
   ValueNotifier<String> _previousTitle;
 
@@ -167,9 +142,9 @@ class CupertinoPageRoute<T> extends PageRoute<T> {
 
   @override
   void didChangePrevious(Route<dynamic> previousRoute) {
-    final String previousTitleString = previousRoute is CupertinoPageRoute
-        ? previousRoute.title
-        : null;
+    final String previousTitleString = previousRoute is CupertinoRouteTransitionMixin
+      ? previousRoute.title
+      : null;
     if (_previousTitle == null) {
       _previousTitle = ValueNotifier<String>(previousTitleString);
     } else {
@@ -177,9 +152,6 @@ class CupertinoPageRoute<T> extends PageRoute<T> {
     }
     super.didChangePrevious(previousRoute);
   }
-
-  @override
-  final bool maintainState;
 
   @override
   // A relatively rigorous eyeball estimation.
@@ -194,8 +166,10 @@ class CupertinoPageRoute<T> extends PageRoute<T> {
   @override
   bool canTransitionTo(TransitionRoute<dynamic> nextRoute) {
     // Don't perform outgoing animation if the next route is a fullscreen dialog.
-    return nextRoute is CupertinoPageRoute && !nextRoute.fullscreenDialog;
+    return nextRoute is CupertinoRouteTransitionMixin && !nextRoute.fullscreenDialog;
   }
+
+  double backGestureWidth;
 
   /// True if an iOS-style back swipe pop gesture is currently underway for [route].
   ///
@@ -348,9 +322,143 @@ class CupertinoPageRoute<T> extends PageRoute<T> {
   Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
     return buildPageTransitions<T>(this, context, animation, secondaryAnimation, child, backGestureWidth);
   }
+}
+
+/// A modal route that replaces the entire screen with an iOS transition.
+///
+/// {@macro flutter.cupertino.cupertinoRouteTransitionMixin}
+///
+/// By default, when a modal route is replaced by another, the previous route
+/// remains in memory. To free all the resources when this is not necessary, set
+/// [maintainState] to false.
+///
+/// The type `T` specifies the return type of the route which can be supplied as
+/// the route is popped from the stack via [Navigator.pop] when an optional
+/// `result` can be provided.
+///
+/// See also:
+///
+///  * [CupertinoRouteTransitionMixin], for a mixin that provides iOS transition
+///    for this modal route.
+///  * [MaterialPageRoute], for an adaptive [PageRoute] that uses a
+///    platform-appropriate transition.
+///  * [CupertinoPageScaffold], for applications that have one page with a fixed
+///    navigation bar on top.
+///  * [CupertinoTabScaffold], for applications that have a tab bar at the
+///    bottom with multiple pages.
+///  * [CupertinoPage], for a [Page] version of this class.
+class CupertinoPageRoute<T> extends PageRoute<T> with CupertinoRouteTransitionMixin<T> {
+  /// Creates a page route for use in an iOS designed app.
+  ///
+  /// The [builder], [maintainState], and [fullscreenDialog] arguments must not
+  /// be null.
+  CupertinoPageRoute({
+    @required this.builder,
+    this.title,
+    RouteSettings settings,
+    this.maintainState = true,
+    bool fullscreenDialog = false,
+    this.backGestureWidth = _kBackGestureWidth,
+  }) : assert(builder != null),
+       assert(maintainState != null),
+       assert(fullscreenDialog != null),
+       assert(opaque),
+       super(settings: settings, fullscreenDialog: fullscreenDialog);
+
+  @override
+  final WidgetBuilder builder;
+
+  @override
+  final String title;
+
+  @override
+  final bool maintainState;
 
   @override
   String get debugLabel => '${super.debugLabel}(${settings.name})';
+  
+  /// the backGestureWidth, default is 20.0.
+  /// can set to MediaQuery.of(context).size.with
+  @override
+  final double backGestureWidth;
+}
+
+// A page-based version of CupertinoPageRoute.
+//
+// This route uses the builder from the page to build its content. This ensures
+// the content is up to date after page updates.
+class _PageBasedCupertinoPageRoute<T> extends PageRoute<T> with CupertinoRouteTransitionMixin<T> {
+  _PageBasedCupertinoPageRoute({
+    @required CupertinoPage<T> page,
+  }) : assert(page != null),
+       assert(opaque),
+       super(settings: page);
+
+  CupertinoPage<T> get _page => settings as CupertinoPage<T>;
+
+  @override
+  WidgetBuilder get builder => _page.builder;
+
+  @override
+  String get title => _page.title;
+
+  @override
+  bool get maintainState => _page.maintainState;
+
+  @override
+  bool get fullscreenDialog => _page.fullscreenDialog;
+
+  @override
+  String get debugLabel => '${super.debugLabel}(${_page.name})';
+}
+
+/// A page that creates a cupertino style [PageRoute].
+///
+/// {@macro flutter.cupertino.cupertinoRouteTransitionMixin}
+///
+/// By default, when a created modal route is replaced by another, the previous
+/// route remains in memory. To free all the resources when this is not
+/// necessary, set [maintainState] to false.
+///
+/// The type `T` specifies the return type of the route which can be supplied as
+/// the route is popped from the stack via [Navigator.transitionDelegate] by
+/// providing the optional `result` argument to the
+/// [RouteTransitionRecord.markForPop] in the [TransitionDelegate.resolve].
+///
+/// See also:
+///
+///  * [CupertinoPageRoute], for a [PageRoute] version of this class.
+class CupertinoPage<T> extends Page<T> {
+  /// Creates a cupertino page.
+  const CupertinoPage({
+    @required this.builder,
+    this.maintainState = true,
+    this.title,
+    this.fullscreenDialog = false,
+    LocalKey key,
+    String name,
+    Object arguments,
+  }) : assert(builder != null),
+       assert(maintainState != null),
+       assert(fullscreenDialog != null),
+       super(key: key, name: name, arguments: arguments);
+
+  /// Builds the primary contents of the route.
+  final WidgetBuilder builder;
+
+  /// {@macro flutter.cupertino.cupertinoRouteTransitionMixin.title}
+  final String title;
+
+  /// {@macro flutter.widgets.modalRoute.maintainState}
+  final bool maintainState;
+
+  /// {@macro flutter.widgets.pageRoute.fullscreenDialog}
+  final bool fullscreenDialog;
+
+  @override
+  Route<T> createRoute(BuildContext context) {
+    return _PageBasedCupertinoPageRoute<T>(page: this);
+  }
 }
 
 /// Provides an iOS-style page transition animation.
@@ -926,7 +1034,7 @@ class _CupertinoModalPopupRoute<T> extends PopupRoute<T> {
 /// popup to the [Navigator] furthest from or nearest to the given `context`. It
 /// is `false` by default.
 ///
-/// The `semanticsDismissble` argument is used to determine whether the
+/// The `semanticsDismissible` argument is used to determine whether the
 /// semantics of the modal barrier are included in the semantics tree.
 ///
 /// The `builder` argument typically builds a [CupertinoActionSheet] widget.
@@ -991,7 +1099,8 @@ Widget _buildCupertinoDialogTransitions(BuildContext context, Animation<double> 
 
 /// Displays an iOS-style dialog above the current contents of the app, with
 /// iOS-style entrance and exit animations, modal barrier color, and modal
-/// barrier behavior (the dialog is not dismissible with a tap on the barrier).
+/// barrier behavior (by default, the dialog is not dismissible with a tap on
+/// the barrier).
 ///
 /// This function takes a `builder` which typically builds a [CupertinoDialog]
 /// or [CupertinoAlertDialog] widget. Content below the dialog is dimmed with a
@@ -1027,13 +1136,15 @@ Future<T> showCupertinoDialog<T>({
   @required BuildContext context,
   @required WidgetBuilder builder,
   bool useRootNavigator = true,
+  bool barrierDismissible = false,
   RouteSettings routeSettings,
 }) {
   assert(builder != null);
   assert(useRootNavigator != null);
   return showGeneralDialog(
     context: context,
-    barrierDismissible: false,
+    barrierDismissible: barrierDismissible,
+    barrierLabel: CupertinoLocalizations.of(context).modalBarrierDismissLabel,
     barrierColor: CupertinoDynamicColor.resolve(_kModalBarrierColor, context),
     // This transition duration was eyeballed comparing with iOS
     transitionDuration: const Duration(milliseconds: 250),

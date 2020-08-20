@@ -176,7 +176,7 @@ class BaseApp extends BaseStatelessWidget {
   /// [CupertinoApp.actions]
   /// or
   /// [MaterialApp.actions]
-  final Map<LocalKey, ActionFactory> actions;
+  final Map<LocalKey, Action<Intent>> actions;
 
   /// *** general properties end ***
 

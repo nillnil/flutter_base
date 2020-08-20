@@ -3,12 +3,14 @@
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/widgets/bottom_navigation_bar_item.dart
-/// lastest push: 2019.12.06
-/// https://github.com/flutter/flutter/commit/c6fe7bb9e13dc630d04a0553ae74c9bdfd913688
-/// #46121 https://github.com/flutter/flutter/pull/46121
-/// flutter v1.17.2
+/// lastest push: 2020.06.11
+/// https://github.com/flutter/flutter/commit/4d7525f05c05a6df0b29396bc9eb78c3bf1e9f89
+/// #59186 https://github.com/flutter/flutter/pull/59186
+/// flutter v1.20.2
 ///
-/// lastest modify: 2020.06.04
+/// lastest modify: 2020.08.20
+
+// @dart = 2.8
 
 import 'dart:ui' show Color;
 

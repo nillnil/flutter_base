@@ -7,7 +7,8 @@ import 'package:provider/provider.dart';
 
 import 'provider/app_provider.dart';
 
-const String _version = '0.4.0';
+const String _version = '0.5.0';
+const String _flutter_version = '1.20.2';
 
 const TextStyle _style = TextStyle(
   fontSize: 14.0,
@@ -115,7 +116,19 @@ class Settings extends StatelessWidget {
                         margin: EdgeInsets.only(top: 20.0),
                         children: <Widget>[
                           BaseTile(
-                            titleText: '版本',
+                            titleText: 'Flutter版本',
+                            trailing: Padding(
+                              padding: EdgeInsets.only(right: 5.0),
+                              child: Text(
+                                _flutter_version,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ),
+                          BaseTile(
+                            titleText: 'App版本',
                             trailing: Padding(
                               padding: EdgeInsets.only(right: 5.0),
                               child: Text(
@@ -125,7 +138,7 @@ class Settings extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ],

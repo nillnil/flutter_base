@@ -15,7 +15,7 @@ class BaseRefresh extends BaseStatelessWidget {
     this.key,
     this.refreshTriggerPullDistance = _defaultRefreshTriggerPullDistance,
     this.refreshIndicatorExtent = _defaultRefreshIndicatorExtent,
-    this.builder = CupertinoSliverRefreshControl.buildSimpleRefreshIndicator,
+    this.builder = CupertinoSliverRefreshControl.buildRefreshIndicator,
     this.onRefresh,
     this.child,
     this.padding,

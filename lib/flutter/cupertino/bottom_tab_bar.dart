@@ -3,17 +3,19 @@
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/bottom_tab_bar.dart
-/// https://github.com/flutter/flutter/commit/aa071efd172b5214125689015910fcca745d132d
-/// #45502 https://github.com/flutter/flutter/pull/45502
-/// lastest push: 2019.12.17
-/// flutter v1.17.2
+/// https://github.com/flutter/flutter/commit/4d7525f05c05a6df0b29396bc9eb78c3bf1e9f89
+/// #59186 https://github.com/flutter/flutter/pull/59186
+/// lastest push: 2020.06.11
+/// flutter v1.20.2
 ///
-/// lastest modify: 2020.06.04
+/// lastest modify: 2020.08.20
+
+// @dart = 2.8
 
 import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/cupertino.dart'
-    show CupertinoColors, CupertinoDynamicColor, CupertinoTheme;
+    show CupertinoColors, CupertinoDynamicColor, CupertinoLocalizations, CupertinoTheme;
 import 'package:flutter/material.dart' hide BottomNavigationBarItem;
 import 'package:flutter/painting.dart';
 
@@ -192,10 +194,13 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
             style: CupertinoTheme.of(context).textTheme.tabLabelTextStyle.copyWith(color: inactive),
             child: Padding(
               padding: EdgeInsets.only(bottom: bottomPadding),
-              child: Row(
-                // Align bottom since we want the labels to be aligned.
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: _buildTabItems(context),
+              child: Semantics(
+                explicitChildNodes: true,
+                child: Row(
+                  // Align bottom since we want the labels to be aligned.
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: _buildTabItems(context),
+                ),
               ),
             ),
           ),
@@ -218,6 +223,14 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
 
   List<Widget> _buildTabItems(BuildContext context) {
     final List<Widget> result = <Widget>[];
+    final CupertinoLocalizations localizations = CupertinoLocalizations.of(context);
+    assert(
+      localizations != null,
+      'CupertinoTabBar requires a Localizations parent in order to provide an '
+        'appropriate Semantics hint for tab indexing. A CupertinoApp will '
+        'provide the DefaultCupertinoLocalizations, or you can instantiate your '
+        'own Localizations.'
+    );
 
     for (int index = 0; index < items.length; index += 1) {
       final bool active = index == currentIndex;
@@ -227,8 +240,10 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
           Expanded(
             child: Semantics(
               selected: active,
-              // TODO(xster): This needs localization support. https://github.com/flutter/flutter/issues/13452
-              hint: 'tab, ${index + 1} of ${items.length}',
+              hint: localizations.tabSemanticsLabel(
+                tabIndex: index + 1,
+                tabCount: items.length,
+              ),
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: onTap == null ? null : () { onTap(index); },

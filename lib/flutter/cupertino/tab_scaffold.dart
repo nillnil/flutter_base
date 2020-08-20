@@ -3,12 +3,14 @@
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/tab_scaffold.dart
-/// https://github.com/flutter/flutter/commit/fabf4e3d0d311181178d2c601d29a2f739ea543a
-/// #48254 https://github.com/flutter/flutter/pull/48254
-/// lastest push: 2020.01.09
-/// flutter v1.17.2
+/// https://github.com/flutter/flutter/commit/4d7525f05c05a6df0b29396bc9eb78c3bf1e9f89
+/// #59186 https://github.com/flutter/flutter/pull/59186
+/// lastest push: 2020.06.11
+/// flutter v1.20.2
 ///
-/// lastest modify: 2020.06.04
+/// lastest modify: 2020.08.20
+
+// @dart = 2.8
 
 import 'package:flutter/cupertino.dart'
     show CupertinoTheme, CupertinoDynamicColor;

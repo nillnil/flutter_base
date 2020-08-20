@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'drawer_demo.dart';
-import 'expansion_demo.dart';
+// import 'expansion_demo.dart';
 
 /// Componentes 说明
 class ComponentesDemo extends StatelessWidget {
@@ -36,18 +36,18 @@ class ComponentesDemo extends StatelessWidget {
                 ).push(context);
               },
             ),
-            BaseTile(
-              titleText: 'expansion',
-              trailing: const BaseIcon(
-                icon: CupertinoIcons.right_chevron,
-                color: Colors.grey,
-              ),
-              onTap: () {
-                BaseRoute<void>(
-                  builder: (_) => ExpansionDemo(),
-                ).push(context);
-              },
-            ),
+            // BaseTile(
+            //   titleText: 'expansion',
+            //   trailing: const BaseIcon(
+            //     icon: CupertinoIcons.right_chevron,
+            //     color: Colors.grey,
+            //   ),
+            //   onTap: () {
+            //     BaseRoute<void>(
+            //       builder: (_) => ExpansionDemo(),
+            //     ).push(context);
+            //   },
+            // ),
           ],
         ),
       ),

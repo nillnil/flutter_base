@@ -3,12 +3,14 @@
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/nav_bar.dart
-/// https://github.com/flutter/flutter/commit/1fc43d933035d43fcee0b8564ef24d95eac516ff
-/// #47884 https://github.com/flutter/flutter/pull/47884
-/// lastest push: 2020.01.07
-/// flutter v1.17.2
+/// https://github.com/flutter/flutter/commit/3e5c700fd722157cb987089e8358521d7c5cde23
+/// #58511 https://github.com/flutter/flutter/pull/58511
+/// lastest push: 2020.06.26
+/// flutter v1.20.2
 ///
-/// lastest modify: 2020.06.04
+/// lastest modify: 2020.08.20
+
+// @dart = 2.8
 
 import 'dart:math' as math;
 import 'dart:ui' show ImageFilter;
@@ -37,8 +39,8 @@ import 'package:flutter/cupertino.dart'
         CupertinoButton,
         CupertinoDynamicColor,
         CupertinoIcons,
-        CupertinoPageRoute,
         CupertinoPageScaffold,
+        CupertinoRouteTransitionMixin,
         CupertinoTheme,
         ObstructingPreferredSizeWidget;
 
@@ -539,7 +541,7 @@ class _CupertinoNavigationBarState extends State<CupertinoNavigationBar> {
     );
 
     final Color actionsForegroundColor = CupertinoDynamicColor.resolve(
-      widget.actionsForegroundColor, // ignore: deprecated_member_use_from_same_package
+      widget.actionsForegroundColor,
       context,
     );
     if (!widget.transitionBetweenRoutes || !_isTransitionable(context)) {
@@ -782,8 +784,8 @@ class _CupertinoSliverNavigationBarState extends State<CupertinoSliverNavigation
   @override
   Widget build(BuildContext context) {
     // Lint ignore to maintain backward compatibility.
-    final Color actionsForegroundColor = CupertinoDynamicColor.resolve(widget.actionsForegroundColor, context)  // ignore: deprecated_member_use_from_same_package
-                                       ?? CupertinoTheme.of(context).primaryColor;
+    final Color actionsForegroundColor = CupertinoDynamicColor.resolve(widget.actionsForegroundColor, context)
+                                      ?? CupertinoTheme.of(context).primaryColor;
 
     final _NavigationBarStaticComponents components = _NavigationBarStaticComponents(
       keys: keys,
@@ -1251,7 +1253,7 @@ class _NavigationBarStaticComponents {
   }) {
     // Auto use the CupertinoPageRoute's title if middle not provided.
     if (automaticallyImplyTitle &&
-        currentRoute is CupertinoPageRoute &&
+        currentRoute is CupertinoRouteTransitionMixin &&
         currentRoute.title != null) {
       return Text(currentRoute.title);
     }
@@ -1639,8 +1641,8 @@ class _BackLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     if (specifiedPreviousTitle != null) {
       return _buildPreviousTitleWidget(context, specifiedPreviousTitle, null);
-    } else if (route is CupertinoPageRoute<dynamic> && !route.isFirst) {
-      final CupertinoPageRoute<dynamic> cupertinoRoute = route as CupertinoPageRoute<dynamic>;
+    } else if (route is CupertinoRouteTransitionMixin<dynamic> && !route.isFirst) {
+      final CupertinoRouteTransitionMixin<dynamic> cupertinoRoute = route as CupertinoRouteTransitionMixin<dynamic>;
       // There is no timing issue because the previousTitle Listenable changes
       // happen during route modifications before the ValueListenableBuilder
       // is built.
