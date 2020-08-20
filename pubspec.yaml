@@ -5,7 +5,7 @@ author: Nil <2073582423@qq.com>
 homepage: https://github.com/nillnil/flutter_base
 
 environment:
-  sdk: '>=2.0.0 <3.0.0'
+  sdk: '>=2.8.0 <3.0.0'
   flutter: '>=1.20.2'
 
 dependencies:

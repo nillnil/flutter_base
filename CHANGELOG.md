@@ -1,4 +1,8 @@
-# 0.4.0 - 2020.06.04
+# 0.5.0 - 2020.08.20
+
+- change flutter version to 1.20.2
+
+## 0.4.0 - 2020.06.04
 
 - change flutter version to 1.17.2
 - incompatible with older versions
