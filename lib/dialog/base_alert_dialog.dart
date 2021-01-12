@@ -9,6 +9,10 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use AlertDialog on cuperitno.
 /// use AlertDialog by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoAlertDialog on material.
+/// 
+/// CupertinoAlertDialog: 2020.08.20
+/// AlertDialog: 2020.07.30
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseAlertDialog extends BaseStatelessWidget {
   const BaseAlertDialog({
     Key baseKey,
@@ -29,8 +33,14 @@ class BaseAlertDialog extends BaseStatelessWidget {
     this.contentPadding = const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
     this.contentTextStyle,
     this.backgroundColor,
+    this.actionsPadding = EdgeInsets.zero,
+    this.actionsOverflowDirection,
+    this.actionsOverflowButtonSpacing,
+    this.buttonPadding,
     this.elevation,
     this.semanticLabel,
+    this.insetPadding = const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
+    this.clipBehavior = Clip.none,
     this.shape,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
@@ -91,11 +101,29 @@ class BaseAlertDialog extends BaseStatelessWidget {
   /// [AlertDialog.backgroundColor]
   final Color backgroundColor;
 
+  /// [AlertDialog.actionsPadding]
+  final EdgeInsetsGeometry actionsPadding;
+
+  /// [AlertDialog.actionsOverflowDirection]
+  final VerticalDirection actionsOverflowDirection;
+
+  /// [AlertDialog.actionsOverflowButtonSpacing]
+  final double actionsOverflowButtonSpacing;
+
+  /// [AlertDialog.buttonPadding]
+  final EdgeInsetsGeometry buttonPadding;
+
   /// [AlertDialog.elevation]
   final double elevation;
 
   /// [AlertDialog.semanticLabel]
   final String semanticLabel;
+
+  /// [AlertDialog.insetPadding]
+  final EdgeInsets insetPadding;
+
+  /// [AlertDialog.clipBehavior]
+  final Clip clipBehavior;
 
   /// [AlertDialog.shape]
   final ShapeBorder shape;
@@ -127,9 +155,15 @@ class BaseAlertDialog extends BaseStatelessWidget {
       contentPadding: contentPadding,
       contentTextStyle: contentTextStyle,
       actions: valueFromMaterial('actions', actions),
+      actionsPadding: actionsPadding,
+      actionsOverflowDirection: actionsOverflowDirection,
+      actionsOverflowButtonSpacing: actionsOverflowButtonSpacing,
+      buttonPadding: buttonPadding,
       backgroundColor: backgroundColor,
       elevation: elevation,
       semanticLabel: semanticLabel,
+      insetPadding: insetPadding,
+      clipBehavior: clipBehavior,
       shape: shape,
     );
   }

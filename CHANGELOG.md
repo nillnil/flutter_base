@@ -1,4 +1,8 @@
-# 0.5.0 - 2020.08.20
+# 0.6.0 - 2020.08.20
+
+- change flutter version to 1.22.5
+
+## 0.5.0 - 2020.08.20
 
 - change flutter version to 1.20.2
 

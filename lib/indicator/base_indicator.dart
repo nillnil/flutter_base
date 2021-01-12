@@ -9,6 +9,10 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use CircularProgressIndicator on cuperitno.
 /// use CircularProgressIndicator by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoActivityIndicator on material.
+/// 
+/// CupertinoActivityIndicator: 2020.08.13
+/// CircularProgressIndicator: 2020.07.30
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseIndicator extends BaseStatelessWidget {
   const BaseIndicator({
     Key key,

@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-/// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/bottom_tab_bar.dart
-/// https://github.com/flutter/flutter/commit/4d7525f05c05a6df0b29396bc9eb78c3bf1e9f89
-/// #59186 https://github.com/flutter/flutter/pull/59186
-/// lastest push: 2020.06.11
-/// flutter v1.20.2
+/// modify from https://github.com/flutter/flutter/blob/stable/packages/flutter/lib/src/cupertino/bottom_tab_bar.dart
+/// lastest commit: 2020.08.14
+/// https://github.com/flutter/flutter/commit/bee9522f18639e5028b8c51b9e31d6b28cf832b4
+/// #59186 https://github.com/flutter/flutter/pull/59127
+/// flutter v1.22.5
 ///
-/// lastest modify: 2020.08.20
+/// lastest modify: 2021.01.12
 
 // @dart = 2.8
 
@@ -16,10 +16,8 @@ import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/cupertino.dart'
     show CupertinoColors, CupertinoDynamicColor, CupertinoLocalizations, CupertinoTheme;
-import 'package:flutter/material.dart' hide BottomNavigationBarItem;
+import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-
-import '../widgets/bottom_navigation_bar_item.dart';
 
 // Standard iOS 10 tab bar height.
 const double _kTabBarHeight = 50.0;
@@ -77,7 +75,6 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
         style: BorderStyle.solid,
       ),
     ),
-    this.showIndicator = true,
   }) : assert(items != null),
        assert(
          items.length >= 2,
@@ -140,9 +137,6 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
   ///
   /// The default value is a one physical pixel top border with grey color.
   final Border border;
-
-  /// when the icon is null, will add an indicator.
-  final bool showIndicator;
 
   @override
   Size get preferredSize => const Size.fromHeight(_kTabBarHeight);
@@ -266,41 +260,13 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   List<Widget> _buildSingleTabItem(BottomNavigationBarItem item, bool active) {
-    // icon can be null
-    final List<Widget> components = <Widget>[];
-    if (item.icon != null) {
-      components.add(Expanded(
+    return <Widget>[
+      Expanded(
         child: Center(child: active ? item.activeIcon : item.icon),
-      ));
-    }
-    if (item.title != null) {
-      if (components.isEmpty) {
-        components.add(Expanded(
-          child: Center(
-            child: DefaultTextStyle.merge(
-              style: const TextStyle(fontSize: 17.0),
-              child: item.title,
-            ),
-          ),
-        ));
-        if (showIndicator && active) {
-          components.add(
-            Container(
-              decoration: UnderlineTabIndicator(
-                borderSide: BorderSide(
-                  color: activeColor,
-                  width: 2,
-                ),
-                insets: const EdgeInsets.symmetric(horizontal: 30.0),
-              ),
-            ),
-          );
-        }
-      } else {
-        components.add(item.title);
-      }
-    }
-    return components;
+      ),
+      if (item.title != null) item.title,
+      if (item.label != null) Text(item.label),
+    ];
   }
 
   /// Change the active tab item's icon and title colors to active.
@@ -333,7 +299,6 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
     Border border,
     int currentIndex,
     ValueChanged<int> onTap,
-    bool showIndicator,
   }) {
     return CupertinoTabBar(
       key: key ?? this.key,
@@ -345,7 +310,6 @@ class CupertinoTabBar extends StatelessWidget implements PreferredSizeWidget {
       border: border ?? this.border,
       currentIndex: currentIndex ?? this.currentIndex,
       onTap: onTap ?? this.onTap,
-      showIndicator: showIndicator ?? this.showIndicator,
     );
   }
 }

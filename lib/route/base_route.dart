@@ -12,6 +12,10 @@ import '../theme/base_theme.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use MaterialPageRoute on cuperitno.
 /// use MaterialPageRoute
 /// *** use material = { forceUseCupertino: true } force use CupertinoPageRoute on material.
+/// 
+/// CupertinoPageRoute: 2020.09.30
+/// MaterialPageRoute: 2020.09.30
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseRoute<T> extends BaseClass {
   BaseRoute({
     this.builder,

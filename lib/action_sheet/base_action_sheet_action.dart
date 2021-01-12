@@ -8,6 +8,10 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use FlatButton on cuperitno.
 /// use InkWell by material, must has a Material Widget ancestor
 /// *** use material = { forceUseCupertino: true } force use CupertinoActionSheetAction on material.
+/// 
+/// CupertinoActionSheetAction: 2020.08.20
+/// FlatButton: 2020.07.30
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseActionSheetAction extends BaseStatelessWidget {
   const BaseActionSheetAction({
     Key baseKey,

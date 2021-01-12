@@ -1,8 +1,8 @@
-import 'package:flutter/widgets.dart' show BuildContext, Color, Widget;
+import 'package:flutter/widgets.dart' show BuildContext, Color, Widget, BottomNavigationBarItem;
 
 import '../base_class.dart';
-import '../flutter/widgets/bottom_navigation_bar_item.dart';
 
+@Deprecated('已废弃，使用原生的BottomNavigationBarItem，需要个性化的自行自定义')
 /// BaseBarItem
 /// use BottomNavigationBarItem by cupertino
 /// *** use cupertino = { forceUseMaterial: true } force use BottomNavigationBarItem on cuperitno.

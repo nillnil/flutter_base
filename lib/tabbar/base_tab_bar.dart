@@ -1,19 +1,19 @@
 import 'package:flutter/cupertino.dart'
     show CupertinoColors, CupertinoDynamicColor;
-import 'package:flutter/material.dart'
-    hide BottomNavigationBarItem, BottomNavigationBar;
+import 'package:flutter/material.dart';
 
 import '../base_stateless_widget.dart';
 import '../flutter/cupertino/bottom_tab_bar.dart';
-import '../flutter/material/bottom_navigation_bar.dart';
-import '../flutter/widgets/bottom_navigation_bar_item.dart';
-import 'base_bar_item.dart';
 
 /// BaseTabBar
 /// use CupertinoTabBar by cupertino
 /// *** not support cupertino = { forceUseMaterial: true }.
 /// use BottomNavigationBar by material
 /// *** not support material = { forceUseCupertino: true }.
+/// 
+/// CupertinoTabBar: 2020.08.14
+/// BottomNavigationBar: 2020.08.14
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseTabBar extends BaseStatelessWidget {
   const BaseTabBar({
     this.key,
@@ -57,7 +57,7 @@ class BaseTabBar extends BaseStatelessWidget {
   /// See also:
   ///   * [CupertinoTabBar.items]
   ///   * [BottomNavigationBar.items]
-  final List<BaseBarItem> items;
+  final List<BottomNavigationBarItem> items;
 
   /// [CupertinoTabBar.onTap]
   /// or
@@ -81,6 +81,7 @@ class BaseTabBar extends BaseStatelessWidget {
 
   /// when [icon is null], then will add an indicator
   // 显示指示器，当icon为null时，默认会添加一个指示器
+  @Deprecated('已删除该字段，需要的请自定义')
   final bool showIndicator;
 
   /// *** general properties end ***
@@ -162,16 +163,14 @@ class BaseTabBar extends BaseStatelessWidget {
       unselectedFontSize: unselectedFontSize,
       showSelectedLabels: showSelectedLabels,
       showUnselectedLabels: showSelectedLabels,
-      showIndicator: showIndicator,
     );
   }
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final List<BaseBarItem> items = valueFromCupertino('items', this.items);
     return CupertinoTabBar(
       key: valueFromCupertino('key', key),
-      items: _buildBarItem(context, items),
+      items: valueFromCupertino('items', items),
       onTap: valueFromCupertino('onTap', onTap),
       currentIndex: valueFromCupertino('currentIndex', currentIndex),
       backgroundColor: valueFromCupertino('backgroundColor', backgroundColor),
@@ -179,16 +178,14 @@ class BaseTabBar extends BaseStatelessWidget {
       inactiveColor: inactiveColor,
       iconSize: valueFromCupertino('iconSize', iconSize) ?? 30.0,
       border: valueFromCupertino('border', border),
-      showIndicator: valueFromCupertino('showIndicator', showIndicator),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final List<BaseBarItem> items = valueFromMaterial('items', this.items);
     return BottomNavigationBar(
       key: valueFromMaterial('key', key),
-      items: _buildBarItem(context, items),
+      items: valueFromMaterial('items', items),
       onTap: valueFromMaterial('onTap', onTap),
       currentIndex: valueFromMaterial('currentIndex', currentIndex),
       elevation: elevation,
@@ -206,20 +203,20 @@ class BaseTabBar extends BaseStatelessWidget {
       unselectedLabelStyle: unselectedLabelStyle,
       showSelectedLabels: showSelectedLabels,
       showUnselectedLabels: showSelectedLabels,
-      showIndicator: valueFromMaterial('showIndicator', showIndicator),
     );
   }
 
-  List<BottomNavigationBarItem> _buildBarItem(
-    BuildContext context,
-    List<BaseBarItem> items,
-  ) {
-    final List<BottomNavigationBarItem> barItems = <BottomNavigationBarItem>[];
-    for (int i = 0; i < items.length; i++) {
-      barItems.add(items[i].build(context));
-    }
-    return barItems;
-  }
+  // @Deprecated('已废弃')
+  // List<BottomNavigationBarItem> _buildBarItem(
+  //   BuildContext context,
+  //   List<BaseBarItem> items,
+  // ) {
+  //   final List<BottomNavigationBarItem> barItems = <BottomNavigationBarItem>[];
+  //   for (int i = 0; i < items.length; i++) {
+  //     barItems.add(items[i].build(context));
+  //   }
+  //   return barItems;
+  // }
 }
 
 const Color _kDefaultTabBarBorderColor = CupertinoDynamicColor.withBrightness(

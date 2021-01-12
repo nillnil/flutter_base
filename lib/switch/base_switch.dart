@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart' show CupertinoSwitch;
 import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import '../base_stateless_widget.dart';
 
@@ -9,6 +10,10 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use Switch
 /// use Switch by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoSwitch
+/// 
+/// CupertinoSwitch: 2020.06.11
+/// Switch: 2020.07.30
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseSwitch extends BaseStatelessWidget {
   const BaseSwitch({
     Key baseKey,
@@ -22,8 +27,11 @@ class BaseSwitch extends BaseStatelessWidget {
     this.inactiveThumbColor,
     this.inactiveTrackColor,
     this.activeThumbImage,
+    this.onActiveThumbImageError,
     this.inactiveThumbImage,
+    this.onInactiveThumbImageError,
     this.materialTapTargetSize,
+    this.mouseCursor,
     this.focusColor,
     this.hoverColor,
     this.focusNode,
@@ -97,6 +105,15 @@ class BaseSwitch extends BaseStatelessWidget {
   /// [Switch.autofocus]
   final bool autofocus;
 
+  /// [Switch.onActiveThumbImageError]
+  final ImageErrorListener onActiveThumbImageError;
+
+  /// [Switch.onInactiveThumbImageError]
+  final ImageErrorListener onInactiveThumbImageError;
+
+  /// [Switch.mouseCursor]
+  final MouseCursor mouseCursor;
+
   /// *** material properties end ***
 
   @override
@@ -129,8 +146,11 @@ class BaseSwitch extends BaseStatelessWidget {
       inactiveThumbColor: inactiveThumbColor,
       inactiveTrackColor: inactiveTrackColor,
       activeThumbImage: activeThumbImage,
+      onActiveThumbImageError: onActiveThumbImageError,
       inactiveThumbImage: inactiveThumbImage,
+      onInactiveThumbImageError: onInactiveThumbImageError,
       materialTapTargetSize: materialTapTargetSize,
+      mouseCursor: mouseCursor,
       focusColor: focusColor,
       hoverColor: hoverColor,
       focusNode: focusNode,

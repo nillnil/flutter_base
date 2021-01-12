@@ -2,13 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-/// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/route.dart
-/// https://github.com/flutter/flutter/commit/3e5c700fd722157cb987089e8358521d7c5cde23
-/// #58511 https://github.com/flutter/flutter/pull/58511
-/// lastest push: 2020.06.26
-/// flutter v1.20.2
+/// modify from https://github.com/flutter/flutter/blob/stable/packages/flutter/lib/src/cupertino/route.dart
+/// lastest commit: 2020.09.30
+/// https://github.com/flutter/flutter/commit/d408d302e22179d598f467e11da5dd968dbdc9ec
+/// #58511 https://github.com/flutter/flutter/pull/66849
+/// flutter v1.22.5
 ///
-/// lastest modify: 2020.08.20
+/// lastest modify: 2021.01.12
+
+// @dart = 2.8
 
 import 'dart:async';
 import 'dart:math';
@@ -104,7 +106,8 @@ final DecorationTween _kGradientShadowTween = DecorationTween(
 ///  * [CupertinoPageRoute], which is a [PageRoute] that leverages this mixin.
 mixin CupertinoRouteTransitionMixin<T> on PageRoute<T> {
   /// Builds the primary contents of the route.
-  WidgetBuilder get builder;
+  @protected
+  Widget buildContent(BuildContext context);
 
   /// {@template flutter.cupertino.cupertinoRouteTransitionMixin.title}
   /// A title string for this route.
@@ -238,7 +241,7 @@ mixin CupertinoRouteTransitionMixin<T> on PageRoute<T> {
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-    final Widget child = builder(context);
+    final Widget child = buildContent(context);
     final Widget result = Semantics(
       scopesRoute: true,
       explicitChildNodes: true,
@@ -365,11 +368,14 @@ class CupertinoPageRoute<T> extends PageRoute<T> with CupertinoRouteTransitionMi
        assert(opaque),
        super(settings: settings, fullscreenDialog: fullscreenDialog);
 
-  @override
+  /// Builds the primary contents of the route.
   final WidgetBuilder builder;
 
   @override
   final String title;
+
+  @override
+  Widget buildContent(BuildContext context) => builder(context);
 
   @override
   final bool maintainState;
@@ -397,7 +403,7 @@ class _PageBasedCupertinoPageRoute<T> extends PageRoute<T> with CupertinoRouteTr
   CupertinoPage<T> get _page => settings as CupertinoPage<T>;
 
   @override
-  WidgetBuilder get builder => _page.builder;
+  Widget buildContent(BuildContext context) => _page.child;
 
   @override
   String get title => _page.title;
@@ -431,20 +437,20 @@ class _PageBasedCupertinoPageRoute<T> extends PageRoute<T> with CupertinoRouteTr
 class CupertinoPage<T> extends Page<T> {
   /// Creates a cupertino page.
   const CupertinoPage({
-    @required this.builder,
+    @required this.child,
     this.maintainState = true,
     this.title,
     this.fullscreenDialog = false,
     LocalKey key,
     String name,
     Object arguments,
-  }) : assert(builder != null),
+  }) : assert(child != null),
        assert(maintainState != null),
        assert(fullscreenDialog != null),
        super(key: key, name: name, arguments: arguments);
 
-  /// Builds the primary contents of the route.
-  final WidgetBuilder builder;
+  /// The content to be shown in the [Route] created by this page.
+  final Widget child;
 
   /// {@macro flutter.cupertino.cupertinoRouteTransitionMixin.title}
   final String title;

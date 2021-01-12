@@ -11,6 +11,10 @@ import '../theme/base_theme.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use Scaffold on cuperitno.
 /// use Scaffold by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoPageScaffold/CupertinoTabScaffold on material.
+/// 
+/// CupertinoPageScaffold: 2020.06.11
+/// Scaffold: 2020.09.11
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseScaffold extends BaseStatelessWidget {
   const BaseScaffold({
     Key baseKey,
@@ -36,6 +40,8 @@ class BaseScaffold extends BaseStatelessWidget {
     this.extendBodyBehindAppBar = false,
     this.drawerScrimColor,
     this.drawerEdgeDragWidth,
+    this.drawerEnableOpenDragGesture = true,
+    this.endDrawerEnableOpenDragGesture = true,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
@@ -137,6 +143,12 @@ class BaseScaffold extends BaseStatelessWidget {
   /// [Scaffold.drawerEdgeDragWidth]
   final double drawerEdgeDragWidth;
 
+  /// [Scaffold.drawerEnableOpenDragGesture]
+  final bool drawerEnableOpenDragGesture;
+
+  /// [Scaffold.endDrawerEnableOpenDragGesture]
+  final bool endDrawerEnableOpenDragGesture;
+
   /// *** material properties end ***
 
   @override
@@ -203,6 +215,8 @@ class BaseScaffold extends BaseStatelessWidget {
       extendBodyBehindAppBar: extendBodyBehindAppBar,
       drawerScrimColor: drawerScrimColor,
       drawerEdgeDragWidth: drawerEdgeDragWidth,
+      drawerEnableOpenDragGesture: drawerEnableOpenDragGesture,
+      endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
     );
   }
 }

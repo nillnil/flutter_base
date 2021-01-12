@@ -8,6 +8,9 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use Icon on cuperitno.
 /// use Icon by material
 /// *** use material = { forceUseCupertino: true } force use Icon on material.
+/// 
+/// Icon: 2020.09.10
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseIcon extends BaseStatelessWidget {
   const BaseIcon({
     Key baseKey,

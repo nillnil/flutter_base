@@ -13,6 +13,10 @@ import '../theme/base_theme_data.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use MaterialApp on cuperitno.
 /// use MaterialApp by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoApp on material.
+/// 
+/// CupertinoApp: 2020.08.08
+/// MaterialApp: 2020.09.11
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseApp extends BaseStatelessWidget {
   const BaseApp({
     Key baseKey,
@@ -22,6 +26,7 @@ class BaseApp extends BaseStatelessWidget {
     this.routes = const <String, WidgetBuilder>{},
     this.initialRoute,
     this.onGenerateRoute,
+    this.onGenerateInitialRoutes,
     this.onUnknownRoute,
     this.navigatorObservers = const <NavigatorObserver>[],
     this.builder,
@@ -45,6 +50,8 @@ class BaseApp extends BaseStatelessWidget {
     this.cupertinoTheme,
     this.withoutSplashOnCupertino = true,
     this.materialTheme,
+    this.highContrastTheme,
+    this.highContrastDarkTheme,
     this.darkTheme,
     this.themeMode = ThemeMode.system,
     this.debugShowMaterialGrid = false,
@@ -81,6 +88,11 @@ class BaseApp extends BaseStatelessWidget {
   /// or
   /// [MaterialApp.onGenerateRoute]
   final RouteFactory onGenerateRoute;
+
+  /// [CupertinoApp.onGenerateInitialRoutes]
+  /// or
+  /// [MaterialApp.onGenerateInitialRoutes]
+  final InitialRouteListFactory onGenerateInitialRoutes;
 
   /// [CupertinoApp.onUnknownRoute]
   /// or
@@ -202,6 +214,12 @@ class BaseApp extends BaseStatelessWidget {
   /// [MaterialApp.darkTheme]
   final ThemeData darkTheme;
 
+  /// [MaterialApp.highContrastTheme]
+  final ThemeData highContrastTheme;
+
+  /// [MaterialApp.highContrastDarkTheme]
+  final ThemeData highContrastDarkTheme;
+
   /// [MaterialApp.themeMode]
   final ThemeMode themeMode;
 
@@ -242,6 +260,7 @@ class BaseApp extends BaseStatelessWidget {
         routes: valueFromCupertino('routes', routes),
         initialRoute: valueFromCupertino('initialRoute', initialRoute),
         onGenerateRoute: valueFromCupertino('onGenerateRoute', onGenerateRoute),
+        onGenerateInitialRoutes: valueFromCupertino('onGenerateInitialRoutes', onGenerateInitialRoutes),
         onUnknownRoute: valueFromCupertino('onUnknownRoute', onUnknownRoute),
         navigatorObservers: valueFromCupertino(
           'navigatorObservers',
@@ -315,6 +334,7 @@ class BaseApp extends BaseStatelessWidget {
         routes: valueFromMaterial('routes', routes),
         initialRoute: valueFromMaterial('initialRoute', initialRoute),
         onGenerateRoute: valueFromMaterial('onGenerateRoute', onGenerateRoute),
+        onGenerateInitialRoutes: valueFromMaterial('onGenerateInitialRoutes', onGenerateInitialRoutes),
         onUnknownRoute: valueFromMaterial('onUnknownRoute', onUnknownRoute),
         navigatorObservers: valueFromMaterial(
           'navigatorObservers',
@@ -326,6 +346,8 @@ class BaseApp extends BaseStatelessWidget {
         color: valueFromMaterial('color', color),
         theme: valueFromMaterial('theme', materialTheme),
         darkTheme: darkTheme,
+        highContrastTheme: highContrastTheme,
+        highContrastDarkTheme: highContrastDarkTheme,
         themeMode: themeMode,
         locale: valueFromMaterial('locale', locale),
         localizationsDelegates: valueFromMaterial(

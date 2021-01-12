@@ -18,6 +18,10 @@ import '../theme/base_theme_data.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use AppBar on cuperitno.
 /// use AppBar by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoNavigationBar on material.
+/// 
+/// CupertinoNavigationBar: 2020.06.26
+/// AppBar: 2020.09.11
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseAppBar extends BaseStatelessWidget
     implements ObstructingPreferredSizeWidget {
   const BaseAppBar({
@@ -28,6 +32,7 @@ class BaseAppBar extends BaseStatelessWidget
     this.automaticallyImplyLeading = true,
     this.automaticallyImplyMiddle = true,
     this.backgroundColor,
+    this.brightness,
     this.previousPageTitle,
     this.middle,
     this.border = const Border(
@@ -47,13 +52,15 @@ class BaseAppBar extends BaseStatelessWidget
     this.flexibleSpace,
     this.bottom,
     this.elevation = 4.0,
-    this.brightness,
     this.iconTheme,
+    this.shadowColor,
+    this.shape,
     this.actionsIconTheme,
     this.textTheme,
     this.primary = true,
     this.centerTitle,
     this.titleSpacing = NavigationToolbar.kMiddleSpacing,
+    this.excludeHeaderSemantics = false,
     this.toolbarOpacity = 1.0,
     this.bottomOpacity = 1.0,
     Map<String, dynamic> cupertino,
@@ -81,9 +88,12 @@ class BaseAppBar extends BaseStatelessWidget
   final bool automaticallyImplyMiddle;
 
   /// [CupertinoNavigationBar.backgroundColor]
-  /// or
-  /// [AppBar.backgroundColor]
   final Color backgroundColor;
+
+  /// [AppBar.brightness]
+  /// or
+  /// [CupertinoNavigationBar.backgroundColor]
+  final Brightness brightness;
 
   /// [CupertinoNavigationBar.toolbarOpacity], cupertino also support
   /// or
@@ -179,6 +189,12 @@ class BaseAppBar extends BaseStatelessWidget
   /// 当该参数为null时，会使用[middle]
   final Widget title;
 
+  /// [AppBar.shadowColor]
+  final Color shadowColor;
+
+  /// [AppBar.shape]
+  final ShapeBorder shape;
+
   /// [AppBar.actions]
   ///
   /// If this property is null, then [trailing] is used
@@ -191,9 +207,6 @@ class BaseAppBar extends BaseStatelessWidget
 
   /// [AppBar.elevation]
   final double elevation;
-
-  /// [AppBar.brightness]
-  final Brightness brightness;
 
   /// [AppBar.iconTheme]
   final IconThemeData iconTheme;
@@ -216,6 +229,9 @@ class BaseAppBar extends BaseStatelessWidget
 
   /// [AppBar.titleSpacing]
   final double titleSpacing;
+
+  /// [AppBar.excludeHeaderSemantics]
+  final bool excludeHeaderSemantics;
 
   /// *** material properties end ***
 
@@ -366,6 +382,8 @@ class BaseAppBar extends BaseStatelessWidget
       flexibleSpace: flexibleSpace,
       bottom: valueFromMaterial('bottom', bottom),
       elevation: valueFromMaterial('elevation', elevation),
+      shadowColor: shadowColor,
+      shape: shape,
       backgroundColor: _backgroundColor,
       brightness: valueFromMaterial('brightness', brightness),
       iconTheme: valueFromMaterial('iconTheme', iconTheme),
@@ -374,6 +392,7 @@ class BaseAppBar extends BaseStatelessWidget
       primary: valueFromMaterial('primary', primary),
       centerTitle: valueFromMaterial('centerTitle', centerTitle),
       titleSpacing: valueFromMaterial('titleSpacing', titleSpacing),
+      excludeHeaderSemantics: excludeHeaderSemantics,
       toolbarOpacity: valueFromMaterial('toolbarOpacity', toolbarOpacity),
       bottomOpacity: valueFromMaterial('bottomOpacity', bottomOpacity),
       toolbarHeight: _height,

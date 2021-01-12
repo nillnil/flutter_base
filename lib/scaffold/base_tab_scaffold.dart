@@ -12,6 +12,10 @@ import '../tabbar/base_tab_bar.dart';
 /// *** use cupertino = { forceUseMaterial: true } to force use Scaffold
 /// material，use Scaffold by material
 /// *** use material = { forceUseCupertino: true } to force use CupertinoTabScaffold
+/// 
+/// CupertinoPageScaffold: 2020.06.11
+/// Scaffold: 2020.09.11
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseTabScaffold extends BaseStatefulWidget {
   const BaseTabScaffold({
     Key baseKey,
@@ -37,6 +41,11 @@ class BaseTabScaffold extends BaseStatefulWidget {
     this.primary = true,
     this.drawerDragStartBehavior = DragStartBehavior.start,
     this.extendBody = false,
+    this.extendBodyBehindAppBar = false,
+    this.drawerScrimColor,
+    this.drawerEdgeDragWidth,
+    this.drawerEnableOpenDragGesture = true,
+    this.endDrawerEnableOpenDragGesture = true,
     this.tabViewKey,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
@@ -128,6 +137,21 @@ class BaseTabScaffold extends BaseStatefulWidget {
 
   /// [Scaffold.extendBody]
   final bool extendBody;
+
+  /// [Scaffold.extendBodyBehindAppBar]
+  final bool extendBodyBehindAppBar;
+
+  /// [Scaffold.drawerScrimColor]
+  final Color drawerScrimColor;
+
+  /// [Scaffold.drawerEdgeDragWidth]
+  final double drawerEdgeDragWidth;
+
+  /// [Scaffold.drawerEnableOpenDragGesture]
+  final bool drawerEnableOpenDragGesture;
+
+  /// [Scaffold.endDrawerEnableOpenDragGesture]
+  final bool endDrawerEnableOpenDragGesture;
 
   /// *** material properties end ***
 
@@ -230,6 +254,11 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
       primary: widget.primary,
       drawerDragStartBehavior: widget.drawerDragStartBehavior,
       extendBody: widget.extendBody,
+      extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+      drawerScrimColor: widget.drawerScrimColor,
+      drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+      drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+      endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
     );
   }
 }

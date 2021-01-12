@@ -1,3 +1,4 @@
+import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart'
     show
         CupertinoColors,
@@ -16,6 +17,10 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use TextField on cuperitno.
 /// use TextField by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoTextField on material.
+/// 
+/// CupertinoTextField: 2020.09.10
+/// TextField: 2020.08.22
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseTextField extends BaseStatelessWidget {
   const BaseTextField({
     Key baseKey,
@@ -33,6 +38,7 @@ class BaseTextField extends BaseStatelessWidget {
     this.showCursor,
     this.toolbarOptions,
     this.autofocus = false,
+    this.obscuringCharacter = '',
     this.obscureText = false,
     this.autocorrect = true,
     this.smartDashesType,
@@ -49,14 +55,19 @@ class BaseTextField extends BaseStatelessWidget {
     this.inputFormatters,
     this.enabled,
     this.cursorWidth = 2.0,
+    this.cursorHeight,
     this.cursorRadius = const Radius.circular(2.0),
     this.cursorColor,
+    this.selectionHeightStyle = ui.BoxHeightStyle.tight,
+    this.selectionWidthStyle = ui.BoxWidthStyle.tight,
     this.keyboardAppearance,
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.dragStartBehavior = DragStartBehavior.start,
     this.enableInteractiveSelection = true,
     this.scrollController,
     this.scrollPhysics,
+    this.autofillHints,
+    this.restorationId,
     // cupertino
     this.cupertinoDecoration = _kDefaultRoundedBorderDecoration,
     this.padding = const EdgeInsets.all(6.0),
@@ -149,9 +160,9 @@ class BaseTextField extends BaseStatelessWidget {
   /// [TextField.autofocus]
   final bool autofocus;
 
-  /// [CupertinoTextField.]
+  /// [CupertinoTextField.obscureText]
   /// or
-  /// [TextField.]
+  /// [TextField.obscureText]
   final bool obscureText;
 
   /// [CupertinoTextField.autocorrect]
@@ -269,6 +280,36 @@ class BaseTextField extends BaseStatelessWidget {
   /// [TextField.scrollPhysics]
   final ScrollPhysics scrollPhysics;
 
+  /// [CupertinoTextField.obscuringCharacter]
+  /// or
+  /// [TextField.obscuringCharacter]
+  final String obscuringCharacter;
+
+  /// [CupertinoTextField.selectionHeightStyle]
+  /// or
+  /// [TextField.selectionHeightStyle]
+  final ui.BoxHeightStyle selectionHeightStyle;
+
+  /// [CupertinoTextField.selectionWidthStyle]
+  /// or
+  /// [TextField.selectionWidthStyle]
+  final ui.BoxWidthStyle selectionWidthStyle;
+
+  /// [CupertinoTextField.cursorHeight]
+  /// or
+  /// [TextField.cursorHeight]
+  final double cursorHeight;
+
+  /// [CupertinoTextField.autofillHints]
+  /// or
+  /// [TextField.autofillHints]
+  final Iterable<String> autofillHints;
+
+  /// [CupertinoTextField.restorationId]
+  /// or
+  /// [TextField.restorationId]
+  final String restorationId;
+
   /// *** general properties end ***
 
   /// *** cupertino properties start ***
@@ -341,6 +382,7 @@ class BaseTextField extends BaseStatelessWidget {
       toolbarOptions: valueFromCupertino('toolbarOptions', toolbarOptions),
       showCursor: valueFromCupertino('showCursor', showCursor),
       autofocus: valueFromCupertino('autofocus', autofocus),
+      obscuringCharacter: valueFromCupertino('obscuringCharacter', obscuringCharacter),
       obscureText: valueFromCupertino('obscureText', obscureText),
       autocorrect: valueFromCupertino('autocorrect', autocorrect),
       smartDashesType: valueFromCupertino('smartDashesType', smartDashesType),
@@ -364,8 +406,11 @@ class BaseTextField extends BaseStatelessWidget {
       inputFormatters: valueFromCupertino('inputFormatters', inputFormatters),
       enabled: valueFromCupertino('enabled', enabled),
       cursorWidth: valueFromCupertino('cursorWidth', cursorWidth),
+      cursorHeight: valueFromCupertino('cursorHeight', cursorHeight),
       cursorRadius: valueFromCupertino('cursorRadius', cursorRadius),
       cursorColor: valueFromCupertino('cursorColor', cursorColor),
+      selectionHeightStyle: valueFromCupertino('selectionHeightStyle', selectionHeightStyle),
+      selectionWidthStyle: valueFromCupertino('selectionWidthStyle', selectionWidthStyle),
       keyboardAppearance: valueFromCupertino(
         'keyboardAppearance',
         keyboardAppearance,
@@ -385,6 +430,8 @@ class BaseTextField extends BaseStatelessWidget {
         scrollController,
       ),
       scrollPhysics: valueFromCupertino('scrollPhysics', scrollPhysics),
+      autofillHints: valueFromCupertino('autofillHints', autofillHints),
+      restorationId: valueFromCupertino('restorationId', restorationId),
       // cupertino
       decoration: cupertinoDecoration,
       padding: padding,
@@ -421,6 +468,7 @@ class BaseTextField extends BaseStatelessWidget {
       toolbarOptions: valueFromMaterial('toolbarOptions', toolbarOptions),
       showCursor: valueFromMaterial('showCursor', showCursor),
       autofocus: valueFromMaterial('autofocus', autofocus),
+      obscuringCharacter: valueFromMaterial('obscuringCharacter', obscuringCharacter),
       obscureText: valueFromMaterial('obscureText', obscureText),
       autocorrect: valueFromMaterial('autocorrect', autocorrect),
       smartDashesType: valueFromMaterial('smartDashesType', smartDashesType),
@@ -446,8 +494,11 @@ class BaseTextField extends BaseStatelessWidget {
       inputFormatters: valueFromMaterial('inputFormatters', inputFormatters),
       enabled: valueFromMaterial('enabled', enabled),
       cursorWidth: valueFromMaterial('cursorWidth', cursorWidth),
+      cursorHeight: valueFromMaterial('cursorHeight', cursorHeight),
       cursorRadius: valueFromMaterial('cursorRadius', cursorRadius),
       cursorColor: valueFromMaterial('cursorColor', cursorColor),
+      selectionHeightStyle: valueFromMaterial('selectionHeightStyle', selectionHeightStyle),
+      selectionWidthStyle: valueFromMaterial('selectionWidthStyle', selectionWidthStyle),
       keyboardAppearance: valueFromMaterial(
         'keyboardAppearance',
         keyboardAppearance,
@@ -466,6 +517,8 @@ class BaseTextField extends BaseStatelessWidget {
         scrollController,
       ),
       scrollPhysics: valueFromMaterial('scrollPhysics', scrollPhysics),
+      autofillHints: valueFromMaterial('autofillHints', autofillHints),
+      restorationId: valueFromMaterial('scrollPhysics', restorationId),
       // material
       decoration: materialDecoration,
       textDirection: textDirection,

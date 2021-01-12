@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart'
     show CupertinoButton, ShapeBorder, CupertinoColors;
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import '../base_stateless_widget.dart';
 
@@ -9,6 +10,10 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use MaterialButton or FlatButton or OutlineButton or RaisedButton on cuperitno.
 /// use MaterialButton or FlatButton or OutlineButton or RaisedButton by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoButton or CupertinoButton.filled on material.
+/// 
+/// CupertinoButton: 2020.07.08
+/// MaterialButton: 2020.07.30
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseButton extends BaseStatelessWidget {
   const BaseButton({
     Key baseKey,
@@ -44,6 +49,7 @@ class BaseButton extends BaseStatelessWidget {
     this.materialTapTargetSize,
     this.animationDuration,
     this.minWidth,
+    this.mouseCursor,
 
     /// 使按钮跟CupertinoButton的一样高，只有MaterialButton有效
     /// 其他的需修改Theme.of(context).buttonTheme.height才有效
@@ -100,6 +106,7 @@ class BaseButton extends BaseStatelessWidget {
     this.materialTapTargetSize,
     this.animationDuration,
     this.minWidth,
+    this.mouseCursor,
     // 使按钮跟CupertinoButton的一样高
     this.height = 48.0,
     this.flat = false,
@@ -248,14 +255,6 @@ class BaseButton extends BaseStatelessWidget {
   /// [MaterialButton.height]
   final double height;
 
-  /// [FlatButton]
-  /// use FlatButton
-  final bool flat;
-
-  /// [OutlineButton]
-  /// use OutlineButton
-  final bool outline;
-
   /// [OutlineButton.borderSide]
   final BorderSide borderSide;
 
@@ -264,6 +263,17 @@ class BaseButton extends BaseStatelessWidget {
 
   /// [OutlineButton.highlightedBorderColor]
   final Color highlightedBorderColor;
+
+  /// [MaterialButton.mouseCursor]
+  final MouseCursor mouseCursor;
+
+  /// [FlatButton]
+  /// use FlatButton
+  final bool flat;
+
+  /// [OutlineButton]
+  /// use OutlineButton
+  final bool outline;
 
   /// [RaisedButton]
   /// use RaisedButton
@@ -334,6 +344,8 @@ class BaseButton extends BaseStatelessWidget {
         autofocus: autofocus,
         materialTapTargetSize: materialTapTargetSize,
         child: valueFromMaterial('child', child),
+        height: height,
+        minWidth: minWidth,
       );
     } else if (outline) {
       return OutlineButton(
@@ -412,6 +424,8 @@ class BaseButton extends BaseStatelessWidget {
       visualDensity: visualDensity,
       shape: shape,
       clipBehavior: clipBehavior,
+      focusNode: focusNode,
+      autofocus: autofocus,
       materialTapTargetSize: materialTapTargetSize,
       animationDuration: animationDuration,
       minWidth: minWidth,

@@ -10,6 +10,10 @@ import '../platform/platform.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use custom BottomSheet on cuperitno.
 /// use custom BottomSheet by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoActionSheet on material.
+/// 
+/// CupertinoActionSheet: 2020.08.20
+/// BottomSheet: 2020.07.30
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseActionSheet extends BaseStatelessWidget {
   const BaseActionSheet({
     Key baseKey,

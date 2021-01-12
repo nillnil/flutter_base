@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 
 import 'provider/app_provider.dart';
 
-const String _version = '0.5.0';
-const String _flutter_version = '1.20.2';
+const String _version = '0.6.0';
+const String _flutter_version = '1.22.5';
 
 const TextStyle _style = TextStyle(
   fontSize: 14.0,

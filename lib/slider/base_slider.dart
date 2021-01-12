@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoSlider;
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import '../base_stateless_widget.dart';
 
@@ -8,6 +9,10 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use Slider
 /// material，use Slider
 /// *** use material = { forceUseCupertino: true } force use CupertinoSlider
+/// 
+/// CupertinoSlider: 2020.06.11
+/// Slider: 2020.09.03
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseSlider extends BaseStatelessWidget {
   const BaseSlider({
     Key baseKey,
@@ -23,6 +28,9 @@ class BaseSlider extends BaseStatelessWidget {
     this.thumbColor = CupertinoColors.white,
     this.label,
     this.inactiveColor,
+    this.mouseCursor,
+    this.focusNode,
+    this.autofocus = false,
     this.semanticFormatterCallback,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
@@ -90,6 +98,15 @@ class BaseSlider extends BaseStatelessWidget {
   /// [Slider.inactiveColor]
   final Color inactiveColor;
 
+  /// [Slider.mouseCursor]
+  final MouseCursor mouseCursor;
+
+  /// [Slider.focusNode]
+  final FocusNode focusNode;
+
+  /// [Slider.autofocus]
+  final bool autofocus;
+
   /// [Slider.semanticFormatterCallback]
   final SemanticFormatterCallback semanticFormatterCallback;
 
@@ -123,9 +140,12 @@ class BaseSlider extends BaseStatelessWidget {
       max: valueFromMaterial('max', max),
       divisions: valueFromMaterial('divisions', divisions),
       label: valueFromMaterial('label', label),
+      mouseCursor: mouseCursor,
       activeColor: valueFromMaterial('activeColor', activeColor),
       inactiveColor: inactiveColor,
       semanticFormatterCallback: semanticFormatterCallback,
+      focusNode: focusNode,
+      autofocus: autofocus,
     );
   }
 }

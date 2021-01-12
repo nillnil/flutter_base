@@ -1,4 +1,5 @@
 import 'package:base/base.dart';
+import 'package:example/iconfont/iconfont.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -46,30 +47,30 @@ class _Demo extends StatelessWidget {
       child: BaseTabScaffold(
         tabBar: const BaseTabBar(
           type: BottomNavigationBarType.fixed,
-          items: <BaseBarItem>[
-            BaseBarItem(
-              // icon: BaseIcon(
-              //   icon: IconFont.dialog,
-              // ),
-              title: Text('消息'),
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: BaseIcon(
+                icon: IconFont.dialog,
+              ),
+              label: '消息',
             ),
-            BaseBarItem(
-              // icon: BaseIcon(
-              //   icon: IconFont.contacts,
-              // ),
-              title: Text('联系人'),
+            BottomNavigationBarItem(
+              icon: BaseIcon(
+                icon: IconFont.contacts,
+              ),
+              label: '联系人',
             ),
-            BaseBarItem(
-              // icon: BaseIcon(
-              //   icon: IconFont.discover,
-              // ),
-              title: Text('发现'),
+            BottomNavigationBarItem(
+              icon: BaseIcon(
+                icon: IconFont.discover,
+              ),
+              label: '发现',
             ),
-            BaseBarItem(
-              // icon: BaseIcon(
-              //   icon: IconFont.profile,
-              // ),
-              title: Text('我'),
+            BottomNavigationBarItem(
+              icon: BaseIcon(
+                icon: IconFont.profile,
+              ),
+              label: '我',
             ),
           ],
           iconSize: 24.0,

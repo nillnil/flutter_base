@@ -134,9 +134,7 @@ class BaseTile extends BaseStatelessWidget {
       padding: valueFromCupertino('contentPadding', contentPadding) ??
           const EdgeInsets.symmetric(horizontal: 10.0),
       child: DefaultTextStyle(
-        style: cupertinoTheme.textTheme.textStyle.copyWith(
-          fontSize: 14.0,
-        ),
+        style: cupertinoTheme.textTheme.textStyle,
         child: _child,
       ),
     );

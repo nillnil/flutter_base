@@ -9,6 +9,10 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use RefreshIndicator on cuperitno.
 /// use RefreshIndicator by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoSliverRefreshControl on material.
+/// 
+/// CustomScrollView + CupertinoSliverRefreshControl: 2020.09.10 + 2020.06.24
+/// RefreshIndicator: 2020.06.11
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseRefresh extends BaseStatelessWidget {
   const BaseRefresh({
     Key baseKey,
@@ -25,6 +29,7 @@ class BaseRefresh extends BaseStatelessWidget {
     this.notificationPredicate = defaultScrollNotificationPredicate,
     this.semanticsLabel,
     this.semanticsValue,
+    this.strokeWidth = 2.0,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
@@ -87,6 +92,9 @@ class BaseRefresh extends BaseStatelessWidget {
 
   /// [RefreshIndicator.semanticsValue]
   final String semanticsValue;
+
+  /// [RefreshIndicator.strokeWidth]
+  final double strokeWidth;
 
   /// *** material properties end ***
 
@@ -153,6 +161,7 @@ class BaseRefresh extends BaseStatelessWidget {
       notificationPredicate: notificationPredicate,
       semanticsLabel: semanticsLabel,
       semanticsValue: semanticsValue,
+      strokeWidth: strokeWidth,
       onRefresh: valueFromMaterial('onRefresh', onRefresh),
     );
   }

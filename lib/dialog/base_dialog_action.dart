@@ -8,6 +8,10 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use FlatButton on cuperitno.
 /// use FlatButton by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoDialogAction on material.
+/// 
+/// CupertinoDialogAction: 2020.08.20
+/// FlatButton: 2020.07.30
+/// modify 2021.01.12 by flutter 1.22.5
 class BaseDialogAction extends BaseStatelessWidget {
   const BaseDialogAction({
     Key baseKey,
@@ -35,6 +39,8 @@ class BaseDialogAction extends BaseStatelessWidget {
     this.focusNode,
     this.autofocus = false,
     this.materialTapTargetSize,
+    this.height,
+    this.minWidth,
     Map<String, dynamic> cupertino,
     Map<String, dynamic> material,
   }) : super(key: baseKey, cupertino: cupertino, material: material);
@@ -125,6 +131,12 @@ class BaseDialogAction extends BaseStatelessWidget {
   /// [FlatButton.materialTapTargetSize]
   final MaterialTapTargetSize materialTapTargetSize;
 
+  /// [FlatButton.height]
+  final double height;
+
+  /// [FlatButton.minWidth]
+  final double minWidth;
+
   /// *** material properties end ***
 
   @override
@@ -162,6 +174,8 @@ class BaseDialogAction extends BaseStatelessWidget {
       autofocus: autofocus,
       materialTapTargetSize: materialTapTargetSize,
       child: valueFromMaterial('child', child),
+      height: height,
+      minWidth: minWidth,
     );
   }
 }

@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-/// modify from https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/cupertino/tab_scaffold.dart
+/// modify from https://github.com/flutter/flutter/blob/stable/packages/flutter/lib/src/cupertino/tab_scaffold.dart
 /// https://github.com/flutter/flutter/commit/4d7525f05c05a6df0b29396bc9eb78c3bf1e9f89
 /// #59186 https://github.com/flutter/flutter/pull/59186
 /// lastest push: 2020.06.11
-/// flutter v1.20.2
+/// flutter v1.22.5
 ///
-/// lastest modify: 2020.08.20
+/// lastest modify: 2021.01.12
 
 // @dart = 2.8
 
