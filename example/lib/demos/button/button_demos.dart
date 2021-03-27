@@ -7,13 +7,16 @@ import 'button_demo.dart';
 import 'icon_button_demo.dart';
 
 class ButtonDemos extends StatefulWidget {
+  const ButtonDemos({
+    Key? key,
+  }) : super(key: key);
   @override
   _ButtonDemosState createState() => _ButtonDemosState();
 }
 
 class _ButtonDemosState extends State<ButtonDemos>
     with SingleTickerProviderStateMixin {
-  TabController tabController;
+  TabController? tabController;
 
   @override
   void initState() {
@@ -58,7 +61,7 @@ class _ButtonDemosState extends State<ButtonDemos>
       ),
       body: TabBarView(
         controller: tabController,
-        children: <Widget>[
+        children: const <Widget>[
           ButtonDemo(),
           IconButtonDemo(),
         ],

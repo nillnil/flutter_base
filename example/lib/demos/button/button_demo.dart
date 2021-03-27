@@ -9,10 +9,13 @@ import '../demo_tile.dart';
 
 /// Button 示例
 class ButtonDemo extends StatelessWidget {
+  const ButtonDemo({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final bool _isLightness =
-        (MediaQuery.of(context).platformBrightness ?? Brightness.light) ==
+        (MediaQuery.maybeOf(context)?.platformBrightness ?? Brightness.light) ==
             Brightness.light;
     final List<Widget> children = <Widget>[];
     const EdgeInsets _padding = EdgeInsets.only(bottom: 10.0);
@@ -128,13 +131,13 @@ class ButtonDemo extends StatelessWidget {
             padding: _buttonPadding,
             color: Colors.white,
             child: const Text(
-              'flat',
+              'TextButton',
               style: TextStyle(
                 color: Colors.black,
               ),
             ),
             onPressed: () {},
-            flat: true,
+            textButton: true,
           ),
         ),
       );
@@ -149,13 +152,13 @@ class ButtonDemo extends StatelessWidget {
               color: Colors.black,
             ),
             label: const Text(
-              'flat icon',
+              'TextButton.icon',
               style: TextStyle(
                 color: Colors.black,
               ),
             ),
             onPressed: () {},
-            flat: true,
+            textButton: true,
           ),
         ),
       );
@@ -166,7 +169,7 @@ class ButtonDemo extends StatelessWidget {
             padding: _buttonPadding,
             color: Colors.white,
             child: Text(
-              'outline',
+              'OutlinedButton',
               style: TextStyle(
                 color: (useMaterial && !_isLightness)
                     ? Colors.white
@@ -174,7 +177,7 @@ class ButtonDemo extends StatelessWidget {
               ),
             ),
             onPressed: () {},
-            outline: true,
+            outlinedButton: true,
           ),
         ),
       );
@@ -188,7 +191,7 @@ class ButtonDemo extends StatelessWidget {
               Icons.add_location,
             ),
             label: Text(
-              'outline icon',
+              'OutlinedButton.icon',
               style: TextStyle(
                 color: (useMaterial && !_isLightness)
                     ? Colors.white
@@ -196,7 +199,7 @@ class ButtonDemo extends StatelessWidget {
               ),
             ),
             onPressed: () {},
-            outline: true,
+            outlinedButton: true,
           ),
         ),
       );
@@ -207,13 +210,13 @@ class ButtonDemo extends StatelessWidget {
             padding: _buttonPadding,
             color: Colors.white,
             child: const Text(
-              'raised',
+              'ElevatedButton',
               style: TextStyle(
                 color: Colors.black,
               ),
             ),
             onPressed: () {},
-            raised: true,
+            elevatedButton: true,
           ),
         ),
       );
@@ -228,30 +231,30 @@ class ButtonDemo extends StatelessWidget {
               color: Colors.black,
             ),
             label: const Text(
-              'raised icon',
+              'ElevatedButton.icon',
               style: TextStyle(
                 color: Colors.black,
               ),
             ),
             onPressed: () {},
-            raised: true,
+            elevatedButton: true,
           ),
         ),
       );
     }
     return DemoPage(
       widgetName: 'BaseButton',
-      materialDesc: 'use MaterialButton or FlatButton or '
-          'OutlineButton or RaisedButton',
+      materialDesc: 'use MaterialButton or TextButton or '
+          'OutlinedButton or ElevatedButton',
       cupertinoDesc: 'use CupertinoButton or CupertinoButton.filled',
       parameterDesc: const <String, String>{
         'filled': 'effective on Cupertino, default is false. '
             'use CupertinoButton.filled',
-        'flat': 'effective on Material, default is false. use FlatButton',
-        'outline': 'effective on Material, default is false. use OutlineButton',
-        'raised': 'effective on Material, default is false. use RaisedButton',
+        'textButton': 'effective on Material, default is false. use TextButton',
+        'outlinedButton': 'effective on Material, default is false. use OutlinedButton',
+        'elevatedButton': 'effective on Material, default is false. use ElevatedButton',
         'BaseButton.icon': 'icon cna\'t be null, use MaterialButton or '
-            'FlatButton.icon or OutlineButton.icon or RaisedButon.icon on Material.'
+            'TextButton.icon or OutlinedButton.icon or ElevatedButton.icon on Material.'
       },
       tips: 'If you don\'t want to have a label with the icon, '
           'suggest use the BaseIconButton.',

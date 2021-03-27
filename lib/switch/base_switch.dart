@@ -10,18 +10,18 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use Switch
 /// use Switch by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoSwitch
-/// 
-/// CupertinoSwitch: 2020.06.11
-/// Switch: 2020.07.30
-/// modify 2021.01.12 by flutter 1.22.5
+///
+/// CupertinoSwitch: 2020.12.23
+/// Switch: 2020.12.07
+/// modify 2021.03.26 by flutter 2.0.3
 class BaseSwitch extends BaseStatelessWidget {
   const BaseSwitch({
-    Key baseKey,
-    this.key,
+    Key? key,
     this.value,
     this.onChanged,
     this.activeColor,
-    this.trackColor,
+    this.cupertinoTrackColor,
+    this.materialTrackColor,
     this.dragStartBehavior = DragStartBehavior.start,
     this.activeTrackColor,
     this.inactiveThumbColor,
@@ -35,29 +35,30 @@ class BaseSwitch extends BaseStatelessWidget {
     this.focusColor,
     this.hoverColor,
     this.focusNode,
+    this.overlayColor,
+    this.splashRadius,
+    this.thumbColor,
     this.autofocus = false,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
-  }) : super(key: baseKey, cupertino: cupertino, material: material);
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
+  }) : super(key: key, cupertino: cupertino, material: material);
 
   /// *** gerenal properties start ***
-  @override
-  final Key key;
 
   /// [CupertinoSwitch.value]
   /// or
   /// [Switch.value]
-  final bool value;
+  final bool? value;
 
   /// [CupertinoSwitch.onChanged]
   /// or
   /// [Switch.onChanged]
-  final ValueChanged<bool> onChanged;
+  final ValueChanged<bool>? onChanged;
 
   /// [CupertinoSwitch.activeColor]
   /// or
   /// [Switch.activeColor]
-  final Color activeColor;
+  final Color? activeColor;
 
   /// [CupertinoSwitch.dragStartBehavior]
   /// or
@@ -69,60 +70,70 @@ class BaseSwitch extends BaseStatelessWidget {
   /// *** cupertino properties start ***
 
   /// [CupertinoSwitch.trackColor]
-  final Color trackColor;
+  final Color? cupertinoTrackColor;
 
   /// *** cupertino properties end ***
 
   /// *** material properties start ***
 
   /// [Switch.activeTrackColor]
-  final Color activeTrackColor;
+  final Color? activeTrackColor;
 
   /// [Switch.inactiveThumbColor]
-  final Color inactiveThumbColor;
+  final Color? inactiveThumbColor;
 
   /// [Switch.inactiveTrackColor]
-  final Color inactiveTrackColor;
+  final Color? inactiveTrackColor;
 
   /// [Switch.activeThumbImage]
-  final ImageProvider activeThumbImage;
+  final ImageProvider? activeThumbImage;
 
   /// [Switch.inactiveThumbImage]
-  final ImageProvider inactiveThumbImage;
+  final ImageProvider? inactiveThumbImage;
 
   /// [Switch.materialTapTargetSize]
-  final MaterialTapTargetSize materialTapTargetSize;
+  final MaterialTapTargetSize? materialTapTargetSize;
 
   /// [Switch.focusColor]
-  final Color focusColor;
+  final Color? focusColor;
 
   /// [Switch.hoverColor]
-  final Color hoverColor;
+  final Color? hoverColor;
+
+  /// [Switch.overlayColor]
+  final MaterialStateProperty<Color?>? overlayColor;
+
+  /// [Switch.splashRadius]
+  final double? splashRadius;
 
   /// [Switch.focusNode]
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
 
   /// [Switch.autofocus]
   final bool autofocus;
 
   /// [Switch.onActiveThumbImageError]
-  final ImageErrorListener onActiveThumbImageError;
+  final ImageErrorListener? onActiveThumbImageError;
 
   /// [Switch.onInactiveThumbImageError]
-  final ImageErrorListener onInactiveThumbImageError;
+  final ImageErrorListener? onInactiveThumbImageError;
+
+  /// [Switch.thumbColor]
+  final MaterialStateProperty<Color?>? thumbColor;
+
+  final MaterialStateProperty<Color?>? materialTrackColor;
 
   /// [Switch.mouseCursor]
-  final MouseCursor mouseCursor;
+  final MouseCursor? mouseCursor;
 
   /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoSwitch(
-      key: valueFromCupertino('key', key),
       value: valueFromCupertino('value', value),
       activeColor: valueFromCupertino('activeColor', activeColor),
-      trackColor: valueFromCupertino('trackColor', trackColor),
+      trackColor: cupertinoTrackColor,
       dragStartBehavior: valueFromCupertino(
         'dragStartBehavior',
         dragStartBehavior,
@@ -134,14 +145,9 @@ class BaseSwitch extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return Switch(
-      key: valueFromMaterial('key', key),
       value: valueFromMaterial('value', value),
-      activeColor: valueFromMaterial('activeColor', activeColor),
-      dragStartBehavior: valueFromMaterial(
-        'dragStartBehavior',
-        dragStartBehavior,
-      ),
       onChanged: valueFromMaterial('onChanged', onChanged),
+      activeColor: valueFromMaterial('activeColor', activeColor),
       activeTrackColor: activeTrackColor,
       inactiveThumbColor: inactiveThumbColor,
       inactiveTrackColor: inactiveTrackColor,
@@ -149,10 +155,18 @@ class BaseSwitch extends BaseStatelessWidget {
       onActiveThumbImageError: onActiveThumbImageError,
       inactiveThumbImage: inactiveThumbImage,
       onInactiveThumbImageError: onInactiveThumbImageError,
+      thumbColor: thumbColor,
+      trackColor: materialTrackColor,
       materialTapTargetSize: materialTapTargetSize,
+      dragStartBehavior: valueFromMaterial(
+        'dragStartBehavior',
+        dragStartBehavior,
+      ),
       mouseCursor: mouseCursor,
       focusColor: focusColor,
       hoverColor: hoverColor,
+      overlayColor: overlayColor,
+      splashRadius: splashRadius,
       focusNode: focusNode,
       autofocus: autofocus,
     );

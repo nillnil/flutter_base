@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../base_stateless_widget.dart';
 import '../platform/platform.dart';
 
-@deprecated
+@Deprecated('')
 class BaseGeneralDialog extends BaseStatelessWidget {
   const BaseGeneralDialog({
-    Key baseKey,
+    Key? key,
     this.barrierDismissible = true,
     this.barrierLabel,
     this.barrierColor = const Color(0x80000000),
@@ -16,19 +16,21 @@ class BaseGeneralDialog extends BaseStatelessWidget {
     this.transitionBuilder,
     this.useSafeArea = false,
     this.useRootNavigator = true,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
-  }) : super(key: baseKey, cupertino: cupertino, material: material);
+    this.routeSettings,
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
+  }) : super(key: key, cupertino: cupertino, material: material);
 
   final bool barrierDismissible;
-  final String barrierLabel;
+  final String? barrierLabel;
   final Color barrierColor;
   final Duration transitionDuration;
-  final RoutePageBuilder pageBuilder;
-  final Widget child;
-  final RouteTransitionsBuilder transitionBuilder;
+  final RoutePageBuilder? pageBuilder;
+  final Widget? child;
+  final RouteTransitionsBuilder? transitionBuilder;
   final bool useSafeArea;
   final bool useRootNavigator;
+  final RouteSettings? routeSettings;
 
   @override
   Widget buildByCupertino(BuildContext context) {
@@ -40,7 +42,7 @@ class BaseGeneralDialog extends BaseStatelessWidget {
     return valueFromMaterial('child', child);
   }
 
-  Future<T> show<T>(BuildContext context) {
+  Future<T?> show<T>(BuildContext context) {
     final bool _barrierDismissible = useCupertino
         ? valueFromCupertino('barrierDismissible', barrierDismissible)
         : valueFromMaterial('barrierDismissible', barrierDismissible);
@@ -54,10 +56,10 @@ class BaseGeneralDialog extends BaseStatelessWidget {
     final Duration _transitionDuration = useCupertino
         ? valueFromCupertino('transitionDuration', transitionDuration)
         : valueFromMaterial('transitionDuration', transitionDuration);
-    final RoutePageBuilder _pageBuilder = useCupertino
+    final RoutePageBuilder? _pageBuilder = useCupertino
         ? valueFromCupertino('pageBuilder', pageBuilder)
         : valueFromMaterial('pageBuilder', pageBuilder);
-    final RouteTransitionsBuilder _transitionBuilder = useCupertino
+    final RouteTransitionsBuilder? _transitionBuilder = useCupertino
         ? valueFromCupertino('transitionBuilder', transitionBuilder)
         : valueFromMaterial('transitionBuilder', transitionBuilder);
 
@@ -70,6 +72,7 @@ class BaseGeneralDialog extends BaseStatelessWidget {
       pageBuilder: _pageBuilder ?? _defaultPageBuilder,
       transitionBuilder: _transitionBuilder ?? _defaultTransitions,
       useRootNavigator: useRootNavigator,
+      routeSettings: routeSettings,
     );
   }
 
@@ -78,7 +81,7 @@ class BaseGeneralDialog extends BaseStatelessWidget {
     Animation<double> animation,
     Animation<double> secondaryAnimation,
   ) {
-    final ThemeData theme = Theme.of(context, shadowThemeOnly: true);
+    final ThemeData theme = Theme.of(context);
     final Widget _pageChild = build(context);
     assert(_pageChild != null, 'child can\'t be null');
     Widget child;

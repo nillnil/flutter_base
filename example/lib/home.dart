@@ -8,59 +8,59 @@ import 'iconfont/iconfont.dart';
 import 'settings.dart';
 
 final List<Widget> _children = <Widget>[
-  _Item(
-    icon: const BaseIcon(icon: Icons.apps, size: 40, color: Colors.blueGrey),
-    title: const Text(
+  const _Item(
+    icon: BaseIcon(icon: Icons.apps, size: 40, color: Colors.blueGrey),
+    title: Text(
       'App',
       style: TextStyle(color: Colors.blueGrey),
     ),
     page: AppDemo(),
   ),
-  _Item(
-    icon: const BaseIcon(icon: IconFont.nav, size: 40, color: Colors.orangeAccent),
-    title: const Text(
+  const _Item(
+    icon: BaseIcon(icon: IconFont.nav, size: 40, color: Colors.orangeAccent),
+    title: Text(
       'AppBar',
       style: TextStyle(color: Colors.orangeAccent),
     ),
     page: AppBarDemo(),
   ),
-  _Item(
-    icon: const BaseIcon(icon: IconFont.page, size: 40, color: Colors.blueAccent),
-    title: const Text(
+  const _Item(
+    icon: BaseIcon(icon: IconFont.page, size: 40, color: Colors.blueAccent),
+    title: Text(
       'Scaffold',
       style: TextStyle(color: Colors.blueAccent),
     ),
     page: ScaffoldDemos(),
     fullscreenGackGesture: false,
   ),
-  _Item(
-    icon: const BaseIcon(icon: IconFont.tile, size: 40, color: Colors.redAccent),
-    title: const Text(
+  const _Item(
+    icon: BaseIcon(icon: IconFont.tile, size: 40, color: Colors.redAccent),
+    title: Text(
       'Section & Tile',
       style: TextStyle(color: Colors.redAccent),
     ),
     page: SectionDemo(),
   ),
-  _Item(
-    icon: const BaseIcon(
+  const _Item(
+    icon: BaseIcon(
       icon: IconFont.buttons,
       size: 40,
       color: Colors.greenAccent,
     ),
-    title: const Text(
+    title: Text(
       'Button',
       style: TextStyle(color: Colors.greenAccent),
     ),
     page: ButtonDemos(),
     fullscreenGackGesture: false,
   ),
-  _Item(
-    icon: const BaseIcon(
+  const _Item(
+    icon: BaseIcon(
       icon: IconFont.routes,
       size: 40,
       color: Colors.deepOrangeAccent,
     ),
-    title: const Text(
+    title: Text(
       'Routes',
       style: TextStyle(color: Colors.deepOrangeAccent),
     ),
@@ -86,13 +86,13 @@ final List<Widget> _children = <Widget>[
     ),
     page: ActionSheetDemo(),
   ),
-  _Item(
-    icon: const BaseIcon(
+  const _Item(
+    icon: BaseIcon(
       icon: IconFont.refresh,
       size: 40,
       color: Colors.pinkAccent,
     ),
-    title: const Text('Refresh', style: TextStyle(color: Colors.pinkAccent)),
+    title: Text('Refresh', style: TextStyle(color: Colors.pinkAccent)),
     page: RefreshDemos(),
     fullscreenGackGesture: false,
   ),
@@ -146,6 +146,9 @@ const Widget _tipsWidget = Text(
 );
 
 class Home extends StatelessWidget {
+  const Home({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
@@ -177,7 +180,7 @@ class Home extends StatelessWidget {
                     children: <Widget>[
                       _TipsHeader(
                         callback: () {
-                          _drawerKey.currentState.close();
+                          _drawerKey.currentState?.close();
                         },
                       ),
                       Expanded(
@@ -208,7 +211,7 @@ class Home extends StatelessWidget {
               ),
               onPressed: () {
                 BaseRoute<dynamic>(
-                  builder: (_) => Settings(),
+                  builder: (_) => const Settings(),
                   fullscreenGackGesture: true,
                 ).push(context);
               },
@@ -229,38 +232,39 @@ class _MaterialTipsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Container(
-        child: Column(
-          children: <Widget>[
-            Container(
-              color: Theme.of(context).appBarTheme.color ??
-                  Theme.of(context).primaryColor,
-              height: kToolbarHeight + MediaQuery.of(context).padding.top,
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top,
-              ),
-              child: const Center(
-                child: Text(
-                  '特别说明',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
+      child: Column(
+        children: <Widget>[
+          Container(
+            color: Theme.of(context).appBarTheme.color ??
+                Theme.of(context).primaryColor,
+            height: kToolbarHeight + MediaQuery.of(context).padding.top,
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top,
+            ),
+            child: const Center(
+              child: Text(
+                '特别说明',
+                style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              child: _tipsWidget,
-            ),
-          ],
-        ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10.0),
+            child: _tipsWidget,
+          ),
+        ],
       ),
     );
   }
 }
 
 class _TipsHeader extends StatelessWidget {
-  const _TipsHeader({Key key, this.callback}) : super(key: key);
+  const _TipsHeader({
+    Key? key,
+    this.callback,
+  }) : super(key: key);
 
-  final VoidCallback callback;
+  final VoidCallback? callback;
 
   @override
   Widget build(BuildContext context) {
@@ -282,7 +286,7 @@ class _TipsHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
+          SizedBox(
             width: 50,
             child: BaseButton(
               padding: EdgeInsets.zero,
@@ -293,7 +297,7 @@ class _TipsHeader extends StatelessWidget {
               ),
               onPressed: () {
                 if (callback != null) {
-                  callback();
+                  callback!();
                 } else {
                   Navigator.of(context).pop();
                 }
@@ -312,10 +316,10 @@ class _TipsHeader extends StatelessWidget {
 
 class _Item extends StatelessWidget {
   const _Item({
-    Key key,
-    this.title,
-    this.icon,
-    this.page,
+    Key? key,
+    required this.title,
+    required this.icon,
+    required this.page,
     this.fullscreenGackGesture = true,
   }) : super(key: key);
 

@@ -7,16 +7,16 @@ import 'package:flutter/widgets.dart';
 
 class DemoTile extends StatelessWidget {
   const DemoTile({
-    Key key,
+    Key? key,
     this.title,
     this.onTop,
     this.page,
     this.fullscreenGackGesture = true,
   }) : super(key: key);
 
-  final Widget title;
-  final Function(BuildContext context) onTop;
-  final Widget page;
+  final Widget? title;
+  final Function(BuildContext context)? onTop;
+  final Widget? page;
   final bool fullscreenGackGesture;
 
   @override
@@ -30,19 +30,17 @@ class DemoTile extends StatelessWidget {
         ),
         onTap: () {
           if (onTop != null) {
-            onTop(context);
+            onTop!(context);
           } else if (page != null) {
             BaseRoute<dynamic>(
-              builder: (_) => page,
+              builder: (_) => page!,
               fullscreenGackGesture: fullscreenGackGesture,
             ).push(context);
-          } else {
-            return null;
           }
         },
       );
     } else {
-      return page != null ? page : Container();
+      return page != null ? page! : Container();
     }
   }
 }

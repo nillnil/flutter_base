@@ -5,6 +5,9 @@ import '../demo_page.dart';
 import '../demo_tile.dart';
 
 class IndicatorDemo extends StatelessWidget {
+  const IndicatorDemo({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final List<DemoTile> _demos = <DemoTile>[

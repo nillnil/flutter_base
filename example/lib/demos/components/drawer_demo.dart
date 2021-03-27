@@ -11,11 +11,14 @@ final FocusNode _focusNode = FocusNode();
 
 /// Drawer 说明
 class DrawerDemo extends StatelessWidget {
+  const DrawerDemo({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context)?.requestFocus(_focusNode);
+        FocusScope.of(context).requestFocus(_focusNode);
       },
       child: DemoPage(
         title: 'Drawer',
@@ -66,9 +69,9 @@ class _Demo extends StatefulWidget {
 }
 
 class _DemoState extends State<_Demo> {
-  TextEditingController _colorController;
-  TextEditingController _durationController;
-  TextEditingController _widthController;
+  TextEditingController? _colorController;
+  TextEditingController? _durationController;
+  TextEditingController? _widthController;
   AxisDirection _axisDirection = AxisDirection.right;
   String _directionText = '向右';
 
@@ -96,9 +99,9 @@ class _DemoState extends State<_Demo> {
       margin: const EdgeInsets.all(10.0),
       child: Column(
         children: <Widget>[
-          _BgColor(colorController: _colorController),
-          _Animate(durationController: _durationController),
-          _Size(widthController: _widthController),
+          _BgColor(colorController: _colorController!),
+          _Animate(durationController: _durationController!),
+          _Size(widthController: _widthController!),
           _AxisButton(
             axisDirection: _axisDirection,
             directionText: _directionText,
@@ -110,33 +113,34 @@ class _DemoState extends State<_Demo> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text('允许手势滑动  '),
-                useCupertino
-                    ? Container(
-                        height: 31.0,
-                        width: 48.0,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(25.0),
-                          ),
-                        ),
-                        child: BaseSwitch(
-                          value: _allowGesture,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _allowGesture = value;
-                            });
-                          },
-                        ),
-                      )
-                    : BaseSwitch(
-                        value: _allowGesture,
-                        onChanged: (bool value) {
-                          setState(() {
-                            _allowGesture = value;
-                          });
-                        },
+                if (useCupertino)
+                  Container(
+                    height: 31.0,
+                    width: 48.0,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(25.0),
                       ),
+                    ),
+                    child: BaseSwitch(
+                      value: _allowGesture,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _allowGesture = value;
+                        });
+                      },
+                    ),
+                  )
+                else
+                  BaseSwitch(
+                    value: _allowGesture,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _allowGesture = value;
+                      });
+                    },
+                  ),
               ],
             ),
           ),
@@ -146,41 +150,42 @@ class _DemoState extends State<_Demo> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text('允许多手势  '),
-                useCupertino
-                    ? Container(
-                        height: 31.0,
-                        width: 48.0,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(25.0),
-                          ),
-                        ),
-                        child: BaseSwitch(
-                          value: _allowMutipleGesture,
-                          onChanged: (bool value) {
-                            setState(() {
-                              if (value) {
-                                _axisDirection = AxisDirection.up;
-                                _directionText = '向上';
-                              }
-                              _allowMutipleGesture = value;
-                            });
-                          },
-                        ),
-                      )
-                    : BaseSwitch(
-                        value: _allowMutipleGesture,
-                        onChanged: (bool value) {
-                          setState(() {
-                            if (value) {
-                              _axisDirection = AxisDirection.up;
-                              _directionText = '向上';
-                            }
-                            _allowMutipleGesture = value;
-                          });
-                        },
+                if (useCupertino)
+                  Container(
+                    height: 31.0,
+                    width: 48.0,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(25.0),
                       ),
+                    ),
+                    child: BaseSwitch(
+                      value: _allowMutipleGesture,
+                      onChanged: (bool value) {
+                        setState(() {
+                          if (value) {
+                            _axisDirection = AxisDirection.up;
+                            _directionText = '向上';
+                          }
+                          _allowMutipleGesture = value;
+                        });
+                      },
+                    ),
+                  )
+                else
+                  BaseSwitch(
+                    value: _allowMutipleGesture,
+                    onChanged: (bool value) {
+                      setState(() {
+                        if (value) {
+                          _axisDirection = AxisDirection.up;
+                          _directionText = '向上';
+                        }
+                        _allowMutipleGesture = value;
+                      });
+                    },
+                  ),
               ],
             ),
           ),
@@ -237,30 +242,34 @@ class _DemoState extends State<_Demo> {
   BaseDrawer _buildDrawer() {
     int duration;
     try {
-      duration = int.parse(_durationController.text).abs();
+      duration = int.parse(_durationController!.text).abs();
     } catch (e) {
-      _durationController.text = '300';
+      _durationController!.text = '300';
       duration = 300;
     }
-    Size size;
-    double percent;
+    Size? size;
+    double? percent;
     try {
-      String text = _widthController.text;
+      String text = _widthController!.text;
       if (text.endsWith('%')) {
         text = text.replaceAll('%', '');
         percent = double.parse(text).abs();
         percent = percent.clamp(0.0, 100.0);
       } else {
-        final double num = double.parse(text).abs();
-        if (_axisDirection == AxisDirection.left ||
-            _axisDirection == AxisDirection.right) {
-          size = Size.fromWidth(num);
+        if (text.isEmpty) {
+          percent = null;
         } else {
-          size = Size.fromHeight(num);
+          final double num = double.parse(text).abs();
+          if (_axisDirection == AxisDirection.left ||
+              _axisDirection == AxisDirection.right) {
+            size = Size.fromWidth(num);
+          } else {
+            size = Size.fromHeight(num);
+          }
         }
       }
     } catch (e) {
-      _widthController.text = '';
+      _widthController!.text = '';
       percent = null;
     }
     final ScrollController _scrollController = ScrollController();
@@ -271,17 +280,17 @@ class _DemoState extends State<_Demo> {
           _scrollController.jumpTo(0.0);
           if (!_gestureConflict) {
             _gestureConflict = true;
-            _drawerKey.currentState.allowMultipleGesture();
+            _drawerKey.currentState?.allowMultipleGesture();
           }
         } else if (_scrollController.offset > 0 && _gestureConflict) {
           _gestureConflict = false;
-          _drawerKey.currentState.notAllowMultipleGesture();
+          _drawerKey.currentState?.notAllowMultipleGesture();
         }
       });
     }
     return BaseDrawer(
       key: _drawerKey,
-      backgroundColor: rgbaToColor(_colorController.text),
+      backgroundColor: rgbaToColor(_colorController!.text),
       duration: Duration(
         milliseconds: duration,
       ),
@@ -313,18 +322,18 @@ class _DemoState extends State<_Demo> {
 
   @override
   void dispose() {
-    _colorController.dispose();
-    _durationController.dispose();
-    _widthController.dispose();
+    _colorController?.dispose();
+    _durationController?.dispose();
+    _widthController?.dispose();
     super.dispose();
   }
 }
 
 class _Size extends StatelessWidget {
   const _Size({
-    Key key,
-    @required TextEditingController widthController,
-  })  : _widthController = widthController,
+    Key? key,
+    required TextEditingController widthController,
+  })   : _widthController = widthController,
         super(key: key);
 
   final TextEditingController _widthController;
@@ -337,7 +346,7 @@ class _Size extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const Text('宽度/高度(可加%)  '),
-          Container(
+          SizedBox(
             height: 32,
             width: 100,
             child: BaseTextField(
@@ -366,9 +375,9 @@ class _Size extends StatelessWidget {
 
 class _Animate extends StatelessWidget {
   const _Animate({
-    Key key,
-    @required TextEditingController durationController,
-  })  : _durationController = durationController,
+    Key? key,
+    required TextEditingController durationController,
+  })   : _durationController = durationController,
         super(key: key);
 
   final TextEditingController _durationController;
@@ -381,7 +390,7 @@ class _Animate extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const Text('动画时间(ms)  '),
-          Container(
+          SizedBox(
             height: 32,
             width: 100,
             child: BaseTextField(
@@ -410,9 +419,9 @@ class _Animate extends StatelessWidget {
 
 class _BgColor extends StatelessWidget {
   const _BgColor({
-    Key key,
-    @required TextEditingController colorController,
-  })  : _colorController = colorController,
+    Key? key,
+    required TextEditingController colorController,
+  })   : _colorController = colorController,
         super(key: key);
 
   final TextEditingController _colorController;
@@ -425,7 +434,7 @@ class _BgColor extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const Text('背景色(rgba)  '),
-          Container(
+          SizedBox(
             height: 32,
             width: 120,
             child: BaseTextField(
@@ -453,10 +462,10 @@ class _BgColor extends StatelessWidget {
 
 class _AxisButton extends StatelessWidget {
   const _AxisButton({
-    Key key,
-    this.directionText,
-    this.axisDirection,
-    this.onSelectedItemChanged,
+    Key? key,
+    required this.directionText,
+    required this.axisDirection,
+    required this.onSelectedItemChanged,
   }) : super(key: key);
 
   final String directionText;

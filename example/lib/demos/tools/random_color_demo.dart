@@ -9,17 +9,19 @@ import '../demo_tile.dart';
 final FocusNode _focusNode = FocusNode();
 
 class RandomColorDemo extends StatelessWidget {
+  const RandomColorDemo({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context)?.requestFocus(_focusNode);
+        FocusScope.of(context).requestFocus(_focusNode);
       },
       child: DemoPage(
         title: 'RandomColor',
-        desc: '\n用于创建随机颜色\nColor color = RandomColor().color;'
-            '\nRandomColor.range()可限定范围'
-            '\ntoString() 可以把颜色转成16进制(argb)，不包含0x',
+        desc: '\n用于创建随机颜色\nColor color = RandomColor(); '
+            '用法同Color',
         demos: <DemoTile>[
           DemoTile(
             page: _Demo(),
@@ -47,20 +49,19 @@ GlobalKey<_ItemState> _opacityItemKey = GlobalKey<_ItemState>();
 GlobalKey<_ItemState> _alphaItemKey = GlobalKey<_ItemState>();
 
 class _DemoState extends State<_Demo> {
-  RandomColor _randomColor;
+  RandomColor? _randomColor;
 
-  int _red;
-  int _green;
-  int _blue;
-  double _opacity;
-  int _alpha;
-  Color get _color => _randomColor.color;
+  int? _red;
+  int? _green;
+  int? _blue;
+  int? _alpha;
+  Color? get _color => _randomColor;
 
-  TextEditingController _redController;
-  TextEditingController _greenController;
-  TextEditingController _blueController;
-  TextEditingController _opacityController;
-  TextEditingController _alphaController;
+  TextEditingController? _redController;
+  TextEditingController? _greenController;
+  TextEditingController? _blueController;
+  TextEditingController? _opacityController;
+  TextEditingController? _alphaController;
 
   final FocusNode _focusNode = FocusNode();
 
@@ -68,19 +69,18 @@ class _DemoState extends State<_Demo> {
   void initState() {
     super.initState();
     _randomColor = RandomColor(
-      red: _red,
-      green: _green,
-      blue: _blue,
-      opacity: _opacity,
-      alpha: _alpha,
+      a: _alpha,
+      r: _red,
+      g: _green,
+      b: _blue,
     );
-    _redController = TextEditingController(text: '${_randomColor.red}');
-    _greenController = TextEditingController(text: '${_randomColor.green}');
-    _blueController = TextEditingController(text: '${_randomColor.blue}');
+    _redController = TextEditingController(text: '${_randomColor!.red}');
+    _greenController = TextEditingController(text: '${_randomColor!.green}');
+    _blueController = TextEditingController(text: '${_randomColor!.blue}');
     _opacityController = TextEditingController(
-      text: '${_randomColor.opacity.toStringAsFixed(2)}',
+      text: _randomColor!.opacity.toStringAsFixed(2),
     );
-    _alphaController = TextEditingController(text: '${_randomColor.alpha}');
+    _alphaController = TextEditingController(text: '${_randomColor!.alpha}');
   }
 
   @override
@@ -109,8 +109,8 @@ class _DemoState extends State<_Demo> {
                 _Item(
                   key: _redItemKey,
                   text: 'red  ',
-                  value: '${_color.red}',
-                  controller: _redController,
+                  value: '${_color!.red}',
+                  controller: _redController!,
                   onSubmited: (_) {
                     _refresh();
                   },
@@ -118,8 +118,8 @@ class _DemoState extends State<_Demo> {
                 _Item(
                   key: _greenItemKey,
                   text: 'green  ',
-                  value: '${_color.green}',
-                  controller: _greenController,
+                  value: '${_color!.green}',
+                  controller: _greenController!,
                   onSubmited: (_) {
                     _refresh();
                   },
@@ -127,8 +127,8 @@ class _DemoState extends State<_Demo> {
                 _Item(
                   key: _blueItemKey,
                   text: 'blue  ',
-                  value: '${_color.blue}',
-                  controller: _blueController,
+                  value: '${_color!.blue}',
+                  controller: _blueController!,
                   onSubmited: (_) {
                     _refresh();
                   },
@@ -144,10 +144,10 @@ class _DemoState extends State<_Demo> {
                 _Item(
                   key: _opacityItemKey,
                   text: 'opacity  ',
-                  value: '${_color.opacity.toStringAsFixed(2)}',
-                  controller: _opacityController,
+                  value: _color!.opacity.toStringAsFixed(2),
+                  controller: _opacityController!,
                   tapCallback: () {
-                    _alphaItemKey.currentState.disabled();
+                    _alphaItemKey.currentState?.disabled();
                   },
                   onSubmited: (_) {
                     _refresh();
@@ -159,29 +159,14 @@ class _DemoState extends State<_Demo> {
                 _Item(
                   key: _alphaItemKey,
                   text: 'alpha  ',
-                  value: '${_color.alpha}',
-                  controller: _alphaController,
+                  value: '${_color!.alpha}',
+                  controller: _alphaController!,
                   tapCallback: () {
-                    _opacityItemKey.currentState.disabled();
+                    _opacityItemKey.currentState?.disabled();
                   },
                   onSubmited: (_) {
                     _refresh();
                   },
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                _Item(
-                  text: 'toString  ',
-                  value: '${_randomColor.toString()}',
-                  width: 150,
-                  enabled: false,
-                  readonly: true,
                 ),
               ],
             ),
@@ -193,42 +178,50 @@ class _DemoState extends State<_Demo> {
   }
 
   void _refresh() {
-    final num red = _redItemKey.currentState.getValue();
-    final num green = _greenItemKey.currentState.getValue();
-    final num blue = _blueItemKey.currentState.getValue();
-    final num opacity = _opacityItemKey.currentState.getValue(
+    final num? red = _redItemKey.currentState?.getValue();
+    final num? green = _greenItemKey.currentState?.getValue();
+    final num? blue = _blueItemKey.currentState?.getValue();
+    final num? opacity = _opacityItemKey.currentState?.getValue(
       type: 2,
     );
-    final num alpha = _alphaItemKey.currentState.getValue();
-    _randomColor = RandomColor(
-      red: red != null ? red.toInt() : red,
-      green: green != null ? green.toInt() : green,
-      blue: blue != null ? blue.toInt() : blue,
-      opacity: opacity != null ? opacity.toDouble() : opacity,
-      alpha: alpha != null ? alpha.toInt() : alpha,
-    );
-    _redController.text = '${_color.red}';
-    _greenController.text = '${_color.green}';
-    _blueController.text = '${_color.blue}';
-    _opacityController.text = '${_color.opacity.toStringAsFixed(2)}';
-    _alphaController.text = '${_color.alpha}';
+    final num? alpha = _alphaItemKey.currentState?.getValue();
+    if (opacity == null) {
+      _randomColor = RandomColor(
+        a: alpha?.toInt(),
+        r: red?.toInt(),
+        g: green?.toInt(),
+        b: blue?.toInt(),
+      );
+    } else {
+      _randomColor = RandomColor.fromRGBO(
+        r: red?.toInt(),
+        g: green?.toInt(),
+        b: blue?.toInt(),
+        opacity: opacity.toDouble(),
+      );
+    }
+    _redController!.text = '${_color!.red}';
+    _greenController!.text = '${_color!.green}';
+    _blueController!.text = '${_color!.blue}';
+    _opacityController!.text = _color!.opacity.toStringAsFixed(2);
+    _alphaController!.text = '${_color!.alpha}';
     setState(() {});
   }
 
   @override
   void dispose() {
-    _redController.dispose();
-    _greenController.dispose();
-    _blueController.dispose();
-    _opacityController.dispose();
-    _alphaController.dispose();
+    _redController?.dispose();
+    _greenController?.dispose();
+    _blueController?.dispose();
+    _opacityController?.dispose();
+    _alphaController?.dispose();
     super.dispose();
   }
 }
 
 class _Tips extends StatefulWidget {
   const _Tips({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -236,7 +229,7 @@ class _Tips extends StatefulWidget {
 }
 
 class _TipsState extends State<_Tips> with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+  AnimationController? _controller;
 
   @override
   void initState() {
@@ -245,10 +238,10 @@ class _TipsState extends State<_Tips> with SingleTickerProviderStateMixin {
       duration: const Duration(milliseconds: 5000),
       vsync: this,
     );
-    _controller.addListener(() {
+    _controller?.addListener(() {
       setState(() {});
     });
-    _controller.repeat(
+    _controller?.repeat(
       reverse: true,
     );
   }
@@ -258,7 +251,7 @@ class _TipsState extends State<_Tips> with SingleTickerProviderStateMixin {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 50.0),
       child: Opacity(
-        opacity: _controller.value,
+        opacity: _controller!.value,
         child: const Text(
           '双击标签切换编辑模式',
           style: TextStyle(fontSize: 18.0),
@@ -269,15 +262,15 @@ class _TipsState extends State<_Tips> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 }
 
 class _Item extends StatefulWidget {
   const _Item({
-    Key key,
-    @required this.text,
+    Key? key,
+    required this.text,
     this.width = 65,
     this.value,
     this.enabled = false,
@@ -289,13 +282,13 @@ class _Item extends StatefulWidget {
   }) : super(key: key);
 
   final String text;
-  final String value;
+  final String? value;
   final double width;
   final bool enabled;
   final bool readonly;
-  final TextEditingController controller;
-  final VoidCallback tapCallback;
-  final ValueChanged<String> onSubmited;
+  final TextEditingController? controller;
+  final VoidCallback? tapCallback;
+  final ValueChanged<String>? onSubmited;
   final TextInputType keyboardType;
 
   @override
@@ -303,7 +296,7 @@ class _Item extends StatefulWidget {
 }
 
 class _ItemState extends State<_Item> {
-  bool _enabled;
+  bool _enabled = false;
 
   @override
   void initState() {
@@ -330,12 +323,12 @@ class _ItemState extends State<_Item> {
                 _enabled = !_enabled;
               });
               if (widget.tapCallback != null) {
-                widget.tapCallback();
+                widget.tapCallback!();
               }
             }
           },
         ),
-        Container(
+        SizedBox(
           width: widget.width,
           child: BaseTextField(
             padding: _textPadding,
@@ -347,7 +340,7 @@ class _ItemState extends State<_Item> {
             enabled: _enabled,
             onSubmitted: (String text) {
               if (widget.onSubmited != null) {
-                widget.onSubmited(text);
+                widget.onSubmited!(text);
               }
             },
             cupertinoDecoration: BoxDecoration(
@@ -373,10 +366,10 @@ class _ItemState extends State<_Item> {
 
   /// type = 1 return int
   /// type = 2 return double
-  num getValue({int type = 1}) {
+  num? getValue({int type = 1}) {
     if (_enabled) {
-      String text = widget.controller.text;
-      num n;
+      String? text = widget.controller!.text;
+      num? n;
       try {
         if (type == 1) {
           n = int.parse(text).clamp(0, 255);

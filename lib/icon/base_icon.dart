@@ -9,38 +9,34 @@ import '../base_stateless_widget.dart';
 /// use Icon by material
 /// *** use material = { forceUseCupertino: true } force use Icon on material.
 /// 
-/// Icon: 2020.09.10
-/// modify 2021.01.12 by flutter 1.22.5
+/// Icon: 2020.12.09
+/// modify 2021.03.26 by flutter 2.0.3
 class BaseIcon extends BaseStatelessWidget {
   const BaseIcon({
-    Key baseKey,
-    this.key,
+    Key? key,
     this.icon,
     this.size,
     this.color,
     this.semanticLabel,
     this.textDirection,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
-  }) : super(key: baseKey, cupertino: cupertino, material: material);
-
-  @override
-  final Key key;
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
+  }) : super(key: key, cupertino: cupertino, material: material);
 
   /// [Icon.icon]
-  final IconData icon;
+  final IconData? icon;
 
   /// [Icon.size]
-  final double size;
+  final double? size;
 
   /// [Icon.color]
-  final Color color;
+  final Color? color;
 
   /// [Icon.semanticLabel]
-  final String semanticLabel;
+  final String? semanticLabel;
 
   /// [Icon.textDirection]
-  final TextDirection textDirection;
+  final TextDirection? textDirection;
 
   @override
   Widget buildByCupertino(BuildContext context) {

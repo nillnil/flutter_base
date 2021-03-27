@@ -7,7 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsItem extends StatefulWidget {
-  const NewsItem({Key key, this.news}) : super(key: key);
+  const NewsItem({
+    Key? key,
+    required this.news,
+  }) : super(key: key);
 
   final Map<String, dynamic> news;
 
@@ -55,7 +58,7 @@ class _NewsItemState extends State<NewsItem>
                     errorWidget: (
                       BuildContext context,
                       String url,
-                      Object error,
+                      dynamic error,
                     ) {
                       return const Icon(IconFont.brokenImage, size: 72);
                     },
@@ -79,7 +82,7 @@ class _NewsItemState extends State<NewsItem>
                     errorWidget: (
                       BuildContext context,
                       String url,
-                      Object error,
+                      dynamic error,
                     ) {
                       return const Icon(IconFont.brokenImage, size: 72);
                     },
@@ -101,7 +104,7 @@ class _NewsItemState extends State<NewsItem>
                   errorWidget: (
                     BuildContext context,
                     String url,
-                    Object error,
+                    dynamic error,
                   ) {
                     return const Icon(IconFont.brokenImage, size: 72);
                   },
@@ -143,8 +146,7 @@ class _NewsItemState extends State<NewsItem>
               ),
             ),
           ),
-          widget.news['thumbnail_pic_s'] != null
-              ? Expanded(
+          if (widget.news['thumbnail_pic_s'] != null) Expanded(
                   flex: 1,
                   child: Padding(
                     padding: const EdgeInsets.all(0.0),
@@ -164,14 +166,13 @@ class _NewsItemState extends State<NewsItem>
                       errorWidget: (
                         BuildContext context,
                         String url,
-                        Object error,
+                        dynamic error,
                       ) {
                         return const Icon(IconFont.brokenImage, size: 72);
                       },
                     ),
                   ),
-                )
-              : Container()
+                ) else Container()
         ],
       );
     }

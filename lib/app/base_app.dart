@@ -7,20 +7,21 @@ import '../platform/platform.dart';
 import '../theme/base_theme.dart';
 import '../theme/base_theme_data.dart';
 
-/// BaseAppBar
+/// BaseApp
 /// theme, use cupertinoTheme by cupertino，use materialTheme by material.
 /// use CupertinoApp by cupertino
+/// not support CupertinoApp.router yet.
 /// *** use cupertino = { forceUseMaterial: true } force use MaterialApp on cuperitno.
 /// use MaterialApp by material
+/// not support MaterialApp.router yet.
 /// *** use material = { forceUseCupertino: true } force use CupertinoApp on material.
-/// 
-/// CupertinoApp: 2020.08.08
-/// MaterialApp: 2020.09.11
-/// modify 2021.01.12 by flutter 1.22.5
+///
+/// CupertinoApp: 2021.03.12
+/// MaterialApp: 2021.03.12
+/// modify 2021.03.22 by flutter 2.0.3
 class BaseApp extends BaseStatelessWidget {
   const BaseApp({
-    Key baseKey,
-    this.key,
+    Key? key,
     this.navigatorKey,
     this.home,
     this.routes = const <String, WidgetBuilder>{},
@@ -43,71 +44,71 @@ class BaseApp extends BaseStatelessWidget {
     this.checkerboardOffscreenLayers = false,
     this.showSemanticsDebugger = false,
     this.debugShowCheckedModeBanner = true,
+    this.restorationScopeId,
     this.targetPlatform,
+    this.platformMode,
     this.baseTheme,
     this.shortcuts,
     this.actions,
     this.cupertinoTheme,
     this.withoutSplashOnCupertino = true,
+    this.scaffoldMessengerKey,
     this.materialTheme,
     this.highContrastTheme,
     this.highContrastDarkTheme,
     this.darkTheme,
     this.themeMode = ThemeMode.system,
     this.debugShowMaterialGrid = false,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
-  }) : super(key: baseKey, cupertino: cupertino, material: material);
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
+  }) : super(key: key, cupertino: cupertino, material: material);
 
   /// *** general properties start ***
-
-  @override
-  final Key key;
 
   /// [CupertinoApp.navigatorKey]
   /// or
   /// [MaterialApp.navigatorKey]
-  final Key navigatorKey;
+  final GlobalKey<NavigatorState>? navigatorKey;
 
   /// [CupertinoApp.home]
   /// or
   /// [Material.home]
-  final Widget home;
+  final Widget? home;
 
   /// [CupertinoApp.routes]
   /// or
   /// [MaterialApp.routes]
-  final Map<String, WidgetBuilder> routes;
+  final Map<String, WidgetBuilder>? routes;
 
   /// [CupertinoApp.initialRoute]
   /// or
   /// [MaterialApp.initialRoute]
-  final String initialRoute;
+  final String? initialRoute;
 
   /// [CupertinoApp.onGenerateRoute]
   /// or
   /// [MaterialApp.onGenerateRoute]
-  final RouteFactory onGenerateRoute;
+  final RouteFactory? onGenerateRoute;
 
   /// [CupertinoApp.onGenerateInitialRoutes]
   /// or
   /// [MaterialApp.onGenerateInitialRoutes]
-  final InitialRouteListFactory onGenerateInitialRoutes;
+  final InitialRouteListFactory? onGenerateInitialRoutes;
 
   /// [CupertinoApp.onUnknownRoute]
   /// or
   /// [MaterialApp.onUnknownRoute]
-  final RouteFactory onUnknownRoute;
+  final RouteFactory? onUnknownRoute;
 
   /// [CupertinoApp.navigatorObservers]
   /// or
   /// [MaterialApp.navigatorObservers]
-  final List<NavigatorObserver> navigatorObservers;
+  final List<NavigatorObserver>? navigatorObservers;
 
   /// [CupertinoApp.builder]
   /// or
   /// [MaterialApp.builder]
-  final TransitionBuilder builder;
+  final TransitionBuilder? builder;
 
   /// [CupertinoApp.title]
   /// or
@@ -117,32 +118,32 @@ class BaseApp extends BaseStatelessWidget {
   /// [CupertinoApp.onGenerateTitle]
   /// or
   /// [MaterialApp.onGenerateTitle]
-  final GenerateAppTitle onGenerateTitle;
+  final GenerateAppTitle? onGenerateTitle;
 
   /// [CupertinoApp.color]
   /// or
   /// [MaterialApp.color]
-  final Color color;
+  final Color? color;
 
   /// [CupertinoApp.locale]
   /// or
   /// [MaterialApp.locale]
-  final Locale locale;
+  final Locale? locale;
 
   /// [CupertinoApp.localizationsDelegates]
   /// or
   /// [MaterialApp.localizationsDelegates]
-  final Iterable<LocalizationsDelegate<dynamic>> localizationsDelegates;
+  final Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates;
 
   /// [CupertinoApp.localeListResolutionCallback]
   /// or
   /// [MaterialApp.localeListResolutionCallback]
-  final LocaleListResolutionCallback localeListResolutionCallback;
+  final LocaleListResolutionCallback? localeListResolutionCallback;
 
   /// [CupertinoApp.localeResolutionCallback]
   /// or
   /// [MaterialApp.localeResolutionCallback]
-  final LocaleResolutionCallback localeResolutionCallback;
+  final LocaleResolutionCallback? localeResolutionCallback;
 
   /// [CupertinoApp.supportedLocales]
   /// or
@@ -175,27 +176,36 @@ class BaseApp extends BaseStatelessWidget {
   final bool debugShowCheckedModeBanner;
 
   /// [basePlatform]
-  final TargetPlatform targetPlatform;
+  @Deprecated('instead of platformMode')
+  final TargetPlatform? targetPlatform;
+
+  /// [basePlatform]
+  final PlatformMode? platformMode;
 
   /// [BaseThemeData]
-  final BaseThemeData baseTheme;
+  final BaseThemeData? baseTheme;
 
   /// [CupertinoApp.shortcuts]
   /// or
   /// [MaterialApp.shortcuts]
-  final Map<LogicalKeySet, Intent> shortcuts;
+  final Map<LogicalKeySet, Intent>? shortcuts;
 
   /// [CupertinoApp.actions]
   /// or
   /// [MaterialApp.actions]
-  final Map<LocalKey, Action<Intent>> actions;
+  final Map<LocalKey, Action<Intent>>? actions;
+
+  /// [CupertinoApp.restorationScopeId]
+  /// or
+  /// [MaterialApp.restorationScopeId]
+  final String? restorationScopeId;
 
   /// *** general properties end ***
 
   /// *** cupertino properties start ***
 
   /// [CupertinoApp.theme]
-  final CupertinoThemeData cupertinoTheme;
+  final CupertinoThemeData? cupertinoTheme;
 
   /// [withoutSplashOnCupertino], default is true
   ///
@@ -208,20 +218,23 @@ class BaseApp extends BaseStatelessWidget {
 
   /// *** material properties start ***
 
+  /// [MaterialApp.scaffoldMessengerKey]
+  final GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey;
+
   /// [MaterialApp.theme]
-  final ThemeData materialTheme;
+  final ThemeData? materialTheme;
 
   /// [MaterialApp.darkTheme]
-  final ThemeData darkTheme;
+  final ThemeData? darkTheme;
 
   /// [MaterialApp.highContrastTheme]
-  final ThemeData highContrastTheme;
+  final ThemeData? highContrastTheme;
 
   /// [MaterialApp.highContrastDarkTheme]
-  final ThemeData highContrastDarkTheme;
+  final ThemeData? highContrastDarkTheme;
 
   /// [MaterialApp.themeMode]
-  final ThemeMode themeMode;
+  final ThemeMode? themeMode;
 
   /// [MaterialApp.debugShowMaterialGrid]
   final bool debugShowMaterialGrid;
@@ -231,9 +244,9 @@ class BaseApp extends BaseStatelessWidget {
   @override
   void buildBefore(BuildContext context) {
     super.buildBefore(context);
-    // 设置目标平台
-    setPlatform(
-      targetPlatform: targetPlatform,
+    // 设置目标平台模式
+    setPlatformMode(
+      platformMode: platformMode,
       withoutSplashOnCupertino: withoutSplashOnCupertino,
     );
   }
@@ -253,14 +266,14 @@ class BaseApp extends BaseStatelessWidget {
     return BaseTheme(
       data: baseTheme,
       child: CupertinoApp(
-        key: valueFromCupertino('key', key),
         navigatorKey: valueFromCupertino('navigatorKey', navigatorKey),
         home: valueFromCupertino('home', home),
         theme: cupertinoTheme,
         routes: valueFromCupertino('routes', routes),
         initialRoute: valueFromCupertino('initialRoute', initialRoute),
         onGenerateRoute: valueFromCupertino('onGenerateRoute', onGenerateRoute),
-        onGenerateInitialRoutes: valueFromCupertino('onGenerateInitialRoutes', onGenerateInitialRoutes),
+        onGenerateInitialRoutes: valueFromCupertino(
+            'onGenerateInitialRoutes', onGenerateInitialRoutes),
         onUnknownRoute: valueFromCupertino('onUnknownRoute', onUnknownRoute),
         navigatorObservers: valueFromCupertino(
           'navigatorObservers',
@@ -328,13 +341,14 @@ class BaseApp extends BaseStatelessWidget {
     return BaseTheme(
       data: baseTheme,
       child: MaterialApp(
-        key: valueFromMaterial('key', key),
         navigatorKey: valueFromMaterial('navigatorKey', navigatorKey),
+        scaffoldMessengerKey: scaffoldMessengerKey,
         home: valueFromMaterial('home', home),
         routes: valueFromMaterial('routes', routes),
         initialRoute: valueFromMaterial('initialRoute', initialRoute),
         onGenerateRoute: valueFromMaterial('onGenerateRoute', onGenerateRoute),
-        onGenerateInitialRoutes: valueFromMaterial('onGenerateInitialRoutes', onGenerateInitialRoutes),
+        onGenerateInitialRoutes: valueFromMaterial(
+            'onGenerateInitialRoutes', onGenerateInitialRoutes),
         onUnknownRoute: valueFromMaterial('onUnknownRoute', onUnknownRoute),
         navigatorObservers: valueFromMaterial(
           'navigatorObservers',
@@ -392,6 +406,7 @@ class BaseApp extends BaseStatelessWidget {
         ),
         shortcuts: valueFromMaterial('shortcuts', shortcuts),
         actions: valueFromMaterial('actions', actions),
+        restorationScopeId: valueFromMaterial('actions', restorationScopeId),
       ),
     );
   }

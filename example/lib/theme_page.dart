@@ -7,12 +7,15 @@ import 'package:provider/provider.dart';
 import 'provider/app_provider.dart';
 
 class ThemePage extends StatelessWidget {
+  const ThemePage({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Consumer<AppProvider>(
       builder: (BuildContext context, AppProvider appProvider, _) {
         final List<Widget> _themes = <Widget>[];
-        for (Color color in Colors.primaries) {
+        for (final Color color in Colors.primaries) {
           _themes.add(
             _ThemeItem(
               color: color,
@@ -25,11 +28,9 @@ class ThemePage extends StatelessWidget {
             title: Text('主题'),
             transitionBetweenRoutes: false,
           ),
-          body: Container(
-            child: GridView.count(
-              children: _themes,
-              crossAxisCount: 6,
-            ),
+          body: GridView.count(
+            children: _themes,
+            crossAxisCount: 6,
           ),
         );
       },
@@ -38,10 +39,13 @@ class ThemePage extends StatelessWidget {
 }
 
 class _ThemeItem extends StatelessWidget {
-  const _ThemeItem({Key key, this.color, this.selected = true})
-      : super(key: key);
+  const _ThemeItem({
+    Key? key,
+    this.color,
+    this.selected = true,
+  }) : super(key: key);
 
-  final Color color;
+  final Color? color;
   final bool selected;
 
   @override

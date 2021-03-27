@@ -7,6 +7,9 @@ import '../demo_page.dart';
 import '../demo_tile.dart';
 
 class ExpansionDemo extends StatelessWidget {
+  const ExpansionDemo({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return DemoPage(

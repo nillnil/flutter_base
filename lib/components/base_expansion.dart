@@ -6,7 +6,7 @@ const Duration _expansionTransitionDuration = Duration(milliseconds: 300);
 /// 可以指定位置画滑出
 class BaseExpansion extends StatefulWidget {
   const BaseExpansion({
-    Key key,
+    Key? key,
     this.left = 0.0,
     this.top = 0.0,
     this.right = 0.0,
@@ -14,18 +14,18 @@ class BaseExpansion extends StatefulWidget {
     this.width,
     this.height,
     this.duration = _expansionTransitionDuration,
-    @required this.child,
+    required this.child,
     this.barrierDismissible = true,
     this.curve = Curves.bounceInOut,
   }) : super(key: key);
 
   const BaseExpansion.fromHeight({
-    Key key,
+    Key? key,
     this.left = 0.0,
     this.top = 0.0,
     this.height,
     this.duration = _expansionTransitionDuration,
-    @required this.child,
+    required this.child,
     this.barrierDismissible = true,
     this.curve = Curves.bounceInOut,
   })  : width = null,
@@ -35,10 +35,10 @@ class BaseExpansion extends StatefulWidget {
 
   final double left;
   final double top;
-  final double right;
-  final double bottom;
-  final double width;
-  final double height;
+  final double? right;
+  final double? bottom;
+  final double? width;
+  final double? height;
   final Duration duration;
   final Widget child;
   final bool barrierDismissible;
@@ -47,7 +47,7 @@ class BaseExpansion extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => BaseExpansionState();
 
-  Future<T> open<T>(
+  Future<T?> open<T>(
     BuildContext context,
     BaseExpansion baseExpansion, {
     Duration duration = const Duration(milliseconds: 0),
@@ -70,8 +70,8 @@ class BaseExpansion extends StatefulWidget {
 }
 
 class BaseExpansionState extends State<BaseExpansion> {
-  double _height;
-  double _width;
+  double? _height;
+  double? _width;
 
   @override
   void initState() {
@@ -126,7 +126,7 @@ class BaseExpansionState extends State<BaseExpansion> {
   }
 }
 
-Future<T> openBaseExpansion<T>(
+Future<T?> openBaseExpansion<T>(
   BuildContext context,
   BaseExpansion baseExpansion,
 ) {
@@ -146,5 +146,5 @@ Future<T> openBaseExpansion<T>(
 }
 
 void closeBaseExpansion(GlobalKey<BaseExpansionState> key) {
-  key?.currentState?.close();
+  key.currentState?.close();
 }

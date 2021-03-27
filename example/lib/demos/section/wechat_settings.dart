@@ -14,10 +14,13 @@ const Icon trailingIcon = Icon(
 );
 
 class WechatSettings extends StatelessWidget {
+  const WechatSettings({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final bool _isLight =
-        (MediaQuery.of(context).platformBrightness ?? Brightness.light) ==
+        (MediaQuery.maybeOf(context)?.platformBrightness ?? Brightness.light) ==
             Brightness.light;
     return BaseScaffold(
       appBar: BaseAppBar(
@@ -41,70 +44,68 @@ class WechatSettings extends StatelessWidget {
           'backgroundColor': Theme.of(context).scaffoldBackgroundColor,
         },
       ),
-      body: Container(
-        child: ListView.builder(
-          itemCount: 1,
-          itemBuilder: (BuildContext context, int index) {
-            return Column(
-              children: const <Widget>[
-                _Account(
-                  style: style,
-                  contentPadding: contentPadding,
-                  trailingIcon: trailingIcon,
+      body: ListView.builder(
+        itemCount: 1,
+        itemBuilder: (BuildContext context, int index) {
+          return Column(
+            children: const <Widget>[
+              _Account(
+                style: style,
+                contentPadding: contentPadding,
+                trailingIcon: trailingIcon,
+              ),
+              BaseSection(
+                margin: margin,
+                divider: BaseSectionDivider(
+                  insets: EdgeInsets.only(left: 20),
                 ),
-                BaseSection(
-                  margin: margin,
-                  divider: BaseSectionDivider(
-                    insets: EdgeInsets.only(left: 20),
+                children: <Widget>[
+                  _Message(
+                    style: style,
+                    contentPadding: contentPadding,
+                    trailingIcon: trailingIcon,
                   ),
-                  children: <Widget>[
-                    _Message(
-                      style: style,
-                      contentPadding: contentPadding,
-                      trailingIcon: trailingIcon,
-                    ),
-                    _Privacy(
-                      style: style,
-                      contentPadding: contentPadding,
-                      trailingIcon: trailingIcon,
-                    ),
-                    _Gerenal(
-                      style: style,
-                      contentPadding: contentPadding,
-                      trailingIcon: trailingIcon,
-                    ),
-                  ],
-                ),
-                BaseSection(
-                  margin: margin,
-                  divider: BaseSectionDivider(
-                    insets: EdgeInsets.only(left: 20),
+                  _Privacy(
+                    style: style,
+                    contentPadding: contentPadding,
+                    trailingIcon: trailingIcon,
                   ),
-                  children: <Widget>[
-                    _Help(
-                      contentPadding: contentPadding,
-                      trailingIcon: trailingIcon,
-                    ),
-                    _About(
-                      style: style,
-                      contentPadding: contentPadding,
-                      trailingStyle: trailingStyle,
-                      trailingIcon: trailingIcon,
-                    ),
-                  ],
+                  _Gerenal(
+                    style: style,
+                    contentPadding: contentPadding,
+                    trailingIcon: trailingIcon,
+                  ),
+                ],
+              ),
+              BaseSection(
+                margin: margin,
+                divider: BaseSectionDivider(
+                  insets: EdgeInsets.only(left: 20),
                 ),
-                _Plugin(
-                  margin: margin,
-                  style: style,
-                  contentPadding: contentPadding,
-                  trailingIcon: trailingIcon,
-                ),
-                _SwitchAccount(margin: margin, style: style),
-                _Logout(margin: margin),
-              ],
-            );
-          },
-        ),
+                children: <Widget>[
+                  _Help(
+                    contentPadding: contentPadding,
+                    trailingIcon: trailingIcon,
+                  ),
+                  _About(
+                    style: style,
+                    contentPadding: contentPadding,
+                    trailingStyle: trailingStyle,
+                    trailingIcon: trailingIcon,
+                  ),
+                ],
+              ),
+              _Plugin(
+                margin: margin,
+                style: style,
+                contentPadding: contentPadding,
+                trailingIcon: trailingIcon,
+              ),
+              _SwitchAccount(margin: margin, style: style),
+              _Logout(margin: margin),
+            ],
+          );
+        },
       ),
       cupertino: const <String, dynamic>{
         'backgroundColor': CupertinoColors.systemGroupedBackground,
@@ -115,9 +116,9 @@ class WechatSettings extends StatelessWidget {
 
 class _SwitchAccount extends StatelessWidget {
   const _SwitchAccount({
-    Key key,
-    @required this.margin,
-    @required this.style,
+    Key? key,
+    required this.margin,
+    required this.style,
   }) : super(key: key);
 
   final EdgeInsets margin;
@@ -141,11 +142,11 @@ class _SwitchAccount extends StatelessWidget {
 
 class _Plugin extends StatelessWidget {
   const _Plugin({
-    Key key,
-    @required this.margin,
-    @required this.style,
-    @required this.contentPadding,
-    @required this.trailingIcon,
+    Key? key,
+    required this.margin,
+    required this.style,
+    required this.contentPadding,
+    required this.trailingIcon,
   }) : super(key: key);
 
   final EdgeInsets margin;
@@ -170,8 +171,8 @@ class _Plugin extends StatelessWidget {
 
 class _Logout extends StatelessWidget {
   const _Logout({
-    Key key,
-    @required this.margin,
+    Key? key,
+    required this.margin,
   }) : super(key: key);
 
   final EdgeInsets margin;
@@ -226,11 +227,11 @@ class _Logout extends StatelessWidget {
 
 class _About extends StatelessWidget {
   const _About({
-    Key key,
-    @required this.style,
-    @required this.contentPadding,
-    @required this.trailingStyle,
-    @required this.trailingIcon,
+    Key? key,
+    required this.style,
+    required this.contentPadding,
+    required this.trailingStyle,
+    required this.trailingIcon,
   }) : super(key: key);
 
   final TextStyle style;
@@ -243,7 +244,7 @@ class _About extends StatelessWidget {
     return BaseTile(
       title: Text('关于', style: style),
       contentPadding: contentPadding,
-      trailing: Container(
+      trailing: SizedBox(
         width: 100,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -259,9 +260,9 @@ class _About extends StatelessWidget {
 
 class _Help extends StatelessWidget {
   const _Help({
-    Key key,
-    @required this.contentPadding,
-    @required this.trailingIcon,
+    Key? key,
+    required this.contentPadding,
+    required this.trailingIcon,
   }) : super(key: key);
 
   final EdgeInsets contentPadding;
@@ -279,10 +280,10 @@ class _Help extends StatelessWidget {
 
 class _Gerenal extends StatelessWidget {
   const _Gerenal({
-    Key key,
-    @required this.style,
-    @required this.contentPadding,
-    @required this.trailingIcon,
+    Key? key,
+    required this.style,
+    required this.contentPadding,
+    required this.trailingIcon,
   }) : super(key: key);
 
   final TextStyle style;
@@ -301,10 +302,10 @@ class _Gerenal extends StatelessWidget {
 
 class _Privacy extends StatelessWidget {
   const _Privacy({
-    Key key,
-    @required this.style,
-    @required this.contentPadding,
-    @required this.trailingIcon,
+    Key? key,
+    required this.style,
+    required this.contentPadding,
+    required this.trailingIcon,
   }) : super(key: key);
 
   final TextStyle style;
@@ -323,10 +324,10 @@ class _Privacy extends StatelessWidget {
 
 class _Message extends StatelessWidget {
   const _Message({
-    Key key,
-    @required this.style,
-    @required this.contentPadding,
-    @required this.trailingIcon,
+    Key? key,
+    required this.style,
+    required this.contentPadding,
+    required this.trailingIcon,
   }) : super(key: key);
 
   final TextStyle style;
@@ -346,10 +347,10 @@ class _Message extends StatelessWidget {
 
 class _Account extends StatelessWidget {
   const _Account({
-    Key key,
-    @required this.style,
-    @required this.contentPadding,
-    @required this.trailingIcon,
+    Key? key,
+    required this.style,
+    required this.contentPadding,
+    required this.trailingIcon,
   }) : super(key: key);
 
   final TextStyle style;

@@ -8,13 +8,16 @@ import 'tab_scaffold_demo.dart';
 
 /// Scaffold Demos
 class ScaffoldDemos extends StatefulWidget {
+  const ScaffoldDemos({
+    Key? key,
+  }) : super(key: key);
   @override
   _ScaffoldDemosState createState() => _ScaffoldDemosState();
 }
 
 class _ScaffoldDemosState extends State<ScaffoldDemos>
     with SingleTickerProviderStateMixin {
-  TabController tabController;
+  TabController? tabController;
 
   @override
   void initState() {
@@ -59,7 +62,7 @@ class _ScaffoldDemosState extends State<ScaffoldDemos>
         ),
         body: TabBarView(
           controller: tabController,
-          children: <Widget>[
+          children: const <Widget>[
             ScaffoldDemo(),
             TabScaffoldDemo(),
           ],

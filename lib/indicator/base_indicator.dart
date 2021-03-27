@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart' show CupertinoActivityIndicator;
 import 'package:flutter/material.dart'
-    show Animation, BuildContext, CircularProgressIndicator, Color, Key, Widget;
+    show Animation, BuildContext, CircularProgressIndicator, Color, Key, LinearProgressIndicator, Widget;
 
 import '../base_stateless_widget.dart';
 
@@ -9,23 +9,25 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use CircularProgressIndicator on cuperitno.
 /// use CircularProgressIndicator by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoActivityIndicator on material.
-/// 
-/// CupertinoActivityIndicator: 2020.08.13
-/// CircularProgressIndicator: 2020.07.30
-/// modify 2021.01.12 by flutter 1.22.5
+///
+/// CupertinoActivityIndicator: 2020.11.03
+/// CircularProgressIndicator or LinearProgressIndicator: 2021.02.17
+/// modify 2021.03.26 by flutter 2.0.3
 class BaseIndicator extends BaseStatelessWidget {
   const BaseIndicator({
-    Key key,
+    Key? key,
     this.animating = true,
     this.radius = 10.0,
     this.value,
     this.backgroundColor,
     this.valueColor,
     this.strokeWidth = 4.0,
+    this.minHeight,
     this.semanticsLabel,
     this.semanticsValue,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
+    this.linear = false,
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
   }) : super(key: key, cupertino: cupertino, material: material);
 
   /// *** cupertino properties start ***
@@ -40,23 +42,31 @@ class BaseIndicator extends BaseStatelessWidget {
 
   /// *** material properties start ***
 
-  /// [CircularProgressIndicator.value]
-  final double value;
+  /// [ProgressIndicator.value]
+  final double? value;
 
-  /// [CircularProgressIndicator.backgroundColor]
-  final Color backgroundColor;
+  /// [ProgressIndicator.backgroundColor]
+  final Color? backgroundColor;
 
-  /// [CircularProgressIndicator.valueColor]
-  final Animation<Color> valueColor;
+  /// [ProgressIndicator.valueColor]
+  final Animation<Color?>? valueColor;
+
+  /// [ProgressIndicator.semanticsLabel]
+  final String? semanticsLabel;
+
+  /// [ProgressIndicator.semanticsValue]
+  final String? semanticsValue;
+
+  /// [LinearProgressIndicator.minHeight]
+  final double? minHeight;
 
   /// [CircularProgressIndicator.strokeWidth]
   final double strokeWidth;
 
-  /// [CircularProgressIndicator.semanticsLabel]
-  final String semanticsLabel;
-
-  /// [CircularProgressIndicator.semanticsValue]
-  final String semanticsValue;
+  /// if true use LinearProgressIndicator,
+  /// if false use CircularProgressIndicator,
+  /// default is false
+  final bool linear;
 
   /// *** material properties end ***
 
@@ -70,6 +80,16 @@ class BaseIndicator extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
+    if (linear) {
+      return LinearProgressIndicator(
+        value: value,
+        backgroundColor: backgroundColor,
+        valueColor: valueColor,
+        minHeight: minHeight,
+        semanticsLabel: semanticsLabel,
+        semanticsValue: semanticsValue,
+      );
+    }
     return CircularProgressIndicator(
       value: value,
       backgroundColor: backgroundColor,

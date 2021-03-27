@@ -6,6 +6,9 @@ import 'color_string_convert_demo.dart';
 import 'random_color_demo.dart';
 
 class ColorToolsDemo extends StatelessWidget {
+  const ColorToolsDemo({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
@@ -24,7 +27,7 @@ class ColorToolsDemo extends StatelessWidget {
               ),
               onTap: () {
                 BaseRoute<void>(
-                  builder: (_) => RandomColorDemo(),
+                  builder: (_) => const RandomColorDemo(),
                 ).push(context);
               },
             ),
@@ -36,7 +39,7 @@ class ColorToolsDemo extends StatelessWidget {
               ),
               onTap: () {
                 BaseRoute<void>(
-                  builder: (_) => ColorStringConvertDemo(),
+                  builder: (_) => const ColorStringConvertDemo(),
                 ).push(context);
               },
             ),

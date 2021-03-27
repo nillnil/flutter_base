@@ -8,7 +8,7 @@ import 'utils/color_block.dart';
 
 class DemoPage extends StatelessWidget {
   const DemoPage({
-    Key key,
+    Key? key,
     this.title,
     this.doc,
     this.docStr,
@@ -22,17 +22,17 @@ class DemoPage extends StatelessWidget {
     this.trailing,
   }) : super(key: key);
 
-  final String title;
-  final Widget doc;
-  final String docStr;
-  final String widgetName;
-  final String desc;
-  final String materialDesc;
-  final String cupertinoDesc;
-  final Map<String, String> parameterDesc;
-  final String tips;
+  final String? title;
+  final Widget? doc;
+  final String? docStr;
+  final String? widgetName;
+  final String? desc;
+  final String? materialDesc;
+  final String? cupertinoDesc;
+  final Map<String, String>? parameterDesc;
+  final String? tips;
   final List<DemoTile> demos;
-  final Widget trailing;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class DemoPage extends StatelessWidget {
     if (desc != null) {
       children.add(
         Text(
-          desc,
+          desc!,
           style: const TextStyle(fontSize: 15),
         ),
       );
@@ -57,7 +57,7 @@ class DemoPage extends StatelessWidget {
           children: <Widget>[
             ColorBlock.material(),
             Expanded(
-              child: Text('Material：${materialDesc ?? ''}'),
+              child: Text('Material：$materialDesc'),
             ),
           ],
         ),
@@ -70,7 +70,7 @@ class DemoPage extends StatelessWidget {
           children: <Widget>[
             ColorBlock.cupertino(),
             Expanded(
-              child: Text('Cupertino: ${cupertinoDesc ?? ''}'),
+              child: Text('Cupertino: $cupertinoDesc'),
             ),
           ],
         ),
@@ -83,7 +83,7 @@ class DemoPage extends StatelessWidget {
           child: Text('特殊参数说明'),
         ),
       );
-      parameterDesc.forEach((String key, String value) {
+      parameterDesc!.forEach((String key, String value) {
         children.add(
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +112,7 @@ class DemoPage extends StatelessWidget {
     return BaseScaffold(
       navBar: title != null
           ? BaseAppBar(
-              title: Text(title),
+              title: Text(title!),
               transitionBetweenRoutes: false,
               trailing: trailing,
               padding: const EdgeInsetsDirectional.only(start: 5.0, end: 5.0),
@@ -121,7 +121,7 @@ class DemoPage extends StatelessWidget {
       body: BaseScrollBar(
         child: ListView.separated(
           separatorBuilder: (_, __) => const Divider(height: .5),
-          itemCount: demos.isEmpty ? 1 : 2 + demos?.length,
+          itemCount: demos.isEmpty ? 1 : 2 + demos.length,
           itemBuilder: (_, int index) {
             if (index == 0) {
               return Container(

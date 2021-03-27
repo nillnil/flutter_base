@@ -3,33 +3,30 @@ import 'package:flutter/material.dart';
 
 import '../base_stateless_widget.dart';
 
-/// BaseAppBar
+/// BaseActionSheetAction
 /// use CupertinoActionSheetAction by cupertino
 /// *** use cupertino = { forceUseMaterial: true } force use FlatButton on cuperitno.
 /// use InkWell by material, must has a Material Widget ancestor
 /// *** use material = { forceUseCupertino: true } force use CupertinoActionSheetAction on material.
-/// 
-/// CupertinoActionSheetAction: 2020.08.20
-/// FlatButton: 2020.07.30
-/// modify 2021.01.12 by flutter 1.22.5
+///
+/// CupertinoActionSheetAction: 2021.03.12
+/// TextButton: 2021.03.18
+/// modify 2021.03.22 by flutter 2.0.3
 class BaseActionSheetAction extends BaseStatelessWidget {
   const BaseActionSheetAction({
-    Key baseKey,
-    this.key,
+    Key? key,
     this.onPressed,
     this.child,
     this.isDefaultAction = false,
     this.isDestructiveAction = false,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
-  }) : super(key: baseKey, cupertino: cupertino, material: material);
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
+  }) : super(key: key, cupertino: cupertino, material: material);
 
   /// *** general properties start ***
-  @override
-  final Key key;
 
   /// [CupertinoActionSheetAction.onPressed]
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   /// [CupertinoActionSheetAction.isDefaultAction]
   final bool isDefaultAction;
@@ -38,49 +35,46 @@ class BaseActionSheetAction extends BaseStatelessWidget {
   final bool isDestructiveAction;
 
   /// [CupertinoActionSheetAction.child]
-  final Widget child;
+  final Widget? child;
 
   /// *** general properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoActionSheetAction(
-      child: valueFromCupertino('child', child),
       onPressed: valueFromCupertino('onPressed', onPressed),
       isDefaultAction: valueFromCupertino('isDefaultAction', isDefaultAction),
       isDestructiveAction: valueFromCupertino(
         'isDestructiveAction',
         isDestructiveAction,
       ),
+      child: valueFromCupertino('child', child),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    Widget child = valueFromMaterial('child', this.child);
-    final TextStyle actionStyle = Theme.of(context).textTheme.button.copyWith(
-          inherit: false,
-          fontSize: 20.0,
-          fontWeight: FontWeight.w400,
-          color: Colors.black,
-          textBaseline: TextBaseline.alphabetic,
-        );
-    child = DefaultTextStyle(
-      style: actionStyle.copyWith(
-        fontWeight: isDefaultAction ? FontWeight.bold : actionStyle.fontWeight,
-        color: isDestructiveAction ? Colors.red : actionStyle.color,
-      ),
-      child: child,
+    final Widget _child = valueFromMaterial('child', child);
+    final TextStyle actionStyle =
+        (Theme.of(context).textTheme.button ?? const TextStyle()).copyWith(
+      inherit: false,
+      fontSize: 20.0,
+      fontWeight: isDefaultAction ? FontWeight.bold : FontWeight.w400,
+      color: isDestructiveAction ? Colors.red : Colors.black,
+      textBaseline: TextBaseline.alphabetic,
     );
-    return FlatButton(
-      child: child,
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
+    return TextButton(
+      child: _child,
+      style: ButtonStyle(
+        textStyle: MaterialStateProperty.all(actionStyle),
+        padding: MaterialStateProperty.all(
+            const EdgeInsets.symmetric(vertical: 10.0)),
+      ),
       onPressed: () {
         if (onPressed != null) {
-          onPressed();
+          onPressed!();
         }
       },
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     );
   }
 }

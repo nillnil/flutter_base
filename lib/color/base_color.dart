@@ -15,8 +15,8 @@ class BaseColor extends BaseClass {
     this.color,
     this.darkColor,
     this.dynamicColor = CupertinoColors.secondarySystemBackground,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
   })  : assert(color != null || darkColor != null || dynamicColor != null),
         super(cupertino: cupertino, material: material);
 
@@ -29,25 +29,25 @@ class BaseColor extends BaseClass {
       color: Colors.black,
       darkColor: Colors.white,
     ),
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
   })  : assert(color != null || darkColor != null || dynamicColor != null),
         super(cupertino: cupertino, material: material);
 
   /// When brightness = Brightness.light
   ///
   /// material 模式下先取该值
-  final Color color;
+  final Color? color;
 
   /// When brightness = Brightness.dark
   ///
   /// material 模式下先取该值
-  final Color darkColor;
+  final Color? darkColor;
 
   /// [CupertinoDynamicColor]
   ///
   /// cupertino 模式下先取该值
-  final CupertinoDynamicColor dynamicColor;
+  final CupertinoDynamicColor? dynamicColor;
 
   @override
   Color buildByCupertino(BuildContext context) {
@@ -58,10 +58,10 @@ class BaseColor extends BaseClass {
     if (_dynamicColor != null) {
       return _dynamicColor.resolveFrom(context);
     }
-    Brightness brightness = MediaQuery.of(context)?.platformBrightness;
-    brightness ??= CupertinoTheme.of(context)?.brightness ?? Brightness.light;
-    final Color color = valueFromCupertino('color', this.color);
-    final Color darkColor = valueFromCupertino('color', this.darkColor);
+    Brightness brightness = MediaQuery.of(context).platformBrightness;
+    brightness = CupertinoTheme.of(context).brightness ?? Brightness.light;
+    final Color? color = valueFromCupertino('color', this.color);
+    final Color? darkColor = valueFromCupertino('color', this.darkColor);
     Color finalColor;
     if (brightness == Brightness.light) {
       finalColor = color ?? darkColor ?? Colors.black;
@@ -73,26 +73,25 @@ class BaseColor extends BaseClass {
 
   @override
   Color buildByMaterial(BuildContext context) {
-    final Color color = valueFromMaterial('color', this.color);
-    final Color darkColor = valueFromMaterial('color', this.darkColor);
-    final CupertinoDynamicColor dynamicColor = valueFromMaterial(
+    final Color? color = valueFromMaterial('color', this.color);
+    final Color? darkColor = valueFromMaterial('color', this.darkColor);
+    final CupertinoDynamicColor? dynamicColor = valueFromMaterial(
       'dynamicColor',
       this.dynamicColor,
     );
-    Brightness brightness = MediaQuery.of(context)?.platformBrightness;
-    brightness ??= Theme.of(context)?.brightness ?? Brightness.light;
+    final Brightness brightness = MediaQuery.of(context).platformBrightness;
     Color finalColor = Colors.white;
     switch (brightness) {
       case Brightness.light:
         if (color != null || darkColor != null) {
-          finalColor = color ?? darkColor;
+          finalColor = color ?? darkColor ?? Colors.black;
         } else if (dynamicColor != null) {
           finalColor = dynamicColor.color;
         }
         break;
       case Brightness.dark:
         if (color != null || darkColor != null) {
-          finalColor = darkColor ?? color;
+          finalColor = darkColor ?? color ?? Colors.white;
         } else if (dynamicColor != null) {
           finalColor = dynamicColor.darkColor;
         }

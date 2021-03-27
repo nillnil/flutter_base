@@ -11,6 +11,9 @@ import 'package:provider/provider.dart';
 import 'provider/app_provider.dart';
 
 class App extends StatefulWidget {
+  const App({
+    Key? key,
+  }) : super(key: key);
   @override
   _AppState createState() => _AppState();
 }
@@ -19,7 +22,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   @override
@@ -37,7 +40,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           hoverColor: Colors.transparent,
           // cupertinoOverrideTheme: _cupertinoTheme,
           textTheme: _theme.textTheme.copyWith(
-            bodyText2: _theme.textTheme.bodyText2.copyWith(
+            bodyText2: _theme.textTheme.bodyText2?.copyWith(
               fontSize: 17.0,
               letterSpacing: -0.41,
             ),
@@ -54,7 +57,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           hoverColor: Colors.transparent,
           // cupertinoOverrideTheme: _cupertinoTheme,
           textTheme: _darkTheme.textTheme.copyWith(
-            bodyText2: _darkTheme.textTheme.bodyText2.copyWith(
+            bodyText2: _darkTheme.textTheme.bodyText2?.copyWith(
               fontSize: 17.0,
               letterSpacing: -0.41,
             ),
@@ -84,22 +87,16 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             Locale('zh', 'CN'),
             Locale('en', 'US')
           ],
-          home: Home(),
-          targetPlatform: appProvider.targetPlatform,
+          home: const Home(),
+          platformMode: appProvider.platformMode,
           baseTheme: BaseThemeData(
             // appBarHeight: 44.0,
-            material: const <String, dynamic>{
-              'appBarHeight': 56.0,
-            },
+            // material: const <String, dynamic>{
+            //   'appBarHeight': 56.0,
+            // },
             materialTheme: _theme,
             appBarTransitionBetweenRoutes: false,
             routeFullscreenGackGesture: true,
-            // 默认值已修改成falase, 后续可能会删除这变量
-            // appBarAutoSetLeadingColor: true,
-            // // 默认值已修改成falase, 后续可能会删除这变量
-            // appBarAutoSetTrailingColor: true,
-            // // 默认值已修改成falase, 后续可能会删除这变量
-            // appBarAutoSetBottomColor: true,
           ),
           debugShowCheckedModeBanner: false,
         );
@@ -109,9 +106,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void didChangePlatformBrightness() {
-    final Brightness brightness =
-        WidgetsBinding.instance.window.platformBrightness;
-    final AppProvider appProvider = Provider.of<AppProvider>(context);
+    final Brightness? brightness =
+        WidgetsBinding.instance?.window.platformBrightness;
+    final AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
     if (appProvider != null && brightness != appProvider.brightness) {
       appProvider.changeBrightness(brightness);
     }
@@ -119,7 +116,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 }

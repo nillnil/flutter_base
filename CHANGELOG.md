@@ -1,4 +1,12 @@
-# 0.6.0 - 2020.08.20
+# 2.0.3 - 2021.03.22
+
+- change flutter version to 2.0.3
+
+- delete all baseKey
+
+- incompatible with older versions
+
+## 0.6.0 - 2020.08.20
 
 - change flutter version to 1.22.5
 

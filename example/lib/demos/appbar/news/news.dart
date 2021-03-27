@@ -10,17 +10,20 @@ import 'news_item.dart';
 
 /// 简单的新闻页面
 class News extends StatefulWidget {
+  const News({
+    Key? key,
+  }) : super(key: key);
   @override
   State<StatefulWidget> createState() => _NewsState();
 }
 
 class _NewsState extends State<News> with SingleTickerProviderStateMixin {
-  TabController _controller;
+  TabController? _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 10, vsync: this);
+    _controller = TabController(length: 12, vsync: this);
   }
 
   @override
@@ -36,7 +39,6 @@ class _NewsState extends State<News> with SingleTickerProviderStateMixin {
       ).build(context),
       tabs: const <Widget>[
         Tab(text: '头条'),
-        Tab(text: '社会'),
         Tab(text: '国内'),
         Tab(text: '国际'),
         Tab(text: '娱乐'),
@@ -44,14 +46,16 @@ class _NewsState extends State<News> with SingleTickerProviderStateMixin {
         Tab(text: '军事'),
         Tab(text: '科技'),
         Tab(text: '财经'),
-        Tab(text: '时尚')
+        Tab(text: '时尚'),
+        Tab(text: '游戏'),
+        Tab(text: '汽车'),
+        Tab(text: '健康'),
       ],
     );
     return BaseScaffold(
       appBar: BaseAppBar(
-        title: const Text('Bottom'),
-        height: 0.0,
         bottom: tabBar,
+        automaticallyImplyLeading: false,
       ),
       body: Stack(
         children: <Widget>[
@@ -59,7 +63,6 @@ class _NewsState extends State<News> with SingleTickerProviderStateMixin {
             controller: _controller,
             children: const <NewsList>[
               NewsList(type: 'top'),
-              NewsList(type: 'shehui'),
               NewsList(type: 'guonei'),
               NewsList(type: 'guoji'),
               NewsList(type: 'yule'),
@@ -68,6 +71,9 @@ class _NewsState extends State<News> with SingleTickerProviderStateMixin {
               NewsList(type: 'keji'),
               NewsList(type: 'caijing'),
               NewsList(type: 'shishang'),
+              NewsList(type: 'youxi'),
+              NewsList(type: 'qiche'),
+              NewsList(type: 'jiankang'),
             ],
           ),
           Positioned(
@@ -92,13 +98,16 @@ class _NewsState extends State<News> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 }
 
 class NewsList extends StatefulWidget {
-  const NewsList({Key key, this.type}) : super(key: key);
+  const NewsList({
+    Key? key,
+    required this.type,
+  }) : super(key: key);
 
   final String type;
 
@@ -120,7 +129,7 @@ class _NewsListState extends State<NewsList> {
     rootBundle.loadString('data/news/${widget.type}.json').then((String value) {
       final Map<String, dynamic> map = json.decode(value);
       final List<dynamic> list = map['data'];
-      for (dynamic item in list) {
+      for (final dynamic item in list) {
         _news.add(NewsItem(news: item));
       }
       setState(() {});
@@ -140,9 +149,9 @@ class _NewsListState extends State<NewsList> {
             childrenDelegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 if (index == _news.length * 2) {
-                  return Container(
+                  return const SizedBox(
                     height: 60.0,
-                    child: const Center(
+                    child: Center(
                       child: Text(
                         '没有更多数据',
                         style: TextStyle(fontSize: 14.0, color: Colors.grey),

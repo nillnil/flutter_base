@@ -24,8 +24,8 @@ abstract class BaseClass with BaseMixin {
     this.material = const <String, dynamic>{},
   });
 
-  final Map<String, dynamic> cupertino;
-  final Map<String, dynamic> material;
+  final Map<String, dynamic>? cupertino;
+  final Map<String, dynamic>? material;
 
   dynamic build(BuildContext context) {
     buildBefore(context);
@@ -33,8 +33,8 @@ abstract class BaseClass with BaseMixin {
       // cupertino样式，ios下使用
       // forceUseMaterial = true 强制使用material样式
       if (cupertino != null &&
-          cupertino[forceUseMaterial] != null &&
-          cupertino[forceUseMaterial]) {
+          cupertino?[forceUseMaterial] != null &&
+          cupertino?[forceUseMaterial] as bool) {
         return buildByMaterial(context);
       }
       buildByCupertinoBefore(context);
@@ -43,14 +43,14 @@ abstract class BaseClass with BaseMixin {
       // material样式，android跟fuchsia下使用
       // forceUseCupertino = true 强制使用cupertino样式
       if (material != null &&
-          material[forceUseCupertino] != null &&
-          material[forceUseCupertino]) {
+          material?[forceUseCupertino] != null &&
+          material?[forceUseCupertino] as bool) {
         return buildByCupertino(context);
       }
       buildByMaterialBefore(context);
       return buildByMaterial(context);
     } else {
-      print('The platform is = $basePlatform, it not support yet.');
+      print('The platformMode is = $currentPlatformMode, it not support yet.');
       return null;
     }
   }

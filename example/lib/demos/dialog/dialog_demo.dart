@@ -8,24 +8,25 @@ import 'alert_dialog_demo.dart';
 
 /// Dialo Demo
 class DialogDemo extends StatelessWidget {
+  DialogDemo({
+    Key? key,
+  }) : super(key: key);
   final List<DemoTile> _demos = <DemoTile>[
     DemoTile(
       title: const Text('normal'),
-      page: AlertDialogDemo(),
+      page: const AlertDialogDemo(),
       onTop: (BuildContext context) {
-        BaseAlertDialog(
-          content: Container(
-            child: const Text(
-              'qwertyuioplkjhgfdsazxcvbnm',
-              style: TextStyle(fontSize: 16.0),
-            ),
+        const BaseAlertDialog(
+          content: Text(
+            'qwertyuioplkjhgfdsazxcvbnm',
+            style: TextStyle(fontSize: 16.0),
           ),
         ).show<void>(context);
       },
     ),
     DemoTile(
       title: const Text('action'),
-      page: AlertDialogDemo(),
+      page: const AlertDialogDemo(),
       onTop: (BuildContext context) {
         BaseAlertDialog(
           content: const Text('qwertyuioplkjhgfdsazxcvbnm'),
@@ -45,7 +46,7 @@ class DialogDemo extends StatelessWidget {
     ),
     DemoTile(
       title: const Text('actions'),
-      page: AlertDialogDemo(),
+      page: const AlertDialogDemo(),
       onTop: (BuildContext context) {
         BaseAlertDialog(
           content: const Text('qwertyuioplkjhgfdsazxcvbnm'),

@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class BackdropFilterDemo extends StatefulWidget {
+  const BackdropFilterDemo({
+    Key? key,
+  }) : super(key: key);
   @override
   _BackdropFilterDemoState createState() => _BackdropFilterDemoState();
 }
@@ -25,13 +28,13 @@ class _BackdropFilterDemoState extends State<BackdropFilterDemo> {
       body: ListView(
         padding: const EdgeInsets.only(top: 0.0),
         children: <Widget>[
-          Container(
+          const SizedBox(
             height: 88.0,
-            child: const Center(
+            child: Center(
               child: Text('Now you can see me.'),
             ),
           ),
-          Container(
+          SizedBox(
             child: BaseTile(
               titleText: 'backdropFilter',
               trailing: BaseSwitch(

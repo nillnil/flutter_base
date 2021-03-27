@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart' hide CupertinoNavigationBar;
 import 'package:flutter/material.dart' hide AppBar;
+import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter/widgets.dart';
 
 import '../base_stateless_widget.dart';
@@ -18,15 +19,14 @@ import '../theme/base_theme_data.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use AppBar on cuperitno.
 /// use AppBar by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoNavigationBar on material.
-/// 
-/// CupertinoNavigationBar: 2020.06.26
-/// AppBar: 2020.09.11
-/// modify 2021.01.12 by flutter 1.22.5
+///
+/// CupertinoNavigationBar: 2021.03.12
+/// AppBar: 2021.03.12
+/// modify 2021.03.22 by flutter 2.0.3
 class BaseAppBar extends BaseStatelessWidget
     implements ObstructingPreferredSizeWidget {
   const BaseAppBar({
-    Key baseKey,
-    this.key,
+    Key? key,
     this.leading,
     this.trailing,
     this.automaticallyImplyLeading = true,
@@ -63,19 +63,22 @@ class BaseAppBar extends BaseStatelessWidget
     this.excludeHeaderSemantics = false,
     this.toolbarOpacity = 1.0,
     this.bottomOpacity = 1.0,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
-  }) : super(key: baseKey, cupertino: cupertino, material: material);
+    this.foregroundColor,
+    this.leadingWidth,
+    this.backwardsCompatibility,
+    this.toolbarTextStyle,
+    this.titleTextStyle,
+    this.systemOverlayStyle,
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
+  }) : super(key: key, cupertino: cupertino, material: material);
 
   /// *** general properties start ***
-
-  @override
-  final Key key;
 
   /// [CupertinoNavigationBar.leading]
   /// or
   /// [AppBar.leading]
-  final Widget leading;
+  final Widget? leading;
 
   /// [CupertinoNavigationBar.automaticallyImplyLeading]
   /// or
@@ -88,12 +91,12 @@ class BaseAppBar extends BaseStatelessWidget
   final bool automaticallyImplyMiddle;
 
   /// [CupertinoNavigationBar.backgroundColor]
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// [AppBar.brightness]
   /// or
   /// [CupertinoNavigationBar.backgroundColor]
-  final Brightness brightness;
+  final Brightness? brightness;
 
   /// [CupertinoNavigationBar.toolbarOpacity], cupertino also support
   /// or
@@ -108,7 +111,7 @@ class BaseAppBar extends BaseStatelessWidget
   /// the bottom will replace title.
   ///
   /// 当(title/middle = null && bootom != null)时，bottom会替代title
-  final PreferredSizeWidget bottom;
+  final PreferredSizeWidget? bottom;
 
   /// [CupertinoNavigationBar.bottomOpacity], cupertino also support
   /// or
@@ -138,36 +141,36 @@ class BaseAppBar extends BaseStatelessWidget
   /// 3、注意2种方式的build顺序不一样，
   ///   1.是先build BaseScaffold, 再build BaseAppBar
   ///   2.是先build BaseAppBar, 再build BaseScaffold
-  final double height;
+  final double? height;
 
   /// *** general properties end ***
 
   /// *** cupertino properties start ***
 
   /// [CupertinoNavigationBar.previousPageTitle]
-  final String previousPageTitle;
+  final String? previousPageTitle;
 
   /// [CupertinoNavigationBar.middle]
-  final Widget middle;
+  final Widget? middle;
 
   /// [CupertinoNavigationBar.trailing]
   ///
   /// If this property is null, then [actions] is used, and use [Row] when actions.length > 1
   ///
   /// 当该参数为null时，会使用[actions], actions.length > 1时，会用[Row]组装
-  final Widget trailing;
+  final Widget? trailing;
 
   /// [CupertinoNavigationBar.border]
-  final Border border;
+  final Border? border;
 
   /// [CupertinoNavigationBar.padding]
-  final EdgeInsetsDirectional padding;
+  final EdgeInsetsDirectional? padding;
 
   /// [CupertinoNavigationBar.transitionBetweenRoutes]
-  final bool transitionBetweenRoutes;
+  final bool? transitionBetweenRoutes;
 
   /// [CupertinoNavigationBar.heroTag]
-  final Object heroTag;
+  final Object? heroTag;
 
   /// [CupertinoNavigationBar.backdropFilter], default is true
   ///
@@ -176,7 +179,7 @@ class BaseAppBar extends BaseStatelessWidget
   ///
   /// 是否加入高斯模糊效果，背景色为透明时有效
   /// 想实现全透明可以设置成false
-  final bool backdropFilter;
+  final bool? backdropFilter;
 
   /// *** cupertino properties ened ***
 
@@ -187,35 +190,38 @@ class BaseAppBar extends BaseStatelessWidget
   /// If this property is null, then [middle] is used
   ///
   /// 当该参数为null时，会使用[middle]
-  final Widget title;
+  final Widget? title;
 
   /// [AppBar.shadowColor]
-  final Color shadowColor;
+  final Color? shadowColor;
 
   /// [AppBar.shape]
-  final ShapeBorder shape;
+  final ShapeBorder? shape;
+
+  /// [AppBar.foregroundColor]
+  final Color? foregroundColor;
 
   /// [AppBar.actions]
   ///
   /// If this property is null, then [trailing] is used
   ///
   /// 当该参数为null时，会使用[trailing]
-  final List<Widget> actions;
+  final List<Widget>? actions;
 
   /// [AppBar.flexibleSpace]
-  final Widget flexibleSpace;
+  final Widget? flexibleSpace;
 
   /// [AppBar.elevation]
-  final double elevation;
+  final double? elevation;
 
   /// [AppBar.iconTheme]
-  final IconThemeData iconTheme;
+  final IconThemeData? iconTheme;
 
   /// [AppBar.actionsIconTheme]
-  final IconThemeData actionsIconTheme;
+  final IconThemeData? actionsIconTheme;
 
   /// [AppBar.textTheme]
-  final TextTheme textTheme;
+  final TextTheme? textTheme;
 
   /// [AppBar.primary]
   final bool primary;
@@ -225,24 +231,39 @@ class BaseAppBar extends BaseStatelessWidget
   /// If this property is null, then [BaseThemeData.appBarCenterTitle] is used
   ///
   /// 当该参数为null时，会使用[BaseThemeData.appBarCenterTitle]
-  final bool centerTitle;
+  final bool? centerTitle;
 
   /// [AppBar.titleSpacing]
-  final double titleSpacing;
+  final double? titleSpacing;
 
   /// [AppBar.excludeHeaderSemantics]
   final bool excludeHeaderSemantics;
+
+  /// [AppBar.leadingWidth]
+  final double? leadingWidth;
+
+  /// [AppBar.backwardsCompatibility]
+  final bool? backwardsCompatibility;
+
+  /// [AppBar.toolbarTextStyle]
+  final TextStyle? toolbarTextStyle;
+
+  /// [AppBar.titleTextStyle]
+  final TextStyle? titleTextStyle;
+
+  /// [AppBar.systemOverlayStyle]
+  final SystemUiOverlayStyle? systemOverlayStyle;
 
   /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final Widget _leading = valueFromCupertino('leading', leading);
+    final Widget? _leading = valueFromCupertino('leading', leading);
     // trailing为null，且actions不为null，数量大于1，取trailing = adctions[0];
-    Widget _trailing = valueFromCupertino('trailing', trailing);
-    final List<Widget> _actions = valueFromMaterial('actions', actions);
+    Widget? _trailing = valueFromCupertino('trailing', trailing);
+    final List<Widget>? _actions = valueFromMaterial('actions', actions);
     if (_actions != null && _actions.isNotEmpty && _trailing == null) {
-      if (actions.length == 1) {
+      if (actions!.length == 1) {
         _trailing = _actions[0];
       } else {
         _trailing = Row(
@@ -254,13 +275,11 @@ class BaseAppBar extends BaseStatelessWidget
       }
     }
     final BaseThemeData baseTheme = BaseTheme.of(context);
-    final Widget _title = valueFromCupertino('middle', middle) ??
+    final Widget? _title = valueFromCupertino('middle', middle) ??
         valueFromCupertino('title', title);
     // 没有backgroundColor使用CupertinoTheme里的barBackgroundColor，还没有使用原生的
-    final Color _backgroundColor =
-        valueFromCupertino('backgroundColor', backgroundColor) ??
-            CupertinoTheme.of(context).barBackgroundColor ??
-            _defaultBackgroundColor;
+    final Color? _backgroundColor =
+        valueFromCupertino('backgroundColor', backgroundColor);
     final double _toolbarOpacity =
         valueFromCupertino('toolbarOpacity', toolbarOpacity);
 
@@ -272,18 +291,16 @@ class BaseAppBar extends BaseStatelessWidget
         ) ??
         true;
     // 背景色不透明不加模糊
-    if (_backgroundColor.alpha == 0xFF) {
+    if (_backgroundColor?.alpha == 0xFF) {
       _backdropFilter = false;
     }
     CupertinoNavigationBar cupertinoNavigationBar;
-    final double _height = valueFromCupertino('height', height) ??
-        baseTheme.valueFromCupertino('appBarHeight', baseTheme.appBarHeight) ??
-        44.0;
-    final bool transitionBetweenRoutes =
+    final double? _height = valueFromCupertino('height', height) ??
+        baseTheme.valueFromCupertino('appBarHeight', baseTheme.appBarHeight);
+    final bool? transitionBetweenRoutes =
         this.transitionBetweenRoutes ?? baseTheme.appBarTransitionBetweenRoutes;
     if (heroTag != null) {
       cupertinoNavigationBar = CupertinoNavigationBar(
-        key: valueFromCupertino('key', key),
         leading: _leading,
         automaticallyImplyLeading: valueFromCupertino(
           'automaticallyImplyLeading',
@@ -295,9 +312,10 @@ class BaseAppBar extends BaseStatelessWidget
         trailing: _trailing,
         border: border,
         backgroundColor: _backgroundColor,
+        brightness: valueFromCupertino('brightness', brightness),
         padding: padding,
-        transitionBetweenRoutes: transitionBetweenRoutes,
-        heroTag: heroTag,
+        transitionBetweenRoutes: transitionBetweenRoutes!,
+        heroTag: heroTag!,
         backdropFilter: _backdropFilter,
         navBarPersistentHeight: _height,
         bottom: valueFromCupertino('bottom', bottom),
@@ -318,8 +336,9 @@ class BaseAppBar extends BaseStatelessWidget
         trailing: _trailing,
         border: border,
         backgroundColor: _backgroundColor,
+        brightness: valueFromCupertino('brightness', brightness),
         padding: padding,
-        transitionBetweenRoutes: transitionBetweenRoutes,
+        transitionBetweenRoutes: transitionBetweenRoutes!,
         backdropFilter: _backdropFilter,
         navBarPersistentHeight: _height,
         bottom: valueFromCupertino('bottom', bottom),
@@ -332,10 +351,10 @@ class BaseAppBar extends BaseStatelessWidget
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final Widget _title = valueFromMaterial('title', title) ??
+    final Widget? _title = valueFromMaterial('title', title) ??
         valueFromMaterial('middle', middle);
-    Widget _leading = valueFromMaterial('leading', leading);
-    final EdgeInsetsDirectional _padding = valueFromMaterial(
+    Widget? _leading = valueFromMaterial('leading', leading);
+    final EdgeInsetsDirectional? _padding = valueFromMaterial(
       'padding',
       padding,
     );
@@ -346,32 +365,26 @@ class BaseAppBar extends BaseStatelessWidget
       );
     }
     // actions为null，且trailing不为nul,，取trailing = [ trailing ];
-    List<Widget> _actions = valueFromMaterial('actions', actions);
-    final Widget _trailing = valueFromMaterial('trailing', trailing);
+    List<Widget>? _actions = valueFromMaterial('actions', actions);
+    final Widget? _trailing = valueFromMaterial('trailing', trailing);
     if (_actions == null && _trailing != null) {
       _actions = <Widget>[_trailing];
     }
-    final Color _backgroundColor = valueFromMaterial(
-          'backgroundColor',
-          backgroundColor,
-        ) ??
-        Theme.of(context).appBarTheme.color ??
-        Theme.of(context).primaryColor;
+    final Color? _backgroundColor = valueFromMaterial(
+      'backgroundColor',
+      backgroundColor,
+    );
 
     final BaseThemeData baseTheme = BaseTheme.of(context);
-    final double _height = valueFromMaterial('height', height) ??
-        baseTheme.valueFromMaterial('appBarHeight', baseTheme.appBarHeight) ??
-        kToolbarHeight;
+    final double? _height = valueFromMaterial('height', height) ??
+        baseTheme.valueFromMaterial('appBarHeight', baseTheme.appBarHeight);
     final bool centerTitle = this.centerTitle ??
-            baseTheme.valueFromMaterial(
-              'appBarCenterTitle',
-              baseTheme.appBarCenterTitle,
-            ) ??
-            Theme.of(context).platform == TargetPlatform.iOS
-        ? true
-        : false;
+        baseTheme.valueFromMaterial(
+          'appBarCenterTitle',
+          baseTheme.appBarCenterTitle,
+        ) ??
+        Theme.of(context).platform == TargetPlatform.iOS;
     return AppBar(
-      key: valueFromMaterial('key', key),
       leading: _leading,
       automaticallyImplyLeading: valueFromMaterial(
         'automaticallyImplyLeading',
@@ -390,7 +403,7 @@ class BaseAppBar extends BaseStatelessWidget
       actionsIconTheme: valueFromMaterial('actionsIconTheme', actionsIconTheme),
       textTheme: valueFromMaterial('textTheme', textTheme),
       primary: valueFromMaterial('primary', primary),
-      centerTitle: valueFromMaterial('centerTitle', centerTitle),
+      centerTitle: centerTitle,
       titleSpacing: valueFromMaterial('titleSpacing', titleSpacing),
       excludeHeaderSemantics: excludeHeaderSemantics,
       toolbarOpacity: valueFromMaterial('toolbarOpacity', toolbarOpacity),
@@ -403,7 +416,7 @@ class BaseAppBar extends BaseStatelessWidget
   bool shouldFullyObstruct(BuildContext context) {
     if (useCupertino) {
       final Color backgroundColor =
-          CupertinoDynamicColor.resolve(this.backgroundColor, context) ??
+          CupertinoDynamicColor.maybeResolve(this.backgroundColor, context) ??
               CupertinoTheme.of(context).barBackgroundColor;
       return backgroundColor.alpha == 0xFF;
     }
@@ -429,18 +442,12 @@ class BaseAppBar extends BaseStatelessWidget
   @override
   Size get preferredSize {
     double _height =
-        height != null ? height : (useCupertino ? 44.0 : kToolbarHeight);
-    final Widget middle = valueFromMaterial('title', title) ??
+        height != null ? height! : (useCupertino ? 44.0 : kToolbarHeight);
+    final Widget? middle = valueFromMaterial('title', title) ??
         valueFromMaterial('middle', this.middle);
     if (middle != null && bottom != null) {
-      _height += bottom.preferredSize.height;
+      _height += bottom!.preferredSize.height;
     }
     return Size.fromHeight(_height);
   }
 }
-
-const CupertinoDynamicColor _defaultBackgroundColor =
-    CupertinoDynamicColor.withBrightness(
-  color: Color(0xF0F9F9F9),
-  darkColor: Color(0xF01D1D1D),
-);

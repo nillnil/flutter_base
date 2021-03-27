@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class CustomHeight extends StatefulWidget {
+  const CustomHeight({
+    Key? key,
+  }) : super(key: key);
   @override
   State<StatefulWidget> createState() => _CustomHeightState();
 }

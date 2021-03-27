@@ -5,6 +5,9 @@ import '../demo_page.dart';
 import '../demo_tile.dart';
 
 class ColorStringConvertDemo extends StatelessWidget {
+  const ColorStringConvertDemo({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return DemoPage(
@@ -29,7 +32,7 @@ class _Demo extends StatefulWidget {
 class _DemoState extends State<_Demo> {
   RandomColor _randomColor = RandomColor();
 
-  Color get _color => _randomColor.color;
+  Color get _color => _randomColor;
 
   @override
   Widget build(BuildContext context) {

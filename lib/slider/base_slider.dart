@@ -9,14 +9,13 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use Slider
 /// material，use Slider
 /// *** use material = { forceUseCupertino: true } force use CupertinoSlider
-/// 
-/// CupertinoSlider: 2020.06.11
-/// Slider: 2020.09.03
-/// modify 2021.01.12 by flutter 1.22.5
+///
+/// CupertinoSlider: 2020.12.23
+/// Slider: 2020.12.15
+/// modify 2021.03.26 by flutter 2.0.3
 class BaseSlider extends BaseStatelessWidget {
   const BaseSlider({
-    Key baseKey,
-    this.key,
+    Key? key,
     this.value,
     this.onChanged,
     this.onChangeStart,
@@ -32,34 +31,31 @@ class BaseSlider extends BaseStatelessWidget {
     this.focusNode,
     this.autofocus = false,
     this.semanticFormatterCallback,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
-  }) : super(key: baseKey, cupertino: cupertino, material: material);
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
+  }) : super(key: key, cupertino: cupertino, material: material);
 
   /// *** general properties end ***
-
-  @override
-  final Key key;
 
   /// [CupertinoSlider.value]
   /// or
   /// [Slider.value]
-  final double value;
+  final double? value;
 
   /// [CupertinoSlider.onChanged]
   /// or
   /// [Slider.onChanged]
-  final ValueChanged<double> onChanged;
+  final ValueChanged<double>? onChanged;
 
   /// [CupertinoSlider.onChangeStart]
   /// or
   /// [Slider.onChangeStart]
-  final ValueChanged<double> onChangeStart;
+  final ValueChanged<double>? onChangeStart;
 
   /// [CupertinoSlider.onChangeEnd]
   /// or
   /// [Slider.onChangeEnd]
-  final ValueChanged<double> onChangeEnd;
+  final ValueChanged<double>? onChangeEnd;
 
   /// [CupertinoSlider.min]
   /// or
@@ -74,12 +70,12 @@ class BaseSlider extends BaseStatelessWidget {
   /// [CupertinoSlider.divisions]
   /// or
   /// [Slider.divisions]
-  final int divisions;
+  final int? divisions;
 
   /// [CupertinoSlider.activeColor]
   /// or
   /// [Slider.activeColor]
-  final Color activeColor;
+  final Color? activeColor;
 
   /// *** general properties end ***
 
@@ -93,29 +89,28 @@ class BaseSlider extends BaseStatelessWidget {
   /// *** material properties start ***
 
   /// [Slider.label]
-  final String label;
+  final String? label;
 
   /// [Slider.inactiveColor]
-  final Color inactiveColor;
+  final Color? inactiveColor;
 
   /// [Slider.mouseCursor]
-  final MouseCursor mouseCursor;
+  final MouseCursor? mouseCursor;
 
   /// [Slider.focusNode]
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
 
   /// [Slider.autofocus]
   final bool autofocus;
 
   /// [Slider.semanticFormatterCallback]
-  final SemanticFormatterCallback semanticFormatterCallback;
+  final SemanticFormatterCallback? semanticFormatterCallback;
 
   /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoSlider(
-      key: valueFromCupertino('key', key),
       value: valueFromCupertino('value', value),
       onChanged: valueFromCupertino('onChanged', onChanged),
       onChangeStart: valueFromCupertino('onChangeStart', onChangeStart),
@@ -131,7 +126,6 @@ class BaseSlider extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return Slider(
-      key: valueFromMaterial('key', key),
       value: valueFromMaterial('value', value),
       onChanged: valueFromMaterial('onChanged', onChanged),
       onChangeStart: valueFromMaterial('onChangeStart', onChangeStart),
@@ -140,9 +134,9 @@ class BaseSlider extends BaseStatelessWidget {
       max: valueFromMaterial('max', max),
       divisions: valueFromMaterial('divisions', divisions),
       label: valueFromMaterial('label', label),
-      mouseCursor: mouseCursor,
       activeColor: valueFromMaterial('activeColor', activeColor),
       inactiveColor: inactiveColor,
+      mouseCursor: mouseCursor,
       semanticFormatterCallback: semanticFormatterCallback,
       focusNode: focusNode,
       autofocus: autofocus,

@@ -8,6 +8,9 @@ import '../demo_page.dart';
 import '../demo_tile.dart';
 
 class RefreshDemo extends StatelessWidget {
+  const RefreshDemo({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final List<DemoTile> _demos = <DemoTile>[
@@ -35,7 +38,7 @@ class _RefreshPageState extends State<_RefreshPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 400,
       child: Column(
         children: <Widget>[

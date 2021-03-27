@@ -7,8 +7,13 @@ import 'package:flutter/cupertino.dart'
         OverlayVisibilityMode;
 import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/material.dart' hide SmartDashesType, SmartQuotesType;
+import 'package:flutter/rendering.dart' show MouseCursor;
 import 'package:flutter/services.dart'
-    show TextInputFormatter, SmartDashesType, SmartQuotesType;
+    show
+        MaxLengthEnforcement,
+        TextInputFormatter,
+        SmartDashesType,
+        SmartQuotesType;
 
 import '../base_stateless_widget.dart';
 
@@ -17,14 +22,13 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use TextField on cuperitno.
 /// use TextField by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoTextField on material.
-/// 
-/// CupertinoTextField: 2020.09.10
-/// TextField: 2020.08.22
-/// modify 2021.01.12 by flutter 1.22.5
+///
+/// CupertinoTextField: 2021.01.28
+/// TextField: 2021.01.28
+/// modify 2021.03.26 by flutter 2.0.3
 class BaseTextField extends BaseStatelessWidget {
   const BaseTextField({
-    Key baseKey,
-    this.key,
+    Key? key,
     this.controller,
     this.focusNode,
     this.keyboardType,
@@ -38,7 +42,7 @@ class BaseTextField extends BaseStatelessWidget {
     this.showCursor,
     this.toolbarOptions,
     this.autofocus = false,
-    this.obscuringCharacter = '',
+    this.obscuringCharacter = '•',
     this.obscureText = false,
     this.autocorrect = true,
     this.smartDashesType,
@@ -48,7 +52,6 @@ class BaseTextField extends BaseStatelessWidget {
     this.minLines,
     this.expands = false,
     this.maxLength,
-    this.maxLengthEnforced = true,
     this.onChanged,
     this.onEditingComplete,
     this.onSubmitted,
@@ -68,6 +71,8 @@ class BaseTextField extends BaseStatelessWidget {
     this.scrollPhysics,
     this.autofillHints,
     this.restorationId,
+    this.maxLengthEnforcement,
+    this.onTap,
     // cupertino
     this.cupertinoDecoration = _kDefaultRoundedBorderDecoration,
     this.padding = const EdgeInsets.all(6.0),
@@ -84,36 +89,35 @@ class BaseTextField extends BaseStatelessWidget {
     // material
     this.materialDecoration = const InputDecoration(),
     this.textDirection,
-    this.onTap,
     this.buildCounter,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
-  }) : super(key: baseKey, cupertino: cupertino, material: material);
+    this.mouseCursor,
+    this.selectionControls,
+    this.onAppPrivateCommand,
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
+  }) : super(key: key, cupertino: cupertino, material: material);
 
   /// *** general properties start ***
-
-  @override
-  final Key key;
 
   /// [CupertinoTextField.controller]
   /// or
   /// [TextField.controller]
-  final TextEditingController controller;
+  final TextEditingController? controller;
 
   /// [CupertinoTextField.focusNode]
   /// or
   /// [TextField.focusNode]
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
 
   /// [CupertinoTextField.keyboardType]
   /// or
   /// [TextField.keyboardType]
-  final TextInputType keyboardType;
+  final TextInputType? keyboardType;
 
   /// [CupertinoTextField.textInputAction]
   /// or
   /// [TextField.textInputAction]
-  final TextInputAction textInputAction;
+  final TextInputAction? textInputAction;
 
   /// [CupertinoTextField.textCapitalization]
   /// or
@@ -123,12 +127,12 @@ class BaseTextField extends BaseStatelessWidget {
   /// [CupertinoTextField.style]
   /// or
   /// [TextField.style]
-  final TextStyle style;
+  final TextStyle? style;
 
   /// [CupertinoTextField.strutStyle]
   /// or
   /// [TextField.strutStyle]
-  final StrutStyle strutStyle;
+  final StrutStyle? strutStyle;
 
   /// [CupertinoTextField.textAlign]
   /// or
@@ -138,12 +142,12 @@ class BaseTextField extends BaseStatelessWidget {
   /// [CupertinoTextField.toolbarOptions]
   /// or
   /// [TextField.toolbarOptions]
-  final ToolbarOptions toolbarOptions;
+  final ToolbarOptions? toolbarOptions;
 
   /// [CupertinoTextField.textAlignVertical]
   /// or
   /// [TextField.textAlignVertical]
-  final TextAlignVertical textAlignVertical;
+  final TextAlignVertical? textAlignVertical;
 
   /// [CupertinoTextField.readOnly]
   /// or
@@ -153,7 +157,7 @@ class BaseTextField extends BaseStatelessWidget {
   /// [CupertinoTextField.showCursor]
   /// or
   /// [TextField.showCursor]
-  final bool showCursor;
+  final bool? showCursor;
 
   /// [CupertinoTextField.autofocus]
   /// or
@@ -173,12 +177,12 @@ class BaseTextField extends BaseStatelessWidget {
   /// [CupertinoTextField.smartDashesType]
   /// or
   /// [TextField.smartDashesType]
-  final SmartDashesType smartDashesType;
+  final SmartDashesType? smartDashesType;
 
   /// [CupertinoTextField.smartQuotesType]
   /// or
   /// [TextField.smartQuotesType]
-  final SmartQuotesType smartQuotesType;
+  final SmartQuotesType? smartQuotesType;
 
   /// [CupertinoTextField.enableSuggestions]
   /// or
@@ -193,7 +197,7 @@ class BaseTextField extends BaseStatelessWidget {
   /// [CupertinoTextField.minLines]
   /// or
   /// [TextField.minLines]
-  final int minLines;
+  final int? minLines;
 
   /// [CupertinoTextField.expands]
   /// or
@@ -203,37 +207,37 @@ class BaseTextField extends BaseStatelessWidget {
   /// [CupertinoTextField.maxLength]
   /// or
   /// [TextField.maxLength]
-  final int maxLength;
+  final int? maxLength;
 
-  /// [CupertinoTextField.maxLengthEnforced]
+  /// [CupertinoTextField.maxLengthEnforcement]
   /// or
-  /// [TextField.maxLengthEnforced]
-  final bool maxLengthEnforced;
+  /// [TextField.maxLengthEnforcement]
+  final MaxLengthEnforcement? maxLengthEnforcement;
 
   /// [CupertinoTextField.onChanged]
   /// or
   /// [TextField.onChanged]
-  final ValueChanged<String> onChanged;
+  final ValueChanged<String>? onChanged;
 
   /// [CupertinoTextField.onEditingComplete]
   /// or
   /// [TextField.onEditingComplete]
-  final VoidCallback onEditingComplete;
+  final VoidCallback? onEditingComplete;
 
   /// [CupertinoTextField.onSubmitted]
   /// or
   /// [TextField.onSubmitted]
-  final ValueChanged<String> onSubmitted;
+  final ValueChanged<String>? onSubmitted;
 
   /// [CupertinoTextField.inputFormatters]
   /// or
   /// [TextField.inputFormatters]
-  final List<TextInputFormatter> inputFormatters;
+  final List<TextInputFormatter>? inputFormatters;
 
   /// [CupertinoTextField.enabled]
   /// or
   /// [TextField.enabled]
-  final bool enabled;
+  final bool? enabled;
 
   /// [CupertinoTextField.cursorWidth]
   /// or
@@ -248,12 +252,12 @@ class BaseTextField extends BaseStatelessWidget {
   /// [CupertinoTextField.cursorColor]
   /// or
   /// [TextField.cursorColor]
-  final Color cursorColor;
+  final Color? cursorColor;
 
   /// [CupertinoTextField.keyboardAppearance]
   /// or
   /// [TextField.keyboardAppearance]
-  final Brightness keyboardAppearance;
+  final Brightness? keyboardAppearance;
 
   /// [CupertinoTextField.scrollPadding]
   /// or
@@ -270,15 +274,20 @@ class BaseTextField extends BaseStatelessWidget {
   /// [TextField.enableInteractiveSelection]
   final bool enableInteractiveSelection;
 
+  /// [CupertinoTextField.selectionControls]
+  /// or
+  /// [TextField.selectionControls]
+  final TextSelectionControls? selectionControls;
+
   /// [CupertinoTextField.scrollController]
   /// or
   /// [TextField.scrollController]
-  final ScrollController scrollController;
+  final ScrollController? scrollController;
 
   /// [CupertinoTextField.scrollPhysics]
   /// or
   /// [TextField.scrollPhysics]
-  final ScrollPhysics scrollPhysics;
+  final ScrollPhysics? scrollPhysics;
 
   /// [CupertinoTextField.obscuringCharacter]
   /// or
@@ -298,17 +307,22 @@ class BaseTextField extends BaseStatelessWidget {
   /// [CupertinoTextField.cursorHeight]
   /// or
   /// [TextField.cursorHeight]
-  final double cursorHeight;
+  final double? cursorHeight;
 
   /// [CupertinoTextField.autofillHints]
   /// or
   /// [TextField.autofillHints]
-  final Iterable<String> autofillHints;
+  final Iterable<String>? autofillHints;
 
   /// [CupertinoTextField.restorationId]
   /// or
   /// [TextField.restorationId]
-  final String restorationId;
+  final String? restorationId;
+
+  /// [CupertinoTextField.onTap]
+  /// or
+  /// [TextField.onTap]
+  final GestureTapCallback? onTap;
 
   /// *** general properties end ***
 
@@ -321,19 +335,19 @@ class BaseTextField extends BaseStatelessWidget {
   final EdgeInsetsGeometry padding;
 
   /// [CupertinoTextField.placeholder]
-  final String placeholder;
+  final String? placeholder;
 
   /// [CupertinoTextField.placeholderStyle]
   final TextStyle placeholderStyle;
 
   /// [CupertinoTextField.prefix]
-  final Widget prefix;
+  final Widget? prefix;
 
   /// [CupertinoTextField.prefixMode]
   final OverlayVisibilityMode prefixMode;
 
   /// [CupertinoTextField.suffix]
-  final Widget suffix;
+  final Widget? suffix;
 
   /// [CupertinoTextField.suffixMode]
   final OverlayVisibilityMode suffixMode;
@@ -349,20 +363,22 @@ class BaseTextField extends BaseStatelessWidget {
   final InputDecoration materialDecoration;
 
   /// [TextField.textDirection]
-  final TextDirection textDirection;
-
-  /// [TextField.onTap]
-  final GestureTapCallback onTap;
+  final TextDirection? textDirection;
 
   /// [TextField.buildCounter]
-  final InputCounterWidgetBuilder buildCounter;
+  final InputCounterWidgetBuilder? buildCounter;
+
+  /// [TextField.onAppPrivateCommand]
+  final AppPrivateCommandCallback? onAppPrivateCommand;
+
+  /// [TextField.buildCmouseCursorounter]
+  final MouseCursor? mouseCursor;
 
   /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoTextField(
-      key: valueFromCupertino('key', key),
       controller: valueFromCupertino('controller', controller),
       focusNode: valueFromCupertino('focusNode', focusNode),
       keyboardType: valueFromCupertino('keyboardType', keyboardType),
@@ -382,7 +398,8 @@ class BaseTextField extends BaseStatelessWidget {
       toolbarOptions: valueFromCupertino('toolbarOptions', toolbarOptions),
       showCursor: valueFromCupertino('showCursor', showCursor),
       autofocus: valueFromCupertino('autofocus', autofocus),
-      obscuringCharacter: valueFromCupertino('obscuringCharacter', obscuringCharacter),
+      obscuringCharacter:
+          valueFromCupertino('obscuringCharacter', obscuringCharacter),
       obscureText: valueFromCupertino('obscureText', obscureText),
       autocorrect: valueFromCupertino('autocorrect', autocorrect),
       smartDashesType: valueFromCupertino('smartDashesType', smartDashesType),
@@ -393,9 +410,9 @@ class BaseTextField extends BaseStatelessWidget {
       minLines: valueFromCupertino('minLines', minLines),
       expands: valueFromCupertino('expands', expands),
       maxLength: valueFromCupertino('maxLength', maxLength),
-      maxLengthEnforced: valueFromCupertino(
-        'maxLengthEnforced',
-        maxLengthEnforced,
+      maxLengthEnforcement: valueFromCupertino(
+        'maxLengthEnforcement',
+        maxLengthEnforcement,
       ),
       onChanged: valueFromCupertino('onChanged', onChanged),
       onEditingComplete: valueFromCupertino(
@@ -409,8 +426,10 @@ class BaseTextField extends BaseStatelessWidget {
       cursorHeight: valueFromCupertino('cursorHeight', cursorHeight),
       cursorRadius: valueFromCupertino('cursorRadius', cursorRadius),
       cursorColor: valueFromCupertino('cursorColor', cursorColor),
-      selectionHeightStyle: valueFromCupertino('selectionHeightStyle', selectionHeightStyle),
-      selectionWidthStyle: valueFromCupertino('selectionWidthStyle', selectionWidthStyle),
+      selectionHeightStyle:
+          valueFromCupertino('selectionHeightStyle', selectionHeightStyle),
+      selectionWidthStyle:
+          valueFromCupertino('selectionWidthStyle', selectionWidthStyle),
       keyboardAppearance: valueFromCupertino(
         'keyboardAppearance',
         keyboardAppearance,
@@ -423,6 +442,10 @@ class BaseTextField extends BaseStatelessWidget {
       enableInteractiveSelection: valueFromCupertino(
         'enableInteractiveSelection',
         enableInteractiveSelection,
+      ),
+      selectionControls: valueFromCupertino(
+        'selectionControls',
+        selectionControls,
       ),
       onTap: valueFromCupertino('onTap', onTap),
       scrollController: valueFromCupertino(
@@ -448,7 +471,6 @@ class BaseTextField extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return TextField(
-      key: valueFromMaterial('key', key),
       controller: valueFromMaterial('controller', controller),
       focusNode: valueFromMaterial('focusNode', focusNode),
       keyboardType: valueFromMaterial('keyboardType', keyboardType),
@@ -468,7 +490,8 @@ class BaseTextField extends BaseStatelessWidget {
       toolbarOptions: valueFromMaterial('toolbarOptions', toolbarOptions),
       showCursor: valueFromMaterial('showCursor', showCursor),
       autofocus: valueFromMaterial('autofocus', autofocus),
-      obscuringCharacter: valueFromMaterial('obscuringCharacter', obscuringCharacter),
+      obscuringCharacter:
+          valueFromMaterial('obscuringCharacter', obscuringCharacter),
       obscureText: valueFromMaterial('obscureText', obscureText),
       autocorrect: valueFromMaterial('autocorrect', autocorrect),
       smartDashesType: valueFromMaterial('smartDashesType', smartDashesType),
@@ -481,24 +504,26 @@ class BaseTextField extends BaseStatelessWidget {
       minLines: valueFromMaterial('minLines', minLines),
       expands: valueFromMaterial('expands', expands),
       maxLength: valueFromMaterial('maxLength', maxLength),
-      maxLengthEnforced: valueFromMaterial(
-        'maxLengthEnforced',
-        maxLengthEnforced,
-      ),
+      maxLengthEnforcement:
+          valueFromMaterial('maxLengthEnforcement', maxLengthEnforcement),
       onChanged: valueFromMaterial('onChanged', onChanged),
       onEditingComplete: valueFromMaterial(
         'onEditingComplete',
         onEditingComplete,
       ),
       onSubmitted: valueFromMaterial('onSubmitted', onSubmitted),
+      onAppPrivateCommand:
+          valueFromMaterial('onAppPrivateCommand', onAppPrivateCommand),
       inputFormatters: valueFromMaterial('inputFormatters', inputFormatters),
       enabled: valueFromMaterial('enabled', enabled),
       cursorWidth: valueFromMaterial('cursorWidth', cursorWidth),
       cursorHeight: valueFromMaterial('cursorHeight', cursorHeight),
       cursorRadius: valueFromMaterial('cursorRadius', cursorRadius),
       cursorColor: valueFromMaterial('cursorColor', cursorColor),
-      selectionHeightStyle: valueFromMaterial('selectionHeightStyle', selectionHeightStyle),
-      selectionWidthStyle: valueFromMaterial('selectionWidthStyle', selectionWidthStyle),
+      selectionHeightStyle:
+          valueFromMaterial('selectionHeightStyle', selectionHeightStyle),
+      selectionWidthStyle:
+          valueFromMaterial('selectionWidthStyle', selectionWidthStyle),
       keyboardAppearance: valueFromMaterial(
         'keyboardAppearance',
         keyboardAppearance,
@@ -511,6 +536,14 @@ class BaseTextField extends BaseStatelessWidget {
       enableInteractiveSelection: valueFromMaterial(
         'enableInteractiveSelection',
         enableInteractiveSelection,
+      ),
+      selectionControls: valueFromMaterial(
+        'selectionControls',
+        selectionControls,
+      ),
+      mouseCursor: valueFromMaterial(
+        'mouseCursor',
+        mouseCursor,
       ),
       scrollController: valueFromMaterial(
         'scrollController',

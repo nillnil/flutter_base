@@ -1,20 +1,22 @@
 import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import 'provider/app_provider.dart';
 
-const String _version = '0.6.0';
-const String _flutter_version = '1.22.5';
+const String _version = '2.0.3';
+const String _flutter_version = '2.0.3';
 
 const TextStyle _style = TextStyle(
   fontSize: 14.0,
 );
 
 class Settings extends StatelessWidget {
+  const Settings({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Consumer<AppProvider>(
@@ -53,16 +55,17 @@ class Settings extends StatelessWidget {
                             ),
                             title: const Text('切换平台模式'),
                             trailing: BaseSwitch(
-                              value: basePlatform == defaultTargetPlatform
-                                  ? false
-                                  : true,
+                              value: currentPlatformMode != defaultPlatformMode,
                               onChanged: (_) {
-                                final TargetPlatform targetPlatform =
-                                    appProvider.targetPlatform ==
-                                            TargetPlatform.iOS
-                                        ? TargetPlatform.android
-                                        : TargetPlatform.iOS;
-                                appProvider.changePlatform(targetPlatform);
+                                PlatformMode? platformMode =
+                                    appProvider.platformMode;
+                                platformMode = platformMode?.changePlatformMode(
+                                    mode: currentPlatformMode ==
+                                            BaseMode.cupertino
+                                        ? BaseMode.material
+                                        : BaseMode.cupertino);
+
+                                appProvider.changePlatformMode(platformMode);
                               },
                             ),
                           ),

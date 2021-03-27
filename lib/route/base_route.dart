@@ -12,10 +12,10 @@ import '../theme/base_theme.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use MaterialPageRoute on cuperitno.
 /// use MaterialPageRoute
 /// *** use material = { forceUseCupertino: true } force use CupertinoPageRoute on material.
-/// 
-/// CupertinoPageRoute: 2020.09.30
-/// MaterialPageRoute: 2020.09.30
-/// modify 2021.01.12 by flutter 1.22.5
+///
+/// CupertinoPageRoute: 2021.01.26
+/// MaterialPageRoute: 2020.11.03
+/// modify 2021.03.26 by flutter 2.0.3
 class BaseRoute<T> extends BaseClass {
   BaseRoute({
     this.builder,
@@ -24,9 +24,9 @@ class BaseRoute<T> extends BaseClass {
     this.maintainState = true,
     this.fullscreenDialog = false,
     this.backGestureWidth = 20.0,
-    this.fullscreenGackGesture,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
+    this.fullscreenGackGesture = true,
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
   }) : super(cupertino: cupertino, material: material);
 
   /// *** general properties start ***
@@ -34,12 +34,12 @@ class BaseRoute<T> extends BaseClass {
   /// [CupertinoPageRoute.builder]
   /// or
   /// [MaterialPageRoute.builder]
-  final WidgetBuilder builder;
+  final WidgetBuilder? builder;
 
   /// [CupertinoPageRoute.settings]
   /// or
   /// [MaterialPageRoute.settings]
-  final RouteSettings settings;
+  final RouteSettings? settings;
 
   /// [CupertinoPageRoute.maintainState]
   /// or
@@ -56,7 +56,7 @@ class BaseRoute<T> extends BaseClass {
   /// *** cupertino properties start ***
 
   /// [CupertinoPageRoute.title]
-  final String title;
+  final String? title;
 
   /// default is [CupertinoPageRoute._kBackGestureWidth] = 20.0.
   /// 向右滑返回时离屏幕边缘的宽度
@@ -69,7 +69,7 @@ class BaseRoute<T> extends BaseClass {
   /// 是否启用全屏右滑返回, [backGestureWidth]参数会失效
   /// 默认是 [BaseThemeData.routeFullscreenGackGesture]
   /// ** 使用时请注意手势冲突
-  final bool fullscreenGackGesture;
+  final bool? fullscreenGackGesture;
 
   /// *** cupertino properties end ***
 
@@ -105,58 +105,50 @@ class BaseRoute<T> extends BaseClass {
   }
 
   /// [Navigator.push]
-  Future<T> push<T extends Object>(
+  Future<T?> push(
     BuildContext context, {
     bool rootNavigator = false,
-    bool nullOk = false,
   }) {
     return Navigator.of(
       context,
       rootNavigator: rootNavigator,
-      nullOk: nullOk,
     ).push<T>(build(context));
   }
 
   /// [Navigator.pushAndRemoveUntil]
-  Future<T> pushAndRemoveUntil<T extends Object>(
-    BuildContext context, {
+  Future<T?> pushAndRemoveUntil(
+    BuildContext context,
+    RoutePredicate predicate, {
     bool rootNavigator = false,
-    bool nullOk = false,
-    RoutePredicate predicate,
   }) {
     return Navigator.of(
       context,
       rootNavigator: rootNavigator,
-      nullOk: nullOk,
     ).pushAndRemoveUntil<T>(build(context), predicate);
   }
 }
 
 /// [Navigator.push]
-Future<T> pushBaseRoute<T extends Object>(
+Future<T?> pushBaseRoute<T extends Object?>(
   BaseRoute<T> baseRoute,
   BuildContext context, {
   bool rootNavigator = false,
-  bool nullOk = false,
 }) {
   return Navigator.of(
     context,
     rootNavigator: rootNavigator,
-    nullOk: nullOk,
-  ).push(baseRoute.build(context));
+  ).push<T>(baseRoute.build(context));
 }
 
 /// [Navigator.pushAndRemoveUntil]
-Future<T> pushBaseRouteAndRemoveUntil<T extends Object>(
+Future<T?> pushBaseRouteAndRemoveUntil<T extends Object?>(
   BaseRoute<T> baseRoute,
-  BuildContext context, {
+  BuildContext context,
+  RoutePredicate predicate, {
   bool rootNavigator = false,
-  bool nullOk = false,
-  RoutePredicate predicate,
 }) {
   return Navigator.of(
     context,
     rootNavigator: rootNavigator,
-    nullOk: nullOk,
-  ).pushAndRemoveUntil(baseRoute.build(context), predicate);
+  ).pushAndRemoveUntil<T>(baseRoute.build(context), predicate);
 }

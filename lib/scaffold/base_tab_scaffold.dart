@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../base_stateful_widget.dart';
+import '../flutter/cupertino/bottom_tab_bar.dart';
 import '../flutter/cupertino/tab_scaffold.dart';
 import '../platform/platform.dart';
 import '../tabbar/base_tab_bar.dart';
@@ -12,21 +13,22 @@ import '../tabbar/base_tab_bar.dart';
 /// *** use cupertino = { forceUseMaterial: true } to force use Scaffold
 /// material，use Scaffold by material
 /// *** use material = { forceUseCupertino: true } to force use CupertinoTabScaffold
-/// 
-/// CupertinoPageScaffold: 2020.06.11
-/// Scaffold: 2020.09.11
-/// modify 2021.01.12 by flutter 1.22.5
+///
+/// CupertinoTabScaffold: 2020.06.11
+/// Scaffold: 2021.03.12
+/// modify 2021.03.26 by flutter 2.0.3
 class BaseTabScaffold extends BaseStatefulWidget {
   const BaseTabScaffold({
-    Key baseKey,
-    this.key,
+    Key? key,
     this.backgroundColor,
     this.tabBar,
     this.tabViews,
     this.resizeToAvoidBottomInset = true,
     this.controller,
     this.routes = const <String, WidgetBuilder>{},
-    this.navigatorKey,
+    this.restorationId,
+    this.restorationScopeIds,
+    this.navigatorKeys,
     this.onGenerateRoute,
     this.defaultTitle,
     this.onUnknownRoute,
@@ -46,60 +48,67 @@ class BaseTabScaffold extends BaseStatefulWidget {
     this.drawerEdgeDragWidth,
     this.drawerEnableOpenDragGesture = true,
     this.endDrawerEnableOpenDragGesture = true,
-    this.tabViewKey,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
-  }) : super(key: baseKey, cupertino: cupertino, material: material);
+    this.tabViewKeys,
+    this.onDrawerChanged,
+    this.onEndDrawerChanged,
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
+  }) : super(key: key, cupertino: cupertino, material: material);
 
   /// *** general properties start ***
-
-  @override
-  final Key key;
 
   /// [CupertinoTabScaffold.backgroundColor]
   /// or
   /// [Scaffold.backgroundColor]
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// [CupertinoTabBar]
   /// or
   /// [BottomNavigationBar]
-  final BaseTabBar tabBar;
+  final BaseTabBar? tabBar;
 
   /// [CupertinoTabView.builder]
   /// or
   /// [Scaffold.body]
-  final List<Widget> tabViews;
+  final List<Widget>? tabViews;
+
+  /// [CupertinoTabView.restorationScopeId]
+  final List<String?>? restorationScopeIds;
 
   /// [CupertinoTabScaffold.resizeToAvoidBottomInset]
   /// or
   /// [Scaffold.resizeToAvoidBottomInset]
   final bool resizeToAvoidBottomInset;
 
+  /// [CupertinoTabScaffold.restorationId]
+  /// or
+  /// [Scaffold.restorationId]
+  final String? restorationId;
+
   /// *** general properties end ***
 
   /// *** cupertino properties start ***
 
   /// [CupertinoTabScaffold.controller]
-  final CupertinoTabController controller;
+  final CupertinoTabController? controller;
 
   /// [CupertinoTabView.tabViewKey]
-  final Key tabViewKey;
+  final List<Key?>? tabViewKeys;
 
   /// [CupertinoTabView.routes]
-  final Map<String, WidgetBuilder> routes;
+  final Map<String, WidgetBuilder>? routes;
 
   /// [CupertinoTabView.navigatorKey]
-  final GlobalKey<NavigatorState> navigatorKey;
+  final List<GlobalKey<NavigatorState>?>? navigatorKeys;
 
   /// [CupertinoTabView.defaultTitle]
-  final String defaultTitle;
+  final String? defaultTitle;
 
   /// [CupertinoTabView.onGenerateRoute]
-  final RouteFactory onGenerateRoute;
+  final RouteFactory? onGenerateRoute;
 
   /// [CupertinoTabView.onUnknownRoute]
-  final RouteFactory onUnknownRoute;
+  final RouteFactory? onUnknownRoute;
 
   /// [CupertinoTabView.navigatorObservers]
   final List<NavigatorObserver> navigatorObservers;
@@ -109,25 +118,31 @@ class BaseTabScaffold extends BaseStatefulWidget {
   /// *** material properties start ***
 
   /// [Scaffold.floatingActionButton]
-  final Widget floatingActionButton;
+  final Widget? floatingActionButton;
 
   /// [Scaffold.floatingActionButtonLocation]
-  final FloatingActionButtonLocation floatingActionButtonLocation;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   /// [Scaffold.floatingActionButtonAnimator]
-  final FloatingActionButtonAnimator floatingActionButtonAnimator;
+  final FloatingActionButtonAnimator? floatingActionButtonAnimator;
 
   /// [Scaffold.persistentFooterButtons]
-  final List<Widget> persistentFooterButtons;
+  final List<Widget>? persistentFooterButtons;
 
   /// [Scaffold.drawer]
-  final Widget drawer;
+  final Widget? drawer;
+
+  /// [Scaffold.onDrawerChanged]
+  final DrawerCallback? onDrawerChanged;
 
   /// [Scaffold.endDrawer]
-  final Widget endDrawer;
+  final Widget? endDrawer;
+
+  /// [Scaffold.onEndDrawerChanged]
+  final DrawerCallback? onEndDrawerChanged;
 
   /// [Scaffold.bottomSheet]
-  final Widget bottomSheet;
+  final Widget? bottomSheet;
 
   /// [Scaffold.primary]
   final bool primary;
@@ -142,10 +157,10 @@ class BaseTabScaffold extends BaseStatefulWidget {
   final bool extendBodyBehindAppBar;
 
   /// [Scaffold.drawerScrimColor]
-  final Color drawerScrimColor;
+  final Color? drawerScrimColor;
 
   /// [Scaffold.drawerEdgeDragWidth]
-  final double drawerEdgeDragWidth;
+  final double? drawerEdgeDragWidth;
 
   /// [Scaffold.drawerEnableOpenDragGesture]
   final bool drawerEnableOpenDragGesture;
@@ -188,12 +203,11 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
       );
     }
     return CupertinoTabScaffold(
-      key: valueFromCupertino('key', widget.key),
-      tabBar: tabBar.build(context),
+      tabBar: tabBar.build(context) as CupertinoTabBar,
       tabBuilder: (BuildContext context, int index) {
         return CupertinoTabView(
-          key: valueFromCupertino('tabViewKey', widget.tabViewKey),
-          navigatorKey: widget.navigatorKey,
+          key: widget.tabViewKeys?[index],
+          navigatorKey: widget.navigatorKeys?[index],
           builder: (BuildContext context) {
             return tabViews[index];
           },
@@ -202,6 +216,7 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
           onGenerateRoute: widget.onGenerateRoute,
           onUnknownRoute: widget.onUnknownRoute,
           navigatorObservers: widget.navigatorObservers,
+          restorationScopeId: widget.restorationScopeIds?[index],
         );
       },
       controller: widget.controller,
@@ -244,7 +259,9 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
       floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
       persistentFooterButtons: widget.persistentFooterButtons,
       drawer: widget.drawer,
+      onDrawerChanged: widget.onDrawerChanged,
       endDrawer: widget.endDrawer,
+      onEndDrawerChanged: widget.onEndDrawerChanged,
       bottomSheet: widget.bottomSheet,
       backgroundColor: valueFromMaterial(
         'backgroundColor',
@@ -259,6 +276,7 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
       drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
       drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
       endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
+      restorationId: widget.restorationId,
     );
   }
 }

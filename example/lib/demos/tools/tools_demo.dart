@@ -10,7 +10,7 @@ import 'color_tools_demo.dart';
 /// Tools 说明
 class ToolsDemo extends StatelessWidget {
   const ToolsDemo({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -31,7 +31,7 @@ class ToolsDemo extends StatelessWidget {
               ),
               onTap: () {
                 BaseRoute<void>(
-                  builder: (_) => ColorToolsDemo(),
+                  builder: (_) => const ColorToolsDemo(),
                 ).push(context);
               },
             ),

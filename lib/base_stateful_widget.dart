@@ -21,13 +21,13 @@ import 'base_mixin.dart';
 /// ***
 abstract class BaseStatefulWidget extends StatefulWidget {
   const BaseStatefulWidget({
-    Key key,
+    Key? key,
     this.cupertino = const <String, dynamic>{},
     this.material = const <String, dynamic>{},
   }) : super(key: key);
 
-  final Map<String, Object> cupertino;
-  final Map<String, Object> material;
+  final Map<String, dynamic>? cupertino;
+  final Map<String, dynamic>? material;
 }
 
 abstract class BaseState<T extends BaseStatefulWidget> extends State<T>
@@ -48,16 +48,16 @@ abstract class BaseState<T extends BaseStatefulWidget> extends State<T>
       // cupertino模式，ios下使用
       // forceUseMaterial = true 强制使用material模式
       if (widget.cupertino != null &&
-          widget.cupertino[forceUseMaterial] != null &&
-          widget.cupertino[forceUseMaterial]) {
+          widget.cupertino?[forceUseMaterial] != null &&
+          widget.cupertino?[forceUseMaterial] as bool) {
         // *** 请注意，此时BaseApp上的theme参数是不生效的 ***
         // 默认套多一层 Material
         buildByMaterialBefore(context);
         // 去除水波纹效果
         if (withoutSplashOnCupertino) {
           return BaseMaterialWidget.withoutSplash(
-            child: buildByMaterial(context),
             theme: Theme.of(context),
+            child: buildByMaterial(context),
           );
         }
         return BaseMaterialWidget(child: buildByMaterial(context));
@@ -68,8 +68,8 @@ abstract class BaseState<T extends BaseStatefulWidget> extends State<T>
       // material模式，android跟fuchsia下使用
       // forceUseCupertino = true 强制使用cupertino模式
       if (widget.material != null &&
-          widget.material[forceUseCupertino] != null &&
-          widget.material[forceUseCupertino]) {
+          widget.material?[forceUseCupertino] != null &&
+          widget.material?[forceUseCupertino] as bool) {
         // *** 请注意，此时BaseApp上的cupertinoTheme参数是不生效的 ***
         buildByCupertinoBefore(context);
         return buildByCupertino(context);
@@ -77,8 +77,8 @@ abstract class BaseState<T extends BaseStatefulWidget> extends State<T>
       buildByMaterialBefore(context);
       return buildByMaterial(context);
     } else {
-      print('The platform is = $basePlatform, it not support yet.');
-      return null;
+      print('The platformMode is = $currentPlatformMode, it not support yet.');
+      return Container();
     }
   }
 

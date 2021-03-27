@@ -19,13 +19,13 @@ const double _defaultDrawerSize = 304;
 /// default is 304 width or height
 class BaseDrawer extends StatefulWidget {
   const BaseDrawer({
-    Key key,
+    Key? key,
     this.duration = _drawerTransitionDuration,
     this.axisDirection = AxisDirection.right,
     this.size,
     this.percent,
     this.backgroundColor = _drawerBackgroundColor,
-    @required this.child,
+    required this.child,
     this.curve = Curves.linearToEaseOut,
     this.reverseCurve = Curves.linearToEaseOut,
     this.allowGesture = true,
@@ -37,12 +37,12 @@ class BaseDrawer extends StatefulWidget {
         super(key: key);
 
   const BaseDrawer.size({
-    Key key,
+    Key? key,
     this.duration = _drawerTransitionDuration,
     this.axisDirection = AxisDirection.right,
     this.backgroundColor = _drawerBackgroundColor,
-    @required this.size,
-    @required this.child,
+    this.size,
+    required this.child,
     this.curve = Curves.linearToEaseOut,
     this.reverseCurve = Curves.linearToEaseOut,
     this.allowGesture = true,
@@ -55,31 +55,31 @@ class BaseDrawer extends StatefulWidget {
 
   /// 指定百分比
   const BaseDrawer.percent({
-    Key key,
+    Key? key,
     this.duration = _drawerTransitionDuration,
     this.axisDirection = AxisDirection.right,
     this.backgroundColor = _drawerBackgroundColor,
-    @required this.percent,
-    @required this.child,
+    required this.percent,
+    required this.child,
     this.curve = Curves.linearToEaseOut,
     this.reverseCurve = Curves.linearToEaseOut,
     this.allowGesture = true,
     this.allowMultipleGesture = false,
     this.barrierDismissible = true,
   })  : size = null,
-        assert(percent > 0 && percent <= 100),
+        assert(percent != null && percent > 0 && percent <= 100),
         assert(child != null),
         super(key: key);
 
   /// 指定宽度
   /// axisDirection 只能为 AxisDirection.left or AxisDirection.right
   BaseDrawer.width({
-    Key key,
+    Key? key,
     this.duration = _drawerTransitionDuration,
     this.axisDirection = AxisDirection.right,
     this.backgroundColor = _drawerBackgroundColor,
-    @required double width,
-    @required this.child,
+    required double width,
+    required this.child,
     this.curve = Curves.linearToEaseOut,
     this.reverseCurve = Curves.linearToEaseOut,
     this.allowGesture = true,
@@ -98,12 +98,12 @@ class BaseDrawer extends StatefulWidget {
   /// 指定高度
   /// axisDirection 只能为 AxisDirection.up or AxisDirection.down
   BaseDrawer.height({
-    Key key,
+    Key? key,
     this.duration = _drawerTransitionDuration,
     this.axisDirection = AxisDirection.up,
     this.backgroundColor = _drawerBackgroundColor,
-    @required double height,
-    @required this.child,
+    required double height,
+    required this.child,
     this.curve = Curves.linearToEaseOut,
     this.reverseCurve = Curves.linearToEaseOut,
     this.allowGesture = true,
@@ -126,14 +126,14 @@ class BaseDrawer extends StatefulWidget {
   final AxisDirection axisDirection;
 
   /// size
-  final Size size;
+  final Size? size;
 
   /// (width or height)'s percent
   /// Cannot provide both a size and a percent
   /// size == null && percent == null, the size = _defaultDrawerSize
   /// axisDirection = up / down, width = 100%, height = percent
   /// axisDirection = left / right, width = percent, height = 100%
-  final double percent;
+  final double? percent;
 
   /// backgroundColor
   final Color backgroundColor;
@@ -159,7 +159,7 @@ class BaseDrawer extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => BaseDrawerState();
 
-  Future<T> open<T>(
+  Future<T?> open<T>(
     BuildContext context, {
     bool rootNavigator = true,
   }) {
@@ -184,28 +184,28 @@ class BaseDrawer extends StatefulWidget {
   void close(
     GlobalObjectKey<BaseDrawerState> drawerKey,
   ) {
-    drawerKey.currentState.close();
+    drawerKey.currentState?.close();
   }
 }
 
 class BaseDrawerState extends State<BaseDrawer>
     with SingleTickerProviderStateMixin {
-  AnimationController _slideAnimationController;
+  late AnimationController? _slideAnimationController;
 
-  Widget _child;
+  Widget? _child;
 
-  Size _size;
+  Size? _size;
   Size _drawerSize = Size.zero;
-  Axis _axis;
-  double _tweenBegin;
+  Axis? _axis;
+  late double? _tweenBegin;
   double _tweenEnd = 0.0;
-  ColorTween _colorTween;
+  late ColorTween? _colorTween;
 
   double _offset = 0.0;
   final double _hideDrawerOffsetPercent = .5;
-  double _hideDrawerOffset;
+  late double? _hideDrawerOffset;
 
-  double _flingVelocitySize;
+  late double? _flingVelocitySize;
 
   bool _gestureConflict = true;
   final Map<Type, GestureRecognizerFactory> _gestures =
@@ -229,16 +229,16 @@ class BaseDrawerState extends State<BaseDrawer>
       vsync: this,
     );
     CurvedAnimation(
-      parent: _slideAnimationController,
+      parent: _slideAnimationController!,
       curve: widget.curve,
       reverseCurve: widget.reverseCurve,
     );
-    _slideAnimationController.addListener(() {
+    _slideAnimationController!.addListener(() {
       setState(() {
-        _offset = _lerpOffsetTween(_slideAnimationController.value);
+        _offset = _lerpOffsetTween(_slideAnimationController!.value);
       });
     });
-    _slideAnimationController.forward();
+    _slideAnimationController!.forward();
 
     Timer(const Duration(milliseconds: 0), () {
       _init();
@@ -247,8 +247,8 @@ class BaseDrawerState extends State<BaseDrawer>
 
   void _init() {
     _size ??= MediaQuery.of(context).size;
-    Size widgetSize = widget.size;
-    final double percent = widget.percent;
+    Size? widgetSize = widget.size;
+    final double? percent = widget.percent;
     switch (widget.axisDirection) {
       case AxisDirection.left:
         // widget params
@@ -257,7 +257,7 @@ class BaseDrawerState extends State<BaseDrawer>
         }
         _drawerSize = widgetSize ??
             Size.fromWidth(
-              _size.width * percent / 100,
+              _size!.width * percent! / 100,
             );
         _drawerSize = resetSize(_drawerSize, context);
         _hideDrawerOffset = _drawerSize.width * _hideDrawerOffsetPercent;
@@ -265,8 +265,8 @@ class BaseDrawerState extends State<BaseDrawer>
 
         // animation params
         _axis = Axis.horizontal;
-        _tweenBegin = _size.width;
-        _tweenEnd = _size.width - _drawerSize.width;
+        _tweenBegin = _size!.width;
+        _tweenEnd = _size!.width - _drawerSize.width;
         break;
       case AxisDirection.right:
         // widget params
@@ -275,7 +275,7 @@ class BaseDrawerState extends State<BaseDrawer>
         }
         _drawerSize = widgetSize ??
             Size.fromWidth(
-              _size.width * percent / 100,
+              _size!.width * percent! / 100,
             );
         _drawerSize = resetSize(_drawerSize, context);
         _hideDrawerOffset = _drawerSize.width * _hideDrawerOffsetPercent;
@@ -293,7 +293,7 @@ class BaseDrawerState extends State<BaseDrawer>
         }
         _drawerSize = widgetSize ??
             Size.fromHeight(
-              _size.height * percent / 100,
+              _size!.height * percent! / 100,
             );
         _drawerSize = resetSize(_drawerSize, context);
         _hideDrawerOffset = _drawerSize.height * _hideDrawerOffsetPercent;
@@ -301,8 +301,8 @@ class BaseDrawerState extends State<BaseDrawer>
 
         // animation params
         _axis = Axis.vertical;
-        _tweenBegin = _size.height;
-        _tweenEnd = _size.height - _drawerSize.height;
+        _tweenBegin = _size!.height;
+        _tweenEnd = _size!.height - _drawerSize.height;
         break;
       case AxisDirection.down:
         // widget params
@@ -311,7 +311,7 @@ class BaseDrawerState extends State<BaseDrawer>
         }
         _drawerSize = widgetSize ??
             Size.fromHeight(
-              _size.height * percent / 100,
+              _size!.height * percent! / 100,
             );
         _drawerSize = resetSize(_drawerSize, context);
         _hideDrawerOffset = _drawerSize.height * _hideDrawerOffsetPercent;
@@ -325,12 +325,10 @@ class BaseDrawerState extends State<BaseDrawer>
     }
 
     // child
-    _child = Container(
-      child: SizedBox(
-        width: _drawerSize.width,
-        height: _drawerSize.height,
-        child: widget.child,
-      ),
+    _child = SizedBox(
+      width: _drawerSize.width,
+      height: _drawerSize.height,
+      child: widget.child,
     );
 
     // gestures
@@ -374,7 +372,7 @@ class BaseDrawerState extends State<BaseDrawer>
   Size resetSize(Size size, BuildContext context) {
     double width = size.width;
     double height = size.height;
-    final Size physicalSize = MediaQuery.of(context, nullOk: true)?.size;
+    final Size physicalSize = MediaQuery.of(context).size;
     if (physicalSize != null) {
       width = min(width, physicalSize.width);
       height = min(height, physicalSize.height);
@@ -386,7 +384,7 @@ class BaseDrawerState extends State<BaseDrawer>
   @override
   Widget build(BuildContext context) {
     Widget backgroundWidget = Container(
-      color: _colorTween.evaluate(_slideAnimationController),
+      color: _colorTween!.evaluate(_slideAnimationController!),
     );
 
     if (widget.barrierDismissible) {
@@ -432,7 +430,7 @@ class BaseDrawerState extends State<BaseDrawer>
           _offset = min(0.0, _offset + details.delta.dy);
           break;
       }
-      _slideAnimationController.value = _lerpOffset();
+      _slideAnimationController!.value = _lerpOffset();
     }
   }
 
@@ -440,7 +438,7 @@ class BaseDrawerState extends State<BaseDrawer>
     if (!widget.allowMultipleGesture ||
         (widget.allowMultipleGesture && _gestureConflict)) {
       final double _primaryVelocity =
-          details.primaryVelocity / _flingVelocitySize;
+          details.primaryVelocity! / _flingVelocitySize!;
       final double _interval = _offset.abs() - _tweenEnd;
       if (_primaryVelocity.abs() > _minFlingVelocity) {
         bool _open = false;
@@ -467,7 +465,7 @@ class BaseDrawerState extends State<BaseDrawer>
         } else {
           close();
         }
-      } else if (_interval > _hideDrawerOffset) {
+      } else if (_interval > _hideDrawerOffset!) {
         close();
       } else {
         open();
@@ -476,22 +474,22 @@ class BaseDrawerState extends State<BaseDrawer>
   }
 
   double _lerpOffsetTween(double value) {
-    return _tweenBegin + (_tweenEnd - _tweenBegin) * value;
+    return _tweenBegin! + (_tweenEnd - _tweenBegin!) * value;
   }
 
   double _lerpOffset() {
-    return (_offset - _tweenBegin) / (_tweenEnd - _tweenBegin);
+    return (_offset - _tweenBegin!) / (_tweenEnd - _tweenBegin!);
   }
 
   void close() {
-    _slideAnimationController.reverse(
+    _slideAnimationController!.reverse(
       from: _lerpOffset(),
     );
     Navigator.of(context).pop();
   }
 
   void open() {
-    _slideAnimationController.forward(
+    _slideAnimationController!.forward(
       from: _lerpOffset(),
     );
   }
@@ -510,7 +508,7 @@ class BaseDrawerState extends State<BaseDrawer>
 
   @override
   void dispose() {
-    _slideAnimationController.dispose();
+    _slideAnimationController!.dispose();
     super.dispose();
   }
 }
@@ -555,7 +553,7 @@ class _DrawerHorizontalDragGestureRecognizer
   }
 }
 
-Future<T> openBaseDrawer<T>(
+Future<T?> openBaseDrawer<T>(
   BuildContext context,
   BaseDrawer drawer, {
   bool rootNavigator = true,
@@ -581,5 +579,5 @@ Future<T> openBaseDrawer<T>(
 void closeBaseDrawer(
   GlobalObjectKey<BaseDrawerState> drawerKey,
 ) {
-  drawerKey.currentState.close();
+  drawerKey.currentState?.close();
 }

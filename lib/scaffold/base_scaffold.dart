@@ -11,14 +11,13 @@ import '../theme/base_theme.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use Scaffold on cuperitno.
 /// use Scaffold by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoPageScaffold/CupertinoTabScaffold on material.
-/// 
-/// CupertinoPageScaffold: 2020.06.11
-/// Scaffold: 2020.09.11
-/// modify 2021.01.12 by flutter 1.22.5
+///
+/// CupertinoPageScaffold: 2021.01.13
+/// Scaffold: 2021.03.12
+/// modify 2021.03.26 by flutter 2.0.3
 class BaseScaffold extends BaseStatelessWidget {
   const BaseScaffold({
-    Key baseKey,
-    this.key,
+    Key? key,
     this.appBar,
     this.navBar,
     this.backgroundColor,
@@ -42,14 +41,14 @@ class BaseScaffold extends BaseStatelessWidget {
     this.drawerEdgeDragWidth,
     this.drawerEnableOpenDragGesture = true,
     this.endDrawerEnableOpenDragGesture = true,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
-  }) : super(key: baseKey, cupertino: cupertino, material: material);
+    this.onDrawerChanged,
+    this.onEndDrawerChanged,
+    this.restorationId,
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
+  }) : super(key: key, cupertino: cupertino, material: material);
 
   /// *** general properties start ***
-
-  @override
-  final Key key;
 
   /// [CupertinoPageScaffold.navigationBar]
   /// or
@@ -57,7 +56,7 @@ class BaseScaffold extends BaseStatelessWidget {
   /// If this properties is null, then [navBar] is use.
   ///
   /// 该参数为null，则会使用[navBar]
-  final BaseAppBar appBar;
+  final BaseAppBar? appBar;
 
   /// [CupertinoPageScaffold.navigationBar]
   /// or
@@ -66,17 +65,17 @@ class BaseScaffold extends BaseStatelessWidget {
   /// If this properties is null, then [appBar] is use.
   ///
   /// 该参数为null，则会使用[appBar]
-  final BaseAppBar navBar;
+  final BaseAppBar? navBar;
 
   /// [CupertinoPageScaffold.backgroundColor]
   /// or
   /// [Scaffold.backgroundColor]
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// [CupertinoPageScaffold.body]
   /// or
   /// [Scaffold.body]
-  final Widget body;
+  final Widget? body;
 
   /// [CupertinoPageScaffold.resizeToAvoidBottomInset]
   /// or
@@ -102,28 +101,34 @@ class BaseScaffold extends BaseStatelessWidget {
   /// *** material properties start ***
 
   /// [Scaffold.floatingActionButton]
-  final Widget floatingActionButton;
+  final Widget? floatingActionButton;
 
   /// [Scaffold.floatingActionButtonLocation]
-  final FloatingActionButtonLocation floatingActionButtonLocation;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   /// [Scaffold.floatingActionButtonAnimator]
-  final FloatingActionButtonAnimator floatingActionButtonAnimator;
+  final FloatingActionButtonAnimator? floatingActionButtonAnimator;
 
   /// [Scaffold.persistentFooterButtons]
-  final List<Widget> persistentFooterButtons;
+  final List<Widget>? persistentFooterButtons;
 
   /// [Scaffold.drawer]
-  final Widget drawer;
+  final Widget? drawer;
+
+  /// [Scaffold.onDrawerChanged]
+  final DrawerCallback? onDrawerChanged;
 
   /// [Scaffold.endDrawer]
-  final Widget endDrawer;
+  final Widget? endDrawer;
+
+  /// [Scaffold.onEndDrawerChanged]
+  final DrawerCallback? onEndDrawerChanged;
 
   /// [Scaffold.bottomNavigationBar]
-  final Widget bottomNavigationBar;
+  final Widget? bottomNavigationBar;
 
   /// [Scaffold.bottomSheet]
-  final Widget bottomSheet;
+  final Widget? bottomSheet;
 
   /// [Scaffold.primary]
   final bool primary;
@@ -138,10 +143,10 @@ class BaseScaffold extends BaseStatelessWidget {
   final bool extendBodyBehindAppBar;
 
   /// [Scaffold.drawerScrimColor]
-  final Color drawerScrimColor;
+  final Color? drawerScrimColor;
 
   /// [Scaffold.drawerEdgeDragWidth]
-  final double drawerEdgeDragWidth;
+  final double? drawerEdgeDragWidth;
 
   /// [Scaffold.drawerEnableOpenDragGesture]
   final bool drawerEnableOpenDragGesture;
@@ -149,15 +154,29 @@ class BaseScaffold extends BaseStatelessWidget {
   /// [Scaffold.endDrawerEnableOpenDragGesture]
   final bool endDrawerEnableOpenDragGesture;
 
+  /// [Scaffold.restorationId]
+  final String? restorationId;
+
   /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final Color backgroundColor =
-        valueFromCupertino('backgroundColor', this.backgroundColor);
-    final BaseAppBar appBar = valueFromMaterial('appBar', this.appBar) ??
-        valueFromMaterial('navBar', navBar);
     final Widget body = valueFromCupertino('body', this.body);
+    assert(body != null, 'body can\'t be null');
+    final Color? backgroundColor =
+        valueFromCupertino('backgroundColor', this.backgroundColor);
+    final BaseAppBar? appBar = valueFromMaterial('appBar', this.appBar) ??
+        valueFromMaterial('navBar', navBar);
+    final double? appBarHeight = BaseTheme.of(context).valueFromCupertino(
+      'appBarHeight',
+      null,
+    );
+    Widget? navigationBar;
+    if (appBarHeight != null && appBar != null) {
+      navigationBar = appBar.build(context);
+    } else {
+      navigationBar = appBar;
+    }
     Widget child;
     if (!safeAreaTop && !safeAreaBottom) {
       child = body;
@@ -168,13 +187,11 @@ class BaseScaffold extends BaseStatelessWidget {
         child: body,
       );
     }
-    final double appBarHeight = BaseTheme.of(context).valueFromCupertino(
-      'appBarHeight',
-      null,
-    );
     return CupertinoPageScaffold(
       key: valueFromCupertino('key', key),
-      navigationBar: appBarHeight == null ? appBar : appBar?.build(context),
+      navigationBar: navigationBar != null
+          ? navigationBar as ObstructingPreferredSizeWidget
+          : null,
       backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: valueFromCupertino(
         'resizeToAvoidBottomInset',
@@ -186,22 +203,29 @@ class BaseScaffold extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final BaseAppBar appBar = valueFromMaterial('appBar', this.appBar) ??
+    final BaseAppBar? appBar = valueFromMaterial('appBar', this.appBar) ??
         valueFromMaterial('navBar', navBar);
-    final double appBarHeight = BaseTheme.of(context).valueFromMaterial(
+    final double? appBarHeight = BaseTheme.of(context).valueFromMaterial(
       'appBarHeight',
       null,
     );
+    Widget? _appBar;
+    if (appBarHeight != null && appBar != null) {
+      _appBar = appBar.build(context);
+    } else {
+      _appBar = appBar;
+    }
     return Scaffold(
-      key: valueFromMaterial('key', key),
-      appBar: appBarHeight == null ? appBar : appBar?.build(context),
+      appBar: _appBar != null ? _appBar as PreferredSizeWidget : null,
       body: valueFromMaterial('body', body),
       floatingActionButton: floatingActionButton,
       floatingActionButtonLocation: floatingActionButtonLocation,
       floatingActionButtonAnimator: floatingActionButtonAnimator,
       persistentFooterButtons: persistentFooterButtons,
       drawer: drawer,
+      onDrawerChanged: onDrawerChanged,
       endDrawer: endDrawer,
+      onEndDrawerChanged: onEndDrawerChanged,
       bottomNavigationBar: bottomNavigationBar,
       bottomSheet: bottomSheet,
       backgroundColor: valueFromMaterial('backgroundColor', backgroundColor),
@@ -217,6 +241,7 @@ class BaseScaffold extends BaseStatelessWidget {
       drawerEdgeDragWidth: drawerEdgeDragWidth,
       drawerEnableOpenDragGesture: drawerEnableOpenDragGesture,
       endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
+      restorationId: restorationId,
     );
   }
 }

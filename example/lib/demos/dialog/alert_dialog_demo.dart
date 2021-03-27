@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class AlertDialogDemo extends StatelessWidget {
+  const AlertDialogDemo({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
@@ -26,12 +29,10 @@ class AlertDialogDemo extends StatelessWidget {
                   style: TextStyle(color: Colors.black),
                 ),
                 onPressed: () {
-                  BaseAlertDialog(
-                    content: Container(
-                      child: const Text(
-                        'qwertyuioplkjhgfdsazxcvbnm',
-                        style: TextStyle(fontSize: 16.0),
-                      ),
+                  const BaseAlertDialog(
+                    content: Text(
+                      'qwertyuioplkjhgfdsazxcvbnm',
+                      style: TextStyle(fontSize: 16.0),
                     ),
                   ).show<void>(context);
                 },

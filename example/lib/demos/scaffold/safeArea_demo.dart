@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class SateAreaDemo extends StatefulWidget {
+  const SateAreaDemo({
+    Key? key,
+  }) : super(key: key);
   @override
   _SateAreaDemoState createState() => _SateAreaDemoState();
 }

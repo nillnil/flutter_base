@@ -6,6 +6,9 @@ import 'package:flutter/widgets.dart';
 /// 状态栏leading，title，trailing透明度变化
 /// 复杂的还是建议使用SliverAppBar实现
 class ToolbarOpacity extends StatefulWidget {
+  const ToolbarOpacity({
+    Key? key,
+  }) : super(key: key);
   @override
   _ToolbarOpacityState createState() => _ToolbarOpacityState();
 }
@@ -15,7 +18,7 @@ class _ToolbarOpacityState extends State<ToolbarOpacity>
   double _opacity = 0.0;
   // 不设置为1.0是因为当设置成1.0之后，body的内容就不会沉淀在appBar下方，导致ScrollController的offset重新计算
   final double _maxOpacity = .99;
-  ScrollController _scrollController;
+  ScrollController? _scrollController;
   final double hieght = 400;
   Color _barBackgroundColor = Colors.transparent;
   double _height = 1000;
@@ -25,7 +28,7 @@ class _ToolbarOpacityState extends State<ToolbarOpacity>
     super.initState();
     _scrollController = ScrollController()
       ..addListener(() {
-        final double offset = _scrollController.offset / 100;
+        final double offset = _scrollController!.offset / 100;
         if (offset > 1.0 && offset < 3.0) {
           // 防止快速滑动之后_opacity没有设置为1
           setState(() {
@@ -53,7 +56,7 @@ class _ToolbarOpacityState extends State<ToolbarOpacity>
         border: null,
         toolbarOpacity: _opacity,
         elevation: 0.0,
-        trailing: Text('${_opacity.toStringAsPrecision(1)}'),
+        trailing: Text(_opacity.toStringAsPrecision(1)),
         brightness: Brightness.light,
         centerTitle: true,
       ),
@@ -86,7 +89,7 @@ class _ToolbarOpacityState extends State<ToolbarOpacity>
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _scrollController?.dispose();
     super.dispose();
   }
 }

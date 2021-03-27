@@ -7,6 +7,9 @@ import '../demo_tile.dart';
 
 /// Route 示例
 class RouteDemo extends StatelessWidget {
+  const RouteDemo({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final List<DemoTile> _demos = <DemoTile>[
@@ -22,7 +25,7 @@ class RouteDemo extends StatelessWidget {
       parameterDesc: const <String, String>{
         'backGestureWidth': 'Cupertino模式下有效，默认20.0，设置右滑返回时离屏幕边缘的宽度',
         'fullscreenGackGesture': 'Cupertino模式下有效，默认false，该值设置成true时，'
-            'backGestureWidth = MediaQuery.of(context).size.width, 可以实现全屏右滑返回，且'
+            'backGestureWidth = MediaQuery.of(context).size.width, 可以实现全屏右滑返回，且 '
             'backGestureWidth参数失效',
       },
       tips: 'Use like: \nBaseRoute<void>('
@@ -71,8 +74,8 @@ class _Demo extends StatelessWidget {
 
 class _RouteButton extends StatelessWidget {
   const _RouteButton({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
     this.fullscreenGackGesture = false,
     this.fullscreenDialog = false,
   }) : super(key: key);
@@ -110,8 +113,8 @@ class _RouteButton extends StatelessWidget {
 
 class _NewPage extends StatelessWidget {
   const _NewPage({
-    Key key,
-    this.title,
+    Key? key,
+    required this.title,
   }) : super(key: key);
 
   final String title;

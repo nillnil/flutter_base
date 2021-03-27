@@ -7,9 +7,15 @@ import 'wechat_profile.dart';
 
 /// section 文档说明
 class SectionDemo extends StatelessWidget {
-  final List<DemoTile> _demos = <DemoTile>[
-    DemoTile(title: const Text('仿微信我的页面'), page: WechatProfile())
-  ];
+  const SectionDemo({
+    Key? key,
+  }) : super(key: key);
+  List<DemoTile> get _demos => const <DemoTile>[
+        DemoTile(
+          title: Text('仿微信我的页面'),
+          page: WechatProfile(),
+        ),
+      ];
 
   @override
   Widget build(BuildContext context) {

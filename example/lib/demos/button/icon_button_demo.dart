@@ -5,6 +5,9 @@ import '../demo_page.dart';
 import '../demo_tile.dart';
 
 class IconButtonDemo extends StatelessWidget {
+  const IconButtonDemo({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final List<Widget> children = <Widget>[];

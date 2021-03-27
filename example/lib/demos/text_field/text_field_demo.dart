@@ -9,7 +9,7 @@ import '../demo_tile.dart';
 /// TextField Demo
 class TextFieldDemo extends StatelessWidget {
   const TextFieldDemo({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -41,8 +41,8 @@ class _Demo extends StatefulWidget {
 class _DemoState extends State<_Demo> {
   String name = '';
   String password = '';
-  TextEditingController controller1;
-  TextEditingController controller2;
+  TextEditingController? controller1;
+  TextEditingController? controller2;
   bool showPassword = false;
 
   final EdgeInsets padding =
@@ -68,79 +68,73 @@ class _DemoState extends State<_Demo> {
         });
       },
     );
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            child: BaseTextField(
-              controller: controller1,
-              autofocus: true,
-              padding: padding,
-              // 暂时解决中文光标上移问题，emoji依旧还是有点上移
-              // style: DefaultTextStyle.of(context).style.copyWith(height: 1.2),
-              onChanged: (String value) {
-                setState(() {
-                  name = value;
-                });
-              },
-              clearButtonMode: OverlayVisibilityMode.editing,
-              textInputAction: TextInputAction.next,
-              placeholder: 'name',
-              cupertinoDecoration: _kDefaultRoundedBorderDecoration,
-              prefix: Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: BaseIcon(
-                  icon: IconFont.profile,
-                  color: Colors.grey.withOpacity(.5),
-                ),
-              ),
-              materialDecoration: InputDecoration(
-                labelText: 'name',
-                contentPadding: padding,
-                prefixIcon: BaseIcon(
-                  icon: IconFont.profile,
-                  color: Colors.grey.withOpacity(.5),
-                ),
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        BaseTextField(
+          controller: controller1,
+          autofocus: true,
+          padding: padding,
+          // 暂时解决中文光标上移问题，emoji依旧还是有点上移
+          // style: DefaultTextStyle.of(context).style.copyWith(height: 1.2),
+          onChanged: (String value) {
+            setState(() {
+              name = value;
+            });
+          },
+          clearButtonMode: OverlayVisibilityMode.editing,
+          textInputAction: TextInputAction.next,
+          placeholder: 'name',
+          cupertinoDecoration: _kDefaultRoundedBorderDecoration,
+          prefix: Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: BaseIcon(
+              icon: IconFont.profile,
+              color: Colors.grey.withOpacity(.5),
             ),
           ),
-          Container(
-            child: BaseTextField(
-              controller: controller2,
-              autofocus: true,
-              padding: padding,
-              style: DefaultTextStyle.of(context).style.copyWith(height: 1.2),
-              onChanged: (String value) {
-                setState(() {
-                  password = value;
-                });
-              },
-              clearButtonMode: OverlayVisibilityMode.editing,
-              obscureText: showPassword ? false : true,
-              textInputAction: TextInputAction.done,
-              placeholder: 'password',
-              cupertinoDecoration: _kDefaultRoundedBorderDecoration,
-              prefix: Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: BaseIcon(
-                  icon: IconFont.password,
-                  color: Colors.grey.withOpacity(.5),
-                ),
-              ),
-              suffix: eyeButton,
-              materialDecoration: InputDecoration(
-                labelText: 'password',
-                contentPadding: padding,
-                prefixIcon: const BaseIcon(
-                  icon: IconFont.password,
-                ),
-                suffixIcon: eyeButton,
-              ),
+          materialDecoration: InputDecoration(
+            labelText: 'name',
+            contentPadding: padding,
+            prefixIcon: BaseIcon(
+              icon: IconFont.profile,
+              color: Colors.grey.withOpacity(.5),
             ),
           ),
-        ],
-      ),
+        ),
+        BaseTextField(
+          controller: controller2,
+          autofocus: true,
+          padding: padding,
+          style: DefaultTextStyle.of(context).style.copyWith(height: 1.2),
+          onChanged: (String value) {
+            setState(() {
+              password = value;
+            });
+          },
+          clearButtonMode: OverlayVisibilityMode.editing,
+          obscureText: !showPassword,
+          textInputAction: TextInputAction.done,
+          placeholder: 'password',
+          cupertinoDecoration: _kDefaultRoundedBorderDecoration,
+          prefix: Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: BaseIcon(
+              icon: IconFont.password,
+              color: Colors.grey.withOpacity(.5),
+            ),
+          ),
+          suffix: eyeButton,
+          materialDecoration: InputDecoration(
+            labelText: 'password',
+            contentPadding: padding,
+            prefixIcon: const BaseIcon(
+              icon: IconFont.password,
+            ),
+            suffixIcon: eyeButton,
+          ),
+        ),
+      ],
     );
   }
 }

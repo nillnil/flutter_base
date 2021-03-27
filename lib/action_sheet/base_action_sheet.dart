@@ -5,19 +5,18 @@ import '../base_constants.dart';
 import '../base_stateless_widget.dart';
 import '../platform/platform.dart';
 
-/// BaseAppBar
+/// BaseActionSheet
 /// use CupertinoActionSheet by cupertino
 /// *** use cupertino = { forceUseMaterial: true } force use custom BottomSheet on cuperitno.
 /// use custom BottomSheet by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoActionSheet on material.
-/// 
-/// CupertinoActionSheet: 2020.08.20
-/// BottomSheet: 2020.07.30
-/// modify 2021.01.12 by flutter 1.22.5
+///
+/// CupertinoActionSheet: 2021.03.12
+/// BottomSheet: 2021.03.06
+/// modify 2021.03.22 by flutter 2.0.3
 class BaseActionSheet extends BaseStatelessWidget {
   const BaseActionSheet({
-    Key baseKey,
-    this.key,
+    Key? key,
     this.title,
     this.message,
     this.actions,
@@ -26,61 +25,73 @@ class BaseActionSheet extends BaseStatelessWidget {
     this.cancelButton,
     this.animationController,
     this.onClosing,
+    this.backgroundColor,
+    this.enableDrag = true,
+    this.onDragStart,
+    this.onDragEnd,
     this.elevation = 0.0,
     this.shape,
     this.clipBehavior,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
-  }) : super(key: baseKey, cupertino: cupertino, material: material);
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
+  }) : super(key: key, cupertino: cupertino, material: material);
 
   // *** general properties start ***
 
-  @override
-  final Key key;
-
   /// [CupertinoActionSheet.title]
-  final Widget title;
+  final Widget? title;
 
   /// [CupertinoActionSheet.message]
-  final Widget message;
+  final Widget? message;
 
   /// [CupertinoActionSheet.actions]
-  final List<Widget> actions;
+  final List<Widget>? actions;
 
   /// [CupertinoActionSheet.messageScrollController]
-  final ScrollController messageScrollController;
+  final ScrollController? messageScrollController;
 
   /// [CupertinoActionSheet.actionScrollController]
-  final ScrollController actionScrollController;
+  final ScrollController? actionScrollController;
 
-  /// [CupertinoActionSheet.cancelButton]
-  final Widget cancelButton;
+  /// [BaseActionSheetAction]
+  final Widget? cancelButton;
 
   /// *** general properties end ***
 
   /// *** material properties start ***
 
   /// [BottomSheet.animationController]
-  final AnimationController animationController;
+  final AnimationController? animationController;
 
   /// [BottomSheet.onClosing]
-  final VoidCallback onClosing;
+  final VoidCallback? onClosing;
+
+  /// [BottomSheet.enableDrag]
+  final bool enableDrag;
+
+  /// [BottomSheet.onDragStart]
+  final BottomSheetDragStartHandler? onDragStart;
+
+  /// [BottomSheet.onDragEnd]
+  final BottomSheetDragEndHandler? onDragEnd;
+
+  /// [BottomSheet.backgroundColor]
+  final Color? backgroundColor;
 
   /// [BottomSheet.elevation], default is 0.0
-  final double elevation;
+  final double? elevation;
 
   /// [BottomSheet.shape]
-  final ShapeBorder shape;
+  final ShapeBorder? shape;
 
   /// [BottomSheet.clipBehavior]
-  final Clip clipBehavior;
+  final Clip? clipBehavior;
 
   /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoActionSheet(
-      key: valueFromCupertino('key', key),
       title: valueFromCupertino('title', title),
       message: valueFromCupertino('message', message),
       actions: valueFromCupertino('actions', actions),
@@ -99,11 +110,10 @@ class BaseActionSheet extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return BottomSheet(
-      key: valueFromMaterial('key', key),
       animationController: animationController,
       onClosing: () {
         if (onClosing != null) {
-          onClosing();
+          onClosing!();
         }
       },
       builder: (BuildContext context) {
@@ -124,45 +134,124 @@ class BaseActionSheet extends BaseStatelessWidget {
           ),
         );
       },
-      enableDrag: false,
+      enableDrag: enableDrag,
+      onDragStart: onDragStart,
+      onDragEnd: onDragEnd,
       elevation: elevation,
       shape: shape,
       clipBehavior: clipBehavior,
     );
   }
 
-  Future<T> show<T>(
-    BuildContext context,
-  ) {
+  Future<T?> show<T>(
+    BuildContext context, {
+    Color? barrierColor,
+    bool barrierDismissible = true,
+    bool? useRootNavigator,
+    bool? semanticsDismissible,
+    RouteSettings? routeSettings,
+    bool isScrollControlled = false,
+    bool isDismissible = true,
+    bool enableDrag = true,
+    AnimationController? transitionAnimationController,
+  }) {
+    const Color _cupertinoDefaultBarrierColor = CupertinoDynamicColor.withBrightness(
+      color: Color(0x33000000),
+      darkColor: Color(0x7A000000),
+    );
     if (useCupertino) {
       if (cupertino != null &&
-          cupertino[forceUseMaterial] != null &&
-          cupertino[forceUseMaterial]) {
-        return _showByMaterial<T>(context);
+          cupertino![forceUseMaterial] != null &&
+          cupertino![forceUseMaterial]) {
+        final bool _useRootNavigator = useRootNavigator ??= false;
+        return _showByMaterial<T>(
+          context,
+          barrierColor: barrierColor,
+          isScrollControlled: isScrollControlled,
+          useRootNavigator: _useRootNavigator,
+          isDismissible: isDismissible,
+          enableDrag: enableDrag,
+          routeSettings: routeSettings,
+          transitionAnimationController: transitionAnimationController,
+        );
       }
-      return _showByCupertino<T>(context);
+      final bool _useRootNavigator = useRootNavigator ??= true;
+      return _showByCupertino<T>(
+        context,
+        barrierColor: barrierColor ?? _cupertinoDefaultBarrierColor,
+        barrierDismissible: barrierDismissible,
+        useRootNavigator: _useRootNavigator,
+        semanticsDismissible: semanticsDismissible,
+        routeSettings: routeSettings,
+      );
     } else {
       if (material != null &&
-          material[forceUseCupertino] != null &&
-          material[forceUseCupertino]) {
-        return _showByCupertino<T>(context);
+          material![forceUseCupertino] != null &&
+          material![forceUseCupertino]) {
+        final bool _useRootNavigator = useRootNavigator ??= true;
+        return _showByCupertino<T>(
+          context,
+          barrierColor: barrierColor ?? _cupertinoDefaultBarrierColor,
+          barrierDismissible: barrierDismissible,
+          useRootNavigator: _useRootNavigator,
+          semanticsDismissible: semanticsDismissible,
+          routeSettings: routeSettings,
+        );
       }
-      return _showByMaterial<T>(context);
+      final bool _useRootNavigator = useRootNavigator ??= false;
+        return _showByMaterial<T>(
+          context,
+          barrierColor: barrierColor,
+          isScrollControlled: isScrollControlled,
+          useRootNavigator: _useRootNavigator,
+          isDismissible: isDismissible,
+          enableDrag: enableDrag,
+          routeSettings: routeSettings,
+          transitionAnimationController: transitionAnimationController,
+        );
     }
   }
 
-  Future<T> _showByCupertino<T>(BuildContext context) {
+  Future<T?> _showByCupertino<T>(
+    BuildContext context, {
+    required Color barrierColor,
+    required bool barrierDismissible,
+    required bool useRootNavigator,
+    bool? semanticsDismissible,
+    RouteSettings? routeSettings,
+  }) {
     return showCupertinoModalPopup<T>(
       context: context,
+      barrierColor: barrierColor,
+      barrierDismissible: barrierDismissible,
+      useRootNavigator: useRootNavigator,
+      semanticsDismissible: semanticsDismissible,
+      routeSettings: routeSettings,
       builder: (BuildContext context) {
         return this;
       },
     );
   }
 
-  Future<T> _showByMaterial<T>(BuildContext context) {
+  Future<T?> _showByMaterial<T>(
+    BuildContext context, {
+    Color? barrierColor,
+    required bool isScrollControlled,
+    required bool useRootNavigator,
+    required bool isDismissible,
+    required bool enableDrag,
+    required RouteSettings? routeSettings,
+    required AnimationController? transitionAnimationController,
+  }) {
     return showModalBottomSheet<T>(
       context: context,
+      barrierColor: barrierColor,
+      isScrollControlled: isScrollControlled,
+      useRootNavigator: useRootNavigator,
+      isDismissible: isDismissible,
+      enableDrag: enableDrag,
+      routeSettings: routeSettings,
+      transitionAnimationController: transitionAnimationController,
       builder: (BuildContext context) {
         return this;
       },
@@ -218,26 +307,27 @@ const double _kContentVerticalPadding = 14.0;
 
 class _MaterialAlertContentSection extends StatelessWidget {
   const _MaterialAlertContentSection({
-    Key key,
+    Key? key,
     this.title,
     this.message,
     this.scrollController,
   }) : super(key: key);
 
-  final Widget title;
-  final Widget message;
-  final ScrollController scrollController;
+  final Widget? title;
+  final Widget? message;
+  final ScrollController? scrollController;
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> titleContentGroup = <Widget>[];
-    final TextStyle _contentStyle = Theme.of(context).textTheme.headline6.copyWith(
-          inherit: false,
-          fontSize: 13.0,
-          fontWeight: FontWeight.w400,
-          color: _kContentTextColor,
-          textBaseline: TextBaseline.alphabetic,
-        );
+    final TextStyle _contentStyle =
+        (Theme.of(context).textTheme.headline6 ?? const TextStyle()).copyWith(
+              inherit: false,
+              fontSize: 13.0,
+              fontWeight: FontWeight.w400,
+              color: _kContentTextColor,
+              textBaseline: TextBaseline.alphabetic,
+            );
     if (title != null) {
       titleContentGroup.add(
         Padding(
@@ -254,7 +344,7 @@ class _MaterialAlertContentSection extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
             textAlign: TextAlign.center,
-            child: title,
+            child: title!,
           ),
         ),
       );
@@ -276,7 +366,7 @@ class _MaterialAlertContentSection extends StatelessWidget {
                   )
                 : _contentStyle,
             textAlign: TextAlign.center,
-            child: message,
+            child: message!,
           ),
         ),
       );
@@ -285,7 +375,7 @@ class _MaterialAlertContentSection extends StatelessWidget {
     if (titleContentGroup.isEmpty) {
       return SingleChildScrollView(
         controller: scrollController,
-        child: Container(
+        child: const SizedBox(
           width: 0.0,
           height: 0.0,
         ),
@@ -313,15 +403,15 @@ class _MaterialAlertContentSection extends StatelessWidget {
 
 class _MaterialActionSection extends StatelessWidget {
   const _MaterialActionSection({
-    Key key,
-    this.actions,
+    Key? key,
+    this.actions = const <Widget>[],
     this.cancelButton,
     this.scrollController,
   }) : super(key: key);
 
   final List<Widget> actions;
-  final Widget cancelButton;
-  final ScrollController scrollController;
+  final Widget? cancelButton;
+  final ScrollController? scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -349,7 +439,7 @@ class _MaterialActionSection extends StatelessWidget {
     }
     if (cancelButton != null) {
       children.add(cancelDivider);
-      children.add(cancelButton);
+      children.add(cancelButton!);
     }
     return Scrollbar(
       child: SingleChildScrollView(

@@ -10,16 +10,19 @@ import 'toolbar_opacity.dart';
 
 /// AppBar 示例
 class AppBarDemo extends StatelessWidget {
+  const AppBarDemo({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final List<DemoTile> _demos = <DemoTile>[
-      DemoTile(
-        title: const Text('height'),
+      const DemoTile(
+        title: Text('height'),
         page: CustomHeight(),
         fullscreenGackGesture: false,
       ),
-      DemoTile(
-        title: const Text('bottom'),
+      const DemoTile(
+        title: Text('bottom'),
         page: News(),
         fullscreenGackGesture: false,
       ),
@@ -27,14 +30,14 @@ class AppBarDemo extends StatelessWidget {
 
     if (useCupertino) {
       _demos.add(
-        DemoTile(
-          title: const Text('toolbarOpacity'),
+        const DemoTile(
+          title: Text('toolbarOpacity'),
           page: ToolbarOpacity(),
         ),
       );
       _demos.add(
-        DemoTile(
-          title: const Text('backdropFilter'),
+        const DemoTile(
+          title: Text('backdropFilter'),
           page: BackdropFilterDemo(),
         ),
       );

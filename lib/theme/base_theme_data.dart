@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart' show CupertinoThemeData;
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart'
-    show Diagnosticable, immutable, required;
+import 'package:flutter/foundation.dart' show Diagnosticable, immutable;
 import 'package:flutter/material.dart' show Color, ThemeData;
 import 'package:flutter/material.dart';
 
@@ -11,22 +10,18 @@ import 'package:flutter/material.dart';
 @immutable
 class BaseThemeData with Diagnosticable {
   factory BaseThemeData({
-    Brightness brightness,
-    double appBarHeight,
+    Brightness? brightness,
+    double? appBarHeight,
     bool appBarBackdropFilter = true,
-    // bool appBarAutoSetMiddleColor = false,
-    // bool appBarAutoSetLeadingColor = false,
-    // bool appBarAutoSetTrailingColor = false,
-    // bool appBarAutoSetBottomColor = false,
     bool appBarTransitionBetweenRoutes = true,
-    bool appBarCenterTitle,
-    ThemeData materialTheme,
-    CupertinoThemeData cupertinoTheme,
+    bool? appBarCenterTitle,
+    ThemeData? materialTheme,
+    CupertinoThemeData? cupertinoTheme,
     bool routeFullscreenGackGesture = false,
-    Color sectionDividerColor,
-    Color tileBackgroundColor,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
+    Color? sectionDividerColor,
+    Color? tileBackgroundColor,
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
   }) {
     brightness ??= Brightness.light;
     final bool isDark = brightness == Brightness.dark;
@@ -34,10 +29,6 @@ class BaseThemeData with Diagnosticable {
       brightness: brightness,
       appBarHeight: appBarHeight,
       appBarBackdropFilter: appBarBackdropFilter,
-      // appBarAutoSetMiddleColor: appBarAutoSetMiddleColor,
-      // appBarAutoSetLeadingColor: appBarAutoSetLeadingColor,
-      // appBarAutoSetTrailingColor: appBarAutoSetTrailingColor,
-      // appBarAutoSetBottomColor: appBarAutoSetBottomColor,
       appBarTransitionBetweenRoutes: appBarTransitionBetweenRoutes,
       appBarCenterTitle: appBarCenterTitle,
       materialTheme: materialTheme,
@@ -51,49 +42,33 @@ class BaseThemeData with Diagnosticable {
     );
   }
   const BaseThemeData.raw({
-    @required this.brightness,
-    @required this.appBarHeight,
-    @required this.cupertino,
-    @required this.material,
-    @required this.appBarBackdropFilter,
-    // @required this.appBarAutoSetMiddleColor,
-    // @required this.appBarAutoSetLeadingColor,
-    // @required this.appBarAutoSetTrailingColor,
-    // @required this.appBarAutoSetBottomColor,
-    @required this.appBarTransitionBetweenRoutes,
-    @required this.appBarCenterTitle,
-    @required this.materialTheme,
-    @required this.cupertinoTheme,
-    @required this.routeFullscreenGackGesture,
-    @required this.sectionDividerColor,
-    @required this.tileBackgroundColor,
+    this.brightness,
+    this.appBarHeight,
+    this.cupertino,
+    this.material,
+    this.appBarBackdropFilter,
+    this.appBarTransitionBetweenRoutes,
+    this.appBarCenterTitle,
+    this.materialTheme,
+    this.cupertinoTheme,
+    this.routeFullscreenGackGesture = false,
+    this.sectionDividerColor,
+    this.tileBackgroundColor,
   });
 
-  final Brightness brightness;
+  final Brightness? brightness;
 
   /// [BaseAppBar.height]
-  final double appBarHeight;
+  final double? appBarHeight;
 
   /// [BaseAppBar.appBarBackdropFilter]
-  final bool appBarBackdropFilter;
-
-  /// [BaseAppBar.appBarAutoSetMiddleColor]
-  // final bool appBarAutoSetMiddleColor;
-
-  // /// [BaseAppBar.appBarAutoSetLeadingColor]
-  // final bool appBarAutoSetLeadingColor;
-
-  // /// [BaseAppBar.autoSetTrailingColor]
-  // final bool appBarAutoSetTrailingColor;
-
-  // /// [BaseAppBar.autoSetBottomColor]
-  // final bool appBarAutoSetBottomColor;
+  final bool? appBarBackdropFilter;
 
   /// [BaseAppBar.appBarTransitionBetweenRoutes]
-  final bool appBarTransitionBetweenRoutes;
+  final bool? appBarTransitionBetweenRoutes;
 
   /// [BaseAppBar.appBarCenterTitle]
-  final bool appBarCenterTitle;
+  final bool? appBarCenterTitle;
 
   /// [BaseRoute.fullscreenGackGesture]
   final bool routeFullscreenGackGesture;
@@ -103,61 +78,49 @@ class BaseThemeData with Diagnosticable {
   /// 可以使用 Theme.of(context) 获取到[BaseApp.materialTheme]
   ///
   /// Material模式下为null
-  final ThemeData materialTheme;
+  final ThemeData? materialTheme;
 
   /// [CupertinoThemeData]
   /// 在Material模式下使用Mupertino组件时,
   /// 可以使用 CupertinoTheme.of(context) 获取到[BaseApp.cupertinoTheme]
   ///
   /// Cupertino模式下为null
-  final CupertinoThemeData cupertinoTheme;
+  final CupertinoThemeData? cupertinoTheme;
 
   /// BaseSection's divider's color
   /// BaseSection 的diviver的颜色
-  final Color sectionDividerColor;
+  final Color? sectionDividerColor;
 
   /// BaseTile's BackgroundColor
   /// BaseTile 的背景颜色
   /// 建议适应BaseColor().build(context), 构建2种颜色
-  final Color tileBackgroundColor;
+  final Color? tileBackgroundColor;
 
   /// See also:
   ///
   ///  * [BaseStatelessWidget.cupertino], special parameters values on cupertino mode.
   ///  * [BaseStatelessWidget.material], special parameters values on material mode.
-  final Map<String, dynamic> cupertino;
-  final Map<String, dynamic> material;
+  final Map<String, dynamic>? cupertino;
+  final Map<String, dynamic>? material;
 
   BaseThemeData copyWith({
-    Brightness brightness,
-    double appBarHeight,
-    bool appBarBackdropFilter,
-    bool appBarAutoSetMiddleColor,
-    bool appBarAutoSetLeadingColor,
-    bool appBarAutoSetTrailingColor,
-    bool appBarAutoSetBottomColor,
-    bool appBarTransitionBetweenRoutes,
-    bool appBarCenterTitle,
-    ThemeData materialTheme,
-    CupertinoThemeData cupertinoTheme,
-    bool routeFullscreenGackGesture,
-    Color sectionDividerColor,
-    Color tileBackgroundColor,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
+    Brightness? brightness,
+    double? appBarHeight,
+    bool? appBarBackdropFilter,
+    bool? appBarTransitionBetweenRoutes,
+    bool? appBarCenterTitle,
+    ThemeData? materialTheme,
+    CupertinoThemeData? cupertinoTheme,
+    bool? routeFullscreenGackGesture,
+    Color? sectionDividerColor,
+    Color? tileBackgroundColor,
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
   }) {
     return BaseThemeData.raw(
       brightness: brightness ?? this.brightness,
       appBarHeight: appBarHeight ?? this.appBarHeight,
       appBarBackdropFilter: appBarBackdropFilter ?? this.appBarBackdropFilter,
-      // appBarAutoSetMiddleColor:
-      //     appBarAutoSetMiddleColor ?? this.appBarAutoSetMiddleColor,
-      // appBarAutoSetLeadingColor:
-      //     appBarAutoSetLeadingColor ?? this.appBarAutoSetLeadingColor,
-      // appBarAutoSetTrailingColor:
-      //     appBarAutoSetTrailingColor ?? this.appBarAutoSetTrailingColor,
-      // appBarAutoSetBottomColor:
-      //     appBarAutoSetBottomColor ?? this.appBarAutoSetBottomColor,
       appBarTransitionBetweenRoutes:
           appBarTransitionBetweenRoutes ?? this.appBarTransitionBetweenRoutes,
       appBarCenterTitle: appBarCenterTitle ?? this.appBarCenterTitle,
@@ -176,13 +139,13 @@ class BaseThemeData with Diagnosticable {
   ///
   /// 会先获取 [cupertino] 里的值
   dynamic valueFromCupertino(String key, dynamic value) {
-    return cupertino != null ? cupertino[key] ?? value : value;
+    return cupertino != null ? cupertino![key] ?? value : value;
   }
 
   /// will get the parameter value from [material] first.
   ///
   /// 会先获取 [material] 里的值
   dynamic valueFromMaterial(String key, dynamic value) {
-    return material != null ? material[key] ?? value : value;
+    return material != null ? material![key] ?? value : value;
   }
 }

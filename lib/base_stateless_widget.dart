@@ -21,13 +21,13 @@ import 'base_mixin.dart';
 /// ***
 abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
   const BaseStatelessWidget({
-    Key key,
+    Key? key,
     this.cupertino = const <String, dynamic>{},
     this.material = const <String, dynamic>{},
   }) : super(key: key);
 
-  final Map<String, dynamic> cupertino;
-  final Map<String, dynamic> material;
+  final Map<String, dynamic>? cupertino;
+  final Map<String, dynamic>? material;
 
   @override
   Widget build(BuildContext context) {
@@ -35,20 +35,20 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
     if (useCupertino) {
       if (cupertino != null) {
         // 禁止构建
-        if (cupertino[disabled] != null && cupertino[disabled]) {
+        if (cupertino?[disabled] != null && cupertino?[disabled] as bool) {
           return Container();
         }
         // cupertino模式，ios下使用
         // forceUseMaterial = true 强制使用material模式
-        if (cupertino[forceUseMaterial] != null &&
-            cupertino[forceUseMaterial]) {
+        if (cupertino?[forceUseMaterial] != null &&
+            cupertino?[forceUseMaterial] as bool) {
           // *** 请注意，此时BaseApp上的theme参数是不生效的 ***
           // 默认套多一层 Material
           buildByMaterialBefore(context);
           if (withoutSplashOnCupertino) {
             return BaseMaterialWidget.withoutSplash(
-              child: buildByMaterial(context),
               theme: Theme.of(context),
+              child: buildByMaterial(context),
             );
           }
           return BaseMaterialWidget(child: buildByMaterial(context));
@@ -59,13 +59,13 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
     } else if (useMaterial) {
       if (material != null) {
         // 禁止构建
-        if (material[disabled] != null && material[disabled]) {
+        if (material?[disabled] != null && material?[disabled] as bool) {
           return Container();
         }
         // material模式，android跟fuchsia下使用
         // forceUseCupertino = true 强制使用cupertino模式
-        if (material[forceUseCupertino] != null &&
-            material[forceUseCupertino]) {
+        if (material?[forceUseCupertino] != null &&
+            material?[forceUseCupertino] as bool) {
           // *** 请注意，此时BaseApp上的cupertinoTheme参数是不生效的 ***
           buildByCupertinoBefore(context);
           return buildByCupertino(context);
@@ -74,8 +74,8 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
       buildByMaterialBefore(context);
       return buildByMaterial(context);
     } else {
-      print('The platform is = $basePlatform, it not support yet.');
-      return null;
+      print('The platformMode is = $currentPlatformMode, it not support yet.');
+      return Container();
     }
   }
 

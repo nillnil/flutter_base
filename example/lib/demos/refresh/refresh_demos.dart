@@ -7,13 +7,16 @@ import 'indicator_demo.dart';
 import 'refresh_demo.dart';
 
 class RefreshDemos extends StatefulWidget {
+  const RefreshDemos({
+    Key? key,
+  }) : super(key: key);
   @override
   _RefreshDemosState createState() => _RefreshDemosState();
 }
 
 class _RefreshDemosState extends State<RefreshDemos>
     with SingleTickerProviderStateMixin {
-  TabController tabController;
+  TabController? tabController;
 
   @override
   void initState() {
@@ -58,7 +61,7 @@ class _RefreshDemosState extends State<RefreshDemos>
       ),
       body: TabBarView(
         controller: tabController,
-        children: <Widget>[
+        children: const <Widget>[
           IndicatorDemo(),
           RefreshDemo(),
         ],

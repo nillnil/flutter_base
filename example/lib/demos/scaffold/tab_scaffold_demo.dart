@@ -8,6 +8,9 @@ import '../demo_tile.dart';
 
 /// Tab Scaffold Demo
 class TabScaffoldDemo extends StatelessWidget {
+  const TabScaffoldDemo({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final List<DemoTile> _demos = <DemoTile>[
@@ -83,8 +86,8 @@ class _Demo extends StatelessWidget {
 
 class _TabPage extends StatelessWidget {
   const _TabPage({
-    Key key,
-    this.title,
+    Key? key,
+    required this.title,
   }) : super(key: key);
 
   final String title;
@@ -113,7 +116,7 @@ class _TabPage extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   const _Body({
-    Key key,
+    Key? key,
     this.title = '',
   }) : super(key: key);
 

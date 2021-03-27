@@ -6,9 +6,9 @@ import 'base_theme_data.dart';
 /// 参考自Theme
 class BaseTheme extends StatelessWidget {
   const BaseTheme({
-    Key key,
-    @required this.data,
-    @required this.child,
+    Key? key,
+    required this.data,
+    required this.child,
   })  : assert(child != null),
         assert(data != null),
         super(key: key);
@@ -26,17 +26,17 @@ class BaseTheme extends StatelessWidget {
 
   static BaseThemeData of(BuildContext context,
       {bool shadowThemeOnly = false}) {
-    final _InheritedTheme inheritedTheme =
+    final _InheritedTheme? inheritedTheme =
         context.dependOnInheritedWidgetOfExactType<_InheritedTheme>();
-    return inheritedTheme.theme.data ?? BaseThemeData();
+    return inheritedTheme?.theme.data ?? BaseThemeData();
   }
 }
 
 class _InheritedTheme extends InheritedWidget {
   const _InheritedTheme({
-    Key key,
-    @required this.theme,
-    @required Widget child,
+    Key? key,
+    required this.theme,
+    required Widget child,
   })  : assert(theme != null),
         super(key: key, child: child);
 

@@ -6,6 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:base/base.dart';
 
 class WechatProfile extends StatelessWidget {
+  const WechatProfile({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     const Widget cameraWidget = BaseIcon(
@@ -20,53 +23,54 @@ class WechatProfile extends StatelessWidget {
           border: null,
           elevation: 0.0,
           actions: <Widget>[
-            useMaterial
-                ? const Padding(
-                    padding: EdgeInsets.only(right: 10.0),
-                    child: cameraWidget,
-                  )
-                : cameraWidget,
+            if (useMaterial)
+              const Padding(
+                padding: EdgeInsets.only(right: 10.0),
+                child: cameraWidget,
+              )
+            else
+              cameraWidget,
           ],
           material: <String, dynamic>{
-            'backgroundColor': Theme.of(context).cardColor ??
-                const Color.fromARGB(255, 28, 28, 30),
+            'backgroundColor': const BaseColor(
+                    dynamicColor:
+                        CupertinoColors.secondarySystemGroupedBackground)
+                .build(context),
           },
           cupertino: const <String, dynamic>{
             'backgroundColor': CupertinoColors.secondarySystemGroupedBackground,
           },
         ),
-        body: Container(
-          child: ListView.builder(
-            itemCount: 1,
-            itemBuilder: (_, __) {
-              return Column(
-                children: const <Widget>[
-                  BaseSection(
-                    margin: EdgeInsets.only(top: 0.0, bottom: 15.0),
-                    divider: null,
-                    children: <Widget>[
-                      _IdWidget(),
-                    ],
+        body: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (_, __) {
+            return Column(
+              children: const <Widget>[
+                BaseSection(
+                  margin: EdgeInsets.only(top: 0.0, bottom: 15.0),
+                  divider: null,
+                  children: <Widget>[
+                    _IdWidget(),
+                  ],
+                ),
+                _Pay(),
+                BaseSection(
+                  margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  divider: BaseSectionDivider(
+                    insets: EdgeInsets.only(left: 20),
                   ),
-                  _Pay(),
-                  BaseSection(
-                    margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    divider: BaseSectionDivider(
-                      insets: EdgeInsets.only(left: 20),
-                    ),
-                    children: <Widget>[
-                      _Collection(),
-                      _Photo(),
-                      _Card(),
-                      _Emotion(),
-                    ],
-                  ),
-                  _Settings(),
-                  _Back(),
-                ],
-              );
-            },
-          ),
+                  children: <Widget>[
+                    _Collection(),
+                    _Photo(),
+                    _Card(),
+                    _Emotion(),
+                  ],
+                ),
+                _Settings(),
+                _Back(),
+              ],
+            );
+          },
         ),
         cupertino: const <String, dynamic>{
           'backgroundColor': CupertinoColors.systemGroupedBackground,
@@ -84,7 +88,7 @@ const double _tileHeight = 58;
 
 class _Back extends StatelessWidget {
   const _Back({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -110,7 +114,7 @@ class _Back extends StatelessWidget {
 
 class _Settings extends StatelessWidget {
   const _Settings({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -130,7 +134,7 @@ class _Settings extends StatelessWidget {
             '设置',
             style: _style,
           ),
-          trailing: Container(
+          trailing: SizedBox(
             width: 80,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -151,7 +155,7 @@ class _Settings extends StatelessWidget {
           ),
           onTap: () {
             BaseRoute<dynamic>(
-              builder: (_) => WechatSettings(),
+              builder: (_) => const WechatSettings(),
               fullscreenGackGesture: true,
             ).push(context, rootNavigator: true);
           },
@@ -163,7 +167,7 @@ class _Settings extends StatelessWidget {
 
 class _Emotion extends StatelessWidget {
   const _Emotion({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -191,7 +195,7 @@ class _Emotion extends StatelessWidget {
 
 class _Card extends StatelessWidget {
   const _Card({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -216,7 +220,7 @@ class _Card extends StatelessWidget {
 
 class _Photo extends StatelessWidget {
   const _Photo({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -244,7 +248,7 @@ class _Photo extends StatelessWidget {
 
 class _Collection extends StatelessWidget {
   const _Collection({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -272,7 +276,7 @@ class _Collection extends StatelessWidget {
 
 class _Pay extends StatelessWidget {
   const _Pay({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -307,7 +311,7 @@ class _Pay extends StatelessWidget {
 
 class _IdWidget extends StatelessWidget {
   const _IdWidget({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -329,7 +333,7 @@ class _IdWidget extends StatelessWidget {
       leading: const FlutterLogo(
         size: 65.0,
       ),
-      trailing: Container(
+      trailing: SizedBox(
         width: 60,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,

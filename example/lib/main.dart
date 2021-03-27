@@ -20,9 +20,9 @@ void main() {
     runApp(
       ChangeNotifierProvider<AppProvider>.value(
         value: AppProvider(
-          brightness: WidgetsBinding.instance.window.platformBrightness,
+          brightness: WidgetsBinding.instance?.window.platformBrightness,
         ),
-        child: App(),
+        child: const App(),
       ),
     );
   });
@@ -30,7 +30,7 @@ void main() {
 
 /// 适配桌面客户端，mac用ios，windows，linux用android
 void _setTargetPlatformForDesktop() {
-  TargetPlatform targetPlatform;
+  TargetPlatform? targetPlatform;
   if (Platform.isMacOS) {
     targetPlatform = TargetPlatform.iOS;
   } else if (Platform.isLinux || Platform.isWindows) {

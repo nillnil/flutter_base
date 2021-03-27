@@ -3,14 +3,12 @@
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/stable/packages/flutter/lib/src/cupertino/route.dart
-/// lastest commit: 2020.09.30
-/// https://github.com/flutter/flutter/commit/d408d302e22179d598f467e11da5dd968dbdc9ec
-/// #58511 https://github.com/flutter/flutter/pull/66849
-/// flutter v1.22.5
+/// lastest commit: 2021.01.26
+/// https://github.com/flutter/flutter/commit/bd69fa59356d2d007730b83635f5cf99c032f94b
+/// #58511 https://github.com/flutter/flutter/pull/74627
+/// flutter v2.0.3
 ///
-/// lastest modify: 2021.01.12
-
-// @dart = 2.8
+/// lastest modify: 2022.03.22
 
 import 'dart:async';
 import 'dart:math';
@@ -102,24 +100,23 @@ final DecorationTween _kGradientShadowTween = DecorationTween(
 /// See also:
 ///
 ///  * [MaterialRouteTransitionMixin], which is a mixin that provides
-///    platform-appropriate transitions for a [PageRoute]
+///    platform-appropriate transitions for a [PageRoute].
 ///  * [CupertinoPageRoute], which is a [PageRoute] that leverages this mixin.
 mixin CupertinoRouteTransitionMixin<T> on PageRoute<T> {
   /// Builds the primary contents of the route.
   @protected
   Widget buildContent(BuildContext context);
 
-  /// {@template flutter.cupertino.cupertinoRouteTransitionMixin.title}
+  /// {@template flutter.cupertino.CupertinoRouteTransitionMixin.title}
   /// A title string for this route.
   ///
   /// Used to auto-populate [CupertinoNavigationBar] and
   /// [CupertinoSliverNavigationBar]'s `middle`/`largeTitle` widgets when
   /// one is not manually supplied.
   /// {@endtemplate}
-  String get title;
+  String? get title;
 
-
-  ValueNotifier<String> _previousTitle;
+  ValueNotifier<String?>? _previousTitle;
 
   /// The title string of the previous [CupertinoPageRoute].
   ///
@@ -135,23 +132,23 @@ mixin CupertinoRouteTransitionMixin<T> on PageRoute<T> {
   ///
   ///  * [ValueListenableBuilder], which can be used to listen and rebuild
   ///    widgets based on a ValueListenable.
-  ValueListenable<String> get previousTitle {
+  ValueListenable<String?> get previousTitle {
     assert(
       _previousTitle != null,
       'Cannot read the previousTitle for a route that has not yet been installed',
     );
-    return _previousTitle;
+    return _previousTitle!;
   }
 
   @override
-  void didChangePrevious(Route<dynamic> previousRoute) {
-    final String previousTitleString = previousRoute is CupertinoRouteTransitionMixin
+  void didChangePrevious(Route<dynamic>? previousRoute) {
+    final String? previousTitleString = previousRoute is CupertinoRouteTransitionMixin
       ? previousRoute.title
       : null;
     if (_previousTitle == null) {
-      _previousTitle = ValueNotifier<String>(previousTitleString);
+      _previousTitle = ValueNotifier<String?>(previousTitleString);
     } else {
-      _previousTitle.value = previousTitleString;
+      _previousTitle!.value = previousTitleString;
     }
     super.didChangePrevious(previousRoute);
   }
@@ -161,10 +158,10 @@ mixin CupertinoRouteTransitionMixin<T> on PageRoute<T> {
   Duration get transitionDuration => const Duration(milliseconds: 400);
 
   @override
-  Color get barrierColor => null;
+  Color? get barrierColor => null;
 
   @override
-  String get barrierLabel => null;
+  String? get barrierLabel => null;
 
   @override
   bool canTransitionTo(TransitionRoute<dynamic> nextRoute) {
@@ -172,7 +169,7 @@ mixin CupertinoRouteTransitionMixin<T> on PageRoute<T> {
     return nextRoute is CupertinoRouteTransitionMixin && !nextRoute.fullscreenDialog;
   }
 
-  double backGestureWidth;
+  double backGestureWidth = _kBackGestureWidth;
 
   /// True if an iOS-style back swipe pop gesture is currently underway for [route].
   ///
@@ -183,7 +180,7 @@ mixin CupertinoRouteTransitionMixin<T> on PageRoute<T> {
   ///  * [popGestureEnabled], which returns true if a user-triggered pop gesture
   ///    would be allowed.
   static bool isPopGestureInProgress(PageRoute<dynamic> route) {
-    return route.navigator.userGestureInProgress;
+    return route.navigator!.userGestureInProgress;
   }
 
   /// True if an iOS-style back swipe pop gesture is currently underway for this route.
@@ -224,12 +221,12 @@ mixin CupertinoRouteTransitionMixin<T> on PageRoute<T> {
     if (route.fullscreenDialog)
       return false;
     // If we're in an animation already, we cannot be manually swiped.
-    if (route.animation.status != AnimationStatus.completed)
+    if (route.animation!.status != AnimationStatus.completed)
       return false;
     // If we're being popped into, we also cannot be swiped until the pop above
     // it completes. This translates to our secondary animation being
     // dismissed.
-    if (route.secondaryAnimation.status != AnimationStatus.dismissed)
+    if (route.secondaryAnimation!.status != AnimationStatus.dismissed)
       return false;
     // If we're in a gesture already, we cannot start another.
     if (isPopGestureInProgress(route))
@@ -248,7 +245,10 @@ mixin CupertinoRouteTransitionMixin<T> on PageRoute<T> {
       child: child,
     );
     assert(() {
-      if (child == null) {
+      // `child` has a non-nullable return type, but might be null when
+      // running with weak checking, so we need to null check it anyway (and
+      // ignore the warning that the null-handling logic is dead code).
+      if (child == null) { // ignore: dead_code
         throw FlutterError.fromParts(<DiagnosticsNode>[
           ErrorSummary('The builder for route "${settings.name}" returned null.'),
           ErrorDescription('Route builders must never return null.'),
@@ -266,8 +266,8 @@ mixin CupertinoRouteTransitionMixin<T> on PageRoute<T> {
     assert(_isPopGestureEnabled(route));
 
     return _CupertinoBackGestureController<T>(
-      navigator: route.navigator,
-      controller: route.controller, // protected access
+      navigator: route.navigator!,
+      controller: route.controller!, // protected access
     );
   }
 
@@ -356,26 +356,27 @@ class CupertinoPageRoute<T> extends PageRoute<T> with CupertinoRouteTransitionMi
   /// The [builder], [maintainState], and [fullscreenDialog] arguments must not
   /// be null.
   CupertinoPageRoute({
-    @required this.builder,
+    required this.builder,
     this.title,
-    RouteSettings settings,
+    RouteSettings? settings,
     this.maintainState = true,
     bool fullscreenDialog = false,
     this.backGestureWidth = _kBackGestureWidth,
   }) : assert(builder != null),
        assert(maintainState != null),
        assert(fullscreenDialog != null),
-       assert(opaque),
-       super(settings: settings, fullscreenDialog: fullscreenDialog);
+       super(settings: settings, fullscreenDialog: fullscreenDialog) {
+    assert(opaque);
+  }
 
   /// Builds the primary contents of the route.
   final WidgetBuilder builder;
 
   @override
-  final String title;
+  Widget buildContent(BuildContext context) => builder(context);
 
   @override
-  Widget buildContent(BuildContext context) => builder(context);
+  final String? title;
 
   @override
   final bool maintainState;
@@ -395,10 +396,11 @@ class CupertinoPageRoute<T> extends PageRoute<T> with CupertinoRouteTransitionMi
 // the content is up to date after page updates.
 class _PageBasedCupertinoPageRoute<T> extends PageRoute<T> with CupertinoRouteTransitionMixin<T> {
   _PageBasedCupertinoPageRoute({
-    @required CupertinoPage<T> page,
+    required CupertinoPage<T> page,
   }) : assert(page != null),
-       assert(opaque),
-       super(settings: page);
+       super(settings: page) {
+    assert(opaque);
+  }
 
   CupertinoPage<T> get _page => settings as CupertinoPage<T>;
 
@@ -406,7 +408,7 @@ class _PageBasedCupertinoPageRoute<T> extends PageRoute<T> with CupertinoRouteTr
   Widget buildContent(BuildContext context) => _page.child;
 
   @override
-  String get title => _page.title;
+  String? get title => _page.title;
 
   @override
   bool get maintainState => _page.maintainState;
@@ -437,13 +439,13 @@ class _PageBasedCupertinoPageRoute<T> extends PageRoute<T> with CupertinoRouteTr
 class CupertinoPage<T> extends Page<T> {
   /// Creates a cupertino page.
   const CupertinoPage({
-    @required this.child,
+    required this.child,
     this.maintainState = true,
     this.title,
     this.fullscreenDialog = false,
-    LocalKey key,
-    String name,
-    Object arguments,
+    LocalKey? key,
+    String? name,
+    Object? arguments,
   }) : assert(child != null),
        assert(maintainState != null),
        assert(fullscreenDialog != null),
@@ -452,13 +454,13 @@ class CupertinoPage<T> extends Page<T> {
   /// The content to be shown in the [Route] created by this page.
   final Widget child;
 
-  /// {@macro flutter.cupertino.cupertinoRouteTransitionMixin.title}
-  final String title;
+  /// {@macro flutter.cupertino.CupertinoRouteTransitionMixin.title}
+  final String? title;
 
-  /// {@macro flutter.widgets.modalRoute.maintainState}
+  /// {@macro flutter.widgets.ModalRoute.maintainState}
   final bool maintainState;
 
-  /// {@macro flutter.widgets.pageRoute.fullscreenDialog}
+  /// {@macro flutter.widgets.PageRoute.fullscreenDialog}
   final bool fullscreenDialog;
 
   @override
@@ -481,11 +483,11 @@ class CupertinoPageTransition extends StatelessWidget {
   ///  * `linearTransition` is whether to perform the transitions linearly.
   ///    Used to precisely track back gesture drags.
   CupertinoPageTransition({
-    Key key,
-    @required Animation<double> primaryRouteAnimation,
-    @required Animation<double> secondaryRouteAnimation,
-    @required this.child,
-    @required bool linearTransition,
+    Key? key,
+    required Animation<double> primaryRouteAnimation,
+    required Animation<double> secondaryRouteAnimation,
+    required this.child,
+    required bool linearTransition,
   }) : assert(linearTransition != null),
        _primaryPositionAnimation =
            (linearTransition
@@ -564,11 +566,11 @@ class CupertinoFullscreenDialogTransition extends StatelessWidget {
   ///  * `linearTransition` is whether to perform the secondary transition linearly.
   ///    Used to precisely track back gesture drags.
   CupertinoFullscreenDialogTransition({
-    Key key,
-    @required Animation<double> primaryRouteAnimation,
-    @required Animation<double> secondaryRouteAnimation,
-    @required this.child,
-    @required bool linearTransition,
+    Key? key,
+    required Animation<double> primaryRouteAnimation,
+    required Animation<double> secondaryRouteAnimation,
+    required this.child,
+    required bool linearTransition,
   }) : _positionAnimation = CurvedAnimation(
          parent: primaryRouteAnimation,
          curve: Curves.linearToEaseOut,
@@ -623,11 +625,11 @@ class CupertinoFullscreenDialogTransition extends StatelessWidget {
 /// detector is associated.
 class _CupertinoBackGestureDetector<T> extends StatefulWidget {
   const _CupertinoBackGestureDetector({
-    Key key,
-    @required this.enabledCallback,
-    @required this.onStartPopGesture,
-    @required this.child,
-    @required this.backGestureWidth,
+    Key? key,
+    required this.enabledCallback,
+    required this.onStartPopGesture,
+    required this.child,
+    required this.backGestureWidth,
   }) : assert(enabledCallback != null),
        assert(onStartPopGesture != null),
        assert(child != null),
@@ -646,9 +648,9 @@ class _CupertinoBackGestureDetector<T> extends StatefulWidget {
 }
 
 class _CupertinoBackGestureDetectorState<T> extends State<_CupertinoBackGestureDetector<T>> {
-  _CupertinoBackGestureController<T> _backGestureController;
+  _CupertinoBackGestureController<T>? _backGestureController;
 
-  HorizontalDragGestureRecognizer _recognizer;
+  late HorizontalDragGestureRecognizer _recognizer;
 
   @override
   void initState() {
@@ -675,13 +677,13 @@ class _CupertinoBackGestureDetectorState<T> extends State<_CupertinoBackGestureD
   void _handleDragUpdate(DragUpdateDetails details) {
     assert(mounted);
     assert(_backGestureController != null);
-    _backGestureController.dragUpdate(_convertToLogical(details.primaryDelta / context.size.width));
+    _backGestureController!.dragUpdate(_convertToLogical(details.primaryDelta! / context.size!.width));
   }
 
   void _handleDragEnd(DragEndDetails details) {
     assert(mounted);
     assert(_backGestureController != null);
-    _backGestureController.dragEnd(_convertToLogical(details.velocity.pixelsPerSecond.dx / context.size.width));
+    _backGestureController!.dragEnd(_convertToLogical(details.velocity.pixelsPerSecond.dx / context.size!.width));
     _backGestureController = null;
   }
 
@@ -705,7 +707,6 @@ class _CupertinoBackGestureDetectorState<T> extends State<_CupertinoBackGestureD
       case TextDirection.ltr:
         return value;
     }
-    return null;
   }
 
   @override
@@ -754,8 +755,8 @@ class _CupertinoBackGestureController<T> {
   ///
   /// The [navigator] and [controller] arguments must not be null.
   _CupertinoBackGestureController({
-    @required this.navigator,
-    @required this.controller,
+    required this.navigator,
+    required this.controller,
   }) : assert(navigator != null),
        assert(controller != null) {
     navigator.didStartUserGesture();
@@ -780,7 +781,7 @@ class _CupertinoBackGestureController<T> {
     // This curve has been determined through rigorously eyeballing native iOS
     // animations.
     const Curve animationCurve = Curves.fastLinearToSlowEaseIn;
-    bool animateForward;
+    final bool animateForward;
 
     // If the user releases the page before mid screen with sufficient velocity,
     // or after mid screen, we should animate the page out. Otherwise, the page
@@ -795,7 +796,7 @@ class _CupertinoBackGestureController<T> {
       // We want to cap the animation time, but we want to use a linear curve
       // to determine it.
       final int droppedPageForwardAnimationTime = min(
-        lerpDouble(_kMaxDroppedSwipePageForwardAnimationTime, 0, controller.value).floor(),
+        lerpDouble(_kMaxDroppedSwipePageForwardAnimationTime, 0, controller.value)!.floor(),
         _kMaxPageBackAnimationTime,
       );
       controller.animateTo(1.0, duration: Duration(milliseconds: droppedPageForwardAnimationTime), curve: animationCurve);
@@ -806,7 +807,7 @@ class _CupertinoBackGestureController<T> {
       // The popping may have finished inline if already at the target destination.
       if (controller.isAnimating) {
         // Otherwise, use a custom popping animation duration and curve.
-        final int droppedPageBackAnimationTime = lerpDouble(0, _kMaxDroppedSwipePageForwardAnimationTime, controller.value).floor();
+        final int droppedPageBackAnimationTime = lerpDouble(0, _kMaxDroppedSwipePageForwardAnimationTime, controller.value)!.floor();
         controller.animateBack(0.0, duration: Duration(milliseconds: droppedPageBackAnimationTime), curve: animationCurve);
       }
     }
@@ -815,7 +816,7 @@ class _CupertinoBackGestureController<T> {
       // Keep the userGestureInProgress in true state so we don't change the
       // curve of the page transition mid-flight since CupertinoPageTransition
       // depends on userGestureInProgress.
-      AnimationStatusListener animationStatusCallback;
+      late AnimationStatusListener animationStatusCallback;
       animationStatusCallback = (AnimationStatus status) {
         navigator.didStopUserGesture();
         controller.removeStatusListener(animationStatusCallback);
@@ -847,7 +848,7 @@ class _CupertinoEdgeShadowDecoration extends Decoration {
   // A gradient to draw to the left of the box being decorated.
   // Alignments are relative to the original box translated one box
   // width to the left.
-  final LinearGradient edgeGradient;
+  final LinearGradient? edgeGradient;
 
   // Linearly interpolate between two edge shadow decorations decorations.
   //
@@ -866,9 +867,9 @@ class _CupertinoEdgeShadowDecoration extends Decoration {
   // See also:
   //
   //  * [Decoration.lerp].
-  static _CupertinoEdgeShadowDecoration lerp(
-    _CupertinoEdgeShadowDecoration a,
-    _CupertinoEdgeShadowDecoration b,
+  static _CupertinoEdgeShadowDecoration? lerp(
+    _CupertinoEdgeShadowDecoration? a,
+    _CupertinoEdgeShadowDecoration? b,
     double t,
   ) {
     assert(t != null);
@@ -880,21 +881,21 @@ class _CupertinoEdgeShadowDecoration extends Decoration {
   }
 
   @override
-  _CupertinoEdgeShadowDecoration lerpFrom(Decoration a, double t) {
+  _CupertinoEdgeShadowDecoration lerpFrom(Decoration? a, double t) {
     if (a is _CupertinoEdgeShadowDecoration)
-      return _CupertinoEdgeShadowDecoration.lerp(a, this, t);
-    return _CupertinoEdgeShadowDecoration.lerp(null, this, t);
+      return _CupertinoEdgeShadowDecoration.lerp(a, this, t)!;
+    return _CupertinoEdgeShadowDecoration.lerp(null, this, t)!;
   }
 
   @override
-  _CupertinoEdgeShadowDecoration lerpTo(Decoration b, double t) {
+  _CupertinoEdgeShadowDecoration lerpTo(Decoration? b, double t) {
     if (b is _CupertinoEdgeShadowDecoration)
-      return _CupertinoEdgeShadowDecoration.lerp(this, b, t);
-    return _CupertinoEdgeShadowDecoration.lerp(this, null, t);
+      return _CupertinoEdgeShadowDecoration.lerp(this, b, t)!;
+    return _CupertinoEdgeShadowDecoration.lerp(this, null, t)!;
   }
 
   @override
-  _CupertinoEdgeShadowPainter createBoxPainter([ VoidCallback onChanged ]) {
+  _CupertinoEdgeShadowPainter createBoxPainter([ VoidCallback? onChanged ]) {
     return _CupertinoEdgeShadowPainter(this, onChanged);
   }
 
@@ -920,7 +921,7 @@ class _CupertinoEdgeShadowDecoration extends Decoration {
 class _CupertinoEdgeShadowPainter extends BoxPainter {
   _CupertinoEdgeShadowPainter(
     this._decoration,
-    VoidCallback onChange,
+    VoidCallback? onChange,
   ) : assert(_decoration != null),
       super(onChange);
 
@@ -928,23 +929,23 @@ class _CupertinoEdgeShadowPainter extends BoxPainter {
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    final LinearGradient gradient = _decoration.edgeGradient;
+    final LinearGradient? gradient = _decoration.edgeGradient;
     if (gradient == null)
       return;
     // The drawable space for the gradient is a rect with the same size as
     // its parent box one box width on the start side of the box.
-    final TextDirection textDirection = configuration.textDirection;
+    final TextDirection? textDirection = configuration.textDirection;
     assert(textDirection != null);
-    double deltaX;
-    switch (textDirection) {
+    final double deltaX;
+    switch (textDirection!) {
       case TextDirection.rtl:
-        deltaX = configuration.size.width;
+        deltaX = configuration.size!.width;
         break;
       case TextDirection.ltr:
-        deltaX = -configuration.size.width;
+        deltaX = -configuration.size!.width;
         break;
     }
-    final Rect rect = (offset & configuration.size).translate(deltaX, 0.0);
+    final Rect rect = (offset & configuration.size!).translate(deltaX, 0.0);
     final Paint paint = Paint()
       ..shader = gradient.createShader(rect, textDirection: textDirection);
 
@@ -954,30 +955,35 @@ class _CupertinoEdgeShadowPainter extends BoxPainter {
 
 class _CupertinoModalPopupRoute<T> extends PopupRoute<T> {
   _CupertinoModalPopupRoute({
-    this.barrierColor,
-    this.barrierLabel,
-    this.builder,
-    bool semanticsDismissible,
-    ImageFilter filter,
-    RouteSettings settings,
+    required this.barrierColor,
+    required this.barrierLabel,
+    required this.builder,
+    bool? barrierDismissible,
+    bool? semanticsDismissible,
+    required ImageFilter? filter,
+    RouteSettings? settings,
   }) : super(
          filter: filter,
          settings: settings,
        ) {
+    _barrierDismissible = barrierDismissible;
     _semanticsDismissible = semanticsDismissible;
   }
 
   final WidgetBuilder builder;
-  bool _semanticsDismissible;
+
+  bool? _barrierDismissible;
+
+  bool? _semanticsDismissible;
 
   @override
   final String barrierLabel;
 
   @override
-  final Color barrierColor;
+  final Color? barrierColor;
 
   @override
-  bool get barrierDismissible => true;
+  bool get barrierDismissible => _barrierDismissible ?? true;
 
   @override
   bool get semanticsDismissible => _semanticsDismissible ?? false;
@@ -985,9 +991,9 @@ class _CupertinoModalPopupRoute<T> extends PopupRoute<T> {
   @override
   Duration get transitionDuration => _kModalPopupTransitionDuration;
 
-  Animation<double> _animation;
+  Animation<double>? _animation;
 
-  Tween<Offset> _offsetTween;
+  late Tween<Offset> _offsetTween;
 
   @override
   Animation<double> createAnimation() {
@@ -1002,9 +1008,9 @@ class _CupertinoModalPopupRoute<T> extends PopupRoute<T> {
     );
     _offsetTween = Tween<Offset>(
       begin: const Offset(0.0, 1.0),
-      end: const Offset(0.0, 0.0),
+      end: Offset.zero,
     );
-    return _animation;
+    return _animation!;
   }
 
   @override
@@ -1020,7 +1026,7 @@ class _CupertinoModalPopupRoute<T> extends PopupRoute<T> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: FractionalTranslation(
-        translation: _offsetTween.evaluate(_animation),
+        translation: _offsetTween.evaluate(_animation!),
         child: child,
       ),
     );
@@ -1036,12 +1042,22 @@ class _CupertinoModalPopupRoute<T> extends PopupRoute<T> {
 /// It is only used when the method is called. Its corresponding widget can be
 /// safely removed from the tree before the popup is closed.
 ///
+/// The `barrierColor` argument determines the [Color] of the barrier underneath
+/// the popup. When unspecified, the barrier color defaults to a light opacity
+/// black scrim based on iOS's dialog screens.
+///
+/// The `barrierDismissible` argument determines whether clicking outside the
+/// popup results in dismissal. It is `true` by default.
+///
 /// The `useRootNavigator` argument is used to determine whether to push the
 /// popup to the [Navigator] furthest from or nearest to the given `context`. It
 /// is `false` by default.
 ///
 /// The `semanticsDismissible` argument is used to determine whether the
 /// semantics of the modal barrier are included in the semantics tree.
+///
+/// The `routeSettings` argument is used to provide [RouteSettings] to the
+/// created Route.
 ///
 /// The `builder` argument typically builds a [CupertinoActionSheet] widget.
 /// Content below the widget is dimmed with a [ModalBarrier]. The widget built
@@ -1058,21 +1074,26 @@ class _CupertinoModalPopupRoute<T> extends PopupRoute<T> {
 ///  * [CupertinoActionSheet], which is the widget usually returned by the
 ///    `builder` argument to [showCupertinoModalPopup].
 ///  * <https://developer.apple.com/design/human-interface-guidelines/ios/views/action-sheets/>
-Future<T> showCupertinoModalPopup<T>({
-  @required BuildContext context,
-  @required WidgetBuilder builder,
-  ImageFilter filter,
+Future<T?> showCupertinoModalPopup<T>({
+  required BuildContext context,
+  required WidgetBuilder builder,
+  ImageFilter? filter,
+  Color barrierColor = _kModalBarrierColor,
+  bool barrierDismissible = true,
   bool useRootNavigator = true,
-  bool semanticsDismissible,
+  bool? semanticsDismissible,
+  RouteSettings? routeSettings,
 }) {
   assert(useRootNavigator != null);
   return Navigator.of(context, rootNavigator: useRootNavigator).push(
     _CupertinoModalPopupRoute<T>(
-      barrierColor: CupertinoDynamicColor.resolve(_kModalBarrierColor, context),
+      barrierColor: CupertinoDynamicColor.resolve(barrierColor, context),
+      barrierDismissible: barrierDismissible,
       barrierLabel: 'Dismiss',
       builder: builder,
       filter: filter,
       semanticsDismissible: semanticsDismissible,
+      settings: routeSettings,
     ),
   );
 }
@@ -1108,12 +1129,11 @@ Widget _buildCupertinoDialogTransitions(BuildContext context, Animation<double> 
 /// barrier behavior (by default, the dialog is not dismissible with a tap on
 /// the barrier).
 ///
-/// This function takes a `builder` which typically builds a [CupertinoDialog]
-/// or [CupertinoAlertDialog] widget. Content below the dialog is dimmed with a
-/// [ModalBarrier]. The widget returned by the `builder` does not share a
-/// context with the location that `showCupertinoDialog` is originally called
-/// from. Use a [StatefulBuilder] or a custom [StatefulWidget] if the dialog
-/// needs to update dynamically.
+/// This function takes a `builder` which typically builds a [CupertinoAlertDialog]
+/// widget. Content below the dialog is dimmed with a [ModalBarrier]. The widget
+/// returned by the `builder` does not share a context with the location that
+/// `showCupertinoDialog` is originally called from. Use a [StatefulBuilder] or
+/// a custom [StatefulWidget] if the dialog needs to update dynamically.
 ///
 /// The `context` argument is used to look up the [Navigator] for the dialog.
 /// It is only used when the method is called. Its corresponding widget can
@@ -1131,34 +1151,160 @@ Widget _buildCupertinoDialogTransitions(BuildContext context, Animation<double> 
 /// Returns a [Future] that resolves to the value (if any) that was passed to
 /// [Navigator.pop] when the dialog was closed.
 ///
+/// ### State Restoration in Dialogs
+///
+/// Using this method will not enable state restoration for the dialog. In order
+/// to enable state restoration for a dialog, use [Navigator.restorablePush]
+/// or [Navigator.restorablePushNamed] with [CupertinoDialogRoute].
+///
+/// For more information about state restoration, see [RestorationManager].
+///
+/// {@tool sample --template=freeform}
+///
+/// This sample demonstrates how to create a restorable Cupertino dialog. This is
+/// accomplished by enabling state restoration by specifying
+/// [CupertinoApp.restorationScopeId] and using [Navigator.restorablePush] to
+/// push [CupertinoDialogRoute] when the [CupertinoButton] is tapped.
+///
+/// {@macro flutter.widgets.RestorationManager}
+///
+/// ```dart imports
+/// import 'package:flutter/cupertino.dart';
+/// ```
+///
+/// ```dart
+/// void main() {
+///   runApp(MyApp());
+/// }
+///
+/// class MyApp extends StatelessWidget {
+///   @override
+///   Widget build(BuildContext context) {
+///     return CupertinoApp(
+///       restorationScopeId: 'app',
+///       home: MyHomePage(),
+///     );
+///   }
+/// }
+///
+/// class MyHomePage extends StatelessWidget {
+///   static Route<Object?> _dialogBuilder(BuildContext context, Object? arguments) {
+///     return CupertinoDialogRoute<void>(
+///       context: context,
+///       builder: (BuildContext context) {
+///         return const CupertinoAlertDialog(
+///           title: Text('Title'),
+///           content: Text('Content'),
+///           actions: <Widget>[
+///             CupertinoDialogAction(child: Text('Yes')),
+///             CupertinoDialogAction(child: Text('No')),
+///           ],
+///         );
+///       },
+///     );
+///   }
+///
+///   @override
+///   Widget build(BuildContext context) {
+///     return CupertinoPageScaffold(
+///       navigationBar: const CupertinoNavigationBar(
+///         middle: Text('Home'),
+///       ),
+///       child: Center(child: CupertinoButton(
+///         onPressed: () {
+///           Navigator.of(context).restorablePush(_dialogBuilder);
+///         },
+///         child: const Text('Open Dialog'),
+///       )),
+///     );
+///   }
+/// }
+/// ```
+///
+/// {@end-tool}
+///
 /// See also:
 ///
-///  * [CupertinoDialog], an iOS-style dialog.
 ///  * [CupertinoAlertDialog], an iOS-style alert dialog.
 ///  * [showDialog], which displays a Material-style dialog.
 ///  * [showGeneralDialog], which allows for customization of the dialog popup.
 ///  * <https://developer.apple.com/ios/human-interface-guidelines/views/alerts/>
-Future<T> showCupertinoDialog<T>({
-  @required BuildContext context,
-  @required WidgetBuilder builder,
+Future<T?> showCupertinoDialog<T>({
+  required BuildContext context,
+  required WidgetBuilder builder,
+  String? barrierLabel,
   bool useRootNavigator = true,
   bool barrierDismissible = false,
-  RouteSettings routeSettings,
+  RouteSettings? routeSettings,
 }) {
   assert(builder != null);
   assert(useRootNavigator != null);
-  return showGeneralDialog(
+
+  return Navigator.of(context, rootNavigator: useRootNavigator).push<T>(CupertinoDialogRoute<T>(
+    builder: builder,
     context: context,
     barrierDismissible: barrierDismissible,
-    barrierLabel: CupertinoLocalizations.of(context).modalBarrierDismissLabel,
+    barrierLabel: barrierLabel,
     barrierColor: CupertinoDynamicColor.resolve(_kModalBarrierColor, context),
+    settings: routeSettings,
+  ));
+}
+
+/// A dialog route that shows an iOS-style dialog.
+///
+/// It is used internally by [showCupertinoDialog] or can be directly pushed
+/// onto the [Navigator] stack to enable state restoration. See
+/// [showCupertinoDialog] for a state restoration app example.
+///
+/// This function takes a `builder` which typically builds a [Dialog] widget.
+/// Content below the dialog is dimmed with a [ModalBarrier]. The widget
+/// returned by the `builder` does not share a context with the location that
+/// `showDialog` is originally called from. Use a [StatefulBuilder] or a
+/// custom [StatefulWidget] if the dialog needs to update dynamically.
+///
+/// The `context` argument is used to look up
+/// [CupertinoLocalizations.modalBarrierDismissLabel], which provides the
+/// modal with a localized accessibility label that will be used for the
+/// modal's barrier. However, a custom `barrierLabel` can be passed in as well.
+///
+/// The `barrierDismissible` argument is used to indicate whether tapping on the
+/// barrier will dismiss the dialog. It is `true` by default and cannot be `null`.
+///
+/// The `barrierColor` argument is used to specify the color of the modal
+/// barrier that darkens everything below the dialog. If `null`, then
+/// [CupertinoDynamicColor.resolve] is used to compute the modal color.
+///
+/// The `settings` argument define the settings for this route. See
+/// [RouteSettings] for details.
+///
+/// See also:
+///
+///  * [showCupertinoDialog], which is a way to display
+///     an iOS-style dialog.
+///  * [showGeneralDialog], which allows for customization of the dialog popup.
+///  * [showDialog], which displays a Material dialog.
+class CupertinoDialogRoute<T> extends RawDialogRoute<T> {
+  /// A dialog route that shows an iOS-style dialog.
+  CupertinoDialogRoute({
+    required WidgetBuilder builder,
+    required BuildContext context,
+    bool barrierDismissible = true,
+    Color? barrierColor,
+    String? barrierLabel,
     // This transition duration was eyeballed comparing with iOS
-    transitionDuration: const Duration(milliseconds: 250),
-    pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-      return builder(context);
-    },
-    transitionBuilder: _buildCupertinoDialogTransitions,
-    useRootNavigator: useRootNavigator,
-    routeSettings: routeSettings,
-  );
+    Duration transitionDuration = const Duration(milliseconds: 250),
+    RouteTransitionsBuilder? transitionBuilder = _buildCupertinoDialogTransitions,
+    RouteSettings? settings,
+  }) : assert(barrierDismissible != null),
+      super(
+        pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+          return builder(context);
+        },
+        barrierDismissible: barrierDismissible,
+        barrierLabel: barrierLabel ?? CupertinoLocalizations.of(context).modalBarrierDismissLabel,
+        barrierColor: barrierColor ?? CupertinoDynamicColor.resolve(_kModalBarrierColor, context),
+        transitionDuration: transitionDuration,
+        transitionBuilder: transitionBuilder,
+        settings: settings,
+      );
 }

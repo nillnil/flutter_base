@@ -11,7 +11,7 @@ import 'drawer_demo.dart';
 /// Componentes 说明
 class ComponentesDemo extends StatelessWidget {
   const ComponentesDemo({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -32,7 +32,7 @@ class ComponentesDemo extends StatelessWidget {
               ),
               onTap: () {
                 BaseRoute<void>(
-                  builder: (_) => DrawerDemo(),
+                  builder: (_) => const DrawerDemo(),
                 ).push(context);
               },
             ),

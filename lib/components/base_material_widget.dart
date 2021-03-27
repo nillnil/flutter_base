@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 /// 自定义SplashFactory的Material组件
 class BaseMaterialWidget extends StatelessWidget {
   BaseMaterialWidget({
-    Key key,
-    @required Widget child,
+    Key? key,
+    required Widget child,
     this.theme,
-    InteractiveInkFeatureFactory splashFactory,
+    InteractiveInkFeatureFactory? splashFactory,
   })  : assert(child != null, 'child can not be null.'),
         assert(
             (theme == null && splashFactory == null) ||
@@ -26,13 +26,13 @@ class BaseMaterialWidget extends StatelessWidget {
   /// 适用于cupertino模式中使用material组件
   /// 会有200延迟高亮
   BaseMaterialWidget.withoutSplash({
-    Key key,
-    @required Widget child,
-    @required this.theme,
+    Key? key,
+    required Widget child,
+    this.theme,
   })  : assert(child != null, 'child can not be null.'),
         assert(theme != null, 'theme can not be null.'),
         child = Theme(
-          data: theme.copyWith(
+          data: theme!.copyWith(
             splashFactory: WithoutSplashFactory(),
           ),
           child: child,
@@ -40,7 +40,7 @@ class BaseMaterialWidget extends StatelessWidget {
         super(key: key);
 
   final Widget child;
-  final ThemeData theme;
+  final ThemeData? theme;
 
   @override
   Widget build(BuildContext context) {
@@ -58,17 +58,17 @@ class WithoutSplashFactory extends InteractiveInkFeatureFactory {
 
   @override
   InteractiveInkFeature create({
-    MaterialInkController controller,
-    RenderBox referenceBox,
-    Offset position,
-    Color color,
-    TextDirection textDirection,
+    required MaterialInkController controller,
+    required RenderBox referenceBox,
+    required TextDirection textDirection,
+    Offset? position,
+    required Color color,
     bool containedInkWell = false,
-    RectCallback rectCallback,
-    BorderRadius borderRadius,
-    ShapeBorder customBorder,
-    double radius,
-    VoidCallback onRemoved,
+    RectCallback? rectCallback,
+    BorderRadius? borderRadius,
+    ShapeBorder? customBorder,
+    double? radius,
+    VoidCallback? onRemoved,
   }) {
     return InkSplash(
       controller: controller,

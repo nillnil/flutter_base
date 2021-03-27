@@ -8,48 +8,39 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use Scrollbar on cuperitno.
 /// use Scrollbar by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoScrollbar on material.
-/// 
-/// CupertinoScrollbar: 2020.07.17
-/// Scrollbar: 2020.07.17
-/// modify 2021.01.12 by flutter 1.22.5
+///
+/// CupertinoScrollbar: 2021.01.20
+/// Scrollbar: 2021.01.20
+/// modify 2021.03.26 by flutter 2.0.3
 class BaseScrollBar extends BaseStatelessWidget {
   const BaseScrollBar({
-    Key baseKey,
-    this.key,
+    Key? key,
     this.controller,
     this.child,
     this.isAlwaysShown = false,
     this.thickness,
-    this.thicknessWhileDragging,
+    this.thicknessWhileDragging = 8.0,
     this.radius = const Radius.circular(1.5),
     this.radiusWhileDragging = const Radius.circular(4.0),
     this.padding,
-    Map<String, dynamic> cupertino,
-    Map<String, dynamic> material,
-  }) : super(key: baseKey, cupertino: cupertino, material: material);
+    this.notificationPredicate,
+    this.showTrackOnHover,
+    this.hoverThickness,
+    Map<String, dynamic>? cupertino,
+    Map<String, dynamic>? material,
+  }) : super(key: key, cupertino: cupertino, material: material);
 
-  @override
-  final Key key;
-
-  /// *** cupertino properties start ***
-  
-  /// [CupertinoScrollbar.defaultThicknessWhileDragging]
-  final double thicknessWhileDragging;
-
-  /// [CupertinoScrollbar.defaultRadiusWhileDragging]
-  final Radius radiusWhileDragging;
-
-  /// *** cupertino properties end ***
+  /// *** general properties start ***
 
   /// [CupertinoScrollbar.controller]
   /// or
   /// [Scrollbar.controller]
-  final ScrollController controller;
+  final ScrollController? controller;
 
   /// [CupertinoScrollbar.child]
   /// or
   /// [Scrollbar.child]
-  final Widget child;
+  final Widget? child;
 
   /// [CupertinoScrollbar.isAlwaysShown]
   /// or
@@ -59,7 +50,7 @@ class BaseScrollBar extends BaseStatelessWidget {
   /// [CupertinoScrollbar.thickness]
   /// or
   /// [Scrollbar.thickness]
-  final double thickness;
+  final double? thickness;
 
   /// [CupertinoScrollbar.radius]
   /// or
@@ -67,19 +58,47 @@ class BaseScrollBar extends BaseStatelessWidget {
   final Radius radius;
 
   /// [MediaQuery.of(context).padding]
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
+
+  /// [CupertinoScrollbar.notificationPredicate]
+  /// or
+  /// [Scrollbar.notificationPredicate]
+  final ScrollNotificationPredicate? notificationPredicate;
+
+  /// *** general properties end ***
+
+  /// *** cupertino properties start ***
+
+  /// [CupertinoScrollbar.defaultThicknessWhileDragging]
+  final double thicknessWhileDragging;
+
+  /// [CupertinoScrollbar.defaultRadiusWhileDragging]
+  final Radius radiusWhileDragging;
+
+  /// *** cupertino properties end ***
+
+  /// *** material properties start ***
+
+  /// [Scrollbar.showTrackOnHover]
+  final bool? showTrackOnHover;
+
+  /// [Scrollbar.hoverThickness]
+  final double? hoverThickness;
+
+  /// *** material properties end ***
 
   @override
   Widget buildByCupertino(BuildContext context) {
     final Widget _child = CupertinoScrollbar(
-      key: valueFromCupertino('key', key),
       controller: valueFromCupertino('controller', controller),
-      child: child,
+      child: valueFromCupertino('child', child),
       isAlwaysShown: valueFromCupertino('isAlwaysShown', isAlwaysShown),
       thickness: valueFromCupertino('thickness', thickness) ?? 3.0,
-      thicknessWhileDragging: thicknessWhileDragging ?? 8.0,
+      thicknessWhileDragging: thicknessWhileDragging,
       radius: valueFromCupertino('radius', radius),
       radiusWhileDragging: radiusWhileDragging,
+      notificationPredicate:
+          valueFromCupertino('notificationPredicate', notificationPredicate),
     );
     if (padding != null) {
       return MediaQuery(
@@ -94,25 +113,46 @@ class BaseScrollBar extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
+    final ScrollController? _controller =
+        valueFromMaterial('controller', controller);
+    final Widget? _child = valueFromMaterial('child', child);
+    assert(_child != null, 'child can\'t be null');
+    final bool? _isAlwaysShown =
+        valueFromMaterial('isAlwaysShown', isAlwaysShown);
+    final bool? _showTrackOnHover =
+        valueFromMaterial('showTrackOnHover', showTrackOnHover);
+    final double? _hoverThickness =
+        valueFromMaterial('hoverThickness', hoverThickness);
+    final double? _thickness = valueFromMaterial('thickness', thickness);
+    final Radius? _radius = valueFromMaterial('radius', radius);
+    final ScrollNotificationPredicate? _notificationPredicate =
+        valueFromMaterial('notificationPredicate', notificationPredicate);
     if (padding != null) {
       return MediaQuery(
         data: MediaQuery.of(context).copyWith(
           padding: padding,
         ),
         child: Scrollbar(
-          key: valueFromMaterial('key', key),
-          child: child,
-          controller: valueFromMaterial('controller', controller),
+          child: _child!,
+          controller: _controller,
+          isAlwaysShown: _isAlwaysShown,
+          showTrackOnHover: _showTrackOnHover,
+          hoverThickness: _hoverThickness,
+          thickness: _thickness,
+          radius: _radius,
+          notificationPredicate: _notificationPredicate,
         ),
       );
     }
     return Scrollbar(
-      key: valueFromMaterial('key', key),
-      child: child,
-      controller: valueFromMaterial('controller', controller),
-      isAlwaysShown: valueFromMaterial('isAlwaysShown', isAlwaysShown),
-      thickness: valueFromMaterial('thickness', thickness),
-      radius: valueFromMaterial('radius', radius),
+      child: _child!,
+      controller: _controller,
+      isAlwaysShown: _isAlwaysShown,
+      showTrackOnHover: _showTrackOnHover,
+      hoverThickness: _hoverThickness,
+      thickness: _thickness,
+      radius: _radius,
+      notificationPredicate: _notificationPredicate,
     );
   }
 }
