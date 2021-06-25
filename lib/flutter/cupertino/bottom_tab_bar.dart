@@ -6,9 +6,9 @@
 /// lastest commit: 2020.11.03
 /// https://github.com/flutter/flutter/commit/01c07e18b929da74b54e90a6ce24ee7e56eaab48
 /// #59186 https://github.com/flutter/flutter/pull/68905
-/// flutter v2.0.3
+/// flutter v2.2.2
 ///
-/// lastest modify: 2021.03.22
+/// lastest modify: 2021.06.24
 
 import 'dart:ui' show ImageFilter;
 

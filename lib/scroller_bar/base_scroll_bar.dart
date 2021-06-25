@@ -10,8 +10,8 @@ import '../base_stateless_widget.dart';
 /// *** use material = { forceUseCupertino: true } force use CupertinoScrollbar on material.
 ///
 /// CupertinoScrollbar: 2021.01.20
-/// Scrollbar: 2021.01.20
-/// modify 2021.03.26 by flutter 2.0.3
+/// Scrollbar: 2021.03.18
+/// modify 2021.06.25 by flutter 2.2.2
 class BaseScrollBar extends BaseStatelessWidget {
   const BaseScrollBar({
     Key? key,
@@ -26,6 +26,7 @@ class BaseScrollBar extends BaseStatelessWidget {
     this.notificationPredicate,
     this.showTrackOnHover,
     this.hoverThickness,
+    this.interactive,
     Map<String, dynamic>? cupertino,
     Map<String, dynamic>? material,
   }) : super(key: key, cupertino: cupertino, material: material);
@@ -85,6 +86,9 @@ class BaseScrollBar extends BaseStatelessWidget {
   /// [Scrollbar.hoverThickness]
   final double? hoverThickness;
 
+  /// [Scrollbar.interactive]
+  final bool? interactive;
+
   /// *** material properties end ***
 
   @override
@@ -97,8 +101,7 @@ class BaseScrollBar extends BaseStatelessWidget {
       thicknessWhileDragging: thicknessWhileDragging,
       radius: valueFromCupertino('radius', radius),
       radiusWhileDragging: radiusWhileDragging,
-      notificationPredicate:
-          valueFromCupertino('notificationPredicate', notificationPredicate),
+      notificationPredicate: valueFromCupertino('notificationPredicate', notificationPredicate),
     );
     if (padding != null) {
       return MediaQuery(
@@ -113,20 +116,15 @@ class BaseScrollBar extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final ScrollController? _controller =
-        valueFromMaterial('controller', controller);
+    final ScrollController? _controller = valueFromMaterial('controller', controller);
     final Widget? _child = valueFromMaterial('child', child);
     assert(_child != null, 'child can\'t be null');
-    final bool? _isAlwaysShown =
-        valueFromMaterial('isAlwaysShown', isAlwaysShown);
-    final bool? _showTrackOnHover =
-        valueFromMaterial('showTrackOnHover', showTrackOnHover);
-    final double? _hoverThickness =
-        valueFromMaterial('hoverThickness', hoverThickness);
+    final bool? _isAlwaysShown = valueFromMaterial('isAlwaysShown', isAlwaysShown);
+    final bool? _showTrackOnHover = valueFromMaterial('showTrackOnHover', showTrackOnHover);
+    final double? _hoverThickness = valueFromMaterial('hoverThickness', hoverThickness);
     final double? _thickness = valueFromMaterial('thickness', thickness);
     final Radius? _radius = valueFromMaterial('radius', radius);
-    final ScrollNotificationPredicate? _notificationPredicate =
-        valueFromMaterial('notificationPredicate', notificationPredicate);
+    final ScrollNotificationPredicate? _notificationPredicate = valueFromMaterial('notificationPredicate', notificationPredicate);
     if (padding != null) {
       return MediaQuery(
         data: MediaQuery.of(context).copyWith(
@@ -141,6 +139,7 @@ class BaseScrollBar extends BaseStatelessWidget {
           thickness: _thickness,
           radius: _radius,
           notificationPredicate: _notificationPredicate,
+          interactive: interactive,
         ),
       );
     }
@@ -153,6 +152,7 @@ class BaseScrollBar extends BaseStatelessWidget {
       thickness: _thickness,
       radius: _radius,
       notificationPredicate: _notificationPredicate,
+      interactive: interactive,
     );
   }
 }

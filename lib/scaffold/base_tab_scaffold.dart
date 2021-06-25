@@ -14,9 +14,9 @@ import '../tabbar/base_tab_bar.dart';
 /// material，use Scaffold by material
 /// *** use material = { forceUseCupertino: true } to force use CupertinoTabScaffold
 ///
-/// CupertinoTabScaffold: 2020.06.11
-/// Scaffold: 2021.03.12
-/// modify 2021.03.26 by flutter 2.0.3
+/// CupertinoTabScaffold: 2021.04.01
+/// Scaffold: 2021.04.03
+/// modify 2021.06.25 by flutter 2.2.2
 class BaseTabScaffold extends BaseStatefulWidget {
   const BaseTabScaffold({
     Key? key,
@@ -220,24 +220,16 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
         );
       },
       controller: widget.controller,
-      backgroundColor: valueFromCupertino(
-        'backgroundColor',
-        widget.backgroundColor,
-      ),
-      resizeToAvoidBottomInset: valueFromCupertino(
-        'resizeToAvoidBottomInset',
-        widget.resizeToAvoidBottomInset,
-      ),
+      backgroundColor: valueFromCupertino('backgroundColor', widget.backgroundColor),
+      resizeToAvoidBottomInset: valueFromCupertino('resizeToAvoidBottomInset', widget.resizeToAvoidBottomInset),
+      restorationId: valueFromCupertino('restorationId', widget.restorationId),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
     final BaseTabBar tabBar = valueFromMaterial('tabBar', widget.tabBar);
-    final List<Widget> tabViews = valueFromMaterial(
-      'tabViews',
-      widget.tabViews,
-    );
+    final List<Widget> tabViews = valueFromMaterial('tabViews', widget.tabViews);
     return Scaffold(
       key: valueFromMaterial('key', widget.key),
       body: tabViews[_currentIndex],
@@ -246,8 +238,7 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
           setState(() {
             _currentIndex = index;
           });
-          final ValueChanged<int> onTap =
-              tabBar.valueFromMaterial('onTap', tabBar.onTap);
+          final ValueChanged<int> onTap = tabBar.valueFromMaterial('onTap', tabBar.onTap);
           if (onTap != null) {
             onTap(index);
           }
@@ -263,10 +254,7 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
       endDrawer: widget.endDrawer,
       onEndDrawerChanged: widget.onEndDrawerChanged,
       bottomSheet: widget.bottomSheet,
-      backgroundColor: valueFromMaterial(
-        'backgroundColor',
-        widget.backgroundColor,
-      ),
+      backgroundColor: valueFromMaterial('backgroundColor', widget.backgroundColor),
       resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
       primary: widget.primary,
       drawerDragStartBehavior: widget.drawerDragStartBehavior,

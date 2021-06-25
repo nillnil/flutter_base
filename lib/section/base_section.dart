@@ -44,10 +44,7 @@ class BaseSection extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     final EdgeInsets? margin = valueFromMaterial('margin', this.margin);
-    final BaseSectionDivider? divider = valueFromMaterial(
-      'divider',
-      this.divider,
-    );
+    final BaseSectionDivider? divider = valueFromMaterial('divider', this.divider);
     final List<Widget>? children = valueFromMaterial('children', this.children);
     final Widget? header = valueFromMaterial('header', this.header);
     final Widget? footer = valueFromMaterial('footer', this.footer);

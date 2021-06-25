@@ -3,12 +3,12 @@
 // found in the LICENSE file.
 
 /// modify from https://github.com/flutter/flutter/blob/stable/packages/flutter/lib/src/material/app_bar.dart
-/// lastest commit: 2021.01.21
-/// https://github.com/flutter/flutter/commit/30718a134fd39d9c2e6fc0a33364c8fbe7b7fe2f
-/// #61000 https://github.com/flutter/flutter/pull/74273
-/// flutter v2.0.3
+/// lastest commit: 2021.03.31
+/// https://github.com/flutter/flutter/commit/95e2cbb132923c2f777e41c7102b2ad669cee350
+/// #61000 https://github.com/flutter/flutter/pull/78984
+/// flutter v2.2.2
 ///
-/// lastest modify: 2021.3.22
+/// lastest modify: 2021.06.24
 
 import 'dart:math' as math;
 
@@ -110,7 +110,7 @@ class _ToolbarContainerLayout extends SingleChildLayoutDelegate {
 ///           icon: const Icon(Icons.navigate_next),
 ///           tooltip: 'Go to the next page',
 ///           onPressed: () {
-///             Navigator.push(context, MaterialPageRoute(
+///             Navigator.push(context, MaterialPageRoute<void>(
 ///               builder: (BuildContext context) {
 ///                 return Scaffold(
 ///                   appBar: AppBar(
@@ -196,7 +196,7 @@ class AppBar extends StatefulWidget implements PreferredSizeWidget {
        assert(primary != null),
        assert(toolbarOpacity != null),
        assert(bottomOpacity != null),
-       preferredSize = Size.fromHeight((toolbarHeight ?? (title != null ? kToolbarHeight : 0.0)) + (bottom?.preferredSize.height ?? 0.0)),
+       preferredSize = Size.fromHeight(toolbarHeight ?? kToolbarHeight + (bottom?.preferredSize.height ?? 0.0)),
        super(key: key);
 
   /// {@template flutter.material.appbar.leading}
@@ -312,10 +312,10 @@ class AppBar extends StatefulWidget implements PreferredSizeWidget {
   ///     primary: true,
   ///     slivers: <Widget>[
   ///       SliverAppBar(
-  ///         title: Text('Hello World'),
+  ///         title: const Text('Hello World'),
   ///         actions: <Widget>[
   ///           IconButton(
-  ///             icon: Icon(Icons.shopping_cart),
+  ///             icon: const Icon(Icons.shopping_cart),
   ///             tooltip: 'Open shopping cart',
   ///             onPressed: () {
   ///               // handle the press
@@ -1109,7 +1109,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final ShapeBorder? shape;
   final double? toolbarHeight;
   final double? leadingWidth;
-  final bool backwardsCompatibility;
+  final bool? backwardsCompatibility;
   final TextStyle? toolbarTextStyle;
   final TextStyle? titleTextStyle;
   final SystemUiOverlayStyle? systemOverlayStyle;
@@ -1158,7 +1158,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           ? Semantics(child: flexibleSpace, header: true)
           : flexibleSpace,
         bottom: bottom,
-        elevation: forceElevated || overlapsContent || (pinned && shrinkOffset > maxExtent - minExtent) ? elevation ?? 4.0 : 0.0,
+        elevation: forceElevated || overlapsContent || (pinned && shrinkOffset > maxExtent - minExtent) ? elevation : 0.0,
         shadowColor: shadowColor,
         backgroundColor: backgroundColor,
         foregroundColor: foregroundColor,
@@ -1268,115 +1268,107 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 /// ```
 /// {@end-tool}
 ///
-/// {@tool dartpad --template=freeform}
-///
-/// This sample shows a [SliverAppBar] and it's behaviors when using the [pinned], [snap] and [floating] parameters.
-///
-/// ```dart imports
-/// import 'package:flutter/material.dart';
-/// ```
+/// {@tool dartpad --template=stateful_widget_material}
+/// This sample shows a [SliverAppBar] and it's behavior when using the
+/// [pinned], [snap] and [floating] parameters.
 ///
 /// ```dart
-/// void main() => runApp(MyApp());
+/// bool _pinned = true;
+/// bool _snap = false;
+/// bool _floating = false;
 ///
-/// class MyApp extends StatefulWidget {
-///   const MyApp({Key? key}) : super(key: key);
-///
-///   @override
-///   State<StatefulWidget> createState() => _MyAppState();
-/// }
-///
-/// class _MyAppState extends State<MyApp> {
-///   bool _pinned = true;
-///   bool _snap = false;
-///   bool _floating = false;
-///
-///   // SliverAppBar is declared in Scaffold.body, in slivers of a
-///   // CustomScrollView.
-///   @override
-///   Widget build(BuildContext context) {
-///     return MaterialApp(
-///       home: Scaffold(
-///         body: CustomScrollView(
-///           slivers: <Widget>[
-///             SliverAppBar(
-///               pinned: this._pinned,
-///               snap: this._snap,
-///               floating: this._floating,
-///               expandedHeight: 160.0,
-///               flexibleSpace: FlexibleSpaceBar(
-///                 title: const Text("SliverAppBar"),
-///                 background: FlutterLogo(),
-///               ),
-///             ),
-///             SliverToBoxAdapter(
-///               child: Center(
-///                 child: Container(
-///                   height: 2000,
-///                   child: const Text("Scroll to see SliverAppBar in effect ."),
-///                 ),
-///               ),
-///             ),
-///           ],
+/// // [SliverAppBar]s are typically used in [CustomScrollView.slivers], which in
+/// // turn can be placed in a [Scaffold.body].
+/// @override
+/// Widget build(BuildContext context) {
+///   return Scaffold(
+///     body: CustomScrollView(
+///       slivers: <Widget>[
+///         SliverAppBar(
+///           pinned: _pinned,
+///           snap: _snap,
+///           floating: _floating,
+///           expandedHeight: 160.0,
+///           flexibleSpace: const FlexibleSpaceBar(
+///             title: Text('SliverAppBar'),
+///             background: FlutterLogo(),
+///           ),
 ///         ),
-///         bottomNavigationBar: BottomAppBar(
-///           child: ButtonBar(
-///             alignment: MainAxisAlignment.spaceEvenly,
+///         const SliverToBoxAdapter(
+///           child: SizedBox(
+///             height: 20,
+///             child: Center(
+///               child: const Text('Scroll to see the SliverAppBar in effect.'),
+///             ),
+///           ),
+///         ),
+///         SliverList(
+///          delegate: SliverChildBuilderDelegate(
+///            (BuildContext context, int index) {
+///              return Container(
+///                color: index.isOdd ? Colors.white : Colors.black12,
+///                height: 100.0,
+///                child: Center(
+///                  child: Text('$index', textScaleFactor: 5),
+///                ),
+///              );
+///            },
+///            childCount: 20,
+///          ),
+///        ),
+///       ],
+///     ),
+///     bottomNavigationBar: BottomAppBar(
+///       child: ButtonBar(
+///         alignment: MainAxisAlignment.spaceEvenly,
+///         children: <Widget>[
+///           Row(
 ///             children: <Widget>[
-///               Row(
-///                 children: <Widget>[
-///                   const Text('pinned'),
-///                   Switch(
-///                     onChanged: (bool val) {
-///                       setState(() {
-///                         this._pinned = val;
-///                       });
-///                     },
-///                     value: this._pinned,
-///                   ),
-///                 ],
-///               ),
-///               Row(
-///                 children: <Widget>[
-///                   const Text('snap'),
-///                   Switch(
-///                     onChanged: (bool val) {
-///                       setState(() {
-///                         this._snap = val;
-///                         //Snapping only applies when the app bar is floating.
-///                         this._floating = this._floating || val;
-///                       });
-///                     },
-///                     value: this._snap,
-///                   ),
-///                 ],
-///               ),
-///               Row(
-///                 children: <Widget>[
-///                   const Text('floating'),
-///                   Switch(
-///                     onChanged: (bool val) {
-///                       setState(() {
-///                         this._floating = val;
-///                         if (this._snap == true) {
-///                           if (this._floating != true) {
-///                             this._snap = false;
-///                           }
-///                         }
-///                       });
-///                     },
-///                     value: this._floating,
-///                   ),
-///                 ],
+///               const Text('pinned'),
+///               Switch(
+///                 onChanged: (bool val) {
+///                   setState(() {
+///                     _pinned = val;
+///                   });
+///                 },
+///                 value: _pinned,
 ///               ),
 ///             ],
 ///           ),
-///         ),
+///           Row(
+///             children: <Widget>[
+///               const Text('snap'),
+///               Switch(
+///                 onChanged: (bool val) {
+///                   setState(() {
+///                     _snap = val;
+///                     // Snapping only applies when the app bar is floating.
+///                     _floating = _floating || _snap;
+///                   });
+///                 },
+///                 value: _snap,
+///               ),
+///             ],
+///           ),
+///           Row(
+///             children: <Widget>[
+///               const Text('floating'),
+///               Switch(
+///                 onChanged: (bool val) {
+///                   setState(() {
+///                     _floating = val;
+///                     _snap = _snap && _floating;
+///                   });
+///                 },
+///                 value: _floating,
+///               ),
+///             ],
+///           ),
+///         ],
 ///       ),
-///     );
-///   }
+///     ),
+///   );
 /// }
-///
 /// ```
 /// {@end-tool}
 ///
@@ -1454,7 +1446,7 @@ class SliverAppBar extends StatefulWidget {
     this.shape,
     this.toolbarHeight = kToolbarHeight,
     this.leadingWidth,
-    this.backwardsCompatibility = true,
+    this.backwardsCompatibility,
     this.toolbarTextStyle,
     this.titleTextStyle,
     this.systemOverlayStyle,
@@ -1706,7 +1698,7 @@ class SliverAppBar extends StatefulWidget {
   /// {@macro flutter.material.appbar.backwardsCompatibility}
   ///
   /// This property is used to configure an [AppBar].
-  final bool backwardsCompatibility;
+  final bool? backwardsCompatibility;
 
   /// {@macro flutter.material.appbar.toolbarTextStyle}
   ///

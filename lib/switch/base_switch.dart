@@ -11,9 +11,9 @@ import '../base_stateless_widget.dart';
 /// use Switch by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoSwitch
 ///
-/// CupertinoSwitch: 2020.12.23
-/// Switch: 2020.12.07
-/// modify 2021.03.26 by flutter 2.0.3
+/// CupertinoSwitch: 2021.03.12
+/// Switch: 2021.03.31
+/// modify 2021.06.25 by flutter 2.2.2
 class BaseSwitch extends BaseStatelessWidget {
   const BaseSwitch({
     Key? key,
@@ -132,13 +132,10 @@ class BaseSwitch extends BaseStatelessWidget {
   Widget buildByCupertino(BuildContext context) {
     return CupertinoSwitch(
       value: valueFromCupertino('value', value),
+      onChanged: valueFromCupertino('onChanged', onChanged),
       activeColor: valueFromCupertino('activeColor', activeColor),
       trackColor: cupertinoTrackColor,
-      dragStartBehavior: valueFromCupertino(
-        'dragStartBehavior',
-        dragStartBehavior,
-      ),
-      onChanged: valueFromCupertino('onChanged', onChanged),
+      dragStartBehavior: valueFromCupertino('dragStartBehavior', dragStartBehavior),
     );
   }
 
@@ -158,10 +155,7 @@ class BaseSwitch extends BaseStatelessWidget {
       thumbColor: thumbColor,
       trackColor: materialTrackColor,
       materialTapTargetSize: materialTapTargetSize,
-      dragStartBehavior: valueFromMaterial(
-        'dragStartBehavior',
-        dragStartBehavior,
-      ),
+      dragStartBehavior: valueFromMaterial('dragStartBehavior', dragStartBehavior),
       mouseCursor: mouseCursor,
       focusColor: focusColor,
       hoverColor: hoverColor,

@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart'
-    show TargetPlatform, defaultTargetPlatform;
+import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform;
 
 /// 当前运行模式的键对
 PlatformMode _platformMode = const PlatformMode();
@@ -10,7 +9,7 @@ BaseMode currentPlatformMode = BaseMode.material;
 /// 默认的运行模式
 BaseMode defaultPlatformMode = BaseMode.material;
 
-/// 再cupertino模式下是否禁用水波纹
+/// 在cupertino模式下是否禁用水波纹
 bool withoutSplashOnCupertino = true;
 
 /// 构建模式

@@ -157,11 +157,11 @@ class Home extends StatelessWidget {
         padding: const EdgeInsetsDirectional.only(start: 5.0, end: 5.0),
         cupertino: <String, dynamic>{
           'leading': BaseIconButton(
-            icon: const BaseIcon(icon: IconFont.info, size: 24),
+            icon: IconFont.info,
+            size: 24,
             onPressed: () {
               final double paddingTop = MediaQuery.of(context).padding.top;
-              const GlobalObjectKey<BaseDrawerState> _drawerKey =
-                  GlobalObjectKey<BaseDrawerState>('home_drawer');
+              const GlobalObjectKey<BaseDrawerState> _drawerKey = GlobalObjectKey<BaseDrawerState>('home_drawer');
               final BaseDrawer baseDrawer = BaseDrawer(
                 key: _drawerKey,
                 axisDirection: AxisDirection.up,
@@ -170,8 +170,7 @@ class Home extends StatelessWidget {
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: CupertinoColors.secondarySystemGroupedBackground
-                        .resolveFrom(context),
+                    color: CupertinoColors.secondarySystemGroupedBackground.resolveFrom(context),
                     borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(10.0),
                     ),
@@ -202,13 +201,11 @@ class Home extends StatelessWidget {
         actions: <Widget>[
           ClipOval(
             child: BaseIconButton(
-              icon: const BaseIcon(
-                icon: IconFont.settings,
-                size: 20,
-                material: <String, dynamic>{
-                  'color': Colors.white,
-                },
-              ),
+              icon: IconFont.settings,
+              size: 20,
+              material: const <String, dynamic>{
+                'color': Colors.white,
+              },
               onPressed: () {
                 BaseRoute<dynamic>(
                   builder: (_) => const Settings(),
@@ -235,8 +232,7 @@ class _MaterialTipsPage extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
-            color: Theme.of(context).appBarTheme.color ??
-                Theme.of(context).primaryColor,
+            color: Theme.of(context).appBarTheme.color ?? Theme.of(context).primaryColor,
             height: kToolbarHeight + MediaQuery.of(context).padding.top,
             padding: EdgeInsets.only(
               top: MediaQuery.of(context).padding.top,

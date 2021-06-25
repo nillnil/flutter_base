@@ -51,8 +51,7 @@ Color rgbaToColor(String rgba) {
   if (rgba.startsWith('#')) {
     rgba = rgba.replaceAll('#', '');
   }
-  rgba = rgba.substring(rgba.length - 2, rgba.length) +
-      rgba.substring(0, rgba.length - 2);
+  rgba = rgba.substring(rgba.length - 2, rgba.length) + rgba.substring(0, rgba.length - 2);
   return Color(int.parse(rgba, radix: 16));
 }
 
@@ -68,53 +67,39 @@ class RandomColor extends Color {
 
   /// 同[Color.fromRGBO], 参数有值则锁定该值
   RandomColor.fromRGBO({int? r, int? g, int? b, double? opacity})
-      : super(
-            (((((opacity ?? Random().nextDouble()) * 0xff ~/ 1) & 0xff) << 24) |
-                    (((r ?? Random().nextInt(256)) & 0xff) << 16) |
-                    (((g ?? Random().nextInt(256)) & 0xff) << 8) |
-                    (((b ?? Random().nextInt(256)) & 0xff) << 0)) &
-                0xFFFFFFFF);
+      : super((((((opacity ?? Random().nextDouble()) * 0xff ~/ 1) & 0xff) << 24) |
+                (((r ?? Random().nextInt(256)) & 0xff) << 16) |
+                (((g ?? Random().nextInt(256)) & 0xff) << 8) |
+                (((b ?? Random().nextInt(256)) & 0xff) << 0)) &
+            0xFFFFFFFF);
 
   /// 固定red
   RandomColor.withRed(int r)
-      : super((((Random().nextInt(256) & 0xff) << 24) |
-                ((r & 0xff) << 16) |
-                ((Random().nextInt(256) & 0xff) << 8) |
-                ((Random().nextInt(256) & 0xff) << 0)) &
+      : super((((Random().nextInt(256) & 0xff) << 24) | ((r & 0xff) << 16) | ((Random().nextInt(256) & 0xff) << 8) | ((Random().nextInt(256) & 0xff) << 0)) &
             0xFFFFFFFF);
 
   /// 固定blue
   RandomColor.withBlue(int b)
-      : super((((Random().nextInt(256) & 0xff) << 24) |
-                ((Random().nextInt(256) & 0xff) << 16) |
-                ((Random().nextInt(256) & 0xff) << 8) |
-                ((b & 0xff) << 0)) &
+      : super((((Random().nextInt(256) & 0xff) << 24) | ((Random().nextInt(256) & 0xff) << 16) | ((Random().nextInt(256) & 0xff) << 8) | ((b & 0xff) << 0)) &
             0xFFFFFFFF);
 
   /// 固定green
   RandomColor.withGreen(int g)
-      : super((((Random().nextInt(256) & 0xff) << 24) |
-                ((Random().nextInt(256) & 0xff) << 16) |
-                ((g & 0xff) << 8) |
-                ((Random().nextInt(256) & 0xff) << 0)) &
+      : super((((Random().nextInt(256) & 0xff) << 24) | ((Random().nextInt(256) & 0xff) << 16) | ((g & 0xff) << 8) | ((Random().nextInt(256) & 0xff) << 0)) &
             0xFFFFFFFF);
 
   /// 固定alpha
   RandomColor.withAlpha(int a)
-      : super((((a & 0xff) << 24) |
-                ((Random().nextInt(256) & 0xff) << 16) |
-                ((Random().nextInt(256) & 0xff) << 8) |
-                ((Random().nextInt(256) & 0xff) << 0)) &
+      : super((((a & 0xff) << 24) | ((Random().nextInt(256) & 0xff) << 16) | ((Random().nextInt(256) & 0xff) << 8) | ((Random().nextInt(256) & 0xff) << 0)) &
             0xFFFFFFFF);
 
   /// 固定alpha
   RandomColor.withOpacity(double opacity)
-      : super(
-            ((((opacity * 0xff ~/ 1) & 0xff) << 24) |
-                    ((Random().nextInt(256) & 0xff) << 16) |
-                    ((Random().nextInt(256) & 0xff) << 8) |
-                    ((Random().nextInt(256) & 0xff) << 0)) &
-                0xFFFFFFFF);
+      : super(((((opacity * 0xff ~/ 1) & 0xff) << 24) |
+                ((Random().nextInt(256) & 0xff) << 16) |
+                ((Random().nextInt(256) & 0xff) << 8) |
+                ((Random().nextInt(256) & 0xff) << 0)) &
+            0xFFFFFFFF);
 }
 
 // /// 随机颜色

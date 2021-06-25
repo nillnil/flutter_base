@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart'
-    show CupertinoButton, ShapeBorder, CupertinoColors;
+import 'package:flutter/cupertino.dart' show CupertinoButton, ShapeBorder, CupertinoColors;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -12,8 +11,8 @@ import '../base_stateless_widget.dart';
 /// *** use material = { forceUseCupertino: true } force use CupertinoButton or CupertinoButton.filled on material.
 ///
 /// CupertinoButton: 2021.01.14
-/// MaterialButton: 2021.01.26
-/// modify 2021.03.26 by flutter 2.0.3
+/// MaterialButton: 2020.11.03
+/// modify 2021.06.25 by flutter 2.2.2
 class BaseButton extends BaseStatelessWidget {
   const BaseButton({
     Key? key,
@@ -286,31 +285,31 @@ class BaseButton extends BaseStatelessWidget {
   Widget buildByCupertino(BuildContext context) {
     final Widget _child = valueFromCupertino('child', child);
     assert(_child != null, 'child can\'t be null.');
-    final Color _disabledColor =
-        valueFromCupertino('disabledColor', disabledColor) ??
-            CupertinoColors.quaternarySystemFill;
+    final Color _disabledColor = valueFromCupertino('disabledColor', disabledColor) ?? CupertinoColors.quaternarySystemFill;
+    final EdgeInsetsGeometry? _padding = valueFromCupertino('padding', padding);
+    final VoidCallback? _onPressed = valueFromCupertino('onPressed', onPressed);
     if (filled) {
       return CupertinoButton.filled(
         child: _child,
-        padding: valueFromCupertino('padding', padding),
+        padding: _padding,
         disabledColor: _disabledColor,
         minSize: minSize,
         pressedOpacity: pressedOpacity,
         borderRadius: borderRadius,
         alignment: alignment,
-        onPressed: valueFromCupertino('onPressed', onPressed),
+        onPressed: _onPressed,
       );
     }
     return CupertinoButton(
       child: _child,
-      padding: valueFromCupertino('padding', padding),
+      padding: _padding,
       color: valueFromCupertino('color', color),
       disabledColor: _disabledColor,
       minSize: minSize,
       pressedOpacity: pressedOpacity,
       borderRadius: borderRadius,
       alignment: alignment,
-      onPressed: valueFromCupertino('onPressed', onPressed),
+      onPressed: _onPressed,
     );
   }
 
@@ -374,6 +373,7 @@ class BaseButton extends BaseStatelessWidget {
       colorBrightness: colorBrightness,
       elevation: elevation,
       focusElevation: focusElevation,
+      hoverElevation: hoverElevation,
       highlightElevation: highlightElevation,
       disabledElevation: disabledElevation,
       padding: valueFromMaterial('padding', padding),
@@ -387,7 +387,7 @@ class BaseButton extends BaseStatelessWidget {
       minWidth: minWidth,
       height: height,
       enableFeedback: enableFeedback,
-      child: valueFromMaterial('child', child),
+      child: _child,
     );
   }
 }

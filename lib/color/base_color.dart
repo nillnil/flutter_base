@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart'
-    show CupertinoColors, CupertinoDynamicColor, CupertinoTheme;
+import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoDynamicColor, CupertinoTheme;
 import 'package:flutter/material.dart';
 
 import '../base_class.dart';
@@ -51,7 +50,7 @@ class BaseColor extends BaseClass {
 
   @override
   Color buildByCupertino(BuildContext context) {
-    final CupertinoDynamicColor _dynamicColor = valueFromCupertino(
+    final CupertinoDynamicColor? _dynamicColor = valueFromCupertino(
       'dynamicColor',
       dynamicColor,
     );

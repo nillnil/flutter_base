@@ -99,6 +99,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             routeFullscreenGackGesture: true,
           ),
           debugShowCheckedModeBanner: false,
+          material: <String, dynamic> {
+            'themeMode': appProvider.themeMode,
+          },
         );
       },
     );
@@ -108,8 +111,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   void didChangePlatformBrightness() {
     final Brightness? brightness =
         WidgetsBinding.instance?.window.platformBrightness;
-    final AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
-    if (appProvider != null && brightness != appProvider.brightness) {
+    final AppProvider appProvider =
+        Provider.of<AppProvider>(context, listen: false);
+    if (appProvider != null &&
+        appProvider.themeMode == ThemeMode.system &&
+        brightness != appProvider.brightness) {
       appProvider.changeBrightness(brightness);
     }
   }

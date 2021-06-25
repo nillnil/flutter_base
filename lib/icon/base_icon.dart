@@ -1,5 +1,4 @@
-import 'package:flutter/widgets.dart'
-    show BuildContext, Color, Icon, IconData, Key, TextDirection, Widget;
+import 'package:flutter/widgets.dart' show BuildContext, Color, Icon, IconData, Key, TextDirection, Widget;
 
 import '../base_stateless_widget.dart';
 
@@ -8,9 +7,9 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use Icon on cuperitno.
 /// use Icon by material
 /// *** use material = { forceUseCupertino: true } force use Icon on material.
-/// 
-/// Icon: 2020.12.09
-/// modify 2021.03.26 by flutter 2.0.3
+///
+/// Icon: 2020.10.31
+/// modify 2021.05.25 by flutter 2.2.2
 class BaseIcon extends BaseStatelessWidget {
   const BaseIcon({
     Key? key,
@@ -42,7 +41,6 @@ class BaseIcon extends BaseStatelessWidget {
   Widget buildByCupertino(BuildContext context) {
     return Icon(
       valueFromCupertino('icon', icon),
-      key: valueFromCupertino('key', key),
       size: valueFromCupertino('size', size),
       color: valueFromCupertino('color', color),
       semanticLabel: valueFromCupertino('semanticLabel', semanticLabel),
@@ -54,7 +52,6 @@ class BaseIcon extends BaseStatelessWidget {
   Widget buildByMaterial(BuildContext context) {
     return Icon(
       valueFromMaterial('icon', icon),
-      key: valueFromMaterial('key', key),
       size: valueFromMaterial('size', size),
       color: valueFromMaterial('color', color),
       semanticLabel: valueFromMaterial('semanticLabel', semanticLabel),

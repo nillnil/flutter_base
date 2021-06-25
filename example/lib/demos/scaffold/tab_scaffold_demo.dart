@@ -99,7 +99,7 @@ class _TabPage extends StatelessWidget {
         padding: const EdgeInsetsDirectional.only(start: 3.0),
         leading: BaseIconButton(
           padding: EdgeInsets.zero,
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: Icons.arrow_back_ios,
           onPressed: () {
             Navigator.of(context, rootNavigator: true).pop();
           },

@@ -30,7 +30,6 @@ class BaseMaterialWidget extends StatelessWidget {
     required Widget child,
     this.theme,
   })  : assert(child != null, 'child can not be null.'),
-        assert(theme != null, 'theme can not be null.'),
         child = Theme(
           data: theme!.copyWith(
             splashFactory: WithoutSplashFactory(),

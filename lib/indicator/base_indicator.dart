@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart' show CupertinoActivityIndicator;
-import 'package:flutter/material.dart'
-    show Animation, BuildContext, CircularProgressIndicator, Color, Key, LinearProgressIndicator, Widget;
+import 'package:flutter/material.dart' show Animation, BuildContext, CircularProgressIndicator, Color, Key, LinearProgressIndicator, Widget;
 
 import '../base_stateless_widget.dart';
 
@@ -11,8 +10,8 @@ import '../base_stateless_widget.dart';
 /// *** use material = { forceUseCupertino: true } force use CupertinoActivityIndicator on material.
 ///
 /// CupertinoActivityIndicator: 2020.11.03
-/// CircularProgressIndicator or LinearProgressIndicator: 2021.02.17
-/// modify 2021.03.26 by flutter 2.0.3
+/// CircularProgressIndicator or LinearProgressIndicator: 2021.03.13
+/// modify 2021.06.25 by flutter 2.2.2
 class BaseIndicator extends BaseStatelessWidget {
   const BaseIndicator({
     Key? key,
@@ -20,6 +19,7 @@ class BaseIndicator extends BaseStatelessWidget {
     this.radius = 10.0,
     this.value,
     this.backgroundColor,
+    this.color,
     this.valueColor,
     this.strokeWidth = 4.0,
     this.minHeight,
@@ -63,6 +63,9 @@ class BaseIndicator extends BaseStatelessWidget {
   /// [CircularProgressIndicator.strokeWidth]
   final double strokeWidth;
 
+  /// [CircularProgressIndicator.color]
+  final Color? color;
+
   /// if true use LinearProgressIndicator,
   /// if false use CircularProgressIndicator,
   /// default is false
@@ -84,6 +87,7 @@ class BaseIndicator extends BaseStatelessWidget {
       return LinearProgressIndicator(
         value: value,
         backgroundColor: backgroundColor,
+        color: color,
         valueColor: valueColor,
         minHeight: minHeight,
         semanticsLabel: semanticsLabel,
@@ -93,6 +97,7 @@ class BaseIndicator extends BaseStatelessWidget {
     return CircularProgressIndicator(
       value: value,
       backgroundColor: backgroundColor,
+      color: color,
       valueColor: valueColor,
       strokeWidth: strokeWidth,
       semanticsLabel: semanticsLabel,

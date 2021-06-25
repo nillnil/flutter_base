@@ -12,9 +12,9 @@ import '../theme/base_theme.dart';
 /// use Scaffold by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoPageScaffold/CupertinoTabScaffold on material.
 ///
-/// CupertinoPageScaffold: 2021.01.13
-/// Scaffold: 2021.03.12
-/// modify 2021.03.26 by flutter 2.0.3
+/// CupertinoPageScaffold: 2021.03.12
+/// Scaffold: 2021.04.03
+/// modify 2021.06.25 by flutter 2.2.2
 class BaseScaffold extends BaseStatelessWidget {
   const BaseScaffold({
     Key? key,
@@ -163,25 +163,20 @@ class BaseScaffold extends BaseStatelessWidget {
   Widget buildByCupertino(BuildContext context) {
     final Widget body = valueFromCupertino('body', this.body);
     assert(body != null, 'body can\'t be null');
-    final Color? backgroundColor =
-        valueFromCupertino('backgroundColor', this.backgroundColor);
-    final BaseAppBar? appBar = valueFromMaterial('appBar', this.appBar) ??
-        valueFromMaterial('navBar', navBar);
-    final double? appBarHeight = BaseTheme.of(context).valueFromCupertino(
-      'appBarHeight',
-      null,
-    );
+    final Color? backgroundColor = valueFromCupertino('backgroundColor', this.backgroundColor);
+    final BaseAppBar? appBar = valueFromMaterial('appBar', this.appBar) ?? valueFromMaterial('navBar', navBar);
+    final double? appBarHeight = BaseTheme.of(context).valueFromCupertino('appBarHeight', null);
     Widget? navigationBar;
     if (appBarHeight != null && appBar != null) {
       navigationBar = appBar.build(context);
     } else {
       navigationBar = appBar;
     }
-    Widget child;
+    Widget _child;
     if (!safeAreaTop && !safeAreaBottom) {
-      child = body;
+      _child = body;
     } else {
-      child = SafeArea(
+      _child = SafeArea(
         top: safeAreaTop,
         bottom: safeAreaBottom,
         child: body,
@@ -189,26 +184,17 @@ class BaseScaffold extends BaseStatelessWidget {
     }
     return CupertinoPageScaffold(
       key: valueFromCupertino('key', key),
-      navigationBar: navigationBar != null
-          ? navigationBar as ObstructingPreferredSizeWidget
-          : null,
+      navigationBar: navigationBar != null ? navigationBar as ObstructingPreferredSizeWidget : null,
       backgroundColor: backgroundColor,
-      resizeToAvoidBottomInset: valueFromCupertino(
-        'resizeToAvoidBottomInset',
-        resizeToAvoidBottomInset,
-      ),
-      child: child,
+      resizeToAvoidBottomInset: valueFromCupertino('resizeToAvoidBottomInset', resizeToAvoidBottomInset),
+      child: _child,
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final BaseAppBar? appBar = valueFromMaterial('appBar', this.appBar) ??
-        valueFromMaterial('navBar', navBar);
-    final double? appBarHeight = BaseTheme.of(context).valueFromMaterial(
-      'appBarHeight',
-      null,
-    );
+    final BaseAppBar? appBar = valueFromMaterial('appBar', this.appBar) ?? valueFromMaterial('navBar', navBar);
+    final double? appBarHeight = BaseTheme.of(context).valueFromMaterial('appBarHeight', null);
     Widget? _appBar;
     if (appBarHeight != null && appBar != null) {
       _appBar = appBar.build(context);
@@ -229,10 +215,7 @@ class BaseScaffold extends BaseStatelessWidget {
       bottomNavigationBar: bottomNavigationBar,
       bottomSheet: bottomSheet,
       backgroundColor: valueFromMaterial('backgroundColor', backgroundColor),
-      resizeToAvoidBottomInset: valueFromMaterial(
-        'resizeToAvoidBottomInset',
-        resizeToAvoidBottomInset,
-      ),
+      resizeToAvoidBottomInset: valueFromMaterial('resizeToAvoidBottomInset', resizeToAvoidBottomInset),
       primary: primary,
       drawerDragStartBehavior: drawerDragStartBehavior,
       extendBody: extendBody,

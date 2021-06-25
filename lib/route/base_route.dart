@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart' show RoutePredicate;
-import 'package:flutter/material.dart'
-    show BuildContext, MaterialPageRoute, Navigator, RouteSettings;
+import 'package:flutter/material.dart' show BuildContext, MaterialPageRoute, Navigator, RouteSettings;
 import 'package:flutter/material.dart';
 
 import '../base_class.dart';
@@ -13,9 +12,9 @@ import '../theme/base_theme.dart';
 /// use MaterialPageRoute
 /// *** use material = { forceUseCupertino: true } force use CupertinoPageRoute on material.
 ///
-/// CupertinoPageRoute: 2021.01.26
-/// MaterialPageRoute: 2020.11.03
-/// modify 2021.03.26 by flutter 2.0.3
+/// CupertinoPageRoute: 2021.03.30
+/// MaterialPageRoute: 2021.03.31
+/// modify 2021.06.25 by flutter 2.2.2
 class BaseRoute<T> extends BaseClass {
   BaseRoute({
     this.builder,
@@ -64,7 +63,7 @@ class BaseRoute<T> extends BaseClass {
 
   /// if is true, [backGestureWidth] = MediaQuery.of(context).size.width.
   /// if is null, default is [BaseThemeData.routeFullscreenGackGesture]
-  /// **Please pay attention to gesture conflict when using
+  /// ** Please pay attention to gesture conflict when using
   ///
   /// 是否启用全屏右滑返回, [backGestureWidth]参数会失效
   /// 默认是 [BaseThemeData.routeFullscreenGackGesture]
@@ -76,20 +75,16 @@ class BaseRoute<T> extends BaseClass {
   @override
   Object buildByCupertino(BuildContext context) {
     double _backGestureWidth = backGestureWidth;
-    final bool fullscreenGackGesture = this.fullscreenGackGesture ??
-        BaseTheme.of(context).routeFullscreenGackGesture;
+    final bool fullscreenGackGesture = this.fullscreenGackGesture ?? BaseTheme.of(context).routeFullscreenGackGesture;
     if (fullscreenGackGesture) {
       _backGestureWidth = MediaQuery.of(context).size.width;
     }
     return CupertinoPageRoute<T>(
+      builder: valueFromCupertino('builder', builder),
       title: title,
       settings: valueFromCupertino('settings', settings),
       maintainState: valueFromCupertino('maintainState', maintainState),
-      fullscreenDialog: valueFromCupertino(
-        'fullscreenDialog',
-        fullscreenDialog,
-      ),
-      builder: valueFromCupertino('builder', builder),
+      fullscreenDialog: valueFromCupertino('fullscreenDialog', fullscreenDialog),
       backGestureWidth: _backGestureWidth,
     );
   }
@@ -97,10 +92,10 @@ class BaseRoute<T> extends BaseClass {
   @override
   Object buildByMaterial(BuildContext context) {
     return MaterialPageRoute<T>(
+      builder: valueFromCupertino('builder', builder),
       settings: valueFromMaterial('settings', settings),
       maintainState: valueFromMaterial('maintainState', maintainState),
       fullscreenDialog: valueFromMaterial('fullscreenDialog', fullscreenDialog),
-      builder: valueFromCupertino('builder', builder),
     );
   }
 

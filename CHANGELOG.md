@@ -1,4 +1,8 @@
-# 2.0.3 - 2021.03.22
+# 2.2.2 - 2021.06.24
+
+- change flutter version to 2.2.2
+
+## 2.0.3 - 2021.03.22
 
 - change flutter version to 2.0.3
 

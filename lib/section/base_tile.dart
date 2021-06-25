@@ -127,24 +127,20 @@ class BaseTile extends BaseStatelessWidget {
       decoration: BoxDecoration(
         border: valueFromCupertino('border', border),
       ),
-      padding: valueFromCupertino('contentPadding', contentPadding) ??
-          const EdgeInsets.symmetric(horizontal: 10.0),
+      padding: valueFromCupertino('contentPadding', contentPadding) ?? const EdgeInsets.symmetric(horizontal: 10.0),
       child: DefaultTextStyle(
         style: cupertinoTheme.textTheme.textStyle.copyWith(fontSize: 16.0),
         child: _child,
       ),
     );
     final BaseThemeData _baaseTheme = BaseTheme.of(context);
-    Color? _backgroundColor =
-        valueFromCupertino('backgroundColor', backgroundColor) ??
-            _baaseTheme.tileBackgroundColor;
+    Color? _backgroundColor = valueFromCupertino('backgroundColor', backgroundColor) ?? _baaseTheme.tileBackgroundColor;
     if (_backgroundColor != null) {
       if (_backgroundColor is CupertinoDynamicColor) {
         _backgroundColor = _backgroundColor.resolveFrom(context);
       }
     } else {
-      _backgroundColor =
-          CupertinoColors.secondarySystemGroupedBackground.resolveFrom(context);
+      _backgroundColor = CupertinoColors.secondarySystemGroupedBackground.resolveFrom(context);
     }
     return Material(
       animationDuration: const Duration(milliseconds: 10),
@@ -179,10 +175,7 @@ class BaseTile extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     final BaseThemeData _baseTheme = BaseTheme.of(context);
-    final Color _backgroundColor =
-        valueFromMaterial('backgroundColor', backgroundColor) ??
-            _baseTheme.tileBackgroundColor ??
-            Theme.of(context).cardColor;
+    final Color _backgroundColor = valueFromMaterial('backgroundColor', backgroundColor) ?? _baseTheme.tileBackgroundColor ?? Theme.of(context).cardColor;
     Widget? _text = valueFromMaterial('title', title);
     _text ??= titleText != null
         ? Text(
@@ -228,10 +221,7 @@ class BaseTile extends BaseStatelessWidget {
     final String? _titleText = valueFromCupertino('titleText', titleText);
     _title ??= _titleText != null ? Text(_titleText) : null;
     Widget? _subtitle = valueFromCupertino('subtitle', subtitle);
-    final String? _subtitleText = valueFromCupertino(
-      'subtitleText',
-      subtitleText,
-    );
+    final String? _subtitleText = valueFromCupertino('subtitleText', subtitleText);
     _subtitle ??= subtitleText != null ? Text(_subtitleText!) : null;
     if (_leading != null) {
       rows.add(_leading);

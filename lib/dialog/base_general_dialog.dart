@@ -43,25 +43,17 @@ class BaseGeneralDialog extends BaseStatelessWidget {
   }
 
   Future<T?> show<T>(BuildContext context) {
-    final bool _barrierDismissible = useCupertino
-        ? valueFromCupertino('barrierDismissible', barrierDismissible)
-        : valueFromMaterial('barrierDismissible', barrierDismissible);
+    final bool _barrierDismissible =
+        useCupertino ? valueFromCupertino('barrierDismissible', barrierDismissible) : valueFromMaterial('barrierDismissible', barrierDismissible);
     final String _barrierLabel = useCupertino
         ? valueFromCupertino('barrierLabel', barrierLabel) ?? ''
-        : valueFromMaterial('barrierLabel', barrierLabel) ??
-            MaterialLocalizations.of(context).modalBarrierDismissLabel;
-    final Color _barrierColor = useCupertino
-        ? valueFromCupertino('barrierColor', barrierColor)
-        : valueFromMaterial('barrierColor', barrierColor);
-    final Duration _transitionDuration = useCupertino
-        ? valueFromCupertino('transitionDuration', transitionDuration)
-        : valueFromMaterial('transitionDuration', transitionDuration);
-    final RoutePageBuilder? _pageBuilder = useCupertino
-        ? valueFromCupertino('pageBuilder', pageBuilder)
-        : valueFromMaterial('pageBuilder', pageBuilder);
-    final RouteTransitionsBuilder? _transitionBuilder = useCupertino
-        ? valueFromCupertino('transitionBuilder', transitionBuilder)
-        : valueFromMaterial('transitionBuilder', transitionBuilder);
+        : valueFromMaterial('barrierLabel', barrierLabel) ?? MaterialLocalizations.of(context).modalBarrierDismissLabel;
+    final Color _barrierColor = useCupertino ? valueFromCupertino('barrierColor', barrierColor) : valueFromMaterial('barrierColor', barrierColor);
+    final Duration _transitionDuration =
+        useCupertino ? valueFromCupertino('transitionDuration', transitionDuration) : valueFromMaterial('transitionDuration', transitionDuration);
+    final RoutePageBuilder? _pageBuilder = useCupertino ? valueFromCupertino('pageBuilder', pageBuilder) : valueFromMaterial('pageBuilder', pageBuilder);
+    final RouteTransitionsBuilder? _transitionBuilder =
+        useCupertino ? valueFromCupertino('transitionBuilder', transitionBuilder) : valueFromMaterial('transitionBuilder', transitionBuilder);
 
     return showGeneralDialog<T>(
       context: context,

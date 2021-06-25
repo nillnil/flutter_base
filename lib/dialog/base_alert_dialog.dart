@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart'
-    show CupertinoAlertDialog, ScrollController;
+import 'package:flutter/cupertino.dart' show CupertinoAlertDialog, ScrollController;
 import 'package:flutter/material.dart';
 
 import '../base_stateless_widget.dart';
@@ -10,9 +9,9 @@ import '../base_stateless_widget.dart';
 /// use AlertDialog by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoAlertDialog on material.
 ///
-/// CupertinoAlertDialog: 2021.01.20
-/// AlertDialog: 2021.01.26
-/// modify 2021.03.26 by flutter 2.0.3
+/// CupertinoAlertDialog: 2021.03.30
+/// AlertDialog: 2021.03.31
+/// modify 2021.06.25 by flutter 2.2.2
 class BaseAlertDialog extends BaseStatelessWidget {
   const BaseAlertDialog({
     Key? key,
@@ -38,10 +37,10 @@ class BaseAlertDialog extends BaseStatelessWidget {
     this.buttonPadding,
     this.elevation,
     this.semanticLabel,
-    this.insetPadding =
-        const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
+    this.insetPadding = const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
     this.clipBehavior = Clip.none,
     this.shape,
+    this.scrollable = false,
     Map<String, dynamic>? cupertino,
     Map<String, dynamic>? material,
   }) : super(key: key, cupertino: cupertino, material: material);
@@ -125,6 +124,9 @@ class BaseAlertDialog extends BaseStatelessWidget {
   /// [AlertDialog.shape]
   final ShapeBorder? shape;
 
+  /// [AlertDialog.scrollable]
+  final bool scrollable;
+
   /// *** material properties end ***
 
   @override
@@ -160,6 +162,7 @@ class BaseAlertDialog extends BaseStatelessWidget {
       insetPadding: insetPadding,
       clipBehavior: clipBehavior,
       shape: shape,
+      scrollable: scrollable,
     );
   }
 

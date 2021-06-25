@@ -34,8 +34,7 @@ class BaseThemeData with Diagnosticable {
       materialTheme: materialTheme,
       cupertinoTheme: cupertinoTheme,
       routeFullscreenGackGesture: routeFullscreenGackGesture,
-      sectionDividerColor: sectionDividerColor ??
-          (isDark ? const Color(0x1FFFFFFF) : const Color(0x1F000000)),
+      sectionDividerColor: sectionDividerColor ?? (isDark ? const Color(0x1FFFFFFF) : const Color(0x1F000000)),
       tileBackgroundColor: tileBackgroundColor,
       cupertino: cupertino ?? const <String, dynamic>{},
       material: material ?? const <String, dynamic>{},
@@ -121,13 +120,11 @@ class BaseThemeData with Diagnosticable {
       brightness: brightness ?? this.brightness,
       appBarHeight: appBarHeight ?? this.appBarHeight,
       appBarBackdropFilter: appBarBackdropFilter ?? this.appBarBackdropFilter,
-      appBarTransitionBetweenRoutes:
-          appBarTransitionBetweenRoutes ?? this.appBarTransitionBetweenRoutes,
+      appBarTransitionBetweenRoutes: appBarTransitionBetweenRoutes ?? this.appBarTransitionBetweenRoutes,
       appBarCenterTitle: appBarCenterTitle ?? this.appBarCenterTitle,
       materialTheme: materialTheme ?? this.materialTheme,
       cupertinoTheme: cupertinoTheme ?? this.cupertinoTheme,
-      routeFullscreenGackGesture:
-          routeFullscreenGackGesture ?? this.routeFullscreenGackGesture,
+      routeFullscreenGackGesture: routeFullscreenGackGesture ?? this.routeFullscreenGackGesture,
       sectionDividerColor: sectionDividerColor ?? this.sectionDividerColor,
       tileBackgroundColor: tileBackgroundColor ?? this.tileBackgroundColor,
       cupertino: cupertino ?? this.cupertino,

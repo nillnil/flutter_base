@@ -10,9 +10,9 @@ import '../base_stateless_widget.dart';
 /// use IconButton by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoButton on material.
 ///
-/// CupertinoButton: 2020.12.24
-/// IconButton: 2020.07.30
-/// modify 2021.03.26 by flutter 2.0.3
+/// CupertinoButton: 2021.01.14
+/// IconButton: 2021.03.12
+/// modify 2021.06.25 by flutter 2.2.2
 class BaseIconButton extends BaseStatelessWidget {
   const BaseIconButton({
     Key? key,
@@ -21,6 +21,7 @@ class BaseIconButton extends BaseStatelessWidget {
     this.disabledColor,
     this.padding = const EdgeInsets.all(8.0),
     this.onPressed,
+    this.size,
     this.minSize = 24.0,
     this.pressedOpacity = 0.4,
     this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
@@ -49,10 +50,8 @@ class BaseIconButton extends BaseStatelessWidget {
   /// [IconButton.padding]
   final EdgeInsetsGeometry? padding;
 
-  /// [CupertinoButton]
-  /// or
-  /// [IconButton.icon]
-  final Widget? icon;
+  /// [IconData]
+  final IconData? icon;
 
   /// [CupertinoButton.color]
   /// or
@@ -73,6 +72,11 @@ class BaseIconButton extends BaseStatelessWidget {
   /// or
   /// [IconButton.alignment]
   final AlignmentGeometry alignment;
+
+  /// [CupertinoButton.minSize]
+  /// or
+  /// [IconButton.iconSize]
+  final double? size;
 
   /// *** general properties end ***
 
@@ -134,15 +138,13 @@ class BaseIconButton extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final Color _disabledColor =
-        valueFromCupertino('disabledColor', disabledColor) ??
-            CupertinoColors.quaternarySystemFill;
+    final Color _disabledColor = valueFromCupertino('disabledColor', disabledColor) ?? CupertinoColors.quaternarySystemFill;
     return CupertinoButton(
-      child: valueFromCupertino('icon', icon),
+      child: Icon(valueFromCupertino('icon', icon)),
       padding: valueFromCupertino('padding', padding),
       color: valueFromCupertino('color', color),
       disabledColor: _disabledColor,
-      minSize: minSize,
+      minSize: valueFromCupertino('size', size) ?? minSize,
       pressedOpacity: pressedOpacity,
       borderRadius: borderRadius,
       alignment: alignment,
@@ -153,11 +155,11 @@ class BaseIconButton extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return IconButton(
-      iconSize: valueFromMaterial('iconSize', iconSize),
+      iconSize: valueFromMaterial('size', size) ?? iconSize,
       visualDensity: visualDensity,
       padding: valueFromMaterial('padding', padding),
       alignment: valueFromMaterial('alignment', alignment),
-      icon: valueFromMaterial('icon', icon),
+      icon: Icon(valueFromMaterial('icon', icon)),
       splashRadius: splashRadius,
       color: valueFromMaterial('color', color),
       focusColor: focusColor,
@@ -165,10 +167,10 @@ class BaseIconButton extends BaseStatelessWidget {
       highlightColor: valueFromMaterial('highlightColor', highlightColor),
       splashColor: valueFromMaterial('splashColor', splashColor),
       disabledColor: valueFromMaterial('disabledColor', disabledColor),
+      onPressed: valueFromMaterial('onPressed', onPressed),
       mouseCursor: mouseCursor,
       focusNode: focusNode,
       autofocus: autofocus,
-      onPressed: valueFromMaterial('onPressed', onPressed),
       tooltip: valueFromMaterial('tooltip', tooltip),
       enableFeedback: enableFeedback,
       constraints: constraints,

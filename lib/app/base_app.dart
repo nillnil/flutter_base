@@ -16,9 +16,9 @@ import '../theme/base_theme_data.dart';
 /// not support MaterialApp.router yet.
 /// *** use material = { forceUseCupertino: true } force use CupertinoApp on material.
 ///
-/// CupertinoApp: 2021.03.12
-/// MaterialApp: 2021.03.12
-/// modify 2021.03.22 by flutter 2.0.3
+/// CupertinoApp: 2021.04.03
+/// MaterialApp: 2021.04.02
+/// modify 2021.06.25 by flutter 2.2.2
 class BaseApp extends BaseStatelessWidget {
   const BaseApp({
     Key? key,
@@ -45,6 +45,7 @@ class BaseApp extends BaseStatelessWidget {
     this.showSemanticsDebugger = false,
     this.debugShowCheckedModeBanner = true,
     this.restorationScopeId,
+    this.scrollBehavior,
     this.targetPlatform,
     this.platformMode,
     this.baseTheme,
@@ -200,6 +201,11 @@ class BaseApp extends BaseStatelessWidget {
   /// [MaterialApp.restorationScopeId]
   final String? restorationScopeId;
 
+  /// [CupertinoApp.scrollBehavior]
+  /// or
+  /// [MaterialApp.scrollBehavior]
+  final ScrollBehavior? scrollBehavior;
+
   /// *** general properties end ***
 
   /// *** cupertino properties start ***
@@ -272,8 +278,7 @@ class BaseApp extends BaseStatelessWidget {
         routes: valueFromCupertino('routes', routes),
         initialRoute: valueFromCupertino('initialRoute', initialRoute),
         onGenerateRoute: valueFromCupertino('onGenerateRoute', onGenerateRoute),
-        onGenerateInitialRoutes: valueFromCupertino(
-            'onGenerateInitialRoutes', onGenerateInitialRoutes),
+        onGenerateInitialRoutes: valueFromCupertino('onGenerateInitialRoutes', onGenerateInitialRoutes),
         onUnknownRoute: valueFromCupertino('onUnknownRoute', onUnknownRoute),
         navigatorObservers: valueFromCupertino(
           'navigatorObservers',
@@ -322,6 +327,8 @@ class BaseApp extends BaseStatelessWidget {
         ),
         shortcuts: valueFromCupertino('shortcuts', shortcuts),
         actions: valueFromCupertino('actions', actions),
+        restorationScopeId: valueFromCupertino('restorationScopeId', restorationScopeId),
+        scrollBehavior: valueFromCupertino('scrollBehavior', scrollBehavior),
       ),
     );
   }
@@ -347,8 +354,7 @@ class BaseApp extends BaseStatelessWidget {
         routes: valueFromMaterial('routes', routes),
         initialRoute: valueFromMaterial('initialRoute', initialRoute),
         onGenerateRoute: valueFromMaterial('onGenerateRoute', onGenerateRoute),
-        onGenerateInitialRoutes: valueFromMaterial(
-            'onGenerateInitialRoutes', onGenerateInitialRoutes),
+        onGenerateInitialRoutes: valueFromMaterial('onGenerateInitialRoutes', onGenerateInitialRoutes),
         onUnknownRoute: valueFromMaterial('onUnknownRoute', onUnknownRoute),
         navigatorObservers: valueFromMaterial(
           'navigatorObservers',
@@ -407,6 +413,7 @@ class BaseApp extends BaseStatelessWidget {
         shortcuts: valueFromMaterial('shortcuts', shortcuts),
         actions: valueFromMaterial('actions', actions),
         restorationScopeId: valueFromMaterial('actions', restorationScopeId),
+        scrollBehavior: valueFromMaterial('scrollBehavior', scrollBehavior),
       ),
     );
   }

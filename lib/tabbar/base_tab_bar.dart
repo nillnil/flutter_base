@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart'
-    show CupertinoColors, CupertinoDynamicColor;
+import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoDynamicColor;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show MouseCursor;
 
@@ -13,8 +12,8 @@ import '../flutter/cupertino/bottom_tab_bar.dart';
 /// *** not support material = { forceUseCupertino: true }.
 ///
 /// CupertinoTabBar: 2020.11.03
-/// BottomNavigationBar: 2021.01.15
-/// modify 2021.03.26 by flutter 2.0.3
+/// BottomNavigationBar: 2021.04.02
+/// modify 2021.06.25 by flutter 2.2.2
 class BaseTabBar extends BaseStatelessWidget {
   const BaseTabBar({
     Key? key,
@@ -47,6 +46,7 @@ class BaseTabBar extends BaseStatelessWidget {
     this.showSelectedLabels = true,
     this.showUnselectedLabels,
     this.mouseCursor,
+    this.enableFeedback,
     Map<String, dynamic>? cupertino,
     Map<String, dynamic>? material,
   }) : super(key: key, cupertino: cupertino, material: material);
@@ -94,7 +94,7 @@ class BaseTabBar extends BaseStatelessWidget {
   final Color inactiveColor;
 
   /// [CupertinoTabBar.border]
-  final Border border;
+  final Border? border;
 
   /// *** cupertino properties end ***
 
@@ -141,6 +141,9 @@ class BaseTabBar extends BaseStatelessWidget {
 
   /// [BottomNavigationBar.mouseCursor]
   final MouseCursor? mouseCursor;
+
+  /// [BottomNavigationBar.enableFeedback]
+  final bool? enableFeedback;
 
   /// *** material properties end ***
 
@@ -211,6 +214,7 @@ class BaseTabBar extends BaseStatelessWidget {
       showSelectedLabels: showSelectedLabels,
       showUnselectedLabels: showSelectedLabels,
       mouseCursor: mouseCursor,
+      enableFeedback: enableFeedback,
     );
   }
 

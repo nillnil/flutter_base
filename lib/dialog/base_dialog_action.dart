@@ -8,10 +8,10 @@ import '../base_stateless_widget.dart';
 /// *** use cupertino = { forceUseMaterial: true } force use TextButton on cuperitno.
 /// use TextButton by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoDialogAction on material.
-/// 
-/// CupertinoDialogAction: 2021.01.20
-/// TextButton: 2021.01.14
-/// modify 2021.03.26 by flutter 2.0.3
+///
+/// CupertinoAlertDialog: 2021.03.30
+/// TextButton: 2021.04.02
+/// modify 2021.06.25 by flutter 2.2.2
 class BaseDialogAction extends BaseStatelessWidget {
   const BaseDialogAction({
     Key? key,

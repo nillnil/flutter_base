@@ -1,19 +1,9 @@
 import 'dart:ui' as ui;
-import 'package:flutter/cupertino.dart'
-    show
-        CupertinoColors,
-        CupertinoDynamicColor,
-        CupertinoTextField,
-        OverlayVisibilityMode;
+import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoDynamicColor, CupertinoTextField, OverlayVisibilityMode;
 import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/material.dart' hide SmartDashesType, SmartQuotesType;
 import 'package:flutter/rendering.dart' show MouseCursor;
-import 'package:flutter/services.dart'
-    show
-        MaxLengthEnforcement,
-        TextInputFormatter,
-        SmartDashesType,
-        SmartQuotesType;
+import 'package:flutter/services.dart' show MaxLengthEnforcement, TextInputFormatter, SmartDashesType, SmartQuotesType;
 
 import '../base_stateless_widget.dart';
 
@@ -23,9 +13,9 @@ import '../base_stateless_widget.dart';
 /// use TextField by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoTextField on material.
 ///
-/// CupertinoTextField: 2021.01.28
-/// TextField: 2021.01.28
-/// modify 2021.03.26 by flutter 2.0.3
+/// CupertinoTextField: 2021.04.03
+/// TextField: 2021.04.03
+/// modify 2021.06.25 by flutter 2.2.2
 class BaseTextField extends BaseStatelessWidget {
   const BaseTextField({
     Key? key,
@@ -383,42 +373,28 @@ class BaseTextField extends BaseStatelessWidget {
       focusNode: valueFromCupertino('focusNode', focusNode),
       keyboardType: valueFromCupertino('keyboardType', keyboardType),
       textInputAction: valueFromCupertino('textInputAction', textInputAction),
-      textCapitalization: valueFromCupertino(
-        'textCapitalization',
-        textCapitalization,
-      ),
+      textCapitalization: valueFromCupertino('textCapitalization', textCapitalization),
       style: valueFromCupertino('style', style),
       strutStyle: valueFromCupertino('strutStyle', strutStyle),
       textAlign: valueFromCupertino('textAlign', textAlign),
-      textAlignVertical: valueFromCupertino(
-        'textAlignVertical',
-        textAlignVertical,
-      ),
+      textAlignVertical: valueFromCupertino('textAlignVertical', textAlignVertical),
       readOnly: valueFromCupertino('readOnly', readOnly),
       toolbarOptions: valueFromCupertino('toolbarOptions', toolbarOptions),
       showCursor: valueFromCupertino('showCursor', showCursor),
       autofocus: valueFromCupertino('autofocus', autofocus),
-      obscuringCharacter:
-          valueFromCupertino('obscuringCharacter', obscuringCharacter),
+      obscuringCharacter: valueFromCupertino('obscuringCharacter', obscuringCharacter),
       obscureText: valueFromCupertino('obscureText', obscureText),
       autocorrect: valueFromCupertino('autocorrect', autocorrect),
       smartDashesType: valueFromCupertino('smartDashesType', smartDashesType),
       smartQuotesType: valueFromCupertino('smartQuotesType', smartQuotesType),
-      enableSuggestions:
-          valueFromCupertino('enableSuggestions', enableSuggestions),
+      enableSuggestions: valueFromCupertino('enableSuggestions', enableSuggestions),
       maxLines: valueFromCupertino('maxLines', maxLines),
       minLines: valueFromCupertino('minLines', minLines),
       expands: valueFromCupertino('expands', expands),
       maxLength: valueFromCupertino('maxLength', maxLength),
-      maxLengthEnforcement: valueFromCupertino(
-        'maxLengthEnforcement',
-        maxLengthEnforcement,
-      ),
+      maxLengthEnforcement: valueFromCupertino('maxLengthEnforcement', maxLengthEnforcement),
       onChanged: valueFromCupertino('onChanged', onChanged),
-      onEditingComplete: valueFromCupertino(
-        'onEditingComplete',
-        onEditingComplete,
-      ),
+      onEditingComplete: valueFromCupertino('onEditingComplete', onEditingComplete),
       onSubmitted: valueFromCupertino('onSubmitted', onSubmitted),
       inputFormatters: valueFromCupertino('inputFormatters', inputFormatters),
       enabled: valueFromCupertino('enabled', enabled),
@@ -426,32 +402,15 @@ class BaseTextField extends BaseStatelessWidget {
       cursorHeight: valueFromCupertino('cursorHeight', cursorHeight),
       cursorRadius: valueFromCupertino('cursorRadius', cursorRadius),
       cursorColor: valueFromCupertino('cursorColor', cursorColor),
-      selectionHeightStyle:
-          valueFromCupertino('selectionHeightStyle', selectionHeightStyle),
-      selectionWidthStyle:
-          valueFromCupertino('selectionWidthStyle', selectionWidthStyle),
-      keyboardAppearance: valueFromCupertino(
-        'keyboardAppearance',
-        keyboardAppearance,
-      ),
+      selectionHeightStyle: valueFromCupertino('selectionHeightStyle', selectionHeightStyle),
+      selectionWidthStyle: valueFromCupertino('selectionWidthStyle', selectionWidthStyle),
+      keyboardAppearance: valueFromCupertino('keyboardAppearance', keyboardAppearance),
       scrollPadding: valueFromCupertino('scrollPadding', scrollPadding),
-      dragStartBehavior: valueFromCupertino(
-        'dragStartBehavior',
-        dragStartBehavior,
-      ),
-      enableInteractiveSelection: valueFromCupertino(
-        'enableInteractiveSelection',
-        enableInteractiveSelection,
-      ),
-      selectionControls: valueFromCupertino(
-        'selectionControls',
-        selectionControls,
-      ),
+      dragStartBehavior: valueFromCupertino('dragStartBehavior', dragStartBehavior),
+      enableInteractiveSelection: valueFromCupertino('enableInteractiveSelection', enableInteractiveSelection),
+      selectionControls: valueFromCupertino('selectionControls', selectionControls),
       onTap: valueFromCupertino('onTap', onTap),
-      scrollController: valueFromCupertino(
-        'scrollController',
-        scrollController,
-      ),
+      scrollController: valueFromCupertino('scrollController', scrollController),
       scrollPhysics: valueFromCupertino('scrollPhysics', scrollPhysics),
       autofillHints: valueFromCupertino('autofillHints', autofillHints),
       restorationId: valueFromCupertino('restorationId', restorationId),
@@ -475,80 +434,45 @@ class BaseTextField extends BaseStatelessWidget {
       focusNode: valueFromMaterial('focusNode', focusNode),
       keyboardType: valueFromMaterial('keyboardType', keyboardType),
       textInputAction: valueFromMaterial('textInputAction', textInputAction),
-      textCapitalization: valueFromMaterial(
-        'textCapitalization',
-        textCapitalization,
-      ),
+      textCapitalization: valueFromMaterial('textCapitalization', textCapitalization),
       style: valueFromMaterial('style', style),
       strutStyle: valueFromMaterial('strutStyle', strutStyle),
       textAlign: valueFromMaterial('textAlign', textAlign),
-      textAlignVertical: valueFromMaterial(
-        'textAlignVertical',
-        textAlignVertical,
-      ),
+      textAlignVertical: valueFromMaterial('textAlignVertical', textAlignVertical),
       readOnly: valueFromMaterial('readOnly', readOnly),
       toolbarOptions: valueFromMaterial('toolbarOptions', toolbarOptions),
       showCursor: valueFromMaterial('showCursor', showCursor),
       autofocus: valueFromMaterial('autofocus', autofocus),
-      obscuringCharacter:
-          valueFromMaterial('obscuringCharacter', obscuringCharacter),
+      obscuringCharacter: valueFromMaterial('obscuringCharacter', obscuringCharacter),
       obscureText: valueFromMaterial('obscureText', obscureText),
       autocorrect: valueFromMaterial('autocorrect', autocorrect),
       smartDashesType: valueFromMaterial('smartDashesType', smartDashesType),
       smartQuotesType: valueFromMaterial('smartQuotesType', smartQuotesType),
-      enableSuggestions: valueFromMaterial(
-        'enableSuggestions',
-        enableSuggestions,
-      ),
+      enableSuggestions: valueFromMaterial('enableSuggestions', enableSuggestions),
       maxLines: valueFromMaterial('maxLines', maxLines),
       minLines: valueFromMaterial('minLines', minLines),
       expands: valueFromMaterial('expands', expands),
       maxLength: valueFromMaterial('maxLength', maxLength),
-      maxLengthEnforcement:
-          valueFromMaterial('maxLengthEnforcement', maxLengthEnforcement),
+      maxLengthEnforcement: valueFromMaterial('maxLengthEnforcement', maxLengthEnforcement),
       onChanged: valueFromMaterial('onChanged', onChanged),
-      onEditingComplete: valueFromMaterial(
-        'onEditingComplete',
-        onEditingComplete,
-      ),
+      onEditingComplete: valueFromMaterial('onEditingComplete', onEditingComplete),
       onSubmitted: valueFromMaterial('onSubmitted', onSubmitted),
-      onAppPrivateCommand:
-          valueFromMaterial('onAppPrivateCommand', onAppPrivateCommand),
+      onAppPrivateCommand: valueFromMaterial('onAppPrivateCommand', onAppPrivateCommand),
       inputFormatters: valueFromMaterial('inputFormatters', inputFormatters),
       enabled: valueFromMaterial('enabled', enabled),
       cursorWidth: valueFromMaterial('cursorWidth', cursorWidth),
       cursorHeight: valueFromMaterial('cursorHeight', cursorHeight),
       cursorRadius: valueFromMaterial('cursorRadius', cursorRadius),
       cursorColor: valueFromMaterial('cursorColor', cursorColor),
-      selectionHeightStyle:
-          valueFromMaterial('selectionHeightStyle', selectionHeightStyle),
-      selectionWidthStyle:
-          valueFromMaterial('selectionWidthStyle', selectionWidthStyle),
-      keyboardAppearance: valueFromMaterial(
-        'keyboardAppearance',
-        keyboardAppearance,
-      ),
+      selectionHeightStyle: valueFromMaterial('selectionHeightStyle', selectionHeightStyle),
+      selectionWidthStyle: valueFromMaterial('selectionWidthStyle', selectionWidthStyle),
+      keyboardAppearance: valueFromMaterial('keyboardAppearance', keyboardAppearance),
       scrollPadding: valueFromMaterial('scrollPadding', scrollPadding),
-      dragStartBehavior: valueFromMaterial(
-        'dragStartBehavior',
-        dragStartBehavior,
-      ),
-      enableInteractiveSelection: valueFromMaterial(
-        'enableInteractiveSelection',
-        enableInteractiveSelection,
-      ),
-      selectionControls: valueFromMaterial(
-        'selectionControls',
-        selectionControls,
-      ),
-      mouseCursor: valueFromMaterial(
-        'mouseCursor',
-        mouseCursor,
-      ),
-      scrollController: valueFromMaterial(
-        'scrollController',
-        scrollController,
-      ),
+      dragStartBehavior: valueFromMaterial('dragStartBehavior', dragStartBehavior),
+      enableInteractiveSelection: valueFromMaterial('enableInteractiveSelection', enableInteractiveSelection),
+      selectionControls: valueFromMaterial('selectionControls', selectionControls),
+      mouseCursor: valueFromMaterial('mouseCursor', mouseCursor),
+      scrollController: valueFromMaterial('scrollController', scrollController),
       scrollPhysics: valueFromMaterial('scrollPhysics', scrollPhysics),
       autofillHints: valueFromMaterial('autofillHints', autofillHints),
       restorationId: valueFromMaterial('scrollPhysics', restorationId),

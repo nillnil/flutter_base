@@ -31,8 +31,7 @@ class BaseDrawer extends StatefulWidget {
     this.allowGesture = true,
     this.allowMultipleGesture = false,
     this.barrierDismissible = true,
-  })  : assert(size == null || percent == null,
-            'Cannot provide both a size and a percent'),
+  })  : assert(size == null || percent == null, 'Cannot provide both a size and a percent'),
         assert(child != null),
         super(key: key);
 
@@ -41,7 +40,7 @@ class BaseDrawer extends StatefulWidget {
     this.duration = _drawerTransitionDuration,
     this.axisDirection = AxisDirection.right,
     this.backgroundColor = _drawerBackgroundColor,
-    this.size,
+    Size? size,
     required this.child,
     this.curve = Curves.linearToEaseOut,
     this.reverseCurve = Curves.linearToEaseOut,
@@ -49,7 +48,7 @@ class BaseDrawer extends StatefulWidget {
     this.allowMultipleGesture = false,
     this.barrierDismissible = true,
   })  : percent = 0.0,
-        assert(size != null),
+        size = size ?? const Size.fromWidth(_defaultDrawerSize),
         assert(child != null),
         super(key: key);
 
@@ -88,9 +87,7 @@ class BaseDrawer extends StatefulWidget {
   })  : size = Size.fromWidth(width),
         percent = 0.0,
         assert(width > 0),
-        assert(
-            axisDirection == AxisDirection.right ||
-                axisDirection == AxisDirection.left,
+        assert(axisDirection == AxisDirection.right || axisDirection == AxisDirection.left,
             'the axisDirection must be AxisDirection.left or AxisDirection.right.'),
         assert(child != null),
         super(key: key);
@@ -112,10 +109,7 @@ class BaseDrawer extends StatefulWidget {
   })  : size = Size.fromHeight(height),
         percent = 0.0,
         assert(height > 0),
-        assert(
-            axisDirection == AxisDirection.up ||
-                axisDirection == AxisDirection.down,
-            'the axisDirection must be AxisDirection.up or AxisDirection.down.'),
+        assert(axisDirection == AxisDirection.up || axisDirection == AxisDirection.down, 'the axisDirection must be AxisDirection.up or AxisDirection.down.'),
         assert(child != null),
         super(key: key);
 
@@ -188,8 +182,7 @@ class BaseDrawer extends StatefulWidget {
   }
 }
 
-class BaseDrawerState extends State<BaseDrawer>
-    with SingleTickerProviderStateMixin {
+class BaseDrawerState extends State<BaseDrawer> with SingleTickerProviderStateMixin {
   late AnimationController? _slideAnimationController;
 
   Widget? _child;
@@ -208,8 +201,7 @@ class BaseDrawerState extends State<BaseDrawer>
   late double? _flingVelocitySize;
 
   bool _gestureConflict = true;
-  final Map<Type, GestureRecognizerFactory> _gestures =
-      <Type, GestureRecognizerFactory>{};
+  final Map<Type, GestureRecognizerFactory> _gestures = <Type, GestureRecognizerFactory>{};
 
   final GlobalKey _gestureDetectorKey = GlobalKey();
   final GlobalKey _backgroundGestureDetectorKey = GlobalKey();
@@ -339,28 +331,22 @@ class BaseDrawerState extends State<BaseDrawer>
         _gestureConflict = false;
       }
       if (_axis == Axis.horizontal) {
-        _gestures[_DrawerHorizontalDragGestureRecognizer] =
-            GestureRecognizerFactoryWithHandlers<
-                _DrawerHorizontalDragGestureRecognizer>(
+        _gestures[_DrawerHorizontalDragGestureRecognizer] = GestureRecognizerFactoryWithHandlers<_DrawerHorizontalDragGestureRecognizer>(
           () => _DrawerHorizontalDragGestureRecognizer(
             conflict: _gestureConflict,
           ),
           (_DrawerHorizontalDragGestureRecognizer instance) {
-            instance.onUpdate =
-                (DragUpdateDetails details) => _onDragUpdate(details);
+            instance.onUpdate = (DragUpdateDetails details) => _onDragUpdate(details);
             instance.onEnd = (DragEndDetails details) => _onDragEnd(details);
           },
         );
       } else {
-        _gestures[_DrawerVerticalDragGestureRecognizer] =
-            GestureRecognizerFactoryWithHandlers<
-                _DrawerVerticalDragGestureRecognizer>(
+        _gestures[_DrawerVerticalDragGestureRecognizer] = GestureRecognizerFactoryWithHandlers<_DrawerVerticalDragGestureRecognizer>(
           () => _DrawerVerticalDragGestureRecognizer(
             conflict: _gestureConflict,
           ),
           (_DrawerVerticalDragGestureRecognizer instance) {
-            instance.onUpdate =
-                (DragUpdateDetails details) => _onDragUpdate(details);
+            instance.onUpdate = (DragUpdateDetails details) => _onDragUpdate(details);
             instance.onEnd = (DragEndDetails details) => _onDragEnd(details);
           },
         );
@@ -403,9 +389,7 @@ class BaseDrawerState extends State<BaseDrawer>
         children: <Widget>[
           backgroundWidget,
           Transform.translate(
-            offset: _axis == Axis.horizontal
-                ? Offset(_offset, 0.0)
-                : Offset(0.0, _offset),
+            offset: _axis == Axis.horizontal ? Offset(_offset, 0.0) : Offset(0.0, _offset),
             child: _child,
           ),
         ],
@@ -414,8 +398,7 @@ class BaseDrawerState extends State<BaseDrawer>
   }
 
   void _onDragUpdate(DragUpdateDetails details) {
-    if (!widget.allowMultipleGesture ||
-        (widget.allowMultipleGesture && _gestureConflict)) {
+    if (!widget.allowMultipleGesture || (widget.allowMultipleGesture && _gestureConflict)) {
       switch (widget.axisDirection) {
         case AxisDirection.left:
           _offset = max(0.0, _offset + details.delta.dx);
@@ -435,10 +418,8 @@ class BaseDrawerState extends State<BaseDrawer>
   }
 
   void _onDragEnd(DragEndDetails details) {
-    if (!widget.allowMultipleGesture ||
-        (widget.allowMultipleGesture && _gestureConflict)) {
-      final double _primaryVelocity =
-          details.primaryVelocity! / _flingVelocitySize!;
+    if (!widget.allowMultipleGesture || (widget.allowMultipleGesture && _gestureConflict)) {
+      final double _primaryVelocity = details.primaryVelocity! / _flingVelocitySize!;
       final double _interval = _offset.abs() - _tweenEnd;
       if (_primaryVelocity.abs() > _minFlingVelocity) {
         bool _open = false;
@@ -513,8 +494,7 @@ class BaseDrawerState extends State<BaseDrawer>
   }
 }
 
-class _DrawerVerticalDragGestureRecognizer
-    extends VerticalDragGestureRecognizer {
+class _DrawerVerticalDragGestureRecognizer extends VerticalDragGestureRecognizer {
   _DrawerVerticalDragGestureRecognizer({
     this.conflict = false,
   });
@@ -533,8 +513,7 @@ class _DrawerVerticalDragGestureRecognizer
   }
 }
 
-class _DrawerHorizontalDragGestureRecognizer
-    extends HorizontalDragGestureRecognizer {
+class _DrawerHorizontalDragGestureRecognizer extends HorizontalDragGestureRecognizer {
   _DrawerHorizontalDragGestureRecognizer({
     this.conflict = false,
   });

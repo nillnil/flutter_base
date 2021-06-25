@@ -10,9 +10,9 @@ import '../base_stateless_widget.dart';
 /// material，use Slider
 /// *** use material = { forceUseCupertino: true } force use CupertinoSlider
 ///
-/// CupertinoSlider: 2020.12.23
-/// Slider: 2020.12.15
-/// modify 2021.03.26 by flutter 2.0.3
+/// CupertinoSlider: 2021.03.27
+/// Slider: 2021.03.31
+/// modify 2021.05.25 by flutter 2.2.2
 class BaseSlider extends BaseStatelessWidget {
   const BaseSlider({
     Key? key,

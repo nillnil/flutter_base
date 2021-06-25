@@ -10,9 +10,9 @@ import '../base_stateless_widget.dart';
 /// use RefreshIndicator by material
 /// *** use material = { forceUseCupertino: true } force use CupertinoSliverRefreshControl on material.
 ///
-/// CustomScrollView + CupertinoSliverRefreshControl: 2021.02.11 + 2020.12.24
-/// RefreshIndicator: 2021.01.12
-/// modify 2021.03.26 by flutter 2.0.3
+/// CustomScrollView + CupertinoSliverRefreshControl: 2021.04.03 + 2021.04.07
+/// RefreshIndicator: 2021.03.31
+/// modify 2021.06.25 by flutter 2.2.2
 class BaseRefresh extends BaseStatelessWidget {
   const BaseRefresh({
     Key? key,
@@ -30,6 +30,7 @@ class BaseRefresh extends BaseStatelessWidget {
     this.semanticsValue,
     this.strokeWidth = 2.0,
     this.triggerMode = RefreshIndicatorTriggerMode.onEdge,
+    this.edgeOffset = 0.0,
     Map<String, dynamic>? cupertino,
     Map<String, dynamic>? material,
   }) : super(key: key, cupertino: cupertino, material: material);
@@ -41,7 +42,8 @@ class BaseRefresh extends BaseStatelessWidget {
   /// [RefreshIndicator.onRefresh]
   final RefreshCallback? onRefresh;
 
-  /// It's SliverList on Cupertino，ListView or CustomScrollView on Material
+  /// Typically a [SliverList] or [ListView] or [CustomScrollView] or [BoxScrollView] on cupertino's mode
+  /// Typically a [ListView] or [CustomScrollView] on materila's mode
   /// All three can be converted automatically.
   ///
   /// [CupertinoSliverRefreshControl.child]
@@ -93,6 +95,9 @@ class BaseRefresh extends BaseStatelessWidget {
   /// [RefreshIndicator.triggerMode]
   final RefreshIndicatorTriggerMode triggerMode;
 
+  /// [RefreshIndicator.edgeOffset]
+  final double edgeOffset;
+
   /// *** material properties end ***
 
   /// [CupertinoSliverRefreshControl]'s _defaultRefreshTriggerPullDistance
@@ -105,24 +110,21 @@ class BaseRefresh extends BaseStatelessWidget {
   Widget buildByCupertino(BuildContext context) {
     Widget? _child = valueFromCupertino('child', child);
     assert(_child != null, 'child can\'t be null.');
-    if (child is ListView) {
+    if (_child is ListView) {
       // ListView => SliverList
-      final ListView listView = child! as ListView;
       _child = SliverList(
-        delegate: listView.childrenDelegate,
+        delegate: _child.childrenDelegate,
       );
-    } else if (child is CustomScrollView) {
+    } else if (_child is CustomScrollView) {
       // CustomScrollView => SliverList
-      final CustomScrollView customScrollView = child! as CustomScrollView;
       _child = SliverList(
         delegate: SliverChildListDelegate(
-          customScrollView.slivers,
+          _child.slivers,
         ),
       );
-    } else if (child is BoxScrollView) {
-      final BoxScrollView boxScrollView = child! as BoxScrollView;
+    } else if (_child is BoxScrollView) {
       _child = SliverToBoxAdapter(
-        child: boxScrollView,
+        child: _child,
       );
     }
     _child = buildSlivers(context, _child!);
@@ -143,16 +145,17 @@ class BaseRefresh extends BaseStatelessWidget {
   Widget buildByMaterial(BuildContext context) {
     Widget _child = valueFromMaterial('child', child);
     assert(_child != null, 'child can\'t be null.');
-    if (child is SliverList) {
+    if (_child is SliverList) {
       // SliverList => ListView
-      final SliverList sliverList = child! as SliverList;
       _child = ListView.custom(
-        childrenDelegate: sliverList.delegate,
+        childrenDelegate: _child.delegate,
       );
     }
     return RefreshIndicator(
       child: _child,
       displacement: displacement,
+      edgeOffset: edgeOffset,
+      onRefresh: valueFromMaterial('onRefresh', onRefresh),
       color: color,
       backgroundColor: backgroundColor,
       notificationPredicate: notificationPredicate,
@@ -160,7 +163,6 @@ class BaseRefresh extends BaseStatelessWidget {
       semanticsValue: semanticsValue,
       strokeWidth: strokeWidth,
       triggerMode: triggerMode,
-      onRefresh: valueFromMaterial('onRefresh', onRefresh),
     );
   }
 

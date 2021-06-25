@@ -45,8 +45,7 @@ class _DemoState extends State<_Demo> {
   TextEditingController? controller2;
   bool showPassword = false;
 
-  final EdgeInsets padding =
-      const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0);
+  final EdgeInsets padding = const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0);
 
   @override
   void initState() {
@@ -58,10 +57,8 @@ class _DemoState extends State<_Demo> {
   @override
   Widget build(BuildContext context) {
     final BaseIconButton eyeButton = BaseIconButton(
-      icon: BaseIcon(
-        icon: showPassword ? IconFont.eyeopen : IconFont.eyeclose,
-        color: Colors.grey.withOpacity(.5),
-      ),
+      icon: showPassword ? IconFont.eyeopen : IconFont.eyeclose,
+      color: Colors.grey.withOpacity(.5),
       onPressed: () {
         setState(() {
           showPassword = !showPassword;
