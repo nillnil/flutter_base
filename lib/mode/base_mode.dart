@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform;
 
 /// 当前运行模式的键对
-PlatformMode _platformMode = const PlatformMode();
+BasePlatformMode _platformMode = const BasePlatformMode();
 
 /// 当前的运行模式
 BaseMode currentPlatformMode = BaseMode.material;
@@ -23,9 +23,9 @@ enum BaseMode {
 
 /// 运行的平台模式
 /// 默认iOS, macOS使用cupertino模式，其余使用material模式
-class PlatformMode {
+class BasePlatformMode {
   /// 运行的平台模式
-  const PlatformMode({
+  const BasePlatformMode({
     this.android = BaseMode.material,
     this.fuchsia = BaseMode.material,
     this.iOS = BaseMode.cupertino,
@@ -60,7 +60,7 @@ class PlatformMode {
   /// others
   final BaseMode others;
 
-  PlatformMode copyWith({
+  BasePlatformMode copyWith({
     BaseMode? android,
     BaseMode? fuchsia,
     BaseMode? iOS,
@@ -70,7 +70,7 @@ class PlatformMode {
     BaseMode? web,
     BaseMode? others,
   }) {
-    return PlatformMode(
+    return BasePlatformMode(
       android: android ?? this.android,
       fuchsia: fuchsia ?? this.fuchsia,
       iOS: iOS ?? this.iOS,
@@ -82,12 +82,12 @@ class PlatformMode {
     );
   }
 
-  PlatformMode changePlatformMode({
+  BasePlatformMode changePlatformMode({
     TargetPlatform? targetPlatform,
     BaseMode? mode,
   }) {
     targetPlatform ??= defaultTargetPlatform;
-    PlatformMode? platformMode;
+    BasePlatformMode? platformMode;
     switch (targetPlatform) {
       case TargetPlatform.android:
         platformMode = copyWith(android: mode);
@@ -117,7 +117,7 @@ class PlatformMode {
 /// 设置当前的运行模式
 void setCurrentPlatformMode({TargetPlatform? targetPlatform}) {
   targetPlatform ??= defaultTargetPlatform;
-  const PlatformMode platformMode = PlatformMode();
+  const BasePlatformMode platformMode = BasePlatformMode();
   switch (targetPlatform) {
     case TargetPlatform.android:
       currentPlatformMode = _platformMode.android;
@@ -151,17 +151,17 @@ void setCurrentPlatformMode({TargetPlatform? targetPlatform}) {
 
 /// build baseApp 之前必须调用该方法
 /// set the platform
-void setPlatformMode({
-  PlatformMode? platformMode,
+void setBasePlatformMode({
+  BasePlatformMode? basePlatformMode,
   bool withoutSplashOnCupertino = true,
 }) {
-  _platformMode = platformMode ?? _platformMode;
+  _platformMode = basePlatformMode ?? _platformMode;
   withoutSplashOnCupertino = withoutSplashOnCupertino;
   setCurrentPlatformMode();
 }
 
 /// build by Cupertino
-bool get useCupertino => currentPlatformMode == BaseMode.cupertino;
+bool get isCupertinoMode => currentPlatformMode == BaseMode.cupertino;
 
 /// build by Material
-bool get useMaterial => currentPlatformMode == BaseMode.material;
+bool get isMaterialMode => currentPlatformMode == BaseMode.material;

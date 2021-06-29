@@ -23,7 +23,7 @@ class WechatProfile extends StatelessWidget {
           border: null,
           elevation: 0.0,
           actions: <Widget>[
-            if (useMaterial)
+            if (isMaterialMode)
               const Padding(
                 padding: EdgeInsets.only(right: 10.0),
                 child: cameraWidget,

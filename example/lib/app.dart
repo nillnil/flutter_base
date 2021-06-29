@@ -88,7 +88,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             Locale('en', 'US')
           ],
           home: const Home(),
-          platformMode: appProvider.platformMode,
+          basePlatformMode: appProvider.platformMode,
           baseTheme: BaseThemeData(
             // appBarHeight: 44.0,
             // material: const <String, dynamic>{

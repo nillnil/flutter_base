@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../base_stateful_widget.dart';
 import '../flutter/cupertino/bottom_tab_bar.dart';
 import '../flutter/cupertino/tab_scaffold.dart';
-import '../platform/platform.dart';
+import '../mode/base_mode.dart';
 import '../tabbar/base_tab_bar.dart';
 
 /// BaseTabScaffold
@@ -180,7 +180,7 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
   @override
   void initState() {
     super.initState();
-    if (useMaterial) {
+    if (isMaterialMode) {
       final BaseTabBar tabBar = valueFromMaterial('tabBar', widget.tabBar);
       _currentIndex = tabBar.valueFromMaterial(
         'currentIndex',

@@ -1,4 +1,4 @@
-import 'package:base/platform/platform.dart';
+import 'package:base/mode/base_mode.dart';
 import 'package:example/demos/scaffold/safeArea_demo.dart';
 import 'package:flutter/widgets.dart';
 
@@ -13,7 +13,7 @@ class ScaffoldDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<DemoTile> _demos = <DemoTile>[];
-    if (useCupertino) {
+    if (isCupertinoMode) {
       _demos.add(const DemoTile(
         title: Text('safeArea scaffold'),
         page: SateAreaDemo(),

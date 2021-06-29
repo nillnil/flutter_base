@@ -113,7 +113,7 @@ class _DemoState extends State<_Demo> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text('允许手势滑动  '),
-                if (useCupertino)
+                if (isCupertinoMode)
                   Container(
                     height: 31.0,
                     width: 48.0,
@@ -150,7 +150,7 @@ class _DemoState extends State<_Demo> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text('允许多手势  '),
-                if (useCupertino)
+                if (isCupertinoMode)
                   Container(
                     height: 31.0,
                     width: 48.0,

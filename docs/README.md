@@ -1,0 +1,538 @@
+<p align="center">
+  <img src="https://github.com/nillnil/flutter_base/blob/master/screenshot/logo.png?raw=true" alt="logo">
+</p>
+<p align="center">
+  <a href="https://flutterchina.club/" target="_blank">
+    <img src="https://img.shields.io/badge/flutter-^2.2.2-3A91E3?logo=Flutter&style=flat" alt="Flutter">
+  </a>
+  <a href="https://www.dartcn.com/" style="margin-left: 20px;" target="_blank">
+    <img src="https://img.shields.io/badge/dart-^2.13.3-3A91E3?logo=Dart&style=flat" alt="Dart">
+  </a>
+</p>
+
+# 简介
+
+* 实现一套代码，2种模式，iOS, macOS 默认使用`Cupertino`风格组件，andriod、fuchsia、windows、linux、web、其他平台默认使用`Material`风格组件，也可以个性化设置各个平台所使用的模式
+
+* 当前只针对Cupertino模式进行了测试，Material组件相对比较完善了，后期也会补上Material模式的测试。
+
+> 使用stable分支，版本与flutter版本保持一致
+
+# 使用
+
+因不可抵抗原因，现 https://pub.flutter-io.cn/ 上的版本是旧版本，所以请使用github上的版本
+
+* 在pubspec.yaml的dependencies加入
+
+```yaml
+base:
+	git:
+		url: git://github.com/nillnil/flutter_base
+		// branch name or tag name
+		ref: x.x.x
+```
+
+* 使用`BaseXxx`组件代替原生组件，参数基本与原生的一致，如：BaseApp, BaseAppBar, BaseButton等组件，如果一个参数只存在于`CupertinoXxx`组件中或`MaterialXxx`组件，则该参数只会对该模式下生效
+
+# 特性
+
+## 差异化构建
+
+> * Baes组件会根据配置的模式，判断是用Cupertino组件还是Material组件构建
+>
+> * 组件大多都是原生组件前缀加上Base命名，如BaseApp，`Cupertino`模式下使用CupertinoApp构建，`Material`模式下使用MaterialApp构建，同时可以使用`isCupertinoMode, isMaterialMode`
+>   这2个方法判断当前使用的模式，进行差异化构建。
+>
+> * 每个Base组件都会有`Map<String, dynamic> cupertino`, `Map<String, dynamic> material`参数，用于在不同模式下的差异化构建，因为同一个参数在Cupertino组件下跟Material组件下的表现会出现一些不一致的情况，所以需要根据不同模式配置不同的值，`Cupertino`模式下参数会以cupertino参数里为准，`Material`模式下参数会以material参数里为准。
+
+```dart
+// 示例
+BaseIcon(
+  // materil模式下先取material参数里的icon参数，取不到再取该值
+  icon: Icons.info,
+  cupertino: <String, dynamic>{
+    // cupertino模式下先取该值，因为取得到，所以不会取外层的icon
+    'icon': CupertinoIcons.info,
+  }
+);
+```
+
+  Cupertino模式下使用的是CupertinoIcons.info，material模式下使用的是Icons.info
+
+<img src="https://github.com/nillnil/flutter_base/blob/master/screenshot/features_demo.png?raw=true" alt="features_demo" width="256" height="78">
+
+### BaseApp.basePlatformMode
+
+> 平台模式，类型为BasePlatformMode，iOS, macOS 默认使用`Cupertino`风格组件，andriod、fuchsia、windows、linux、web、其他平台默认使用`Material`风格组件
+>
+> 使用 `setPlatformMode(PlatformMode? platformMode)` 方法修改平台模式
+>
+> 推荐使用  `BaseApp(platformMode: ...)` 设置平台
+
+### forceUseCupertino、forceUseMaterial
+
+> 每个Base组件的`cupertino、material`参数里都会有`forceUseCupertino、forceUseMaterial`2个参数，用于强制使用某种模式构建该组件，类型为Map<String, dynamic>
+>
+> 由于很多Material组件都需要有Material组件的祖先节点，所以在`Cupertino`模式下使用`forceUseMaterial`参数时会默认套上一层`Material`，`BaseApp.withoutSplashOnCupertino = true`时还会去除Material组件上的水波纹效果，此时`BaseApp.theme`是不会生效的，所以`Theme.of(context)`是取不到正确的效果的。
+>
+> `请慎用！慎用！慎用！避免出现样式混乱等不可预知的bug`
+
+### disabled
+
+> 每个Base组件的`cupertino、material`参数里都会有`disabled`参数，disable = true 会使用Container()代替
+
+```dart
+cupertino: {
+  // 可使该组件强制使用Material构建
+  forceUseMaterial: true,
+  // 可使该组件不进行构建，但会使用Container()代替
+  disabled: true,
+}
+material: {
+  // 可使该组件强制使用Cupertino构建
+  forceUseCupertino: true,
+  // 可使该组件不进行构建，但会使用Container()代替
+  disabled: true,
+}
+```
+
+# Base组件基类
+
+## BaseMixin
+
+基础通用类，有beforeBuild、beforeBuildByMaterial、beforeBuildByCupertino、valueFromMap四个方法，其中beforeBuild、beforeBuildByMaterial、beforeBuildByCupertino用于构建，valueFromMap用于取cupertino，material的值
+
+BaseClass、BaseStatelessWidget、BaseState都会混入该类，构建时执行顺序如下
+
+Cupertino模式：beforeBuild -> beforeBuildByCupertino -> buildByCupertino
+
+Material模式：beforeBuild -> beforeBuildByMaterial -> buildByMaterial
+
+## BaseClass
+
+普通基础类，用于构建普通类，子类必须实现 `buildByCupertino、buildByMaterial` 方法，分别用于构建Cupertino、Material模式，使用时需手动调用`build`方法
+
+## BaseStatelessWidget
+
+无状态Base组件，用于构建无状态组件，子类必须实现 `buildByCupertino、buildByMaterial` 方法，分别用于构建Cupertino、Material模式
+
+* cupertino - 取公共参数的值时，Cupertino模式下会先取该参数里的值，取不到再取公共参数的值，用于差异化构建，取值方法：valueFromCupertino(key, value)
+
+  类型：Map<String, dynamic>?
+
+  默认值：const <String, dynamic>{}
+
+* material -  取公共参数的值时，Material模式下会先取该参数里的值，取不到再取公共参数的值，用于差异化构建，取值方法：valueFromMaterial(key, value)
+
+  类型：Map<String, dynamic>?
+
+  默认值：const <String, dynamic>{}
+
+## BaseStatefulWidget
+
+状态Base组件，用于构建有状态的组件，子类的State类必须继承 `BaseState` 类并实现`buildByCupertino、buildByMaterial` 方法，分别用于构建Cupertino、Material模式
+
+* cupertino - 取公共参数的值时，Cupertino模式下会先取该参数里的值，取不到再取公共参数的值，用于差异化构建，取值方法：valueFromCupertino(key, value)
+
+  类型：Map<String, dynamic>?
+
+  默认值：const <String, dynamic>{}
+
+* material -  取公共参数的值时，Material模式下会先取该参数里的值，取不到再取公共参数的值，用于差异化构建，取值方法：valueFromMaterial(key, value)
+
+  类型：Map<String, dynamic>?
+
+  默认值：const <String, dynamic>{}
+
+## BasePlatformMode
+
+平台构建模式，用于定义各个平台所使用的构建模式，可使用``currentPlatformMode`获取当前的平台模式
+
+```dart
+// 默认值
+const BasePlatformMode({
+  // andriod使用material模式
+  this.android = BaseMode.material,
+  // fuchsia使用material模式
+  this.fuchsia = BaseMode.material,
+  // iOS使用cupertino模式
+  this.iOS = BaseMode.cupertino,
+  // linux使用material模式
+  this.linux = BaseMode.material,
+  // macOS使用cupertino模式
+  this.macOS = BaseMode.cupertino,
+  // windows使用material模式
+  this.windows = BaseMode.material,
+  // web使用material模式
+  this.web = BaseMode.material,
+  // 其他平台使用material模式
+  this.others = BaseMode.material,
+});
+```
+
+## BaseTheme
+
+Base组件样式
+
+* appBarHeight - 全局AppBar.height
+
+  类型：double
+
+  默认值：--
+
+# Base组件列表
+
+> 无特殊说明的参数，同原生参数一致
+
+## BaseActionSheet
+
+Cupertino模式：CupertinoActionSheet
+
+Material模式：自定义的BottomSheet
+
+## BaseActionSheetAction
+
+Cupertino模式: CupertinoActionSheetAction
+
+Material模式: TextButton
+
+## BaseApp
+
+Cupertino模式：CupertinoApp
+
+Material模式：MaterialApp
+
+* cupertinoTheme - CupertinoApp.theme
+
+  类型：CupertinoThemeData?
+
+  默认值：--
+
+* materialTheme - MaterialApp.theme
+
+  类型：ThemeData?
+
+  默认值：--
+
+* basePlatformMode - 平台构建模式
+
+  类型：BasePlatformMode?
+
+  默认值：const BasePlatformMode()
+
+* withoutSplashOnCupertino - 全局是否禁用水波纹，Cupertino模式下，`forceUseMaterial = true` 才会生效
+
+  类型：bool
+
+  默认值：true
+
+## BaseAppBar
+
+Cupertino模式：修改过的CupertinoNavigationBar
+
+Material模式：修改过的AppBar
+
+* backdropFilter - 背景是否使用滤镜，Cupertino模式下backgroundColor有透明度时有效
+
+  类型：bool
+
+  默认值：true
+
+  CupertinoNavigationBar的背景色有透明度时默认会添加高斯模糊，backdropFilter = false，则不会添加高斯模糊，可实现全透明导航栏
+
+* bottom - AppBar.bottom
+
+  类型：PreferredSizeWidget?
+
+  默认值：--
+
+  Cupertino模式下也会生效
+
+  如果title没有值，bottom有值，则bottom会替代title的位置
+
+* bottomOpacity - AppBar.bottomOpacity
+
+  类型：double
+
+  默认值：--
+
+* height - 状态栏高度
+
+  类型：double
+
+  默认值：Cupertino模式：44.0，Material模式：56.0
+
+* middle - CupertinoNavigationBar.middle
+
+  类型：Widget?
+
+  默认值：--
+
+  Cupertino模式下，取不到该值会取title的值
+
+* title - AppBar.title
+
+  类型：Widget?
+
+  默认值：--
+
+  Material模式下，取不到该值会取middle的值
+
+* toolbarOpacity - AppBar.toolbarOpacity
+
+  类型：double
+
+  默认值：--
+
+## BaseButton
+
+Cupertino模式：CupertinoButton / CupertinoButton.filled
+
+Material模式：MaterialButton / TextButton / OutlineButton / RaisedButton
+
+* elevatedButton - 是否使用ElevatedButton，Material模式下有效
+
+  类型：bool
+
+  默认值：false
+
+* filledButton - 是否使用CupertinoButton.filled，Cupertino模式下有效
+
+  类型：bool
+
+  默认值：false
+
+* outlinedButton - 是否使用OutlinedButton，Material模式下有效
+
+  类型：bool
+
+  默认值：false
+
+* textButton - 是否使用TextButton，Material模式下有效
+
+  类型：bool
+
+  默认值：false
+
+## BaseButton.icon
+
+带icon和label的按钮，如不需要label，请使用BaseIconButton
+
+Cupertino模式：CupertinoButton / CupertinoButton.filled
+
+Material模式：MaterialButton / TextButton.icon / OutlineButton.icon / RaisedButton.icon
+
+* icon - 图标
+
+  类型：Widget
+
+  默认值：--
+
+* label - 文本
+
+  类型：Widget
+
+  默认值：--
+
+
+## BaseIconButton
+
+Cupertino模式：CupertinoButton
+
+Material模式：IconButton
+
+* iconSize - Icon.size / IconButton.iconSize
+
+  类型：double
+
+  默认值：24.0
+
+
+## BaseAlertDialog
+
+Cupertino模式：CupertinoAlertDialog
+
+Material模式：AlertDialog
+
+## BaseDialogAction
+
+Cupertino模式：CupertinoDialogAction
+
+Material模式：TextButton
+
+## BaseIcon
+
+Cupertino模式：Icon
+
+Material模式：Icon
+
+## BaseIndicator
+
+Cupertino模式：CupertinoActivityIndicator
+
+Material模式：CircularProgressIndicator / LinearProgressIndicator
+
+* linearIndicator - 是否使用LinearProgressIndicator，Material模式下有效
+
+  类型：bool
+
+  默认值：false
+
+  linearIndicator = true则使用LinearProgressIndicator，否则使用CircularProgressIndicator
+
+## BaseRefresh
+
+Cupertino模式：CustomScrollView + CupertinoSliverRefreshControl
+
+Material模式：RefreshIndicator
+
+* child
+
+  Cupertino模式下支持SliverList / ListView / CustomScrollView / BoxScrollView
+
+  Material模式支持ListView / CustomScrollView
+
+  类型：Widget?
+
+  默认值：--
+
+## BaseScaffold
+
+Cupertino模式：CupertinoPageScaffold
+
+Material模式：Scaffold
+
+当`BaseTheme.of(context).appBarHeight`有值时，会先构建BaseAppBar，再构建BaseScaffold
+
+这么做是为了使`BaseAppBar.height`生效，没值时，则构建顺序相反，后续会考虑使用更好的方式实现`BaseAppBar.height`
+
+* appBar - 导航栏
+
+  类型：BaseAppBar?
+
+  默认值：--
+
+  Material模式先取该值，取不到再取navBar
+
+* navBar - 导航栏
+
+  类型：BaseAppBar?
+
+  默认值：--
+
+  Cupertino模式先取该值，取不到再取appBar
+
+* safeAreaTop - 同SafeArea.top
+
+  类型：false
+
+  默认值：--
+  
+  safeAreaTop = true，会在body外套多一层SafeArea，并且top = true
+  
+* safeAreaBottom - 同SafeArea.bottom
+
+  类型：false
+
+  默认值：--
+
+  safeAreaBottom = true，会在body外套多一层SafeArea，并且bottom = true
+
+## BaseTabScaffold
+
+Cupertino模式：CupertinoTabScaffold + CupertinoTabView
+
+Material模式：Scaffold
+
+Cupertino模式是根据tab的索引在CupertinoTabScaffold.tabBuilder中返回`CupertinoTabView（builder => tabViews[index])`，实现方式太过简单，无法控制每个tab页的CupertinoTabView，后续会重构
+
+* restorationScopeIds - CupertinoTabView.restorationScopeId
+
+  类型：List<String?>?
+
+  默认值：--
+
+* tabBar - CupertinoTabScaffold.tabBar / Scaffold.bottomNavigationBar
+
+  类型：CupertinoTabBar
+
+  默认值：--
+
+* tabViews - CupertinoTabView.builder / Scaffold.body
+
+  类型：List&lt;Widget&gt;
+
+  默认值：--
+
+## BaseScrollBar
+
+Cupertino模式：CupertinoScrollBar
+
+Material模式：ScrollBar
+
+* padding - MediaQuery.data，有值时则会套多一层MediaQuery
+
+  类型： EdgeInsets?
+
+  默认值：--
+
+## BaseSection
+
+Cupertino模式：自定义的Container
+
+Material模式：自定义的Container
+
+略，后续会重构
+
+## BaseTile
+
+Cupertino模式：自定义的没有水波纹的InkWell
+
+Material模式：ListTile
+
+略，后续会重构
+
+## BaseSlider
+
+Cupertino模式：CupertinoSlider
+
+Material模式：Slider
+
+## BaseSwitch
+
+Cupertino模式：CupertinoSwitch
+
+Material模式：Switch
+
+## BaseTabBar
+
+Cupertino模式：CupertinoTabBar
+
+Material模式：BottomNavigationBar
+
+## BaseTextField
+
+Cupertino模式：CupertinoTextField
+
+Material模式：TextField
+
+* cupertinoDecoration - CupertinoTextField.decoration
+
+  类型： BoxDecoration
+
+  默认值：_kDefaultRoundedBorderDecoration
+
+* materialDecoration - TextField.decoration
+
+  类型： InputDecoration
+
+  默认值：InputDecoration()
+
+# Base增强组件
+
+|BaseBarItem|BottomNavigationBarItem|BottomNavigationBarItem|
+|:---------------|:----------|:--------|
+|BaseDrawer|/|/|
+|BaseColor|/|/|
+|BaseRoute|/|/|
+

@@ -21,8 +21,7 @@ class BaseIconButton extends BaseStatelessWidget {
     this.disabledColor,
     this.padding = const EdgeInsets.all(8.0),
     this.onPressed,
-    this.size,
-    this.minSize = 24.0,
+    this.minSize = kMinInteractiveDimensionCupertino,
     this.pressedOpacity = 0.4,
     this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
     this.iconSize = 24.0,
@@ -72,11 +71,6 @@ class BaseIconButton extends BaseStatelessWidget {
   /// or
   /// [IconButton.alignment]
   final AlignmentGeometry alignment;
-
-  /// [CupertinoButton.minSize]
-  /// or
-  /// [IconButton.iconSize]
-  final double? size;
 
   /// *** general properties end ***
 
@@ -140,11 +134,14 @@ class BaseIconButton extends BaseStatelessWidget {
   Widget buildByCupertino(BuildContext context) {
     final Color _disabledColor = valueFromCupertino('disabledColor', disabledColor) ?? CupertinoColors.quaternarySystemFill;
     return CupertinoButton(
-      child: Icon(valueFromCupertino('icon', icon)),
+      child: Icon(
+        valueFromCupertino('icon', icon),
+        size: valueFromCupertino('iconSize', iconSize),
+        color: valueFromCupertino('color', color),
+      ),
       padding: valueFromCupertino('padding', padding),
-      color: valueFromCupertino('color', color),
       disabledColor: _disabledColor,
-      minSize: valueFromCupertino('size', size) ?? minSize,
+      minSize: minSize,
       pressedOpacity: pressedOpacity,
       borderRadius: borderRadius,
       alignment: alignment,
@@ -155,7 +152,7 @@ class BaseIconButton extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     return IconButton(
-      iconSize: valueFromMaterial('size', size) ?? iconSize,
+      iconSize: valueFromMaterial('iconSize', iconSize),
       visualDensity: visualDensity,
       padding: valueFromMaterial('padding', padding),
       alignment: valueFromMaterial('alignment', alignment),

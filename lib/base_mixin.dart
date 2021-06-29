@@ -3,13 +3,13 @@ import 'package:flutter/widgets.dart' show BuildContext;
 /// 通用方法
 mixin BaseMixin {
   /// build之前调用
-  void buildBefore(BuildContext context) {}
+  void beforeBuild(BuildContext context) {}
 
   /// buildByMaterial之前调用
-  void buildByMaterialBefore(BuildContext context) {}
+  void beforeBuildByMaterial(BuildContext context) {}
 
   /// buildByCupertino之前调用
-  void buildByCupertinoBefore(BuildContext context) {}
+  void beforeBuildByCupertino(BuildContext context) {}
 
   /// 从cupertino获取key对应的值，
   /// 如果为null取value的值，

@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import '../base_stateless_widget.dart';
 import '../flutter/cupertino/nav_bar.dart';
 import '../flutter/material/app_bar.dart';
-import '../platform/platform.dart';
+import '../mode/base_mode.dart';
 import '../theme/base_theme.dart';
 import '../theme/base_theme_data.dart';
 
@@ -411,7 +411,7 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
 
   @override
   bool shouldFullyObstruct(BuildContext context) {
-    if (useCupertino) {
+    if (isCupertinoMode) {
       final Color backgroundColor = CupertinoDynamicColor.maybeResolve(this.backgroundColor, context) ?? CupertinoTheme.of(context).barBackgroundColor;
       return backgroundColor.alpha == 0xFF;
     }
@@ -436,7 +436,7 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
   ///   2.是先build BaseAppBar, 再build BaseScaffold
   @override
   Size get preferredSize {
-    double _height = height != null ? height! : (useCupertino ? 44.0 : kToolbarHeight);
+    double _height = height != null ? height! : (isCupertinoMode ? 44.0 : kToolbarHeight);
     final Widget? middle = valueFromMaterial('title', title) ?? valueFromMaterial('middle', this.middle);
     if (middle != null && bottom != null) {
       _height += bottom!.preferredSize.height;

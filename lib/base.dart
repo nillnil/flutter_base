@@ -19,7 +19,7 @@ export 'dialog/base_alert_dialog.dart';
 export 'dialog/base_dialog_action.dart';
 export 'icon/base_icon.dart';
 export 'indicator/base_indicator.dart';
-export 'platform/platform.dart';
+export 'mode/base_mode.dart';
 export 'refresh/base_refresh.dart';
 export 'route/base_route.dart';
 export 'scaffold/base_scaffold.dart';

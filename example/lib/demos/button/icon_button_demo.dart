@@ -17,6 +17,7 @@ class IconButtonDemo extends StatelessWidget {
         child: BaseIconButton(
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
           icon: Icons.add_circle,
+          iconSize: 40,
           color: const BaseColor.highContrast(
             color: Colors.white,
             darkColor: Colors.black,
@@ -40,10 +41,8 @@ class IconButtonDemo extends StatelessWidget {
         padding: EdgeInsets.only(right: 10.0, bottom: 10.0),
         child: BaseIconButton(
           padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-          icon: Icons.image,
-          size: 40,
-          minSize: 40,
           iconSize: 40,
+          icon: Icons.image,
           disabledColor: Colors.grey,
         ),
       ),

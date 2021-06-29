@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter/material.dart';
 
 import '../base_stateless_widget.dart';
-import '../platform/platform.dart';
+import '../mode/base_mode.dart';
 import '../theme/base_theme.dart';
 import '../theme/base_theme_data.dart';
 
@@ -47,7 +47,7 @@ class BaseApp extends BaseStatelessWidget {
     this.restorationScopeId,
     this.scrollBehavior,
     this.targetPlatform,
-    this.platformMode,
+    this.basePlatformMode,
     this.baseTheme,
     this.shortcuts,
     this.actions,
@@ -180,8 +180,8 @@ class BaseApp extends BaseStatelessWidget {
   @Deprecated('instead of platformMode')
   final TargetPlatform? targetPlatform;
 
-  /// [basePlatform]
-  final PlatformMode? platformMode;
+  /// [BasePlatformMode]
+  final BasePlatformMode? basePlatformMode;
 
   /// [BaseThemeData]
   final BaseThemeData? baseTheme;
@@ -248,11 +248,11 @@ class BaseApp extends BaseStatelessWidget {
   /// *** material properties end ***
 
   @override
-  void buildBefore(BuildContext context) {
-    super.buildBefore(context);
+  void beforeBuild(BuildContext context) {
+    super.beforeBuild(context);
     // 设置目标平台模式
-    setPlatformMode(
-      platformMode: platformMode,
+    setBasePlatformMode(
+      basePlatformMode: basePlatformMode,
       withoutSplashOnCupertino: withoutSplashOnCupertino,
     );
   }
@@ -364,7 +364,7 @@ class BaseApp extends BaseStatelessWidget {
         title: valueFromMaterial('title', title),
         onGenerateTitle: valueFromMaterial('onGenerateTitle', onGenerateTitle),
         color: valueFromMaterial('color', color),
-        theme: valueFromMaterial('theme', materialTheme),
+        theme: materialTheme,
         darkTheme: darkTheme,
         highContrastTheme: highContrastTheme,
         highContrastDarkTheme: highContrastDarkTheme,

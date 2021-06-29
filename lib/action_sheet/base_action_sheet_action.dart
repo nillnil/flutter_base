@@ -55,8 +55,7 @@ class BaseActionSheetAction extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     final Widget _child = valueFromMaterial('child', child);
-    final TextStyle actionStyle =
-        (Theme.of(context).textTheme.button ?? const TextStyle()).copyWith(
+    final TextStyle actionStyle = (Theme.of(context).textTheme.button ?? const TextStyle()).copyWith(
       inherit: false,
       fontSize: 20.0,
       fontWeight: isDefaultAction ? FontWeight.bold : FontWeight.w400,
@@ -67,8 +66,7 @@ class BaseActionSheetAction extends BaseStatelessWidget {
       child: _child,
       style: ButtonStyle(
         textStyle: MaterialStateProperty.all(actionStyle),
-        padding: MaterialStateProperty.all(
-            const EdgeInsets.symmetric(vertical: 10.0)),
+        padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 10.0)),
       ),
       onPressed: () {
         if (onPressed != null) {

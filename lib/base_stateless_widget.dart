@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import './components/base_material_widget.dart';
-import './platform/platform.dart';
 import 'base_constants.dart';
 import 'base_mixin.dart';
+import 'components/base_material_widget.dart';
+import 'mode/base_mode.dart';
 
 /// 基础无状态组件
 /// cupertino使用buildByCupertino方法构建，material使用buildByMaterial方法构建
@@ -31,8 +31,8 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
 
   @override
   Widget build(BuildContext context) {
-    buildBefore(context);
-    if (useCupertino) {
+    beforeBuild(context);
+    if (isCupertinoMode) {
       if (cupertino != null) {
         // 禁止构建
         if (cupertino?[disabled] != null && cupertino?[disabled] as bool) {
@@ -40,11 +40,10 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
         }
         // cupertino模式，ios下使用
         // forceUseMaterial = true 强制使用material模式
-        if (cupertino?[forceUseMaterial] != null &&
-            cupertino?[forceUseMaterial] as bool) {
+        if (cupertino?[forceUseMaterial] != null && cupertino?[forceUseMaterial] as bool) {
           // *** 请注意，此时BaseApp上的theme参数是不生效的 ***
           // 默认套多一层 Material
-          buildByMaterialBefore(context);
+          beforeBuildByMaterial(context);
           if (withoutSplashOnCupertino) {
             return BaseMaterialWidget.withoutSplash(
               theme: Theme.of(context),
@@ -54,9 +53,9 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
           return BaseMaterialWidget(child: buildByMaterial(context));
         }
       }
-      buildByCupertinoBefore(context);
+      beforeBuildByCupertino(context);
       return buildByCupertino(context);
-    } else if (useMaterial) {
+    } else if (isMaterialMode) {
       if (material != null) {
         // 禁止构建
         if (material?[disabled] != null && material?[disabled] as bool) {
@@ -64,14 +63,13 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
         }
         // material模式，android跟fuchsia下使用
         // forceUseCupertino = true 强制使用cupertino模式
-        if (material?[forceUseCupertino] != null &&
-            material?[forceUseCupertino] as bool) {
+        if (material?[forceUseCupertino] != null && material?[forceUseCupertino] as bool) {
           // *** 请注意，此时BaseApp上的cupertinoTheme参数是不生效的 ***
-          buildByCupertinoBefore(context);
+          beforeBuildByCupertino(context);
           return buildByCupertino(context);
         }
       }
-      buildByMaterialBefore(context);
+      beforeBuildByMaterial(context);
       return buildByMaterial(context);
     } else {
       print('The platformMode is = $currentPlatformMode, it not support yet.');

@@ -25,7 +25,7 @@ class BaseIndicator extends BaseStatelessWidget {
     this.minHeight,
     this.semanticsLabel,
     this.semanticsValue,
-    this.linear = false,
+    this.linearIndicator = false,
     Map<String, dynamic>? cupertino,
     Map<String, dynamic>? material,
   }) : super(key: key, cupertino: cupertino, material: material);
@@ -69,7 +69,7 @@ class BaseIndicator extends BaseStatelessWidget {
   /// if true use LinearProgressIndicator,
   /// if false use CircularProgressIndicator,
   /// default is false
-  final bool linear;
+  final bool linearIndicator;
 
   /// *** material properties end ***
 
@@ -83,7 +83,7 @@ class BaseIndicator extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    if (linear) {
+    if (linearIndicator) {
       return LinearProgressIndicator(
         value: value,
         backgroundColor: backgroundColor,

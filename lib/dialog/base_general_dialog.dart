@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../base_stateless_widget.dart';
-import '../platform/platform.dart';
+import '../mode/base_mode.dart';
 
 @Deprecated('')
 class BaseGeneralDialog extends BaseStatelessWidget {
@@ -44,16 +44,16 @@ class BaseGeneralDialog extends BaseStatelessWidget {
 
   Future<T?> show<T>(BuildContext context) {
     final bool _barrierDismissible =
-        useCupertino ? valueFromCupertino('barrierDismissible', barrierDismissible) : valueFromMaterial('barrierDismissible', barrierDismissible);
-    final String _barrierLabel = useCupertino
+        isCupertinoMode ? valueFromCupertino('barrierDismissible', barrierDismissible) : valueFromMaterial('barrierDismissible', barrierDismissible);
+    final String _barrierLabel = isCupertinoMode
         ? valueFromCupertino('barrierLabel', barrierLabel) ?? ''
         : valueFromMaterial('barrierLabel', barrierLabel) ?? MaterialLocalizations.of(context).modalBarrierDismissLabel;
-    final Color _barrierColor = useCupertino ? valueFromCupertino('barrierColor', barrierColor) : valueFromMaterial('barrierColor', barrierColor);
+    final Color _barrierColor = isCupertinoMode ? valueFromCupertino('barrierColor', barrierColor) : valueFromMaterial('barrierColor', barrierColor);
     final Duration _transitionDuration =
-        useCupertino ? valueFromCupertino('transitionDuration', transitionDuration) : valueFromMaterial('transitionDuration', transitionDuration);
-    final RoutePageBuilder? _pageBuilder = useCupertino ? valueFromCupertino('pageBuilder', pageBuilder) : valueFromMaterial('pageBuilder', pageBuilder);
+        isCupertinoMode ? valueFromCupertino('transitionDuration', transitionDuration) : valueFromMaterial('transitionDuration', transitionDuration);
+    final RoutePageBuilder? _pageBuilder = isCupertinoMode ? valueFromCupertino('pageBuilder', pageBuilder) : valueFromMaterial('pageBuilder', pageBuilder);
     final RouteTransitionsBuilder? _transitionBuilder =
-        useCupertino ? valueFromCupertino('transitionBuilder', transitionBuilder) : valueFromMaterial('transitionBuilder', transitionBuilder);
+        isCupertinoMode ? valueFromCupertino('transitionBuilder', transitionBuilder) : valueFromMaterial('transitionBuilder', transitionBuilder);
 
     return showGeneralDialog<T>(
       context: context,

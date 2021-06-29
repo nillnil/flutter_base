@@ -48,7 +48,7 @@ class _Demo extends StatelessWidget {
     _routes.add(
       const _RouteButton(title: 'normal'),
     );
-    if (useCupertino) {
+    if (isCupertinoMode) {
       _routes.add(
         const _RouteButton(
           title: 'fullscreenGackGesture',

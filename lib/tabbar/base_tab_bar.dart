@@ -175,6 +175,7 @@ class BaseTabBar extends BaseStatelessWidget {
       showSelectedLabels: showSelectedLabels,
       showUnselectedLabels: showUnselectedLabels,
       mouseCursor: mouseCursor,
+      enableFeedback: enableFeedback,
     );
   }
 

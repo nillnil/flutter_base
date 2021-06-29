@@ -1,4 +1,4 @@
-import 'package:base/platform/platform.dart';
+import 'package:base/mode/base_mode.dart';
 import 'package:flutter/widgets.dart';
 
 import '../demo_page.dart';
@@ -28,7 +28,7 @@ class AppBarDemo extends StatelessWidget {
       ),
     ];
 
-    if (useCupertino) {
+    if (isCupertinoMode) {
       _demos.add(
         const DemoTile(
           title: Text('toolbarOpacity'),

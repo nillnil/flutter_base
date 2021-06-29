@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './components/base_material_widget.dart';
-import './platform/platform.dart';
+import 'mode/base_mode.dart';
 import 'base_constants.dart';
 import 'base_mixin.dart';
 
@@ -30,8 +30,7 @@ abstract class BaseStatefulWidget extends StatefulWidget {
   final Map<String, dynamic>? material;
 }
 
-abstract class BaseState<T extends BaseStatefulWidget> extends State<T>
-    with BaseMixin {
+abstract class BaseState<T extends BaseStatefulWidget> extends State<T> with BaseMixin {
   @override
   T get widget => super.widget;
 
@@ -43,16 +42,14 @@ abstract class BaseState<T extends BaseStatefulWidget> extends State<T>
 
   @override
   Widget build(BuildContext context) {
-    buildBefore(context);
-    if (useCupertino) {
+    beforeBuild(context);
+    if (isCupertinoMode) {
       // cupertino模式，ios下使用
       // forceUseMaterial = true 强制使用material模式
-      if (widget.cupertino != null &&
-          widget.cupertino?[forceUseMaterial] != null &&
-          widget.cupertino?[forceUseMaterial] as bool) {
+      if (widget.cupertino != null && widget.cupertino?[forceUseMaterial] != null && widget.cupertino?[forceUseMaterial] as bool) {
         // *** 请注意，此时BaseApp上的theme参数是不生效的 ***
         // 默认套多一层 Material
-        buildByMaterialBefore(context);
+        beforeBuildByMaterial(context);
         // 去除水波纹效果
         if (withoutSplashOnCupertino) {
           return BaseMaterialWidget.withoutSplash(
@@ -62,19 +59,17 @@ abstract class BaseState<T extends BaseStatefulWidget> extends State<T>
         }
         return BaseMaterialWidget(child: buildByMaterial(context));
       }
-      buildByCupertinoBefore(context);
+      beforeBuildByCupertino(context);
       return buildByCupertino(context);
-    } else if (useMaterial) {
+    } else if (isMaterialMode) {
       // material模式，android跟fuchsia下使用
       // forceUseCupertino = true 强制使用cupertino模式
-      if (widget.material != null &&
-          widget.material?[forceUseCupertino] != null &&
-          widget.material?[forceUseCupertino] as bool) {
+      if (widget.material != null && widget.material?[forceUseCupertino] != null && widget.material?[forceUseCupertino] as bool) {
         // *** 请注意，此时BaseApp上的cupertinoTheme参数是不生效的 ***
-        buildByCupertinoBefore(context);
+        beforeBuildByCupertino(context);
         return buildByCupertino(context);
       }
-      buildByMaterialBefore(context);
+      beforeBuildByMaterial(context);
       return buildByMaterial(context);
     } else {
       print('The platformMode is = $currentPlatformMode, it not support yet.');

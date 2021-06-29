@@ -1,3 +1,6 @@
+import 'dart:math' as math;
+import 'dart:ui' show lerpDouble;
+
 import 'package:flutter/cupertino.dart' show CupertinoButton, ShapeBorder, CupertinoColors;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -25,7 +28,7 @@ class BaseButton extends BaseStatelessWidget {
     this.pressedOpacity = 0.4,
     this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
     this.alignment = Alignment.center,
-    this.filled = false,
+    this.filledButton = false,
     this.onLongPress,
     this.style,
     this.onHighlightChanged,
@@ -72,68 +75,30 @@ class BaseButton extends BaseStatelessWidget {
   /// [outlinedButtonButton.icon]
   /// or
   /// [ElevatedButton.icon]
-  BaseButton.icon({
+  const factory BaseButton.icon({
     Key? key,
-    this.color,
-    this.onPressed,
-    this.disabledColor,
-    this.padding,
-    this.minSize = 44.0,
-    this.pressedOpacity = 0.4,
-    this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
-    this.filled = false,
-    this.onLongPress,
-    this.style,
-    this.alignment = Alignment.center,
-    this.onHighlightChanged,
-    this.textTheme,
-    this.textColor,
-    this.disabledTextColor,
-    this.focusColor,
-    this.hoverColor,
-    this.highlightColor,
-    this.splashColor,
-    this.colorBrightness,
-    this.elevation,
-    this.focusElevation,
-    this.highlightElevation,
-    this.disabledElevation,
-    this.visualDensity,
-    this.shape,
-    this.clipBehavior = Clip.none,
-    this.focusNode,
-    this.autofocus = false,
-    this.materialTapTargetSize,
-    this.animationDuration,
-    this.minWidth,
-    this.mouseCursor,
-    this.hoverElevation,
-    this.enableFeedback = true,
-
-    // 使按钮跟CupertinoButton的一样高
-    this.height = 48.0,
-    this.textButton = false,
-    this.outlinedButton = false,
-    this.elevatedButton = false,
-
-    /// use textButtonButton.icon or OutlineButton.icon or elevatedButtonButton.icon.
-    /// if do not want to have label, use BaseIconButton.
-    @required Widget? icon,
-    Widget? label,
-    double interval = 8.0,
+    VoidCallback? onPressed,
+    VoidCallback? onLongPress,
+    ButtonStyle? style,
+    FocusNode? focusNode,
+    bool autofocus,
+    Clip clipBehavior,
+    EdgeInsetsGeometry? padding,
+    Color? color,
+    Color? disabledColor,
+    double minSize,
+    double? pressedOpacity,
+    BorderRadius? borderRadius,
+    AlignmentGeometry alignment,
+    Widget icon,
+    Widget label,
+    bool filledButton,
+    bool textButton,
+    bool outlinedButton,
+    bool elevatedButton,
     Map<String, dynamic>? cupertino,
     Map<String, dynamic>? material,
-  })  : child = label != null
-            ? Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  icon!,
-                  SizedBox(width: interval),
-                  label,
-                ],
-              )
-            : icon,
-        super(key: key, cupertino: cupertino, material: material);
+  }) = _BaseButtonWithIcon;
 
   /// *** general properties start ***
 
@@ -180,7 +145,7 @@ class BaseButton extends BaseStatelessWidget {
 
   /// [CupertinoButton.filled]
   /// use CupertinoButton.filled, will ignore the color, use primary color.
-  final bool filled;
+  final bool filledButton;
 
   /// *** cupertino properties ened ***
 
@@ -284,13 +249,18 @@ class BaseButton extends BaseStatelessWidget {
   @override
   Widget buildByCupertino(BuildContext context) {
     final Widget _child = valueFromCupertino('child', child);
-    assert(_child != null, 'child can\'t be null.');
+    return buildByCupertinoWithChild(_child);
+  }
+
+  /// 最终的构建方法，为了兼容BaseButton.icon
+  Widget buildByCupertinoWithChild(Widget child) {
+    assert(child != null, 'child can\'t be null.');
     final Color _disabledColor = valueFromCupertino('disabledColor', disabledColor) ?? CupertinoColors.quaternarySystemFill;
     final EdgeInsetsGeometry? _padding = valueFromCupertino('padding', padding);
     final VoidCallback? _onPressed = valueFromCupertino('onPressed', onPressed);
-    if (filled) {
+    if (filledButton) {
       return CupertinoButton.filled(
-        child: _child,
+        child: child,
         padding: _padding,
         disabledColor: _disabledColor,
         minSize: minSize,
@@ -301,7 +271,7 @@ class BaseButton extends BaseStatelessWidget {
       );
     }
     return CupertinoButton(
-      child: _child,
+      child: child,
       padding: _padding,
       color: valueFromCupertino('color', color),
       disabledColor: _disabledColor,
@@ -315,6 +285,12 @@ class BaseButton extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
+    final Widget _child = valueFromMaterial('child', child);
+    return buildByMaterialWithChild(_child);
+  }
+
+  /// 最终的构建方法，为了兼容BaseButton.icon
+  Widget buildByMaterialWithChild(Widget child) {
     assert(
       (!textButton && !outlinedButton && !elevatedButton) ||
           (textButton && !outlinedButton && !elevatedButton) ||
@@ -322,8 +298,7 @@ class BaseButton extends BaseStatelessWidget {
           (!textButton && !outlinedButton && elevatedButton),
       'textButton and outline can not be true at the same time.',
     );
-    final Widget _child = valueFromMaterial('child', child);
-    assert(_child != null, 'child can\'t be null.');
+    assert(child != null, 'child can\'t be null.');
     final VoidCallback? _onPressed = valueFromMaterial('onPressed', onPressed);
     if (textButton) {
       return TextButton(
@@ -333,7 +308,7 @@ class BaseButton extends BaseStatelessWidget {
         focusNode: focusNode,
         autofocus: autofocus,
         clipBehavior: clipBehavior,
-        child: _child,
+        child: child,
       );
     } else if (outlinedButton) {
       return OutlinedButton(
@@ -343,7 +318,7 @@ class BaseButton extends BaseStatelessWidget {
         focusNode: focusNode,
         autofocus: autofocus,
         clipBehavior: clipBehavior,
-        child: _child,
+        child: child,
       );
     } else if (elevatedButton) {
       return ElevatedButton(
@@ -353,7 +328,7 @@ class BaseButton extends BaseStatelessWidget {
         focusNode: focusNode,
         autofocus: autofocus,
         clipBehavior: clipBehavior,
-        child: _child,
+        child: child,
       );
     }
     return MaterialButton(
@@ -387,7 +362,99 @@ class BaseButton extends BaseStatelessWidget {
       minWidth: minWidth,
       height: height,
       enableFeedback: enableFeedback,
-      child: _child,
+      child: child,
+    );
+  }
+}
+
+/// 带icon的BaseButton
+class _BaseButtonWithIcon extends BaseButton {
+  const _BaseButtonWithIcon({
+    Key? key,
+    VoidCallback? onPressed,
+    VoidCallback? onLongPress,
+    ButtonStyle? style,
+    FocusNode? focusNode,
+    bool autofocus = false,
+    Clip clipBehavior = Clip.none,
+    EdgeInsetsGeometry? padding,
+    Color? color,
+    Color? disabledColor,
+    double? minSize = 24.0,
+    double? pressedOpacity = .4,
+    BorderRadius? borderRadius = const BorderRadius.all(Radius.circular(8.0)),
+    AlignmentGeometry alignment = Alignment.center,
+    this.icon,
+    this.label,
+    bool filledButton = false,
+    bool textButton = false,
+    bool outlinedButton = false,
+    bool elevatedButton = false,
+    Map<String, dynamic>? cupertino = const <String, dynamic>{},
+    Map<String, dynamic>? material = const <String, dynamic>{},
+  }) : super(
+          key: key,
+          onPressed: onPressed,
+          onLongPress: onLongPress,
+          style: style,
+          focusNode: focusNode,
+          autofocus: autofocus,
+          clipBehavior: clipBehavior,
+          padding: padding,
+          color: color,
+          disabledColor: disabledColor,
+          minSize: minSize,
+          pressedOpacity: pressedOpacity,
+          borderRadius: borderRadius,
+          alignment: alignment,
+          textButton: textButton,
+          filledButton: filledButton,
+          outlinedButton: outlinedButton,
+          elevatedButton: elevatedButton,
+          cupertino: cupertino,
+          material: material,
+        );
+
+  final Widget? icon;
+  final Widget? label;
+
+  @override
+  Widget buildByCupertino(BuildContext context) {
+    final Widget _icon = valueFromCupertino('icon', icon);
+    final Widget? _label = valueFromCupertino('label', label);
+    assert(_icon != null, 'icon can\'t be null.');
+    final Widget _child = _ButtonWithIconChild(icon: icon!, label: _label);
+    return super.buildByCupertinoWithChild(_child);
+  }
+
+  @override
+  Widget buildByMaterial(BuildContext context) {
+    final Widget _icon = valueFromMaterial('icon', icon);
+    final Widget _label = valueFromMaterial('label', label);
+    assert(_icon != null, 'icon can\'t be null.');
+    final Widget _child = _ButtonWithIconChild(icon: icon!, label: _label);
+    return super.buildByMaterialWithChild(_child);
+  }
+}
+
+/// BaseButton.Icon.child
+class _ButtonWithIconChild extends StatelessWidget {
+  const _ButtonWithIconChild({
+    Key? key,
+    required this.label,
+    required this.icon,
+  }) : super(key: key);
+
+  final Widget? label;
+  final Widget icon;
+
+  @override
+  Widget build(BuildContext context) {
+    final double scale = MediaQuery.maybeOf(context)?.textScaleFactor ?? 1;
+    final double gap = scale <= 1 ? 8 : lerpDouble(8, 4, math.min(scale - 1, 1))!;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: label != null ? <Widget>[icon, SizedBox(width: gap), label!] : <Widget>[icon],
     );
   }
 }

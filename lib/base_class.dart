@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart' show BuildContext;
 
-import './platform/platform.dart';
+import 'mode/base_mode.dart';
 import 'base_constants.dart';
 import 'base_mixin.dart';
 
@@ -28,22 +28,22 @@ abstract class BaseClass with BaseMixin {
   final Map<String, dynamic>? material;
 
   dynamic build(BuildContext context) {
-    buildBefore(context);
-    if (useCupertino) {
+    beforeBuild(context);
+    if (isCupertinoMode) {
       // cupertino样式，ios下使用
       // forceUseMaterial = true 强制使用material样式
       if (cupertino != null && cupertino?[forceUseMaterial] != null && cupertino?[forceUseMaterial] as bool) {
         return buildByMaterial(context);
       }
-      buildByCupertinoBefore(context);
+      beforeBuildByCupertino(context);
       return buildByCupertino(context);
-    } else if (useMaterial) {
+    } else if (isMaterialMode) {
       // material样式，android跟fuchsia下使用
       // forceUseCupertino = true 强制使用cupertino样式
       if (material != null && material?[forceUseCupertino] != null && material?[forceUseCupertino] as bool) {
         return buildByCupertino(context);
       }
-      buildByMaterialBefore(context);
+      beforeBuildByMaterial(context);
       return buildByMaterial(context);
     } else {
       print('The platformMode is = $currentPlatformMode, it not support yet.');

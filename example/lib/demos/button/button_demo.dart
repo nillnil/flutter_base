@@ -1,6 +1,4 @@
 import 'package:base/base.dart';
-import 'package:base/button/base_button.dart';
-import 'package:base/platform/platform.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,9 +12,7 @@ class ButtonDemo extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final bool _isLightness =
-        (MediaQuery.maybeOf(context)?.platformBrightness ?? Brightness.light) ==
-            Brightness.light;
+    final bool _isLightness = (MediaQuery.maybeOf(context)?.platformBrightness ?? Brightness.light) == Brightness.light;
     final List<Widget> children = <Widget>[];
     const EdgeInsets _padding = EdgeInsets.only(bottom: 10.0);
     const EdgeInsets _buttonPadding = EdgeInsets.symmetric(
@@ -52,7 +48,7 @@ class ButtonDemo extends StatelessWidget {
         ),
       ),
     );
-    if (useCupertino) {
+    if (isCupertinoMode) {
       children.add(
         Padding(
           padding: _padding,
@@ -66,7 +62,7 @@ class ButtonDemo extends StatelessWidget {
               ),
             ),
             onPressed: () {},
-            filled: true,
+            filledButton: true,
           ),
         ),
       );
@@ -101,12 +97,12 @@ class ButtonDemo extends StatelessWidget {
               ),
             ),
             onPressed: () {},
-            filled: true,
+            filledButton: true,
           ),
         ),
       );
     }
-    if (useMaterial) {
+    if (isMaterialMode) {
       children.add(
         Padding(
           padding: _padding,
@@ -171,9 +167,7 @@ class ButtonDemo extends StatelessWidget {
             child: Text(
               'OutlinedButton',
               style: TextStyle(
-                color: (useMaterial && !_isLightness)
-                    ? Colors.white
-                    : Colors.black,
+                color: (isMaterialMode && !_isLightness) ? Colors.white : Colors.black,
               ),
             ),
             onPressed: () {},
@@ -193,9 +187,7 @@ class ButtonDemo extends StatelessWidget {
             label: Text(
               'OutlinedButton.icon',
               style: TextStyle(
-                color: (useMaterial && !_isLightness)
-                    ? Colors.white
-                    : Colors.black,
+                color: (isMaterialMode && !_isLightness) ? Colors.white : Colors.black,
               ),
             ),
             onPressed: () {},

@@ -17,7 +17,7 @@ class _CustomHeightState extends State<CustomHeight> {
   @override
   void initState() {
     super.initState();
-    if (useCupertino) {
+    if (isCupertinoMode) {
       _height = 44;
     } else {
       _height = 56;
@@ -33,7 +33,7 @@ class _CustomHeightState extends State<CustomHeight> {
         padding: const EdgeInsetsDirectional.only(end: 10.0),
         actions: <Widget>[
           Padding(
-            padding: useCupertino
+            padding: isCupertinoMode
                 ? EdgeInsets.zero
                 : const EdgeInsets.only(right: 20.0),
             child: const BaseIcon(

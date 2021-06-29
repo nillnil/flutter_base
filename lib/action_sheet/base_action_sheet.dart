@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../base_constants.dart';
 import '../base_stateless_widget.dart';
-import '../platform/platform.dart';
+import '../mode/base_mode.dart';
 
 /// BaseActionSheet
 /// use CupertinoActionSheet by cupertino
@@ -159,10 +159,8 @@ class BaseActionSheet extends BaseStatelessWidget {
       color: Color(0x33000000),
       darkColor: Color(0x7A000000),
     );
-    if (useCupertino) {
-      if (cupertino != null &&
-          cupertino![forceUseMaterial] != null &&
-          cupertino![forceUseMaterial]) {
+    if (isCupertinoMode) {
+      if (cupertino != null && cupertino![forceUseMaterial] != null && cupertino![forceUseMaterial]) {
         final bool _useRootNavigator = useRootNavigator ??= false;
         return _showByMaterial<T>(
           context,
@@ -185,9 +183,7 @@ class BaseActionSheet extends BaseStatelessWidget {
         routeSettings: routeSettings,
       );
     } else {
-      if (material != null &&
-          material![forceUseCupertino] != null &&
-          material![forceUseCupertino]) {
+      if (material != null && material![forceUseCupertino] != null && material![forceUseCupertino]) {
         final bool _useRootNavigator = useRootNavigator ??= true;
         return _showByCupertino<T>(
           context,
@@ -199,16 +195,16 @@ class BaseActionSheet extends BaseStatelessWidget {
         );
       }
       final bool _useRootNavigator = useRootNavigator ??= false;
-        return _showByMaterial<T>(
-          context,
-          barrierColor: barrierColor,
-          isScrollControlled: isScrollControlled,
-          useRootNavigator: _useRootNavigator,
-          isDismissible: isDismissible,
-          enableDrag: enableDrag,
-          routeSettings: routeSettings,
-          transitionAnimationController: transitionAnimationController,
-        );
+      return _showByMaterial<T>(
+        context,
+        barrierColor: barrierColor,
+        isScrollControlled: isScrollControlled,
+        useRootNavigator: _useRootNavigator,
+        isDismissible: isDismissible,
+        enableDrag: enableDrag,
+        routeSettings: routeSettings,
+        transitionAnimationController: transitionAnimationController,
+      );
     }
   }
 
@@ -320,14 +316,13 @@ class _MaterialAlertContentSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Widget> titleContentGroup = <Widget>[];
-    final TextStyle _contentStyle =
-        (Theme.of(context).textTheme.headline6 ?? const TextStyle()).copyWith(
-              inherit: false,
-              fontSize: 13.0,
-              fontWeight: FontWeight.w400,
-              color: _kContentTextColor,
-              textBaseline: TextBaseline.alphabetic,
-            );
+    final TextStyle _contentStyle = (Theme.of(context).textTheme.headline6 ?? const TextStyle()).copyWith(
+      inherit: false,
+      fontSize: 13.0,
+      fontWeight: FontWeight.w400,
+      color: _kContentTextColor,
+      textBaseline: TextBaseline.alphabetic,
+    );
     if (title != null) {
       titleContentGroup.add(
         Padding(

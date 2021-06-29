@@ -158,7 +158,7 @@ class Home extends StatelessWidget {
         cupertino: <String, dynamic>{
           'leading': BaseIconButton(
             icon: IconFont.info,
-            size: 24,
+            iconSize: 24,
             onPressed: () {
               final double paddingTop = MediaQuery.of(context).padding.top;
               const GlobalObjectKey<BaseDrawerState> _drawerKey = GlobalObjectKey<BaseDrawerState>('home_drawer');
@@ -202,7 +202,7 @@ class Home extends StatelessWidget {
           ClipOval(
             child: BaseIconButton(
               icon: IconFont.settings,
-              size: 20,
+              iconSize: 20,
               material: const <String, dynamic>{
                 'color': Colors.white,
               },

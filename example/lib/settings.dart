@@ -260,7 +260,7 @@ class _PlatformWidget extends StatelessWidget {
           header: Padding(
             padding: const EdgeInsets.only(left: 10.0),
             child: Text(
-              '当前平台模式：${useCupertino ? 'Cupertino' : 'Material'}',
+              '当前平台模式：${isCupertinoMode ? 'Cupertino' : 'Material'}',
               style: const TextStyle(
                 fontSize: 12.0,
                 color: Colors.grey,
@@ -276,7 +276,7 @@ class _PlatformWidget extends StatelessWidget {
               trailing: BaseSwitch(
                 value: currentPlatformMode != defaultPlatformMode,
                 onChanged: (_) {
-                  PlatformMode? platformMode = appProvider.platformMode;
+                  BasePlatformMode? platformMode = appProvider.platformMode;
                   platformMode = platformMode?.changePlatformMode(
                       mode: currentPlatformMode == BaseMode.cupertino
                           ? BaseMode.material
