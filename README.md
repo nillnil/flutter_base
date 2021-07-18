@@ -15,12 +15,12 @@
 - 在 pubspec.yaml 的 dependencies 加入
 
 ```yaml
-dependencies:
+dependencies: 
   base:
-		git:
-			url: git://github.com/nillnil/flutter_base
-			// branch name or tag name
-			ref: x.x.x
+    git:
+      url: git://github.com/nillnil/flutter_base
+      // branch name or tag name
+      ref: x.x.x
 ```
 
 ## [文档](https://nillnil.github.io/flutter_base/)
