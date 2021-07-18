@@ -30,7 +30,7 @@ class _Demo extends StatefulWidget {
 }
 
 class _DemoState extends State<_Demo> {
-  RandomColor _randomColor = RandomColor();
+  BaseRandomColor _randomColor = BaseRandomColor();
 
   Color get _color => _randomColor;
 
@@ -49,7 +49,7 @@ class _DemoState extends State<_Demo> {
               margin: const EdgeInsets.symmetric(vertical: 10.0),
             ),
             onTap: () {
-              _randomColor = RandomColor();
+              _randomColor = BaseRandomColor();
               setState(() {});
             },
           ),

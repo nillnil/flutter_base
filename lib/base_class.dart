@@ -1,8 +1,7 @@
 import 'package:flutter/widgets.dart' show BuildContext;
 
-import 'mode/base_mode.dart';
 import 'base_constants.dart';
-import 'base_mixin.dart';
+import 'mode/base_mode.dart';
 
 /// 基础类
 /// cupertino使用buildByCupertino方法构建，material使用buildByMaterial方法构建
@@ -18,7 +17,7 @@ import 'base_mixin.dart';
 /// *** cupertino模式使用 valueFromCupertino(key, value) 获取，
 /// *** material模式使用 valueFromMaterial(key, value) 获取
 /// ***
-abstract class BaseClass with BaseMixin {
+abstract class BaseClass {
   const BaseClass({
     this.cupertino = const <String, dynamic>{},
     this.material = const <String, dynamic>{},
@@ -30,7 +29,7 @@ abstract class BaseClass with BaseMixin {
   dynamic build(BuildContext context) {
     beforeBuild(context);
     if (isCupertinoMode) {
-      // cupertino样式，ios下使用
+      // cupertino样式
       // forceUseMaterial = true 强制使用material样式
       if (cupertino != null && cupertino?[forceUseMaterial] != null && cupertino?[forceUseMaterial] as bool) {
         return buildByMaterial(context);
@@ -38,7 +37,7 @@ abstract class BaseClass with BaseMixin {
       beforeBuildByCupertino(context);
       return buildByCupertino(context);
     } else if (isMaterialMode) {
-      // material样式，android跟fuchsia下使用
+      // material样式
       // forceUseCupertino = true 强制使用cupertino样式
       if (material != null && material?[forceUseCupertino] != null && material?[forceUseCupertino] as bool) {
         return buildByCupertino(context);
@@ -46,9 +45,31 @@ abstract class BaseClass with BaseMixin {
       beforeBuildByMaterial(context);
       return buildByMaterial(context);
     } else {
-      print('The platformMode is = $currentPlatformMode, it not support yet.');
+      print('The currentBaseMode is = $currentBaseMode, it not support yet.');
       return null;
     }
+  }
+
+  /// build之前调用
+  void beforeBuild(BuildContext context) {}
+
+  /// buildByMaterial之前调用
+  void beforeBuildByMaterial(BuildContext context) {}
+
+  /// buildByCupertino之前调用
+  void beforeBuildByCupertino(BuildContext context) {}
+
+  /// build on cupertino mode
+  dynamic buildByCupertino(BuildContext context);
+
+  /// build on material mode
+  dynamic buildByMaterial(BuildContext context);
+
+  /// 从cupertino获取key对应的值，
+  /// 如果为null取value的值，
+  /// 如果还是null则取material里的值
+  dynamic valueFromMap(Map<String, dynamic>? map, String key, dynamic value) {
+    return map != null ? map[key] ?? value : value;
   }
 
   /// 从cupertino获取key对应的值，
@@ -64,10 +85,4 @@ abstract class BaseClass with BaseMixin {
   dynamic valueFromMaterial(String key, dynamic value) {
     return valueFromMap(material, key, value);
   }
-
-  /// build on cupertino mode
-  dynamic buildByCupertino(BuildContext context);
-
-  /// build on material mode
-  dynamic buildByMaterial(BuildContext context);
 }

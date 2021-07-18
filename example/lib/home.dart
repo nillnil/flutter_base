@@ -1,6 +1,8 @@
 import 'package:base/base.dart';
+import 'package:example/provider/app_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'demos/demos.dart';
 import 'demos/scaffold/scaffold_demos.dart';
@@ -209,16 +211,19 @@ class Home extends StatelessWidget {
               onPressed: () {
                 BaseRoute<dynamic>(
                   builder: (_) => const Settings(),
-                  fullscreenGackGesture: true,
                 ).push(context);
               },
             ),
           )
         ],
       ),
-      body: GridView.count(
-        crossAxisCount: 3,
-        children: _children,
+      body: Consumer<AppProvider>(
+        builder: (_, AppProvider appProvider, __) {
+          return GridView.count(
+            crossAxisCount: 3,
+            children: _children,
+          );
+        },
       ),
       drawer: _MaterialTipsPage(),
     );
@@ -316,37 +321,41 @@ class _Item extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.page,
-    this.fullscreenGackGesture = true,
+    this.fullscreenGackGesture,
   }) : super(key: key);
 
   final Text title;
   final BaseIcon icon;
   final Widget page;
-  final bool fullscreenGackGesture;
+  final bool? fullscreenGackGesture;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        color: const BaseColor(
-          dynamicColor: CupertinoColors.secondarySystemGroupedBackground,
-        ).build(context),
-        child: Column(
-          children: <Widget>[
-            icon,
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 5.0),
+    return Consumer<AppProvider>(
+      builder: (BuildContext context, AppProvider appprovider, _) {
+        return GestureDetector(
+          child: Container(
+            color: const BaseColor(
+              dynamicColor: CupertinoColors.secondarySystemGroupedBackground,
+            ).build(context),
+            child: Column(
+              children: <Widget>[
+                icon,
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 5.0),
+                ),
+                title
+              ],
+              mainAxisAlignment: MainAxisAlignment.center,
             ),
-            title
-          ],
-          mainAxisAlignment: MainAxisAlignment.center,
-        ),
-      ),
-      onTap: () {
-        BaseRoute<dynamic>(
-          builder: (_) => page,
-          fullscreenGackGesture: fullscreenGackGesture,
-        ).push(context);
+          ),
+          onTap: () {
+            BaseRoute<dynamic>(
+              builder: (_) => page,
+              fullscreenGackGesture: fullscreenGackGesture ?? appprovider.routeFullscreenGackGesture,
+            ).push(context);
+          },
+        );
       },
     );
   }

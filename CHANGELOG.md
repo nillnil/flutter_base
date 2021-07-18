@@ -1,4 +1,10 @@
-# 2.2.2 - 2021.06.24
+# 2.2.2+1 - 2021.07.18
+
+- Refactor some widgets
+- Not compatible with the old version
+- Re edit document
+
+## 2.2.2 - 2021.06.24
 
 - change flutter version to 2.2.2
 

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter/material.dart';
 
 import '../base_stateless_widget.dart';
+import '../config/base_config.dart' as config;
 import '../mode/base_mode.dart';
 import '../theme/base_theme.dart';
 import '../theme/base_theme_data.dart';
@@ -46,7 +46,6 @@ class BaseApp extends BaseStatelessWidget {
     this.debugShowCheckedModeBanner = true,
     this.restorationScopeId,
     this.scrollBehavior,
-    this.targetPlatform,
     this.basePlatformMode,
     this.baseTheme,
     this.shortcuts,
@@ -176,11 +175,8 @@ class BaseApp extends BaseStatelessWidget {
   /// [MaterialApp.debugShowCheckedModeBanner]
   final bool debugShowCheckedModeBanner;
 
-  /// [basePlatform]
-  @Deprecated('instead of platformMode')
-  final TargetPlatform? targetPlatform;
-
   /// [BasePlatformMode]
+  @Deprecated('instead of baseTheme.platformMode')
   final BasePlatformMode? basePlatformMode;
 
   /// [BaseThemeData]
@@ -246,31 +242,27 @@ class BaseApp extends BaseStatelessWidget {
   final bool debugShowMaterialGrid;
 
   /// *** material properties end ***
-
+  
   @override
   void beforeBuild(BuildContext context) {
-    super.beforeBuild(context);
-    // 设置目标平台模式
+    /// 设置是否禁用水波纹
+    if (baseTheme != null) {
+      config.withoutSplashOnCupertino = baseTheme!.withoutSplashOnCupertino;
+    }
+    /// 设置平台模式
     setBasePlatformMode(
-      basePlatformMode: basePlatformMode,
-      withoutSplashOnCupertino: withoutSplashOnCupertino,
+      basePlatformMode: baseTheme?.platformMode ?? basePlatformMode,
     );
   }
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    BaseThemeData baseTheme = valueFromCupertino(
-          'baseTheme',
-          this.baseTheme,
-        ) ??
-        BaseThemeData();
-    // 设置 materialTheme 和 cupertinoTheme 到 BaseThemeData 中
-    baseTheme = baseTheme.copyWith(
+    final BaseThemeData _baseTheme = (valueFromCupertino('baseTheme', baseTheme) ?? BaseThemeData()).copyWith(
       materialTheme: materialTheme,
       cupertinoTheme: cupertinoTheme,
     );
     return BaseTheme(
-      data: baseTheme,
+      data: _baseTheme,
       child: CupertinoApp(
         navigatorKey: valueFromCupertino('navigatorKey', navigatorKey),
         home: valueFromCupertino('home', home),
@@ -335,18 +327,12 @@ class BaseApp extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    BaseThemeData baseTheme = valueFromCupertino(
-          'baseTheme',
-          this.baseTheme,
-        ) ??
-        BaseThemeData();
-    // 设置 materialTheme 和 cupertinoTheme 到 BaseThemeData 中
-    baseTheme = baseTheme.copyWith(
+    final BaseThemeData _baseTheme = (valueFromMaterial('baseTheme', baseTheme) ?? BaseThemeData()).copyWith(
       materialTheme: materialTheme,
       cupertinoTheme: cupertinoTheme,
     );
     return BaseTheme(
-      data: baseTheme,
+      data: _baseTheme,
       child: MaterialApp(
         navigatorKey: valueFromMaterial('navigatorKey', navigatorKey),
         scaffoldMessengerKey: scaffoldMessengerKey,

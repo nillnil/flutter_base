@@ -23,7 +23,7 @@ class BaseRoute<T> extends BaseClass {
     this.maintainState = true,
     this.fullscreenDialog = false,
     this.backGestureWidth = 20.0,
-    this.fullscreenGackGesture = true,
+    this.fullscreenGackGesture,
     Map<String, dynamic>? cupertino,
     Map<String, dynamic>? material,
   }) : super(cupertino: cupertino, material: material);

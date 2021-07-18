@@ -20,6 +20,7 @@ class WechatProfile extends StatelessWidget {
       child: BaseScaffold(
         appBar: BaseAppBar(
           automaticallyImplyLeading: false,
+          height: isCupertinoMode ? 44.0 : 56.0,
           border: null,
           elevation: 0.0,
           actions: <Widget>[
@@ -32,10 +33,7 @@ class WechatProfile extends StatelessWidget {
               cameraWidget,
           ],
           material: <String, dynamic>{
-            'backgroundColor': const BaseColor(
-                    dynamicColor:
-                        CupertinoColors.secondarySystemGroupedBackground)
-                .build(context),
+            'backgroundColor': const BaseColor(dynamicColor: CupertinoColors.secondarySystemGroupedBackground).build(context),
           },
           cupertino: const <String, dynamic>{
             'backgroundColor': CupertinoColors.secondarySystemGroupedBackground,

@@ -165,7 +165,7 @@ class BaseScaffold extends BaseStatelessWidget {
     assert(body != null, 'body can\'t be null');
     final Color? backgroundColor = valueFromCupertino('backgroundColor', this.backgroundColor);
     final BaseAppBar? appBar = valueFromMaterial('appBar', this.appBar) ?? valueFromMaterial('navBar', navBar);
-    final double? appBarHeight = BaseTheme.of(context).valueFromCupertino('appBarHeight', null);
+    final double? appBarHeight = BaseTheme.of(context).valueFromCupertino('appBarHeight', BaseTheme.of(context).appBarHeight);
     Widget? navigationBar;
     if (appBarHeight != null && appBar != null) {
       navigationBar = appBar.build(context);
@@ -194,7 +194,7 @@ class BaseScaffold extends BaseStatelessWidget {
   @override
   Widget buildByMaterial(BuildContext context) {
     final BaseAppBar? appBar = valueFromMaterial('appBar', this.appBar) ?? valueFromMaterial('navBar', navBar);
-    final double? appBarHeight = BaseTheme.of(context).valueFromMaterial('appBarHeight', null);
+    final double? appBarHeight = BaseTheme.of(context).valueFromMaterial('appBarHeight', BaseTheme.of(context).appBarHeight);
     Widget? _appBar;
     if (appBarHeight != null && appBar != null) {
       _appBar = appBar.build(context);

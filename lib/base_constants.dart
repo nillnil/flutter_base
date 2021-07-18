@@ -25,3 +25,6 @@ const String forceUseCupertino = 'forceUseCupertino';
 /// }
 /// 某个模式下禁止
 const String disabled = 'disabled';
+
+/// 在cupertino模式下是否禁用水波纹
+const String customWithoutSplashOnCupertino = 'withoutSplashOnCupertino';

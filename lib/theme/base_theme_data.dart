@@ -1,3 +1,4 @@
+import 'package:base/mode/base_mode.dart';
 import 'package:flutter/cupertino.dart' show CupertinoThemeData;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show Diagnosticable, immutable;
@@ -20,6 +21,8 @@ class BaseThemeData with Diagnosticable {
     bool routeFullscreenGackGesture = false,
     Color? sectionDividerColor,
     Color? tileBackgroundColor,
+    BasePlatformMode? platformMode = const BasePlatformMode(),
+    bool withoutSplashOnCupertino = true,
     Map<String, dynamic>? cupertino,
     Map<String, dynamic>? material,
   }) {
@@ -36,6 +39,8 @@ class BaseThemeData with Diagnosticable {
       routeFullscreenGackGesture: routeFullscreenGackGesture,
       sectionDividerColor: sectionDividerColor ?? (isDark ? const Color(0x1FFFFFFF) : const Color(0x1F000000)),
       tileBackgroundColor: tileBackgroundColor,
+      platformMode: platformMode,
+      withoutSplashOnCupertino: withoutSplashOnCupertino,
       cupertino: cupertino ?? const <String, dynamic>{},
       material: material ?? const <String, dynamic>{},
     );
@@ -53,6 +58,8 @@ class BaseThemeData with Diagnosticable {
     this.routeFullscreenGackGesture = false,
     this.sectionDividerColor,
     this.tileBackgroundColor,
+    this.platformMode = const BasePlatformMode(),
+    this.withoutSplashOnCupertino = true,
   });
 
   final Brightness? brightness;
@@ -95,6 +102,14 @@ class BaseThemeData with Diagnosticable {
   /// 建议适应BaseColor().build(context), 构建2种颜色
   final Color? tileBackgroundColor;
 
+  /// 平台模式
+  /// baseplatform mode
+  final BasePlatformMode? platformMode;
+
+  /// Cupertino 模式下用Material组件是否去除水波纹
+  /// Use Material Widget without splash on Cupertino's mode
+  final bool withoutSplashOnCupertino;
+
   /// See also:
   ///
   ///  * [BaseStatelessWidget.cupertino], special parameters values on cupertino mode.
@@ -113,6 +128,8 @@ class BaseThemeData with Diagnosticable {
     bool? routeFullscreenGackGesture,
     Color? sectionDividerColor,
     Color? tileBackgroundColor,
+    BasePlatformMode? platformMode,
+    bool? withoutSplashOnCupertino,
     Map<String, dynamic>? cupertino,
     Map<String, dynamic>? material,
   }) {
@@ -127,6 +144,8 @@ class BaseThemeData with Diagnosticable {
       routeFullscreenGackGesture: routeFullscreenGackGesture ?? this.routeFullscreenGackGesture,
       sectionDividerColor: sectionDividerColor ?? this.sectionDividerColor,
       tileBackgroundColor: tileBackgroundColor ?? this.tileBackgroundColor,
+      platformMode: platformMode ?? this.platformMode,
+      withoutSplashOnCupertino: withoutSplashOnCupertino ?? this.withoutSplashOnCupertino,
       cupertino: cupertino ?? this.cupertino,
       material: material ?? this.material,
     );

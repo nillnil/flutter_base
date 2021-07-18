@@ -49,7 +49,7 @@ GlobalKey<_ItemState> _opacityItemKey = GlobalKey<_ItemState>();
 GlobalKey<_ItemState> _alphaItemKey = GlobalKey<_ItemState>();
 
 class _DemoState extends State<_Demo> {
-  RandomColor? _randomColor;
+  BaseRandomColor? _randomColor;
 
   int? _red;
   int? _green;
@@ -68,7 +68,7 @@ class _DemoState extends State<_Demo> {
   @override
   void initState() {
     super.initState();
-    _randomColor = RandomColor(
+    _randomColor = BaseRandomColor(
       a: _alpha,
       r: _red,
       g: _green,
@@ -186,14 +186,14 @@ class _DemoState extends State<_Demo> {
     );
     final num? alpha = _alphaItemKey.currentState?.getValue();
     if (opacity == null) {
-      _randomColor = RandomColor(
+      _randomColor = BaseRandomColor(
         a: alpha?.toInt(),
         r: red?.toInt(),
         g: green?.toInt(),
         b: blue?.toInt(),
       );
     } else {
-      _randomColor = RandomColor.fromRGBO(
+      _randomColor = BaseRandomColor.fromRGBO(
         r: red?.toInt(),
         g: green?.toInt(),
         b: blue?.toInt(),

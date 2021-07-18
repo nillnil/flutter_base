@@ -1,8 +1,10 @@
 import 'package:base/base.dart';
 import 'package:example/demos/demo_tile.dart';
+import 'package:example/provider/app_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 import 'utils/color_block.dart';
 
@@ -118,37 +120,40 @@ class DemoPage extends StatelessWidget {
               padding: const EdgeInsetsDirectional.only(start: 5.0, end: 5.0),
             )
           : null,
-      body: BaseScrollBar(
-        child: ListView.separated(
-          separatorBuilder: (_, __) => const Divider(height: .5),
-          itemCount: demos.isEmpty ? 1 : 2 + demos.length,
-          itemBuilder: (_, int index) {
-            if (index == 0) {
-              return Container(
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: children,
-                ),
-                color: const BaseColor(
-                  dynamicColor:
-                      CupertinoColors.secondarySystemGroupedBackground,
-                ).build(context),
-              );
-            } else if (index == 1) {
-              return const Padding(
-                padding: EdgeInsets.only(left: 10.0, top: 10.0),
-                child: Text(
-                  '示例',
-                  style: TextStyle(fontSize: 14.0),
-                ),
-              );
-            } else {
-              return demos[index - 2];
-            }
-          },
-        ),
+      body: Consumer<AppProvider>(
+        builder: (_, AppProvider appProvider, __) {
+          return BaseScrollBar(
+            child: ListView.separated(
+              separatorBuilder: (_, __) => const Divider(height: .5),
+              itemCount: demos.isEmpty ? 1 : 2 + demos.length,
+              itemBuilder: (_, int index) {
+                if (index == 0) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: children,
+                    ),
+                    color: const BaseColor(
+                      dynamicColor: CupertinoColors.secondarySystemGroupedBackground,
+                    ).build(context),
+                  );
+                } else if (index == 1) {
+                  return const Padding(
+                    padding: EdgeInsets.only(left: 10.0, top: 10.0),
+                    child: Text(
+                      '示例',
+                      style: TextStyle(fontSize: 14.0),
+                    ),
+                  );
+                } else {
+                  return demos[index - 2];
+                }
+              },
+            ),
+          );
+        },
       ),
       cupertino: const <String, dynamic>{
         'backgroundColor': CupertinoColors.systemGroupedBackground,

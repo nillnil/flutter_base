@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import './components/base_material_widget.dart';
-import 'mode/base_mode.dart';
-import 'base_constants.dart';
 import 'base_mixin.dart';
 
 /// 基础状态组件
@@ -42,39 +39,7 @@ abstract class BaseState<T extends BaseStatefulWidget> extends State<T> with Bas
 
   @override
   Widget build(BuildContext context) {
-    beforeBuild(context);
-    if (isCupertinoMode) {
-      // cupertino模式，ios下使用
-      // forceUseMaterial = true 强制使用material模式
-      if (widget.cupertino != null && widget.cupertino?[forceUseMaterial] != null && widget.cupertino?[forceUseMaterial] as bool) {
-        // *** 请注意，此时BaseApp上的theme参数是不生效的 ***
-        // 默认套多一层 Material
-        beforeBuildByMaterial(context);
-        // 去除水波纹效果
-        if (withoutSplashOnCupertino) {
-          return BaseMaterialWidget.withoutSplash(
-            theme: Theme.of(context),
-            child: buildByMaterial(context),
-          );
-        }
-        return BaseMaterialWidget(child: buildByMaterial(context));
-      }
-      beforeBuildByCupertino(context);
-      return buildByCupertino(context);
-    } else if (isMaterialMode) {
-      // material模式，android跟fuchsia下使用
-      // forceUseCupertino = true 强制使用cupertino模式
-      if (widget.material != null && widget.material?[forceUseCupertino] != null && widget.material?[forceUseCupertino] as bool) {
-        // *** 请注意，此时BaseApp上的cupertinoTheme参数是不生效的 ***
-        beforeBuildByCupertino(context);
-        return buildByCupertino(context);
-      }
-      beforeBuildByMaterial(context);
-      return buildByMaterial(context);
-    } else {
-      print('The platformMode is = $currentPlatformMode, it not support yet.');
-      return Container();
-    }
+    return commonBuild(context, widget.cupertino, widget.material);
   }
 
   /// 从cupertino获取key对应的值，
@@ -90,10 +55,4 @@ abstract class BaseState<T extends BaseStatefulWidget> extends State<T> with Bas
   dynamic valueFromMaterial(String key, dynamic value) {
     return valueFromMap(widget.material, key, value);
   }
-
-  /// build on cupertino mode
-  Widget buildByCupertino(BuildContext context);
-
-  /// build on material mode
-  Widget buildByMaterial(BuildContext context);
 }

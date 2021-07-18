@@ -12,27 +12,81 @@
 
 # 简介
 
-* 实现一套代码，2种模式，iOS, macOS 默认使用`Cupertino`风格组件，andriod、fuchsia、windows、linux、web、其他平台默认使用`Material`风格组件，也可以个性化设置各个平台所使用的模式
+* 实现一套代码，2种模式，iOS, macOS 默认使用`Cupertino`风格组件，andriod、fuchsia、windows、linux、其他平台默认使用`Material`风格组件，也可以个性化设置各个平台所使用的模式
 
-* 当前只针对Cupertino模式进行了测试，Material组件相对比较完善了，后期也会补上Material模式的测试。
+* 当前只针对Cupertino模式iOS上进行了测试，Material组件相对比较完善了，后期也会补上Material模式跟其他平台的测试。
 
 > 使用stable分支，版本与flutter版本保持一致
 
 # 使用
 
-因不可抵抗原因，现 https://pub.flutter-io.cn/ 上的版本是旧版本，所以请使用github上的版本
+因众所周知的原因，现 https://pub.flutter-io.cn/ 上的版本是旧版本，所以请使用github上的版本
 
 * 在pubspec.yaml的dependencies加入
 
 ```yaml
-base:
-	git:
-		url: git://github.com/nillnil/flutter_base
-		// branch name or tag name
-		ref: x.x.x
+dependencies: 
+  base:
+    git:
+      url: git://github.com/nillnil/flutter_base
+      // branch name or tag name
+      ref: x.x.x
 ```
 
 * 使用`BaseXxx`组件代替原生组件，参数基本与原生的一致，如：BaseApp, BaseAppBar, BaseButton等组件，如果一个参数只存在于`CupertinoXxx`组件中或`MaterialXxx`组件，则该参数只会对该模式下生效
+
+# 项目结构
+
+```javascript
+lib/
+	// BaseActionSheet, BaseActionSheetAction
+	action_sheet/
+	// BaseApp
+  app/
+  // BaseAppBar
+  appbar/
+  // BaseButton. BaseIconButton
+  button/
+  // 通用类, BaseColor, BaseRandomColor
+  common/
+  // 通用组件, BaseDrawer, BaseMaterialWidget
+  components/
+  // BaseAlertDialog, BaseAlertDialogAction, 
+  dialog/
+  // 修改过源码, CupertinoNavigationBar, AppBar
+  // 该目录不会export出来，只会在Base组件中用到，不会与原生的冲突
+  flutter/
+  // BaseIcon
+  icon/
+  // BaseIndicator
+  indicator/
+  // BaseMode, BasePlatformMode
+  mode/
+  // BaseRefresh
+  refresh/
+  // BaseRoute
+  route/
+  // BaseScaffold, BaseTabScaffold
+ 	scaffold/
+  // BaseScrollBar
+  scroll_bar/
+  // BaseSection, BaseTile
+  section/
+  // BaseSlider
+  slider/
+  // BaseSwitch
+  switch/
+  // BaseTabBar, BaseBarItem
+  tabbar/
+  // BaseTextField
+  text_field/
+  // BaseTheme, BaseThemeData
+  theme/
+  // 工具类
+  tools/
+  // Base基类
+  base_xxx.dart
+```
 
 # 特性
 
@@ -60,14 +114,6 @@ BaseIcon(
   Cupertino模式下使用的是CupertinoIcons.info，material模式下使用的是Icons.info
 
 <img src="https://github.com/nillnil/flutter_base/blob/master/screenshot/features_demo.png?raw=true" alt="features_demo" width="256" height="78">
-
-### BaseApp.basePlatformMode
-
-> 平台模式，类型为BasePlatformMode，iOS, macOS 默认使用`Cupertino`风格组件，andriod、fuchsia、windows、linux、web、其他平台默认使用`Material`风格组件
->
-> 使用 `setPlatformMode(PlatformMode? platformMode)` 方法修改平台模式
->
-> 推荐使用  `BaseApp(platformMode: ...)` 设置平台
 
 ### forceUseCupertino、forceUseMaterial
 
@@ -146,7 +192,7 @@ Material模式：beforeBuild -> beforeBuildByMaterial -> buildByMaterial
 
 ## BasePlatformMode
 
-平台构建模式，用于定义各个平台所使用的构建模式，可使用``currentPlatformMode`获取当前的平台模式
+平台构建模式，用于定义各个平台所使用的构建模式，可使用`currentBaseMode`获取当前的平台模式
 
 ```dart
 // 默认值
@@ -172,17 +218,74 @@ const BasePlatformMode({
 
 ## BaseTheme
 
-Base组件样式
+Base组件样式，类似于Theme，CupertinoTheme
 
-* appBarHeight - 全局AppBar.height
+## BaseThemeData
 
-  类型：double
+* appBarHeight - 全局BaseAppBar.height
+
+  类型：double?
+
+  默认值：--
+
+* appBarBackdropFilter- 全局BaseAppBar.backdropFilter
+
+  类型：bool?
+
+  默认值：--
+
+* centerTitle- 全局AppBar.centerTitle
+
+  类型：bool?
+
+  默认值：--
+
+* platformMode - 平台构建模式
+
+  类型：BasePlatformMode?
+
+  默认值：const BasePlatformMode()
+
+  iOS, macOS 默认使用`Cupertino`风格组件，andriod、fuchsia、windows、linux、其他平台默认使用`Material`风格组件
+
+  ```dart
+  // 直接修改平台模式
+  BaseApp(
+    baseTheme: BaseTheme(
+      platformMode: ...,
+    ),
+  );
+  // 主动调用方法修改平台模式
+  setBasePlatformMode(BasePlatformMode? basePlatformMode);
+  ```
+
+* routeFullscreenGackGesture - 全局BaseRoute.fullscreenGackGesture
+
+  类型：bool?
+
+  默认值：--
+
+* sectionDividerColor - 全局BaseSection.dividerColor
+
+  类型：Color?
+
+  默认值：--
+
+* tileBackgroundColor - 全局BaseTile.backgroundColor
+
+  类型：Color?
 
   默认值：--
 
 # Base组件列表
 
 > 无特殊说明的参数，同原生参数一致
+
+## BaseAlertDialog
+
+Cupertino模式：CupertinoAlertDialog
+
+Material模式：AlertDialog
 
 ## BaseActionSheet
 
@@ -256,7 +359,7 @@ Material模式：修改过的AppBar
 
   默认值：--
 
-* height - 状态栏高度
+* height - 导航栏高度
 
   类型：double
 
@@ -283,6 +386,14 @@ Material模式：修改过的AppBar
   类型：double
 
   默认值：--
+
+## BaseBarItem
+
+Cupertino模式：BottomNavigationBarItem
+
+Material模式：BottomNavigationBarItem
+
+同原生BottomNavigationBarItem一致
 
 ## BaseButton
 
@@ -334,6 +445,17 @@ Material模式：MaterialButton / TextButton.icon / OutlineButton.icon / RaisedB
 
   默认值：--
 
+## BaseDialogAction
+
+Cupertino模式：CupertinoDialogAction
+
+Material模式：TextButton
+
+## BaseIcon
+
+Cupertino模式：Icon
+
+Material模式：Icon
 
 ## BaseIconButton
 
@@ -346,25 +468,6 @@ Material模式：IconButton
   类型：double
 
   默认值：24.0
-
-
-## BaseAlertDialog
-
-Cupertino模式：CupertinoAlertDialog
-
-Material模式：AlertDialog
-
-## BaseDialogAction
-
-Cupertino模式：CupertinoDialogAction
-
-Material模式：TextButton
-
-## BaseIcon
-
-Cupertino模式：Icon
-
-Material模式：Icon
 
 ## BaseIndicator
 
@@ -438,6 +541,44 @@ Material模式：Scaffold
 
   safeAreaBottom = true，会在body外套多一层SafeArea，并且bottom = true
 
+## BaseScrollBar
+
+Cupertino模式：CupertinoScrollBar
+
+Material模式：ScrollBar
+
+* padding - MediaQuery.data，有值时则会套多一层MediaQuery
+
+  类型： EdgeInsets?
+
+  默认值：--
+
+## BaseSection
+
+Cupertino模式：自定义的Container
+
+Material模式：自定义的Container
+
+略，后续会重构
+
+## BaseSlider
+
+Cupertino模式：CupertinoSlider
+
+Material模式：Slider
+
+## BaseSwitch
+
+Cupertino模式：CupertinoSwitch
+
+Material模式：Switch
+
+## BaseTabBar
+
+Cupertino模式：CupertinoTabBar
+
+Material模式：BottomNavigationBar
+
 ## BaseTabScaffold
 
 Cupertino模式：CupertinoTabScaffold + CupertinoTabView
@@ -464,52 +605,6 @@ Cupertino模式是根据tab的索引在CupertinoTabScaffold.tabBuilder中返回`
 
   默认值：--
 
-## BaseScrollBar
-
-Cupertino模式：CupertinoScrollBar
-
-Material模式：ScrollBar
-
-* padding - MediaQuery.data，有值时则会套多一层MediaQuery
-
-  类型： EdgeInsets?
-
-  默认值：--
-
-## BaseSection
-
-Cupertino模式：自定义的Container
-
-Material模式：自定义的Container
-
-略，后续会重构
-
-## BaseTile
-
-Cupertino模式：自定义的没有水波纹的InkWell
-
-Material模式：ListTile
-
-略，后续会重构
-
-## BaseSlider
-
-Cupertino模式：CupertinoSlider
-
-Material模式：Slider
-
-## BaseSwitch
-
-Cupertino模式：CupertinoSwitch
-
-Material模式：Switch
-
-## BaseTabBar
-
-Cupertino模式：CupertinoTabBar
-
-Material模式：BottomNavigationBar
-
 ## BaseTextField
 
 Cupertino模式：CupertinoTextField
@@ -528,11 +623,96 @@ Material模式：TextField
 
   默认值：InputDecoration()
 
-# Base增强组件
+## BaseTile
 
-|BaseBarItem|BottomNavigationBarItem|BottomNavigationBarItem|
-|:---------------|:----------|:--------|
-|BaseDrawer|/|/|
-|BaseColor|/|/|
-|BaseRoute|/|/|
+Cupertino模式：自定义的没有水波纹的InkWell
+
+Material模式：ListTile
+
+略，后续会重构
+
+# Base通用组件，工具
+
+## BaseColor
+
+用于根据*Brightness*创建不同的颜色，一般用于字体颜色，背景颜色，需要手动调用build()方法
+
+* color - Material模式下，brightness = Brightness.light 取的颜色
+
+  类型： Color?
+
+  默认值：Colors.black
+
+  取不到该值则取dynamicColor?.color，最后取Colors.black
+
+* darkColor - Material模式下，brightness = Brightness.dark 取的颜色
+
+  类型： Color?
+
+  默认值：Colors.white
+
+  取不到该值则取dynamicColor?.dynamicColor，最后取Colors.white
+
+* dynamicColor - Cupertino模式下取的颜色
+
+  类型： CupertinoDynamicColor?
+
+  默认值：CupertinoColors.secondarySystemBackground
+
+  取不到该值brightness = Brightness.light取color，brightness = Brightness.dark取darkColor
+
+## BaseRandomColor
+
+用于生产随机颜色，继承于Color，用法同Color
+
+* BaseRandomColor()
+
+  同Color.fromARGB，如参数有值，则固定该值，其他随机
+
+* BaseRandomColor.fromRGBO()
+
+  同Color.fromRGBO，如参数有值，则固定该值，其他随机
+
+* BaseRandomColor.withRed()
+
+  固定red值，green，blue，alpha随机
+
+* BaseRandomColor.withBlue()
+
+  固定blue值，red，green，alpha随机
+
+* BaseRandomColor.withGreen()
+
+  固定green值，red，blue，alpha随机
+
+* BaseRandomColor.withAlpha()
+
+  固定alpha值，red，green，blue随机
+
+* BaseRandomColor.withOpacity()
+
+  固定opacity值，red，green，blue随机
+
+## BaseDrawer
+
+同Drawer，支持4个方向滑出，会重构
+
+## BaseRoute
+
+路由，用于跳转页面，不支持*Navigator2.0*用法
+
+* Cupertino模式：CupertinoPageRoute
+
+* Material模式：MaterialPageRoute
+
+```dart
+// 使用方法
+BaseRoute<void>(...).push(context);
+// 或者
+pushBaseRoute(
+	BaseRoute<void>(...),
+	context,
+	...
+);
+```
 

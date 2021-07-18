@@ -88,15 +88,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             Locale('en', 'US')
           ],
           home: const Home(),
-          basePlatformMode: appProvider.platformMode,
           baseTheme: BaseThemeData(
-            // appBarHeight: 44.0,
-            // material: const <String, dynamic>{
-            //   'appBarHeight': 56.0,
-            // },
+            appBarHeight: appProvider.appBarHeight,
             materialTheme: _theme,
             appBarTransitionBetweenRoutes: false,
-            routeFullscreenGackGesture: true,
+            platformMode: appProvider.platformMode,
+            routeFullscreenGackGesture: appProvider.routeFullscreenGackGesture!,
           ),
           debugShowCheckedModeBanner: false,
           material: <String, dynamic> {

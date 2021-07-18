@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:ui' show window;
 
 import 'package:base/base.dart';
+import 'package:example/provider/app_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 import 'news_item.dart';
 
@@ -144,30 +147,37 @@ class _NewsListState extends State<NewsList> {
             color: Colors.white,
             child: const BaseIndicator(),
           )
-        : ListView.custom(
-            controller: PrimaryScrollController.of(context),
-            childrenDelegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                if (index == _news.length * 2) {
-                  return const SizedBox(
-                    height: 60.0,
-                    child: Center(
-                      child: Text(
-                        '没有更多数据',
-                        style: TextStyle(fontSize: 14.0, color: Colors.grey),
-                      ),
+        : Consumer<AppProvider>(
+            builder: (_, AppProvider appProvider, __) {
+              return ListView.custom(
+                padding: MediaQuery.of(context).padding.copyWith(
+                      top: MediaQueryData.fromWindow(window).padding.top + appProvider.appBarHeight!,
                     ),
-                  );
-                }
-                if (index == _news.length * 2 + 1) {
-                  return null;
-                }
-                if (index.isOdd) {
-                  return const Divider(height: 1.0);
-                }
-                return _news[index ~/ 2];
-              },
-            ),
+                controller: PrimaryScrollController.of(context),
+                childrenDelegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    if (index == _news.length * 2) {
+                      return const SizedBox(
+                        height: 60.0,
+                        child: Center(
+                          child: Text(
+                            '没有更多数据',
+                            style: TextStyle(fontSize: 14.0, color: Colors.grey),
+                          ),
+                        ),
+                      );
+                    }
+                    if (index == _news.length * 2 + 1) {
+                      return null;
+                    }
+                    if (index.isOdd) {
+                      return const Divider(height: 1.0);
+                    }
+                    return _news[index ~/ 2];
+                  },
+                ),
+              );
+            },
           );
   }
 }

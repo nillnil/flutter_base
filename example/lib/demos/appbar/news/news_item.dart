@@ -18,8 +18,7 @@ class NewsItem extends StatefulWidget {
   _NewsItemState createState() => _NewsItemState();
 }
 
-class _NewsItemState extends State<NewsItem>
-    with AutomaticKeepAliveClientMixin {
+class _NewsItemState extends State<NewsItem> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -29,8 +28,7 @@ class _NewsItemState extends State<NewsItem>
   Widget build(BuildContext context) {
     super.build(context);
     Widget child;
-    if (widget.news['thumbnail_pic_s02'] != null &&
-        widget.news['thumbnail_pic_s03'] != null) {
+    if (widget.news['thumbnail_pic_s02'] != null && widget.news['thumbnail_pic_s03'] != null) {
       child = Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -137,42 +135,43 @@ class _NewsItemState extends State<NewsItem>
                 children: <Widget>[
                   Text(widget.news['title']),
                   Text(
-                    (widget.news['author_name'] ?? '') +
-                        ' ' +
-                        (widget.news['date'] ?? ''),
+                    (widget.news['author_name'] ?? '') + ' ' + (widget.news['date'] ?? ''),
                     style: const TextStyle(fontSize: 11.0, color: Colors.grey),
                   ),
                 ],
               ),
             ),
           ),
-          if (widget.news['thumbnail_pic_s'] != null) Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.all(0.0),
-                    child: CachedNetworkImage(
-                      imageUrl: widget.news['thumbnail_pic_s'],
-                      height: 100,
-                      fit: BoxFit.fill,
-                      placeholder: (BuildContext context, String url) {
-                        return const Center(
-                          child: SizedBox(
-                            height: 25,
-                            width: 25,
-                            child: BaseIndicator(),
-                          ),
-                        );
-                      },
-                      errorWidget: (
-                        BuildContext context,
-                        String url,
-                        dynamic error,
-                      ) {
-                        return const Icon(IconFont.brokenImage, size: 72);
-                      },
-                    ),
-                  ),
-                ) else Container()
+          if (widget.news['thumbnail_pic_s'] != null)
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: CachedNetworkImage(
+                  imageUrl: widget.news['thumbnail_pic_s'],
+                  height: 100,
+                  fit: BoxFit.fill,
+                  placeholder: (BuildContext context, String url) {
+                    return const Center(
+                      child: SizedBox(
+                        height: 25,
+                        width: 25,
+                        child: BaseIndicator(),
+                      ),
+                    );
+                  },
+                  errorWidget: (
+                    BuildContext context,
+                    String url,
+                    dynamic error,
+                  ) {
+                    return const Icon(IconFont.brokenImage, size: 72);
+                  },
+                ),
+              ),
+            )
+          else
+            Container()
         ],
       );
     }
@@ -207,27 +206,6 @@ class _NewsItemState extends State<NewsItem>
           ),
           fullscreenGackGesture: false,
         ).push(context);
-        // BaseRoute<void>(
-        //   WebviewScaffold(
-        //     url: news['url'],
-        //     appBar: BaseAppBar(
-        //       title: SizedBox(
-        //         width: 120,
-        //         child: Text(
-        //           news['title'],
-        //           overflow: TextOverflow.ellipsis,
-        //         ),
-        //       ),
-        //       transitionBetweenRoutes: false,
-        //     ),
-        //     initialChild: Container(
-        //       alignment: Alignment.center,
-        //       child: const BaseIndicator(
-        //         radius: 15.0,
-        //       ),
-        //     ),
-        //   ),
-        // ).push(context);
       },
     );
   }

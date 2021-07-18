@@ -19,13 +19,12 @@ class WechatSettings extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final bool _isLight =
-        (MediaQuery.maybeOf(context)?.platformBrightness ?? Brightness.light) ==
-            Brightness.light;
+    final bool _isLight = (MediaQuery.maybeOf(context)?.platformBrightness ?? Brightness.light) == Brightness.light;
     return BaseScaffold(
       appBar: BaseAppBar(
         border: null,
         elevation: 0.0,
+        height: isCupertinoMode ? 44.0 : 56.0,
         transitionBetweenRoutes: false,
         cupertino: <String, dynamic>{
           'title': const Text('设置'),
@@ -248,10 +247,7 @@ class _About extends StatelessWidget {
         width: 100,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Text('版本1.0.0', style: trailingStyle),
-            trailingIcon
-          ],
+          children: <Widget>[Text('版本1.0.0', style: trailingStyle), trailingIcon],
         ),
       ),
     );

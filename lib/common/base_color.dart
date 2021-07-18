@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoDynamicColor, CupertinoTheme;
 import 'package:flutter/material.dart';
 
@@ -63,9 +65,9 @@ class BaseColor extends BaseClass {
     final Color? darkColor = valueFromCupertino('color', this.darkColor);
     Color finalColor;
     if (brightness == Brightness.light) {
-      finalColor = color ?? darkColor ?? Colors.black;
+      finalColor = color ?? Colors.black;
     } else {
-      finalColor = darkColor ?? color ?? Colors.white;
+      finalColor = darkColor ?? Colors.white;
     }
     return finalColor;
   }
@@ -82,20 +84,60 @@ class BaseColor extends BaseClass {
     Color finalColor = Colors.white;
     switch (brightness) {
       case Brightness.light:
-        if (color != null || darkColor != null) {
-          finalColor = color ?? darkColor ?? Colors.black;
-        } else if (dynamicColor != null) {
-          finalColor = dynamicColor.color;
-        }
+        finalColor = color ?? dynamicColor?.color ?? Colors.black;
         break;
       case Brightness.dark:
-        if (color != null || darkColor != null) {
-          finalColor = darkColor ?? color ?? Colors.white;
-        } else if (dynamicColor != null) {
-          finalColor = dynamicColor.darkColor;
-        }
+        finalColor = darkColor ?? dynamicColor?.darkColor ?? Colors.white;
         break;
     }
     return finalColor;
   }
+}
+
+
+/// 随机颜色，不支持随机范围
+class BaseRandomColor extends Color {
+  /// 同[Color.fromARGB], 参数有值则锁定该值
+  BaseRandomColor({int? a, int? r, int? g, int? b})
+      : super(((((a ?? Random().nextInt(256)) & 0xff) << 24) |
+                (((r ?? Random().nextInt(256)) & 0xff) << 16) |
+                (((g ?? Random().nextInt(256)) & 0xff) << 8) |
+                (((b ?? Random().nextInt(256)) & 0xff) << 0)) &
+            0xFFFFFFFF);
+
+  /// 同[Color.fromRGBO], 参数有值则锁定该值
+  BaseRandomColor.fromRGBO({int? r, int? g, int? b, double? opacity})
+      : super((((((opacity ?? Random().nextDouble()) * 0xff ~/ 1) & 0xff) << 24) |
+                (((r ?? Random().nextInt(256)) & 0xff) << 16) |
+                (((g ?? Random().nextInt(256)) & 0xff) << 8) |
+                (((b ?? Random().nextInt(256)) & 0xff) << 0)) &
+            0xFFFFFFFF);
+
+  /// 固定red
+  BaseRandomColor.withRed(int r)
+      : super((((Random().nextInt(256) & 0xff) << 24) | ((r & 0xff) << 16) | ((Random().nextInt(256) & 0xff) << 8) | ((Random().nextInt(256) & 0xff) << 0)) &
+            0xFFFFFFFF);
+
+  /// 固定blue
+  BaseRandomColor.withBlue(int b)
+      : super((((Random().nextInt(256) & 0xff) << 24) | ((Random().nextInt(256) & 0xff) << 16) | ((Random().nextInt(256) & 0xff) << 8) | ((b & 0xff) << 0)) &
+            0xFFFFFFFF);
+
+  /// 固定green
+  BaseRandomColor.withGreen(int g)
+      : super((((Random().nextInt(256) & 0xff) << 24) | ((Random().nextInt(256) & 0xff) << 16) | ((g & 0xff) << 8) | ((Random().nextInt(256) & 0xff) << 0)) &
+            0xFFFFFFFF);
+
+  /// 固定alpha
+  BaseRandomColor.withAlpha(int a)
+      : super((((a & 0xff) << 24) | ((Random().nextInt(256) & 0xff) << 16) | ((Random().nextInt(256) & 0xff) << 8) | ((Random().nextInt(256) & 0xff) << 0)) &
+            0xFFFFFFFF);
+
+  /// 固定opacity
+  BaseRandomColor.withOpacity(double opacity)
+      : super(((((opacity * 0xff ~/ 1) & 0xff) << 24) |
+                ((Random().nextInt(256) & 0xff) << 16) |
+                ((Random().nextInt(256) & 0xff) << 8) |
+                ((Random().nextInt(256) & 0xff) << 0)) &
+            0xFFFFFFFF);
 }

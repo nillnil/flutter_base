@@ -15,10 +15,18 @@ class AppProvider with ChangeNotifier {
     BasePlatformMode? platformMode,
     Brightness? brightness,
     ThemeMode? themeMode,
+    double? appBarHeight,
+    bool routeFullscreenGackGesture = true,
   }) {
     _platformMode = platformMode ?? _defaultPlatformMode;
     _brightness = brightness ?? _defaultBrightness;
     _themeMode = themeMode ?? _defaultThemeMode;
+    if (appBarHeight != null) {
+      _appBarHeight = appBarHeight;
+    } else {
+      _appBarHeight = isCupertinoMode ? 44.0 : 56.0;
+    }
+    _routeFullscreenGackGesture = routeFullscreenGackGesture;
   }
 
   BasePlatformMode? _platformMode;
@@ -30,6 +38,13 @@ class AppProvider with ChangeNotifier {
   /// 主题模式
   ThemeMode? _themeMode;
   ThemeMode? get themeMode => _themeMode;
+
+  double? _appBarHeight;
+  double? get appBarHeight => _appBarHeight;
+
+  // 路由全屏手势
+  bool? _routeFullscreenGackGesture;
+  bool? get routeFullscreenGackGesture => _routeFullscreenGackGesture;
 
   void changePlatformMode(BasePlatformMode? platformMode) {
     _platformMode = platformMode;
@@ -58,5 +73,15 @@ class AppProvider with ChangeNotifier {
       }
       notifyListeners();
     }
+  }
+
+  void changeAppBarHeight(double appBarHeight) {
+    _appBarHeight = appBarHeight;
+    notifyListeners();
+  }
+
+  void changeRouteFullscreenGackGesture() {
+    _routeFullscreenGackGesture = !routeFullscreenGackGesture!;
+    notifyListeners();
   }
 }
