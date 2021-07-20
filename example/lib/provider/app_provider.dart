@@ -1,8 +1,8 @@
-import 'package:base/mode/base_mode.dart';
+import 'package:base/base.dart' show BasePlatformMode, isCupertinoMode;
 import 'package:flutter/material.dart';
 
 /// 默认PlatformMode
-const BasePlatformMode _defaultPlatformMode = BasePlatformMode();
+BasePlatformMode _defaultPlatformMode = const BasePlatformMode();
 
 /// 默认Brightness
 const Brightness _defaultBrightness = Brightness.light;

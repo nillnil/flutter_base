@@ -1,6 +1,4 @@
-import 'package:base/app/base_app.dart';
 import 'package:base/base.dart';
-import 'package:base/theme/base_theme_data.dart';
 import 'package:example/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

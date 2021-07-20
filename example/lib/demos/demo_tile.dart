@@ -1,6 +1,4 @@
-import 'package:base/icon/base_icon.dart';
-import 'package:base/route/base_route.dart';
-import 'package:base/section/base_tile.dart';
+import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

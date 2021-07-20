@@ -1,4 +1,4 @@
-import 'package:base/mode/base_mode.dart';
+import 'package:base/base.dart' show isCupertinoMode;
 import 'package:flutter/widgets.dart';
 
 import '../demo_page.dart';

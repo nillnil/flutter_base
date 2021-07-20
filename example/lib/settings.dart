@@ -30,7 +30,7 @@ class Settings extends StatelessWidget {
               _PlatformWidget(),
               _CustomSettingWidget(),
               _VersionWidget(),
-              _DocWidget()
+              _DocWidget(),
             ],
           );
         },

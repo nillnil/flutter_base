@@ -1,6 +1,4 @@
-import 'package:base/appbar/base_app_bar.dart';
 import 'package:base/base.dart';
-import 'package:base/section/base_tile.dart';
 import 'package:example/provider/app_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';

@@ -1,5 +1,4 @@
-import 'package:base/dialog/base_alert_dialog.dart';
-import 'package:base/dialog/base_dialog_action.dart';
+import 'package:base/base.dart';
 import 'package:flutter/material.dart';
 
 import '../demo_page.dart';
