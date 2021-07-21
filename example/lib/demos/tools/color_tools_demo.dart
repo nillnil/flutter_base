@@ -52,9 +52,11 @@ class ColorToolsDemo extends StatelessWidget {
           );
         },
       ),
-      cupertino: const <String, dynamic>{
-        'backgroundColor': CupertinoColors.systemGroupedBackground,
-      },
+      baseParam: BaseParam(
+        cupertino: const <String, dynamic>{
+          'backgroundColor': CupertinoColors.systemGroupedBackground,
+        },
+      ),
     );
   }
 }

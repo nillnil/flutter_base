@@ -5,7 +5,6 @@ export 'src/action_sheet/base_action_sheet_action.dart';
 export 'src/app/base_app.dart';
 export 'src/appbar/base_app_bar.dart';
 export 'src/base_class.dart';
-export 'src/base_constants.dart';
 export 'src/base_param.dart';
 export 'src/base_stateful_widget.dart';
 export 'src/base_stateless_widget.dart';

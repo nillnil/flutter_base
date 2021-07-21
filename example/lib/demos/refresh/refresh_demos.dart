@@ -14,8 +14,7 @@ class RefreshDemos extends StatefulWidget {
   _RefreshDemosState createState() => _RefreshDemosState();
 }
 
-class _RefreshDemosState extends State<RefreshDemos>
-    with SingleTickerProviderStateMixin {
+class _RefreshDemosState extends State<RefreshDemos> with SingleTickerProviderStateMixin {
   TabController? tabController;
 
   @override
@@ -53,11 +52,13 @@ class _RefreshDemosState extends State<RefreshDemos>
           width: 40,
         ),
         transitionBetweenRoutes: false,
-        material: <String, dynamic>{
-          'trailing': Container(
-            width: 44,
-          ),
-        },
+        baseParam: BaseParam(
+          material: <String, dynamic>{
+            'trailing': Container(
+              width: 44,
+            ),
+          },
+        ),
       ),
       body: TabBarView(
         controller: tabController,

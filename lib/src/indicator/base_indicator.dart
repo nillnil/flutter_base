@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart' show CupertinoActivityIndicator;
 import 'package:flutter/material.dart' show Animation, BuildContext, CircularProgressIndicator, Color, Key, LinearProgressIndicator, Widget;
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 
 /// BaseIndicator
@@ -26,9 +27,8 @@ class BaseIndicator extends BaseStatelessWidget {
     this.semanticsLabel,
     this.semanticsValue,
     this.linearIndicator = false,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// *** cupertino properties start ***
 
@@ -76,32 +76,38 @@ class BaseIndicator extends BaseStatelessWidget {
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoActivityIndicator(
-      animating: animating,
-      radius: radius,
+      animating: valueOf('animating', animating),
+      radius: valueOf('radius', radius),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
+    final double? _value = valueOf('value', value);
+    final Color? _backgroundColor = valueOf('backgroundColor', backgroundColor);
+    final Color? _color = valueOf('color', color);
+    final Animation<Color?>? _valueColor = valueOf('valueColor', valueColor);
+    final String? _semanticsLabel = valueOf('semanticsLabel', semanticsLabel);
+    final String? _semanticsValue = valueOf('semanticsValue', semanticsValue);
     if (linearIndicator) {
       return LinearProgressIndicator(
-        value: value,
-        backgroundColor: backgroundColor,
-        color: color,
-        valueColor: valueColor,
-        minHeight: minHeight,
-        semanticsLabel: semanticsLabel,
-        semanticsValue: semanticsValue,
+        value: _value,
+        backgroundColor: _backgroundColor,
+        color: _color,
+        valueColor: _valueColor,
+        minHeight: valueOf('minHeight', minHeight),
+        semanticsLabel: _semanticsLabel,
+        semanticsValue: _semanticsValue,
       );
     }
     return CircularProgressIndicator(
-      value: value,
-      backgroundColor: backgroundColor,
-      color: color,
-      valueColor: valueColor,
-      strokeWidth: strokeWidth,
-      semanticsLabel: semanticsLabel,
-      semanticsValue: semanticsValue,
+      value: _value,
+      backgroundColor: _backgroundColor,
+      color: _color,
+      valueColor: _valueColor,
+      strokeWidth: valueOf('strokeWidth', strokeWidth),
+      semanticsLabel: _semanticsLabel,
+      semanticsValue: _semanticsValue,
     );
   }
 }

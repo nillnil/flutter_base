@@ -129,9 +129,11 @@ class _NewPage extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(title),
       ),
-      cupertino: const <String, dynamic>{
-        'backgroundColor': CupertinoColors.systemGroupedBackground,
-      },
+      baseParam: BaseParam(
+        cupertino: const <String, dynamic>{
+          'backgroundColor': CupertinoColors.systemGroupedBackground,
+        },
+      ),
     );
   }
 }

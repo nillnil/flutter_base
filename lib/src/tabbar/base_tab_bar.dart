@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoDynamicCo
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show MouseCursor;
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 import '../flutter/cupertino/bottom_tab_bar.dart';
 
@@ -47,9 +48,8 @@ class BaseTabBar extends BaseStatelessWidget {
     this.showUnselectedLabels,
     this.mouseCursor,
     this.enableFeedback,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// *** general properties start ***
 
@@ -182,40 +182,40 @@ class BaseTabBar extends BaseStatelessWidget {
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoTabBar(
-      items: valueFromCupertino('items', items),
-      onTap: valueFromCupertino('onTap', onTap),
-      currentIndex: valueFromCupertino('currentIndex', currentIndex),
-      backgroundColor: valueFromCupertino('backgroundColor', backgroundColor),
-      activeColor: activeColor,
-      inactiveColor: inactiveColor,
-      iconSize: valueFromCupertino('iconSize', iconSize) ?? 30.0,
-      border: valueFromCupertino('border', border),
+      items: valueOf('items', items),
+      onTap: valueOf('onTap', onTap),
+      currentIndex: valueOf('currentIndex', currentIndex),
+      backgroundColor: valueOf('backgroundColor', backgroundColor),
+      activeColor: valueOf('activeColor', activeColor),
+      inactiveColor: valueOf('inactiveColor', inactiveColor),
+      iconSize: valueOf('iconSize', iconSize) ?? 30.0,
+      border: valueOf('border', border),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
     return BottomNavigationBar(
-      items: valueFromMaterial('items', items),
-      onTap: valueFromMaterial('onTap', onTap),
-      currentIndex: valueFromMaterial('currentIndex', currentIndex) ?? 0,
-      elevation: elevation,
-      type: type,
-      fixedColor: fixedColor,
-      backgroundColor: valueFromMaterial('backgroundColor', backgroundColor),
-      iconSize: valueFromMaterial('iconSize', iconSize) ?? 24.0,
-      selectedItemColor: selectedItemColor,
-      unselectedItemColor: unselectedItemColor,
-      selectedIconTheme: selectedIconTheme,
-      unselectedIconTheme: unselectedIconTheme,
-      selectedFontSize: selectedFontSize,
-      unselectedFontSize: unselectedFontSize,
-      selectedLabelStyle: selectedLabelStyle,
-      unselectedLabelStyle: unselectedLabelStyle,
-      showSelectedLabels: showSelectedLabels,
-      showUnselectedLabels: showSelectedLabels,
-      mouseCursor: mouseCursor,
-      enableFeedback: enableFeedback,
+      items: valueOf('items', items),
+      onTap: valueOf('onTap', onTap),
+      currentIndex: valueOf('currentIndex', currentIndex) ?? 0,
+      elevation: valueOf('elevation', elevation),
+      type: valueOf('type', type),
+      fixedColor: valueOf('fixedColor', fixedColor),
+      backgroundColor: valueOf('backgroundColor', backgroundColor),
+      iconSize: valueOf('iconSize', iconSize) ?? 24.0,
+      selectedItemColor: valueOf('selectedItemColor', selectedItemColor),
+      unselectedItemColor: valueOf('unselectedItemColor', unselectedItemColor),
+      selectedIconTheme: valueOf('selectedIconTheme', selectedIconTheme),
+      unselectedIconTheme: valueOf('unselectedIconTheme', unselectedIconTheme),
+      selectedFontSize: valueOf('selectedFontSize', selectedFontSize),
+      unselectedFontSize: valueOf('unselectedFontSize', unselectedFontSize),
+      selectedLabelStyle: valueOf('selectedLabelStyle', selectedLabelStyle),
+      unselectedLabelStyle: valueOf('unselectedLabelStyle', unselectedLabelStyle),
+      showSelectedLabels: valueOf('showSelectedLabels', showSelectedLabels),
+      showUnselectedLabels: valueOf('showSelectedLabels', showSelectedLabels),
+      mouseCursor: valueOf('mouseCursor', mouseCursor),
+      enableFeedback: valueOf('enableFeedback', enableFeedback),
     );
   }
 

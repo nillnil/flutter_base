@@ -53,11 +53,13 @@ class _ScaffoldDemosState extends State<ScaffoldDemos> with SingleTickerProvider
           width: 40,
         ),
         transitionBetweenRoutes: false,
-        material: <String, dynamic>{
-          'trailing': Container(
-            width: 44,
-          ),
-        },
+        baseParam: BaseParam(
+          material: <String, dynamic>{
+            'trailing': Container(
+              width: 44,
+            ),
+          },
+        ),
       ),
       body: TabBarView(
         controller: tabController,

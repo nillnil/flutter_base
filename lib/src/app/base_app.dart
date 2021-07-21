@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 import '../config/base_config.dart' as config;
 import '../mode/base_mode.dart';
@@ -59,9 +60,8 @@ class BaseApp extends BaseStatelessWidget {
     this.darkTheme,
     this.themeMode = ThemeMode.system,
     this.debugShowMaterialGrid = false,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// *** general properties start ***
 
@@ -242,13 +242,14 @@ class BaseApp extends BaseStatelessWidget {
   final bool debugShowMaterialGrid;
 
   /// *** material properties end ***
-  
+
   @override
   void beforeBuild(BuildContext context) {
     /// 设置是否禁用水波纹
     if (baseTheme != null) {
       config.withoutSplashOnCupertino = baseTheme!.withoutSplashOnCupertino;
     }
+
     /// 设置平台模式
     setBasePlatformMode(
       basePlatformMode: baseTheme?.platformMode ?? basePlatformMode,
@@ -257,149 +258,149 @@ class BaseApp extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final BaseThemeData _baseTheme = (valueFromCupertino('baseTheme', baseTheme) ?? BaseThemeData()).copyWith(
+    final BaseThemeData _baseTheme = (valueOf('baseTheme', baseTheme) ?? BaseThemeData()).copyWith(
       materialTheme: materialTheme,
       cupertinoTheme: cupertinoTheme,
     );
     return BaseTheme(
       data: _baseTheme,
       child: CupertinoApp(
-        navigatorKey: valueFromCupertino('navigatorKey', navigatorKey),
-        home: valueFromCupertino('home', home),
+        navigatorKey: valueOf('navigatorKey', navigatorKey),
+        home: valueOf('home', home),
         theme: cupertinoTheme,
-        routes: valueFromCupertino('routes', routes),
-        initialRoute: valueFromCupertino('initialRoute', initialRoute),
-        onGenerateRoute: valueFromCupertino('onGenerateRoute', onGenerateRoute),
-        onGenerateInitialRoutes: valueFromCupertino('onGenerateInitialRoutes', onGenerateInitialRoutes),
-        onUnknownRoute: valueFromCupertino('onUnknownRoute', onUnknownRoute),
-        navigatorObservers: valueFromCupertino(
+        routes: valueOf('routes', routes),
+        initialRoute: valueOf('initialRoute', initialRoute),
+        onGenerateRoute: valueOf('onGenerateRoute', onGenerateRoute),
+        onGenerateInitialRoutes: valueOf('onGenerateInitialRoutes', onGenerateInitialRoutes),
+        onUnknownRoute: valueOf('onUnknownRoute', onUnknownRoute),
+        navigatorObservers: valueOf(
           'navigatorObservers',
           navigatorObservers,
         ),
-        builder: valueFromCupertino('builder', builder),
-        title: valueFromCupertino('title', title),
-        onGenerateTitle: valueFromCupertino('onGenerateTitle', onGenerateTitle),
-        color: valueFromCupertino('color', color),
-        locale: valueFromCupertino('locale', locale),
-        localizationsDelegates: valueFromCupertino(
+        builder: valueOf('builder', builder),
+        title: valueOf('title', title),
+        onGenerateTitle: valueOf('onGenerateTitle', onGenerateTitle),
+        color: valueOf('color', color),
+        locale: valueOf('locale', locale),
+        localizationsDelegates: valueOf(
           'localizationsDelegates',
           localizationsDelegates,
         ),
-        localeListResolutionCallback: valueFromCupertino(
+        localeListResolutionCallback: valueOf(
           'localeListResolutionCallback',
           localeListResolutionCallback,
         ),
-        localeResolutionCallback: valueFromCupertino(
+        localeResolutionCallback: valueOf(
           'localeResolutionCallback',
           localeResolutionCallback,
         ),
-        supportedLocales: valueFromCupertino(
+        supportedLocales: valueOf(
           'supportedLocales',
           supportedLocales,
         ),
-        showPerformanceOverlay: valueFromCupertino(
+        showPerformanceOverlay: valueOf(
           'showPerformanceOverlay',
           showPerformanceOverlay,
         ),
-        checkerboardRasterCacheImages: valueFromCupertino(
+        checkerboardRasterCacheImages: valueOf(
           'checkerboardRasterCacheImages',
           checkerboardRasterCacheImages,
         ),
-        checkerboardOffscreenLayers: valueFromCupertino(
+        checkerboardOffscreenLayers: valueOf(
           'checkerboardOffscreenLayers',
           checkerboardOffscreenLayers,
         ),
-        showSemanticsDebugger: valueFromCupertino(
+        showSemanticsDebugger: valueOf(
           'showSemanticsDebugger',
           showSemanticsDebugger,
         ),
-        debugShowCheckedModeBanner: valueFromCupertino(
+        debugShowCheckedModeBanner: valueOf(
           'debugShowCheckedModeBanner',
           debugShowCheckedModeBanner,
         ),
-        shortcuts: valueFromCupertino('shortcuts', shortcuts),
-        actions: valueFromCupertino('actions', actions),
-        restorationScopeId: valueFromCupertino('restorationScopeId', restorationScopeId),
-        scrollBehavior: valueFromCupertino('scrollBehavior', scrollBehavior),
+        shortcuts: valueOf('shortcuts', shortcuts),
+        actions: valueOf('actions', actions),
+        restorationScopeId: valueOf('restorationScopeId', restorationScopeId),
+        scrollBehavior: valueOf('scrollBehavior', scrollBehavior),
       ),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final BaseThemeData _baseTheme = (valueFromMaterial('baseTheme', baseTheme) ?? BaseThemeData()).copyWith(
+    final BaseThemeData _baseTheme = (valueOf('baseTheme', baseTheme) ?? BaseThemeData()).copyWith(
       materialTheme: materialTheme,
       cupertinoTheme: cupertinoTheme,
     );
     return BaseTheme(
       data: _baseTheme,
       child: MaterialApp(
-        navigatorKey: valueFromMaterial('navigatorKey', navigatorKey),
+        navigatorKey: valueOf('navigatorKey', navigatorKey),
         scaffoldMessengerKey: scaffoldMessengerKey,
-        home: valueFromMaterial('home', home),
-        routes: valueFromMaterial('routes', routes),
-        initialRoute: valueFromMaterial('initialRoute', initialRoute),
-        onGenerateRoute: valueFromMaterial('onGenerateRoute', onGenerateRoute),
-        onGenerateInitialRoutes: valueFromMaterial('onGenerateInitialRoutes', onGenerateInitialRoutes),
-        onUnknownRoute: valueFromMaterial('onUnknownRoute', onUnknownRoute),
-        navigatorObservers: valueFromMaterial(
+        home: valueOf('home', home),
+        routes: valueOf('routes', routes),
+        initialRoute: valueOf('initialRoute', initialRoute),
+        onGenerateRoute: valueOf('onGenerateRoute', onGenerateRoute),
+        onGenerateInitialRoutes: valueOf('onGenerateInitialRoutes', onGenerateInitialRoutes),
+        onUnknownRoute: valueOf('onUnknownRoute', onUnknownRoute),
+        navigatorObservers: valueOf(
           'navigatorObservers',
           navigatorObservers,
         ),
-        builder: valueFromMaterial('builder', builder),
-        title: valueFromMaterial('title', title),
-        onGenerateTitle: valueFromMaterial('onGenerateTitle', onGenerateTitle),
-        color: valueFromMaterial('color', color),
-        theme: materialTheme,
-        darkTheme: darkTheme,
-        highContrastTheme: highContrastTheme,
-        highContrastDarkTheme: highContrastDarkTheme,
-        themeMode: themeMode,
-        locale: valueFromMaterial('locale', locale),
-        localizationsDelegates: valueFromMaterial(
+        builder: valueOf('builder', builder),
+        title: valueOf('title', title),
+        onGenerateTitle: valueOf('onGenerateTitle', onGenerateTitle),
+        color: valueOf('color', color),
+        theme: valueOf('materialTheme', materialTheme),
+        darkTheme: valueOf('darkTheme', darkTheme),
+        highContrastTheme: valueOf('highContrastTheme', highContrastTheme),
+        highContrastDarkTheme: valueOf('highContrastDarkTheme', highContrastDarkTheme),
+        themeMode: valueOf('themeMode', themeMode),
+        locale: valueOf('locale', locale),
+        localizationsDelegates: valueOf(
           'localizationsDelegates',
           localizationsDelegates,
         ),
-        localeListResolutionCallback: valueFromMaterial(
+        localeListResolutionCallback: valueOf(
           'localeListResolutionCallback',
           localeListResolutionCallback,
         ),
-        localeResolutionCallback: valueFromMaterial(
+        localeResolutionCallback: valueOf(
           'localeResolutionCallback',
           localeResolutionCallback,
         ),
-        supportedLocales: valueFromMaterial(
+        supportedLocales: valueOf(
           'supportedLocales',
           supportedLocales,
         ),
-        debugShowMaterialGrid: valueFromMaterial(
+        debugShowMaterialGrid: valueOf(
           'debugShowMaterialGrid',
           debugShowMaterialGrid,
         ),
-        showPerformanceOverlay: valueFromMaterial(
+        showPerformanceOverlay: valueOf(
           'showPerformanceOverlay',
           showPerformanceOverlay,
         ),
-        checkerboardRasterCacheImages: valueFromMaterial(
+        checkerboardRasterCacheImages: valueOf(
           'checkerboardRasterCacheImages',
           checkerboardRasterCacheImages,
         ),
-        checkerboardOffscreenLayers: valueFromMaterial(
+        checkerboardOffscreenLayers: valueOf(
           'checkerboardOffscreenLayers',
           checkerboardOffscreenLayers,
         ),
-        showSemanticsDebugger: valueFromMaterial(
+        showSemanticsDebugger: valueOf(
           'showSemanticsDebugger',
           showSemanticsDebugger,
         ),
-        debugShowCheckedModeBanner: valueFromMaterial(
+        debugShowCheckedModeBanner: valueOf(
           'debugShowCheckedModeBanner',
           debugShowCheckedModeBanner,
         ),
-        shortcuts: valueFromMaterial('shortcuts', shortcuts),
-        actions: valueFromMaterial('actions', actions),
-        restorationScopeId: valueFromMaterial('actions', restorationScopeId),
-        scrollBehavior: valueFromMaterial('scrollBehavior', scrollBehavior),
+        shortcuts: valueOf('shortcuts', shortcuts),
+        actions: valueOf('actions', actions),
+        restorationScopeId: valueOf('actions', restorationScopeId),
+        scrollBehavior: valueOf('scrollBehavior', scrollBehavior),
       ),
     );
   }

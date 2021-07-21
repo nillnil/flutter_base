@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoSlider;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 
 /// BaseSlider
@@ -31,9 +32,8 @@ class BaseSlider extends BaseStatelessWidget {
     this.focusNode,
     this.autofocus = false,
     this.semanticFormatterCallback,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// *** general properties end ***
 
@@ -111,35 +111,35 @@ class BaseSlider extends BaseStatelessWidget {
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoSlider(
-      value: valueFromCupertino('value', value),
-      onChanged: valueFromCupertino('onChanged', onChanged),
-      onChangeStart: valueFromCupertino('onChangeStart', onChangeStart),
-      onChangeEnd: valueFromCupertino('onChangeEnd', onChangeEnd),
-      min: valueFromCupertino('min', min),
-      max: valueFromCupertino('max', max),
-      divisions: valueFromCupertino('divisions', divisions),
-      activeColor: valueFromCupertino('activeColor', activeColor),
-      thumbColor: thumbColor,
+      value: valueOf('value', value),
+      onChanged: valueOf('onChanged', onChanged),
+      onChangeStart: valueOf('onChangeStart', onChangeStart),
+      onChangeEnd: valueOf('onChangeEnd', onChangeEnd),
+      min: valueOf('min', min),
+      max: valueOf('max', max),
+      divisions: valueOf('divisions', divisions),
+      activeColor: valueOf('activeColor', activeColor),
+      thumbColor: valueOf('thumbColor', thumbColor),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
     return Slider(
-      value: valueFromMaterial('value', value),
-      onChanged: valueFromMaterial('onChanged', onChanged),
-      onChangeStart: valueFromMaterial('onChangeStart', onChangeStart),
-      onChangeEnd: valueFromMaterial('onChangeEnd', onChangeEnd),
-      min: valueFromMaterial('min', min),
-      max: valueFromMaterial('max', max),
-      divisions: valueFromMaterial('divisions', divisions),
-      label: valueFromMaterial('label', label),
-      activeColor: valueFromMaterial('activeColor', activeColor),
-      inactiveColor: inactiveColor,
-      mouseCursor: mouseCursor,
-      semanticFormatterCallback: semanticFormatterCallback,
-      focusNode: focusNode,
-      autofocus: autofocus,
+      value: valueOf('value', value),
+      onChanged: valueOf('onChanged', onChanged),
+      onChangeStart: valueOf('onChangeStart', onChangeStart),
+      onChangeEnd: valueOf('onChangeEnd', onChangeEnd),
+      min: valueOf('min', min),
+      max: valueOf('max', max),
+      divisions: valueOf('divisions', divisions),
+      label: valueOf('label', label),
+      activeColor: valueOf('activeColor', activeColor),
+      inactiveColor: valueOf('inactiveColor', inactiveColor),
+      mouseCursor: valueOf('mouseCursor', mouseCursor),
+      semanticFormatterCallback: valueOf('semanticFormatterCallback', semanticFormatterCallback),
+      focusNode: valueOf('focusNode', focusNode),
+      autofocus: valueOf('autofocus', autofocus),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart' show BottomNavigationBarItem, BuildContext, Color, Widget;
 
 import '../base_class.dart';
+import '../base_param.dart';
 
 @Deprecated('已废弃，使用原生的BottomNavigationBarItem，需要个性化的自行自定义')
 
@@ -19,9 +20,8 @@ class BaseBarItem extends BaseClass {
     this.activeIcon,
     this.backgroundColor,
     this.tooltip,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(baseParam: baseParam);
 
   /// *** general properties start ***
 
@@ -46,22 +46,22 @@ class BaseBarItem extends BaseClass {
   @override
   Object buildByCupertino(BuildContext context) {
     return BottomNavigationBarItem(
-      icon: valueFromCupertino('icon', icon),
-      label: valueFromCupertino('label', label),
-      activeIcon: valueFromCupertino('activeIcon', activeIcon),
-      backgroundColor: valueFromCupertino('backgroundColor', backgroundColor),
-      tooltip: valueFromCupertino('tooltip', tooltip),
+      icon: valueOf('icon', icon),
+      label: valueOf('label', label),
+      activeIcon: valueOf('activeIcon', activeIcon),
+      backgroundColor: valueOf('backgroundColor', backgroundColor),
+      tooltip: valueOf('tooltip', tooltip),
     );
   }
 
   @override
   Object buildByMaterial(BuildContext context) {
     return BottomNavigationBarItem(
-      icon: valueFromMaterial('icon', icon),
-      label: valueFromMaterial('label', label),
-      activeIcon: valueFromMaterial('activeIcon', activeIcon),
-      backgroundColor: valueFromMaterial('backgroundColor', backgroundColor),
-      tooltip: valueFromCupertino('tooltip', tooltip),
+      icon: valueOf('icon', icon),
+      label: valueOf('label', label),
+      activeIcon: valueOf('activeIcon', activeIcon),
+      backgroundColor: valueOf('backgroundColor', backgroundColor),
+      tooltip: valueOf('tooltip', tooltip),
     );
   }
 }

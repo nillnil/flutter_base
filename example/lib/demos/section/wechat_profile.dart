@@ -32,12 +32,14 @@ class WechatProfile extends StatelessWidget {
             else
               cameraWidget,
           ],
-          material: <String, dynamic>{
-            'backgroundColor': const BaseColor(dynamicColor: CupertinoColors.secondarySystemGroupedBackground).build(context),
-          },
-          cupertino: const <String, dynamic>{
-            'backgroundColor': CupertinoColors.secondarySystemGroupedBackground,
-          },
+          baseParam: BaseParam(
+            material: <String, dynamic>{
+              'backgroundColor': const BaseColor(dynamicColor: CupertinoColors.secondarySystemGroupedBackground).build(context),
+            },
+            cupertino: const <String, dynamic>{
+              'backgroundColor': CupertinoColors.secondarySystemGroupedBackground,
+            },
+          ),
         ),
         body: ListView.builder(
           itemCount: 1,
@@ -70,9 +72,11 @@ class WechatProfile extends StatelessWidget {
             );
           },
         ),
-        cupertino: const <String, dynamic>{
-          'backgroundColor': CupertinoColors.systemGroupedBackground,
-        },
+        baseParam: BaseParam(
+          cupertino: const <String, dynamic>{
+            'backgroundColor': CupertinoColors.systemGroupedBackground,
+          },
+        ),
       ),
     );
   }

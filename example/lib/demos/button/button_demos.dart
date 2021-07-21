@@ -14,8 +14,7 @@ class ButtonDemos extends StatefulWidget {
   _ButtonDemosState createState() => _ButtonDemosState();
 }
 
-class _ButtonDemosState extends State<ButtonDemos>
-    with SingleTickerProviderStateMixin {
+class _ButtonDemosState extends State<ButtonDemos> with SingleTickerProviderStateMixin {
   TabController? tabController;
 
   @override
@@ -53,11 +52,13 @@ class _ButtonDemosState extends State<ButtonDemos>
           width: 40,
         ),
         transitionBetweenRoutes: false,
-        material: <String, dynamic>{
-          'trailing': Container(
-            width: 44,
-          ),
-        },
+        baseParam: BaseParam(
+          material: <String, dynamic>{
+            'trailing': Container(
+              width: 44,
+            ),
+          },
+        ),
       ),
       body: TabBarView(
         controller: tabController,

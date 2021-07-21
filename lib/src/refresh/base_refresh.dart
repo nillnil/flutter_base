@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart' hide RefreshCallback;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 
 /// BaseIndicator
@@ -31,9 +32,8 @@ class BaseRefresh extends BaseStatelessWidget {
     this.strokeWidth = 2.0,
     this.triggerMode = RefreshIndicatorTriggerMode.onEdge,
     this.edgeOffset = 0.0,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// *** general properties start ***
 
@@ -108,7 +108,7 @@ class BaseRefresh extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    Widget? _child = valueFromCupertino('child', child);
+    Widget? _child = valueOf('child', child);
     assert(_child != null, 'child can\'t be null.');
     if (_child is ListView) {
       // ListView => SliverList
@@ -131,10 +131,10 @@ class BaseRefresh extends BaseStatelessWidget {
     return CustomScrollView(
       slivers: <Widget>[
         CupertinoSliverRefreshControl(
-          refreshTriggerPullDistance: refreshTriggerPullDistance,
-          refreshIndicatorExtent: refreshIndicatorExtent,
-          builder: builder,
-          onRefresh: valueFromCupertino('onRefresh', onRefresh),
+          refreshTriggerPullDistance: valueOf('refreshTriggerPullDistance', refreshTriggerPullDistance),
+          refreshIndicatorExtent: valueOf('refreshIndicatorExtent', refreshIndicatorExtent),
+          builder: valueOf('builder', builder),
+          onRefresh: valueOf('onRefresh', onRefresh),
         ),
         _child,
       ],
@@ -143,7 +143,7 @@ class BaseRefresh extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    Widget _child = valueFromMaterial('child', child);
+    Widget _child = valueOf('child', child);
     assert(_child != null, 'child can\'t be null.');
     if (_child is SliverList) {
       // SliverList => ListView
@@ -153,21 +153,22 @@ class BaseRefresh extends BaseStatelessWidget {
     }
     return RefreshIndicator(
       child: _child,
-      displacement: displacement,
-      edgeOffset: edgeOffset,
-      onRefresh: valueFromMaterial('onRefresh', onRefresh),
-      color: color,
-      backgroundColor: backgroundColor,
-      notificationPredicate: notificationPredicate,
-      semanticsLabel: semanticsLabel,
-      semanticsValue: semanticsValue,
-      strokeWidth: strokeWidth,
-      triggerMode: triggerMode,
+      displacement: valueOf('displacement', displacement),
+      edgeOffset: valueOf('edgeOffset', edgeOffset),
+      onRefresh: valueOf('onRefresh', onRefresh),
+      color: valueOf('color', color),
+      backgroundColor: valueOf('backgroundColor', backgroundColor),
+      notificationPredicate: valueOf('notificationPredicate', notificationPredicate),
+      semanticsLabel: valueOf('semanticsLabel', semanticsLabel),
+      semanticsValue: valueOf('semanticsValue', semanticsValue),
+      strokeWidth: valueOf('strokeWidth', strokeWidth),
+      triggerMode: valueOf('triggerMode', triggerMode),
     );
   }
 
   Widget buildSlivers(BuildContext context, Widget child) {
-    if (padding == null) {
+    final EdgeInsetsGeometry? _padding = valueOf('padding', padding);
+    if (_padding == null) {
       final MediaQueryData? mediaQuery = MediaQuery.maybeOf(context);
       final EdgeInsets? effectivePadding = mediaQuery?.padding.copyWith(left: 0.0, right: 0.0);
       if (mediaQuery != null) {
@@ -179,7 +180,7 @@ class BaseRefresh extends BaseStatelessWidget {
         );
       }
     } else {
-      child = SliverPadding(padding: padding!, sliver: child);
+      child = SliverPadding(padding: _padding, sliver: child);
     }
     return child;
   }

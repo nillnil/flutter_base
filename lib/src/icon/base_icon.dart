@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart' show BuildContext, Color, Icon, IconData, Key, TextDirection, Widget;
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 
 // BaseIcon
@@ -18,9 +19,8 @@ class BaseIcon extends BaseStatelessWidget {
     this.color,
     this.semanticLabel,
     this.textDirection,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// [Icon.icon]
   final IconData? icon;
@@ -40,22 +40,22 @@ class BaseIcon extends BaseStatelessWidget {
   @override
   Widget buildByCupertino(BuildContext context) {
     return Icon(
-      valueFromCupertino('icon', icon),
-      size: valueFromCupertino('size', size),
-      color: valueFromCupertino('color', color),
-      semanticLabel: valueFromCupertino('semanticLabel', semanticLabel),
-      textDirection: valueFromCupertino('textDirection', textDirection),
+      valueOf('icon', icon),
+      size: valueOf('size', size),
+      color: valueOf('color', color),
+      semanticLabel: valueOf('semanticLabel', semanticLabel),
+      textDirection: valueOf('textDirection', textDirection),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
     return Icon(
-      valueFromMaterial('icon', icon),
-      size: valueFromMaterial('size', size),
-      color: valueFromMaterial('color', color),
-      semanticLabel: valueFromMaterial('semanticLabel', semanticLabel),
-      textDirection: valueFromMaterial('textDirection', textDirection),
+      valueOf('icon', icon),
+      size: valueOf('size', size),
+      color: valueOf('color', color),
+      semanticLabel: valueOf('semanticLabel', semanticLabel),
+      textDirection: valueOf('textDirection', textDirection),
     );
   }
 }

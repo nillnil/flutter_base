@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart' show CupertinoButton, ShapeBorder, Cuper
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 
 /// BaseButton
@@ -62,9 +63,8 @@ class BaseButton extends BaseStatelessWidget {
     this.textButton = false,
     this.outlinedButton = false,
     this.elevatedButton = false,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// [CupertinoButton], child is Row(children:[icon, label])
   /// or
@@ -96,8 +96,7 @@ class BaseButton extends BaseStatelessWidget {
     bool textButton,
     bool outlinedButton,
     bool elevatedButton,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
+    BaseParam? baseParam,
   }) = _BaseButtonWithIcon;
 
   /// *** general properties start ***
@@ -248,44 +247,48 @@ class BaseButton extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final Widget _child = valueFromCupertino('child', child);
+    final Widget _child = valueOf('child', child);
     return buildByCupertinoWithChild(_child);
   }
 
   /// 最终的构建方法，为了兼容BaseButton.icon
   Widget buildByCupertinoWithChild(Widget child) {
     assert(child != null, 'child can\'t be null.');
-    final Color _disabledColor = valueFromCupertino('disabledColor', disabledColor) ?? CupertinoColors.quaternarySystemFill;
-    final EdgeInsetsGeometry? _padding = valueFromCupertino('padding', padding);
-    final VoidCallback? _onPressed = valueFromCupertino('onPressed', onPressed);
+    final Color _disabledColor = valueOf('disabledColor', disabledColor) ?? CupertinoColors.quaternarySystemFill;
+    final EdgeInsetsGeometry? _padding = valueOf('padding', padding);
+    final VoidCallback? _onPressed = valueOf('onPressed', onPressed);
+    final double _minSize = valueOf('minSize', minSize);
+    final double _pressedOpacity = valueOf('minSize', pressedOpacity);
+    final BorderRadius? _borderRadius = valueOf('borderRadius', borderRadius);
+    final AlignmentGeometry _alignment = valueOf('alignment', alignment);
     if (filledButton) {
       return CupertinoButton.filled(
         child: child,
         padding: _padding,
         disabledColor: _disabledColor,
-        minSize: minSize,
-        pressedOpacity: pressedOpacity,
-        borderRadius: borderRadius,
-        alignment: alignment,
+        minSize: _minSize,
+        pressedOpacity: _pressedOpacity,
+        borderRadius: _borderRadius,
+        alignment: _alignment,
         onPressed: _onPressed,
       );
     }
     return CupertinoButton(
       child: child,
       padding: _padding,
-      color: valueFromCupertino('color', color),
+      color: valueOf('color', color),
       disabledColor: _disabledColor,
-      minSize: minSize,
-      pressedOpacity: pressedOpacity,
-      borderRadius: borderRadius,
-      alignment: alignment,
+      minSize: _minSize,
+      pressedOpacity: _pressedOpacity,
+      borderRadius: _borderRadius,
+      alignment: _alignment,
       onPressed: _onPressed,
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final Widget _child = valueFromMaterial('child', child);
+    final Widget _child = valueOf('child', child);
     return buildByMaterialWithChild(_child);
   }
 
@@ -299,69 +302,74 @@ class BaseButton extends BaseStatelessWidget {
       'textButton and outline can not be true at the same time.',
     );
     assert(child != null, 'child can\'t be null.');
-    final VoidCallback? _onPressed = valueFromMaterial('onPressed', onPressed);
+    final VoidCallback? _onPressed = valueOf('onPressed', onPressed);
+    final VoidCallback? _onLongPress = valueOf('onLongPress', onLongPress);
+    final ButtonStyle? _style = valueOf('style', style);
+    final FocusNode? _focusNode = valueOf('focusNode', focusNode);
+    final bool _autofocus = valueOf('autofocus', autofocus);
+    final Clip _clipBehavior = valueOf('clipBehavior', clipBehavior);
     if (textButton) {
       return TextButton(
         onPressed: _onPressed,
-        onLongPress: onLongPress,
-        style: style,
-        focusNode: focusNode,
-        autofocus: autofocus,
-        clipBehavior: clipBehavior,
+        onLongPress: _onLongPress,
+        style: _style,
+        focusNode: _focusNode,
+        autofocus: _autofocus,
+        clipBehavior: _clipBehavior,
         child: child,
       );
     } else if (outlinedButton) {
       return OutlinedButton(
         onPressed: _onPressed,
-        onLongPress: onLongPress,
-        style: style,
-        focusNode: focusNode,
-        autofocus: autofocus,
-        clipBehavior: clipBehavior,
+        onLongPress: _onLongPress,
+        style: _style,
+        focusNode: _focusNode,
+        autofocus: _autofocus,
+        clipBehavior: _clipBehavior,
         child: child,
       );
     } else if (elevatedButton) {
       return ElevatedButton(
         onPressed: _onPressed,
-        onLongPress: onLongPress,
-        style: style,
-        focusNode: focusNode,
-        autofocus: autofocus,
-        clipBehavior: clipBehavior,
+        onLongPress: _onLongPress,
+        style: _style,
+        focusNode: _focusNode,
+        autofocus: _autofocus,
+        clipBehavior: _clipBehavior,
         child: child,
       );
     }
     return MaterialButton(
       onPressed: _onPressed,
-      onLongPress: onLongPress,
-      onHighlightChanged: onHighlightChanged,
-      mouseCursor: mouseCursor,
-      textTheme: textTheme,
-      textColor: textColor,
-      disabledTextColor: disabledTextColor,
-      color: valueFromMaterial('color', color),
-      disabledColor: valueFromMaterial('disabledColor', disabledColor),
-      focusColor: focusColor,
-      hoverColor: hoverColor,
-      highlightColor: highlightColor,
-      splashColor: splashColor,
-      colorBrightness: colorBrightness,
-      elevation: elevation,
-      focusElevation: focusElevation,
-      hoverElevation: hoverElevation,
-      highlightElevation: highlightElevation,
-      disabledElevation: disabledElevation,
-      padding: valueFromMaterial('padding', padding),
-      visualDensity: visualDensity,
-      shape: shape,
-      clipBehavior: clipBehavior,
-      focusNode: focusNode,
-      autofocus: autofocus,
-      materialTapTargetSize: materialTapTargetSize,
-      animationDuration: animationDuration,
-      minWidth: minWidth,
-      height: height,
-      enableFeedback: enableFeedback,
+      onLongPress: _onLongPress,
+      onHighlightChanged: valueOf('onHighlightChanged', onHighlightChanged),
+      mouseCursor: valueOf('mouseCursor', mouseCursor),
+      textTheme: valueOf('textTheme', textTheme),
+      textColor: valueOf('textColor', textColor),
+      disabledTextColor: valueOf('disabledTextColor', disabledTextColor),
+      color: valueOf('color', color),
+      disabledColor: valueOf('disabledColor', disabledColor),
+      focusColor: valueOf('focusColor', focusColor),
+      hoverColor: valueOf('hoverColor', hoverColor),
+      highlightColor: valueOf('highlightColor', highlightColor),
+      splashColor: valueOf('splashColor', splashColor),
+      colorBrightness: valueOf('colorBrightness', colorBrightness),
+      elevation: valueOf('elevation', elevation),
+      focusElevation: valueOf('focusElevation', focusElevation),
+      hoverElevation: valueOf('hoverElevation', hoverElevation),
+      highlightElevation: valueOf('highlightElevation', highlightElevation),
+      disabledElevation: valueOf('disabledElevation', disabledElevation),
+      padding: valueOf('padding', padding),
+      visualDensity: valueOf('visualDensity', visualDensity),
+      shape: valueOf('shape', shape),
+      clipBehavior: _clipBehavior,
+      focusNode: _focusNode,
+      autofocus: _autofocus,
+      materialTapTargetSize: valueOf('materialTapTargetSize', materialTapTargetSize),
+      animationDuration: valueOf('animationDuration', animationDuration),
+      minWidth: valueOf('minWidth', minWidth),
+      height: valueOf('height', height),
+      enableFeedback: valueOf('enableFeedback', enableFeedback),
       child: child,
     );
   }
@@ -390,8 +398,7 @@ class _BaseButtonWithIcon extends BaseButton {
     bool textButton = false,
     bool outlinedButton = false,
     bool elevatedButton = false,
-    Map<String, dynamic>? cupertino = const <String, dynamic>{},
-    Map<String, dynamic>? material = const <String, dynamic>{},
+    BaseParam? baseParam,
   }) : super(
           key: key,
           onPressed: onPressed,
@@ -411,8 +418,7 @@ class _BaseButtonWithIcon extends BaseButton {
           filledButton: filledButton,
           outlinedButton: outlinedButton,
           elevatedButton: elevatedButton,
-          cupertino: cupertino,
-          material: material,
+          baseParam: baseParam,
         );
 
   final Widget? icon;
@@ -420,8 +426,8 @@ class _BaseButtonWithIcon extends BaseButton {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final Widget _icon = valueFromCupertino('icon', icon);
-    final Widget? _label = valueFromCupertino('label', label);
+    final Widget _icon = valueOf('icon', icon);
+    final Widget? _label = valueOf('label', label);
     assert(_icon != null, 'icon can\'t be null.');
     final Widget _child = _ButtonWithIconChild(icon: icon!, label: _label);
     return super.buildByCupertinoWithChild(_child);
@@ -429,8 +435,8 @@ class _BaseButtonWithIcon extends BaseButton {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final Widget _icon = valueFromMaterial('icon', icon);
-    final Widget _label = valueFromMaterial('label', label);
+    final Widget _icon = valueOf('icon', icon);
+    final Widget _label = valueOf('label', label);
     assert(_icon != null, 'icon can\'t be null.');
     final Widget _child = _ButtonWithIconChild(icon: icon!, label: _label);
     return super.buildByMaterialWithChild(_child);

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show MouseCursor, SystemMouseCursors;
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 
 /// BaseIconButton
@@ -38,9 +39,8 @@ class BaseIconButton extends BaseStatelessWidget {
     this.tooltip,
     this.enableFeedback = true,
     this.constraints,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// *** general properties start ***
 
@@ -132,45 +132,45 @@ class BaseIconButton extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final Color _disabledColor = valueFromCupertino('disabledColor', disabledColor) ?? CupertinoColors.quaternarySystemFill;
+    final Color _disabledColor = valueOf('disabledColor', disabledColor) ?? CupertinoColors.quaternarySystemFill;
     return CupertinoButton(
       child: Icon(
-        valueFromCupertino('icon', icon),
-        size: valueFromCupertino('iconSize', iconSize),
-        color: valueFromCupertino('color', color),
+        valueOf('icon', icon),
+        size: valueOf('iconSize', iconSize),
+        color: valueOf('color', color),
       ),
-      padding: valueFromCupertino('padding', padding),
+      padding: valueOf('padding', padding),
       disabledColor: _disabledColor,
-      minSize: minSize,
-      pressedOpacity: pressedOpacity,
-      borderRadius: borderRadius,
-      alignment: alignment,
-      onPressed: valueFromCupertino('onPressed', onPressed),
+      minSize: valueOf('minSize', minSize),
+      pressedOpacity: valueOf('pressedOpacity', pressedOpacity),
+      borderRadius: valueOf('borderRadius', borderRadius),
+      alignment: valueOf('alignment', alignment),
+      onPressed: valueOf('onPressed', onPressed),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
     return IconButton(
-      iconSize: valueFromMaterial('iconSize', iconSize),
-      visualDensity: visualDensity,
-      padding: valueFromMaterial('padding', padding),
-      alignment: valueFromMaterial('alignment', alignment),
-      icon: Icon(valueFromMaterial('icon', icon)),
-      splashRadius: splashRadius,
-      color: valueFromMaterial('color', color),
-      focusColor: focusColor,
-      hoverColor: hoverColor,
-      highlightColor: valueFromMaterial('highlightColor', highlightColor),
-      splashColor: valueFromMaterial('splashColor', splashColor),
-      disabledColor: valueFromMaterial('disabledColor', disabledColor),
-      onPressed: valueFromMaterial('onPressed', onPressed),
-      mouseCursor: mouseCursor,
-      focusNode: focusNode,
-      autofocus: autofocus,
-      tooltip: valueFromMaterial('tooltip', tooltip),
-      enableFeedback: enableFeedback,
-      constraints: constraints,
+      iconSize: valueOf('iconSize', iconSize),
+      visualDensity: valueOf('visualDensity', visualDensity),
+      padding: valueOf('padding', padding),
+      alignment: valueOf('alignment', alignment),
+      icon: Icon(valueOf('icon', icon)),
+      splashRadius: valueOf('splashRadius', splashRadius),
+      color: valueOf('color', color),
+      focusColor: valueOf('focusColor', focusColor),
+      hoverColor: valueOf('hoverColor', hoverColor),
+      highlightColor: valueOf('highlightColor', highlightColor),
+      splashColor: valueOf('splashColor', splashColor),
+      disabledColor: valueOf('disabledColor', disabledColor),
+      onPressed: valueOf('onPressed', onPressed),
+      mouseCursor: valueOf('mouseCursor', mouseCursor),
+      focusNode: valueOf('focusNode', focusNode),
+      autofocus: valueOf('autofocus', autofocus),
+      tooltip: valueOf('tooltip', tooltip),
+      enableFeedback: valueOf('enableFeedback', enableFeedback),
+      constraints: valueOf('constraints', constraints),
     );
   }
 }

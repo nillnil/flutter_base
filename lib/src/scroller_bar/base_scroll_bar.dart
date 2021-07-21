@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart' show CupertinoScrollbar;
 import 'package:flutter/material.dart';
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 
 /// BaseScrollBar
@@ -27,9 +28,8 @@ class BaseScrollBar extends BaseStatelessWidget {
     this.showTrackOnHover,
     this.hoverThickness,
     this.interactive,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// *** general properties start ***
 
@@ -93,51 +93,48 @@ class BaseScrollBar extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final Widget _child = valueFromCupertino('child', child);
+    final Widget _child = valueOf('child', child);
     assert(_child != null, 'child can\'t be null');
     final Widget _scrollbar = CupertinoScrollbar(
-      controller: valueFromCupertino('controller', controller),
+      controller: valueOf('controller', controller),
       child: _child,
-      isAlwaysShown: valueFromCupertino('isAlwaysShown', isAlwaysShown),
-      thickness: valueFromCupertino('thickness', thickness) ?? 3.0,
-      thicknessWhileDragging: thicknessWhileDragging,
-      radius: valueFromCupertino('radius', radius),
-      radiusWhileDragging: radiusWhileDragging,
-      notificationPredicate: valueFromCupertino('notificationPredicate', notificationPredicate),
+      isAlwaysShown: valueOf('isAlwaysShown', isAlwaysShown),
+      thickness: valueOf('thickness', thickness) ?? 3.0,
+      thicknessWhileDragging: valueOf('thicknessWhileDragging', thicknessWhileDragging),
+      radius: valueOf('radius', radius),
+      radiusWhileDragging: valueOf('radiusWhileDragging', radiusWhileDragging),
+      notificationPredicate: valueOf('notificationPredicate', notificationPredicate),
     );
-    if (padding != null) {
-      return MediaQuery(
-        data: MediaQuery.of(context).copyWith(
-          padding: padding,
-        ),
-        child: _scrollbar,
-      );
-    }
-    return _scrollbar;
+    return _buildWidget(context, _scrollbar);
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final Widget? _child = valueFromMaterial('child', child);
+    final Widget? _child = valueOf('child', child);
     final Widget _scrollbar = Scrollbar(
       child: _child!,
-      controller: valueFromMaterial('controller', controller),
-      isAlwaysShown: valueFromMaterial('isAlwaysShown', isAlwaysShown),
-      showTrackOnHover: valueFromMaterial('showTrackOnHover', showTrackOnHover),
-      hoverThickness: valueFromMaterial('hoverThickness', hoverThickness),
-      thickness: valueFromMaterial('thickness', thickness),
-      radius: valueFromMaterial('radius', radius),
-      notificationPredicate: valueFromMaterial('notificationPredicate', notificationPredicate),
-      interactive: interactive,
+      controller: valueOf('controller', controller),
+      isAlwaysShown: valueOf('isAlwaysShown', isAlwaysShown),
+      showTrackOnHover: valueOf('showTrackOnHover', showTrackOnHover),
+      hoverThickness: valueOf('hoverThickness', hoverThickness),
+      thickness: valueOf('thickness', thickness),
+      radius: valueOf('radius', radius),
+      notificationPredicate: valueOf('notificationPredicate', notificationPredicate),
+      interactive: valueOf('interactive', interactive),
     );
-    if (padding != null) {
+    return _buildWidget(context, _scrollbar);
+  }
+
+  Widget _buildWidget(BuildContext context, Widget scrollbar) {
+    final EdgeInsets? _padding = valueOf('padding', padding);
+    if (_padding != null) {
       return MediaQuery(
         data: MediaQuery.of(context).copyWith(
-          padding: padding,
+          padding: _padding,
         ),
-        child: _scrollbar,
+        child: scrollbar,
       );
     }
-    return _scrollbar;
+    return scrollbar;
   }
 }

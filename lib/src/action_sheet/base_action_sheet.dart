@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../base_constants.dart';
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 import '../mode/base_mode.dart';
 
@@ -32,9 +32,8 @@ class BaseActionSheet extends BaseStatelessWidget {
     this.elevation = 0.0,
     this.shape,
     this.clipBehavior,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   // *** general properties start ***
 
@@ -92,28 +91,29 @@ class BaseActionSheet extends BaseStatelessWidget {
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoActionSheet(
-      title: valueFromCupertino('title', title),
-      message: valueFromCupertino('message', message),
-      actions: valueFromCupertino('actions', actions),
-      messageScrollController: valueFromCupertino(
+      title: valueOf('title', title),
+      message: valueOf('message', message),
+      actions: valueOf('actions', actions),
+      messageScrollController: valueOf(
         'messageScrollController',
         messageScrollController,
       ),
-      actionScrollController: valueFromCupertino(
+      actionScrollController: valueOf(
         'actionScrollController',
         actionScrollController,
       ),
-      cancelButton: valueFromCupertino('cancelButton', cancelButton),
+      cancelButton: valueOf('cancelButton', cancelButton),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
+    final VoidCallback? _onClosing = valueOf('onClosing', onClosing);
     return BottomSheet(
-      animationController: animationController,
+      animationController: valueOf('animationController', animationController),
       onClosing: () {
-        if (onClosing != null) {
-          onClosing!();
+        if (_onClosing != null) {
+          _onClosing();
         }
       },
       builder: (BuildContext context) {
@@ -134,12 +134,12 @@ class BaseActionSheet extends BaseStatelessWidget {
           ),
         );
       },
-      enableDrag: enableDrag,
-      onDragStart: onDragStart,
-      onDragEnd: onDragEnd,
-      elevation: elevation,
-      shape: shape,
-      clipBehavior: clipBehavior,
+      enableDrag: valueOf('enableDrag', enableDrag),
+      onDragStart: valueOf('onDragStart', onDragStart),
+      onDragEnd: valueOf('onDragEnd', onDragEnd),
+      elevation: valueOf('elevation', elevation),
+      shape: valueOf('shape', shape),
+      clipBehavior: valueOf('clipBehavior', clipBehavior),
     );
   }
 
@@ -159,20 +159,8 @@ class BaseActionSheet extends BaseStatelessWidget {
       color: Color(0x33000000),
       darkColor: Color(0x7A000000),
     );
-    if (isCupertinoMode) {
-      if (cupertino != null && cupertino![forceUseMaterial] != null && cupertino![forceUseMaterial]) {
-        final bool _useRootNavigator = useRootNavigator ??= false;
-        return _showByMaterial<T>(
-          context,
-          barrierColor: barrierColor,
-          isScrollControlled: isScrollControlled,
-          useRootNavigator: _useRootNavigator,
-          isDismissible: isDismissible,
-          enableDrag: enableDrag,
-          routeSettings: routeSettings,
-          transitionAnimationController: transitionAnimationController,
-        );
-      }
+    final WidgetBuildMode _widgetBuildMode = getBuildMode(baseParam);
+    if (_widgetBuildMode == WidgetBuildMode.cupertino || _widgetBuildMode == WidgetBuildMode.forceUseCupertino) {
       final bool _useRootNavigator = useRootNavigator ??= true;
       return _showByCupertino<T>(
         context,
@@ -182,30 +170,18 @@ class BaseActionSheet extends BaseStatelessWidget {
         semanticsDismissible: semanticsDismissible,
         routeSettings: routeSettings,
       );
-    } else {
-      if (material != null && material![forceUseCupertino] != null && material![forceUseCupertino]) {
-        final bool _useRootNavigator = useRootNavigator ??= true;
-        return _showByCupertino<T>(
-          context,
-          barrierColor: barrierColor ?? _cupertinoDefaultBarrierColor,
-          barrierDismissible: barrierDismissible,
-          useRootNavigator: _useRootNavigator,
-          semanticsDismissible: semanticsDismissible,
-          routeSettings: routeSettings,
-        );
-      }
-      final bool _useRootNavigator = useRootNavigator ??= false;
-      return _showByMaterial<T>(
-        context,
-        barrierColor: barrierColor,
-        isScrollControlled: isScrollControlled,
-        useRootNavigator: _useRootNavigator,
-        isDismissible: isDismissible,
-        enableDrag: enableDrag,
-        routeSettings: routeSettings,
-        transitionAnimationController: transitionAnimationController,
-      );
     }
+    final bool _useRootNavigator = useRootNavigator ??= false;
+    return _showByMaterial<T>(
+      context,
+      barrierColor: barrierColor,
+      isScrollControlled: isScrollControlled,
+      useRootNavigator: _useRootNavigator,
+      isDismissible: isDismissible,
+      enableDrag: enableDrag,
+      routeSettings: routeSettings,
+      transitionAnimationController: transitionAnimationController,
+    );
   }
 
   Future<T?> _showByCupertino<T>(
@@ -283,9 +259,9 @@ class BaseActionSheet extends BaseStatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           _MaterialActionSection(
-            actions: valueFromMaterial('actions', actions),
-            cancelButton: valueFromMaterial('cancelButton', cancelButton),
-            scrollController: valueFromMaterial(
+            actions: valueOf('actions', actions),
+            cancelButton: valueOf('cancelButton', cancelButton),
+            scrollController: valueOf(
               'actionScrollController',
               actionScrollController,
             ),

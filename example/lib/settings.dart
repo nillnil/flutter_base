@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'provider/app_provider.dart';
 
-const String _version = '2.2.2+1';
+const String _version = '2.2.2+2-pre';
 const String _flutter_version = '2.2.2';
 
 const double _appBarMaxHeight = 100;
@@ -35,9 +35,11 @@ class Settings extends StatelessWidget {
           );
         },
       ),
-      cupertino: const <String, dynamic>{
-        'backgroundColor': CupertinoColors.systemGroupedBackground,
-      },
+      baseParam: BaseParam(
+        cupertino: const <String, dynamic>{
+          'backgroundColor': CupertinoColors.systemGroupedBackground,
+        },
+      ),
     );
   }
 }
@@ -340,9 +342,11 @@ class _ThemeModePage extends StatelessWidget {
           );
         },
       ),
-      cupertino: const <String, dynamic>{
-        'backgroundColor': CupertinoColors.systemGroupedBackground,
-      },
+      baseParam: BaseParam(
+        cupertino: const <String, dynamic>{
+          'backgroundColor': CupertinoColors.systemGroupedBackground,
+        },
+      ),
     );
   }
 }

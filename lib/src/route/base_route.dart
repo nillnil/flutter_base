@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' show BuildContext, MaterialPageRoute, Nav
 import 'package:flutter/material.dart';
 
 import '../base_class.dart';
+import '../base_param.dart';
 import '../flutter/cupertino/route.dart';
 import '../theme/base_theme.dart';
 
@@ -24,9 +25,8 @@ class BaseRoute<T> extends BaseClass {
     this.fullscreenDialog = false,
     this.backGestureWidth = 20.0,
     this.fullscreenGackGesture,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(baseParam: baseParam);
 
   /// *** general properties start ***
 
@@ -75,16 +75,16 @@ class BaseRoute<T> extends BaseClass {
   @override
   Object buildByCupertino(BuildContext context) {
     double _backGestureWidth = backGestureWidth;
-    final bool fullscreenGackGesture = this.fullscreenGackGesture ?? BaseTheme.of(context).routeFullscreenGackGesture;
-    if (fullscreenGackGesture) {
+    final bool _fullscreenGackGesture = valueOf('fullscreenGackGesture', fullscreenGackGesture) ?? BaseTheme.of(context).routeFullscreenGackGesture;
+    if (_fullscreenGackGesture) {
       _backGestureWidth = MediaQuery.of(context).size.width;
     }
     return CupertinoPageRoute<T>(
-      builder: valueFromCupertino('builder', builder),
-      title: title,
-      settings: valueFromCupertino('settings', settings),
-      maintainState: valueFromCupertino('maintainState', maintainState),
-      fullscreenDialog: valueFromCupertino('fullscreenDialog', fullscreenDialog),
+      builder: valueOf('builder', builder),
+      title: valueOf('title', title),
+      settings: valueOf('settings', settings),
+      maintainState: valueOf('maintainState', maintainState),
+      fullscreenDialog: valueOf('fullscreenDialog', fullscreenDialog),
       backGestureWidth: _backGestureWidth,
     );
   }
@@ -92,10 +92,10 @@ class BaseRoute<T> extends BaseClass {
   @override
   Object buildByMaterial(BuildContext context) {
     return MaterialPageRoute<T>(
-      builder: valueFromCupertino('builder', builder),
-      settings: valueFromMaterial('settings', settings),
-      maintainState: valueFromMaterial('maintainState', maintainState),
-      fullscreenDialog: valueFromMaterial('fullscreenDialog', fullscreenDialog),
+      builder: valueOf('builder', builder),
+      settings: valueOf('settings', settings),
+      maintainState: valueOf('maintainState', maintainState),
+      fullscreenDialog: valueOf('fullscreenDialog', fullscreenDialog),
     );
   }
 

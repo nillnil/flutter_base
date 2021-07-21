@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart' show CupertinoAlertDialog, ScrollController;
 import 'package:flutter/material.dart';
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 
 /// BaseAlertDialog
@@ -41,9 +42,8 @@ class BaseAlertDialog extends BaseStatelessWidget {
     this.clipBehavior = Clip.none,
     this.shape,
     this.scrollable = false,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// *** general properties start ***
 
@@ -132,37 +132,37 @@ class BaseAlertDialog extends BaseStatelessWidget {
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoAlertDialog(
-      title: valueFromCupertino('title', title),
-      content: valueFromCupertino('content', content),
-      actions: valueFromCupertino('actions', actions),
-      scrollController: scrollController,
-      actionScrollController: actionScrollController,
-      insetAnimationDuration: insetAnimationDuration,
-      insetAnimationCurve: insetAnimationCurve,
+      title: valueOf('title', title),
+      content: valueOf('content', content),
+      actions: valueOf('actions', actions),
+      scrollController: valueOf('scrollController', scrollController),
+      actionScrollController: valueOf('actionScrollController', actionScrollController),
+      insetAnimationDuration: valueOf('insetAnimationDuration', insetAnimationDuration),
+      insetAnimationCurve: valueOf('insetAnimationCurve', insetAnimationCurve),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
     return AlertDialog(
-      title: valueFromMaterial('title', title),
-      titlePadding: titlePadding,
-      titleTextStyle: titleTextStyle,
-      content: valueFromMaterial('content', content),
-      contentPadding: contentPadding,
-      contentTextStyle: contentTextStyle,
-      actions: valueFromMaterial('actions', actions),
-      actionsPadding: actionsPadding,
-      actionsOverflowDirection: actionsOverflowDirection,
-      actionsOverflowButtonSpacing: actionsOverflowButtonSpacing,
-      buttonPadding: buttonPadding,
-      backgroundColor: backgroundColor,
-      elevation: elevation,
-      semanticLabel: semanticLabel,
-      insetPadding: insetPadding,
-      clipBehavior: clipBehavior,
-      shape: shape,
-      scrollable: scrollable,
+      title: valueOf('title', title),
+      titlePadding: valueOf('titlePadding', titlePadding),
+      titleTextStyle: valueOf('titleTextStyle', titleTextStyle),
+      content: valueOf('content', content),
+      contentPadding: valueOf('contentPadding', contentPadding),
+      contentTextStyle: valueOf('contentTextStyle', contentTextStyle),
+      actions: valueOf('actions', actions),
+      actionsPadding: valueOf('actionsPadding', actionsPadding),
+      actionsOverflowDirection: valueOf('actionsOverflowDirection', actionsOverflowDirection),
+      actionsOverflowButtonSpacing: valueOf('actionsOverflowButtonSpacing', actionsOverflowButtonSpacing),
+      buttonPadding: valueOf('buttonPadding', buttonPadding),
+      backgroundColor: valueOf('backgroundColor', backgroundColor),
+      elevation: valueOf('elevation', elevation),
+      semanticLabel: valueOf('semanticLabel', semanticLabel),
+      insetPadding: valueOf('insetPadding', insetPadding),
+      clipBehavior: valueOf('clipBehavior', clipBehavior),
+      shape: valueOf('shape', shape),
+      scrollable: valueOf('scrollable', scrollable),
     );
   }
 

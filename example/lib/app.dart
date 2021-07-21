@@ -94,9 +94,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             routeFullscreenGackGesture: appProvider.routeFullscreenGackGesture!,
           ),
           debugShowCheckedModeBanner: false,
-          material: <String, dynamic> {
-            'themeMode': appProvider.themeMode,
-          },
+          baseParam: BaseParam(
+            material: <String, dynamic> {
+              'themeMode': appProvider.themeMode,
+            },
+          ),
         );
       },
     );

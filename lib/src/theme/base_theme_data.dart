@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart' show CupertinoThemeData;
 import 'package:flutter/foundation.dart' show Diagnosticable, immutable;
 import 'package:flutter/material.dart' show Brightness, Color, ThemeData;
 
+import '../base_param.dart';
 import '../mode/base_mode.dart';
 
 /// BaseThemeData
@@ -22,8 +23,7 @@ class BaseThemeData with Diagnosticable {
     Color? tileBackgroundColor,
     BasePlatformMode? platformMode = const BasePlatformMode(),
     bool withoutSplashOnCupertino = true,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
+    BaseParam? baseParam,
   }) {
     brightness ??= Brightness.light;
     final bool isDark = brightness == Brightness.dark;
@@ -40,15 +40,12 @@ class BaseThemeData with Diagnosticable {
       tileBackgroundColor: tileBackgroundColor,
       platformMode: platformMode,
       withoutSplashOnCupertino: withoutSplashOnCupertino,
-      cupertino: cupertino ?? const <String, dynamic>{},
-      material: material ?? const <String, dynamic>{},
+      baseParam: baseParam,
     );
   }
   const BaseThemeData.raw({
     this.brightness,
     this.appBarHeight,
-    this.cupertino,
-    this.material,
     this.appBarBackdropFilter,
     this.appBarTransitionBetweenRoutes,
     this.appBarCenterTitle,
@@ -59,6 +56,7 @@ class BaseThemeData with Diagnosticable {
     this.tileBackgroundColor,
     this.platformMode = const BasePlatformMode(),
     this.withoutSplashOnCupertino = true,
+    this.baseParam,
   });
 
   final Brightness? brightness;
@@ -111,10 +109,9 @@ class BaseThemeData with Diagnosticable {
 
   /// See also:
   ///
-  ///  * [BaseStatelessWidget.cupertino], special parameters values on cupertino mode.
-  ///  * [BaseStatelessWidget.material], special parameters values on material mode.
-  final Map<String, dynamic>? cupertino;
-  final Map<String, dynamic>? material;
+  ///  * [BaseStatelessWidget.baseParam], special parameters values on cupertino mode or target platform.
+  ///  * [BaseStatelessWidget.baseParam], special parameters values on material mode or target platform.
+  final BaseParam? baseParam;
 
   BaseThemeData copyWith({
     Brightness? brightness,
@@ -129,8 +126,7 @@ class BaseThemeData with Diagnosticable {
     Color? tileBackgroundColor,
     BasePlatformMode? platformMode,
     bool? withoutSplashOnCupertino,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
+    BaseParam? baseParam,
   }) {
     return BaseThemeData.raw(
       brightness: brightness ?? this.brightness,
@@ -145,22 +141,11 @@ class BaseThemeData with Diagnosticable {
       tileBackgroundColor: tileBackgroundColor ?? this.tileBackgroundColor,
       platformMode: platformMode ?? this.platformMode,
       withoutSplashOnCupertino: withoutSplashOnCupertino ?? this.withoutSplashOnCupertino,
-      cupertino: cupertino ?? this.cupertino,
-      material: material ?? this.material,
+      baseParam: baseParam ?? this.baseParam,
     );
   }
 
-  /// will get the parameter value from [cupertino] first.
-  ///
-  /// 会先获取 [cupertino] 里的值
-  dynamic valueFromCupertino(String key, dynamic value) {
-    return cupertino != null ? cupertino![key] ?? value : value;
-  }
-
-  /// will get the parameter value from [material] first.
-  ///
-  /// 会先获取 [material] 里的值
-  dynamic valueFromMaterial(String key, dynamic value) {
-    return material != null ? material![key] ?? value : value;
+  dynamic valueOf(String key, dynamic value) {
+    return baseParam != null ? baseParam!.valueOf(key, value) ?? value : value;
   }
 }

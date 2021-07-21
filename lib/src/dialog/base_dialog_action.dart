@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart' show CupertinoDialogAction;
 import 'package:flutter/material.dart';
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 
 /// BaseDialogAction
@@ -25,9 +26,8 @@ class BaseDialogAction extends BaseStatelessWidget {
     this.autofocus = false,
     this.style,
     this.onLongPress,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// *** general properties start ***
 
@@ -78,24 +78,24 @@ class BaseDialogAction extends BaseStatelessWidget {
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoDialogAction(
-      onPressed: valueFromCupertino('onPressed', onPressed),
-      isDefaultAction: isDefaultAction,
-      isDestructiveAction: isDestructiveAction,
-      textStyle: textStyle,
-      child: valueFromCupertino('child', child),
+      onPressed: valueOf('onPressed', onPressed),
+      isDefaultAction: valueOf('isDefaultAction', isDefaultAction),
+      isDestructiveAction: valueOf('isDestructiveAction', isDestructiveAction),
+      textStyle: valueOf('textStyle', textStyle),
+      child: valueOf('child', child),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
     return TextButton(
-      onPressed: valueFromMaterial('onPressed', onPressed),
-      onLongPress: valueFromMaterial('onLongPress', onLongPress),
-      style: style,
-      focusNode: focusNode,
-      autofocus: autofocus,
-      clipBehavior: clipBehavior,
-      child: valueFromMaterial('child', child),
+      onPressed: valueOf('onPressed', onPressed),
+      onLongPress: valueOf('onLongPress', onLongPress),
+      style: valueOf('style', style),
+      focusNode: valueOf('focusNode', focusNode),
+      autofocus: valueOf('autofocus', autofocus),
+      clipBehavior: valueOf('clipBehavior', clipBehavior),
+      child: valueOf('child', child),
     );
   }
 }

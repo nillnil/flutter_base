@@ -157,57 +157,61 @@ class Home extends StatelessWidget {
       appBar: BaseAppBar(
         title: const Text('Base Example'),
         padding: const EdgeInsetsDirectional.only(start: 5.0, end: 5.0),
-        cupertino: <String, dynamic>{
-          'leading': BaseIconButton(
-            icon: IconFont.info,
-            iconSize: 24,
-            onPressed: () {
-              final double paddingTop = MediaQuery.of(context).padding.top;
-              const GlobalObjectKey<BaseDrawerState> _drawerKey = GlobalObjectKey<BaseDrawerState>('home_drawer');
-              final BaseDrawer baseDrawer = BaseDrawer(
-                key: _drawerKey,
-                axisDirection: AxisDirection.up,
-                size: Size.fromHeight(
-                  MediaQuery.of(context).size.height - paddingTop,
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: CupertinoColors.secondarySystemGroupedBackground.resolveFrom(context),
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(10.0),
-                    ),
+        baseParam: BaseParam(
+          cupertino: <String, dynamic>{
+            'leading': BaseIconButton(
+              icon: IconFont.info,
+              iconSize: 24,
+              onPressed: () {
+                final double paddingTop = MediaQuery.of(context).padding.top;
+                const GlobalObjectKey<BaseDrawerState> _drawerKey = GlobalObjectKey<BaseDrawerState>('home_drawer');
+                final BaseDrawer baseDrawer = BaseDrawer(
+                  key: _drawerKey,
+                  axisDirection: AxisDirection.up,
+                  size: Size.fromHeight(
+                    MediaQuery.of(context).size.height - paddingTop,
                   ),
-                  child: Column(
-                    children: <Widget>[
-                      _TipsHeader(
-                        callback: () {
-                          _drawerKey.currentState?.close();
-                        },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: CupertinoColors.secondarySystemGroupedBackground.resolveFrom(context),
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(10.0),
                       ),
-                      Expanded(
-                        child: IgnorePointer(
-                          child: ListView(
-                            padding: const EdgeInsets.all(10.0),
-                            children: const <Widget>[_tipsWidget],
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        _TipsHeader(
+                          callback: () {
+                            _drawerKey.currentState?.close();
+                          },
+                        ),
+                        Expanded(
+                          child: IgnorePointer(
+                            child: ListView(
+                              padding: const EdgeInsets.all(10.0),
+                              children: const <Widget>[_tipsWidget],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              );
-              openBaseDrawer<void>(context, baseDrawer);
-            },
-          ),
-        },
+                );
+                openBaseDrawer<void>(context, baseDrawer);
+              },
+            ),
+          },
+        ),
         actions: <Widget>[
           ClipOval(
             child: BaseIconButton(
               icon: IconFont.settings,
               iconSize: 20,
-              material: const <String, dynamic>{
-                'color': Colors.white,
-              },
+              baseParam: BaseParam(
+                material: const <String, dynamic>{
+                  'color': Colors.white,
+                },
+              ),
               onPressed: () {
                 BaseRoute<dynamic>(
                   builder: (_) => const Settings(),

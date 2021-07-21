@@ -107,9 +107,11 @@ class _TabPage extends StatelessWidget {
         title: Text(title),
       ),
       body: _Body(title: title),
-      cupertino: const <String, dynamic>{
-        'backgroundColor': CupertinoColors.systemGroupedBackground,
-      },
+      baseParam: BaseParam(
+        cupertino: const <String, dynamic>{
+          'backgroundColor': CupertinoColors.systemGroupedBackground,
+        },
+      ),
     );
   }
 }

@@ -46,9 +46,11 @@ class _SateAreaDemoState extends State<SateAreaDemo> {
                         });
                       },
                     ),
-                    cupertino: <String, dynamic>{
-                      'backgroundColor': CupertinoColors.tertiarySystemBackground.resolveFrom(context),
-                    },
+                    baseParam: BaseParam(
+                      cupertino: <String, dynamic>{
+                        'backgroundColor': CupertinoColors.tertiarySystemBackground.resolveFrom(context),
+                      },
+                    ),
                   ),
                   BaseTile(
                     titleText: 'safeAreaBottom',
@@ -60,9 +62,11 @@ class _SateAreaDemoState extends State<SateAreaDemo> {
                         });
                       },
                     ),
-                    cupertino: <String, dynamic>{
-                      'backgroundColor': CupertinoColors.tertiarySystemBackground.resolveFrom(context),
-                    },
+                    baseParam: BaseParam(
+                      cupertino: <String, dynamic>{
+                        'backgroundColor': CupertinoColors.tertiarySystemBackground.resolveFrom(context),
+                      },
+                    ),
                   )
                 ],
               )

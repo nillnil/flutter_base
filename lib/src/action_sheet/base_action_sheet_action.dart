@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 
 /// BaseActionSheetAction
@@ -19,9 +20,8 @@ class BaseActionSheetAction extends BaseStatelessWidget {
     this.child,
     this.isDefaultAction = false,
     this.isDestructiveAction = false,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// *** general properties start ***
 
@@ -42,19 +42,19 @@ class BaseActionSheetAction extends BaseStatelessWidget {
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoActionSheetAction(
-      onPressed: valueFromCupertino('onPressed', onPressed),
-      isDefaultAction: valueFromCupertino('isDefaultAction', isDefaultAction),
-      isDestructiveAction: valueFromCupertino(
+      onPressed: valueOf('onPressed', onPressed),
+      isDefaultAction: valueOf('isDefaultAction', isDefaultAction),
+      isDestructiveAction: valueOf(
         'isDestructiveAction',
         isDestructiveAction,
       ),
-      child: valueFromCupertino('child', child),
+      child: valueOf('child', child),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final Widget _child = valueFromMaterial('child', child);
+    final Widget _child = valueOf('child', child);
     final TextStyle actionStyle = (Theme.of(context).textTheme.button ?? const TextStyle()).copyWith(
       inherit: false,
       fontSize: 20.0,

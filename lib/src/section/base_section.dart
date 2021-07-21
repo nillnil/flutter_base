@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 import '../theme/base_theme.dart';
 import '../theme/base_theme_data.dart';
@@ -15,9 +16,8 @@ class BaseSection extends BaseStatelessWidget {
     this.children,
     this.header,
     this.footer,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   final EdgeInsets? margin;
   final Decoration? decoration;
@@ -30,24 +30,24 @@ class BaseSection extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final EdgeInsets? margin = valueFromCupertino('margin', this.margin);
-    final BaseSectionDivider? divider = valueFromCupertino(
+    final EdgeInsets? margin = valueOf('margin', this.margin);
+    final BaseSectionDivider? divider = valueOf(
       'divider',
       this.divider,
     );
-    final List<Widget>? children = valueFromCupertino('children', this.children);
-    final Widget? header = valueFromCupertino('header', this.header);
-    final Widget? footer = valueFromCupertino('footer', this.footer);
+    final List<Widget>? children = valueOf('children', this.children);
+    final Widget? header = valueOf('header', this.header);
+    final Widget? footer = valueOf('footer', this.footer);
     return _build(context, margin, divider, children, header, footer);
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final EdgeInsets? margin = valueFromMaterial('margin', this.margin);
-    final BaseSectionDivider? divider = valueFromMaterial('divider', this.divider);
-    final List<Widget>? children = valueFromMaterial('children', this.children);
-    final Widget? header = valueFromMaterial('header', this.header);
-    final Widget? footer = valueFromMaterial('footer', this.footer);
+    final EdgeInsets? margin = valueOf('margin', this.margin);
+    final BaseSectionDivider? divider = valueOf('divider', this.divider);
+    final List<Widget>? children = valueOf('children', this.children);
+    final Widget? header = valueOf('header', this.header);
+    final Widget? footer = valueOf('footer', this.footer);
     return _build(context, margin, divider, children, header, footer);
   }
 

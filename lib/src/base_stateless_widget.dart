@@ -15,37 +15,24 @@ import 'base_mixin.dart';
 /// ***
 /// *** Flutter禁用运行时反射，所以取值由子组件各自获取，
 /// *** cupertino模式使用 valueFromCupertino(key, value) 获取，
-/// *** material模式使用 valueFromMaterial(key, value) 获取
+/// *** material模式使用 valueOf(key, value) 获取
 /// ***
 abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
   const BaseStatelessWidget({
     Key? key,
-    this.cupertino = const <String, dynamic>{},
-    this.material = const <String, dynamic>{},
     this.baseParam,
   }) : super(key: key);
 
-  final Map<String, dynamic>? cupertino;
-  final Map<String, dynamic>? material;
   /// 个性化参数，先取平台的参数，再取模式的参数
   final BaseParam? baseParam;
 
   @override
+  dynamic valueOf(String key, dynamic value) {
+    return valueOfBaseParam(baseParam, key, value);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return commonBuild(context, cupertino, material);
-  }
-
-  /// 从cupertino获取key对应的值，
-  /// 如果为null取value的值，
-  /// 如果还是null则取material里的值
-  dynamic valueFromCupertino(String key, dynamic value) {
-    return valueFromMap(cupertino, key, value);
-  }
-
-  /// 从material获取key对应的值，
-  /// 如果为null取value的值，
-  /// 如果还是null则取cupertino里的值
-  dynamic valueFromMaterial(String key, dynamic value) {
-    return valueFromMap(material, key, value);
+    return commonBuild(context, baseParam);
   }
 }

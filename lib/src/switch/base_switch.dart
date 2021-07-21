@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 
 /// BaseSwitch
@@ -39,9 +40,8 @@ class BaseSwitch extends BaseStatelessWidget {
     this.splashRadius,
     this.thumbColor,
     this.autofocus = false,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// *** gerenal properties start ***
 
@@ -131,38 +131,38 @@ class BaseSwitch extends BaseStatelessWidget {
   @override
   Widget buildByCupertino(BuildContext context) {
     return CupertinoSwitch(
-      value: valueFromCupertino('value', value),
-      onChanged: valueFromCupertino('onChanged', onChanged),
-      activeColor: valueFromCupertino('activeColor', activeColor),
-      trackColor: cupertinoTrackColor,
-      dragStartBehavior: valueFromCupertino('dragStartBehavior', dragStartBehavior),
+      value: valueOf('value', value),
+      onChanged: valueOf('onChanged', onChanged),
+      activeColor: valueOf('activeColor', activeColor),
+      trackColor: valueOf('cupertinoTrackColor', cupertinoTrackColor),
+      dragStartBehavior: valueOf('dragStartBehavior', dragStartBehavior),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
     return Switch(
-      value: valueFromMaterial('value', value),
-      onChanged: valueFromMaterial('onChanged', onChanged),
-      activeColor: valueFromMaterial('activeColor', activeColor),
-      activeTrackColor: activeTrackColor,
-      inactiveThumbColor: inactiveThumbColor,
-      inactiveTrackColor: inactiveTrackColor,
-      activeThumbImage: activeThumbImage,
-      onActiveThumbImageError: onActiveThumbImageError,
-      inactiveThumbImage: inactiveThumbImage,
-      onInactiveThumbImageError: onInactiveThumbImageError,
-      thumbColor: thumbColor,
-      trackColor: materialTrackColor,
-      materialTapTargetSize: materialTapTargetSize,
-      dragStartBehavior: valueFromMaterial('dragStartBehavior', dragStartBehavior),
-      mouseCursor: mouseCursor,
-      focusColor: focusColor,
-      hoverColor: hoverColor,
-      overlayColor: overlayColor,
-      splashRadius: splashRadius,
-      focusNode: focusNode,
-      autofocus: autofocus,
+      value: valueOf('value', value),
+      onChanged: valueOf('onChanged', onChanged),
+      activeColor: valueOf('activeColor', activeColor),
+      activeTrackColor: valueOf('activeTrackColor', activeTrackColor),
+      inactiveThumbColor: valueOf('inactiveThumbColor', inactiveThumbColor),
+      inactiveTrackColor: valueOf('inactiveTrackColor', inactiveTrackColor),
+      activeThumbImage: valueOf('activeThumbImage', activeThumbImage),
+      onActiveThumbImageError: valueOf('onActiveThumbImageError', onActiveThumbImageError),
+      inactiveThumbImage: valueOf('inactiveThumbImage', inactiveThumbImage),
+      onInactiveThumbImageError: valueOf('onInactiveThumbImageError', onInactiveThumbImageError),
+      thumbColor: valueOf('thumbColor', thumbColor),
+      trackColor: valueOf('materialTrackColor', materialTrackColor),
+      materialTapTargetSize: valueOf('materialTapTargetSize', materialTapTargetSize),
+      dragStartBehavior: valueOf('dragStartBehavior', dragStartBehavior),
+      mouseCursor: valueOf('mouseCursor', mouseCursor),
+      focusColor: valueOf('focusColor', focusColor),
+      hoverColor: valueOf('hoverColor', hoverColor),
+      overlayColor: valueOf('overlayColor', overlayColor),
+      splashRadius: valueOf('splashRadius', splashRadius),
+      focusNode: valueOf('focusNode', focusNode),
+      autofocus: valueOf('autofocus', autofocus),
     );
   }
 }

@@ -26,22 +26,24 @@ class WechatSettings extends StatelessWidget {
         elevation: 0.0,
         height: isCupertinoMode ? 44.0 : 56.0,
         transitionBetweenRoutes: false,
-        cupertino: <String, dynamic>{
-          'title': const Text('设置'),
-          'backgroundColor': CupertinoTheme.of(context).scaffoldBackgroundColor,
-        },
-        material: <String, dynamic>{
-          'title': Text(
-            '设置',
-            style: TextStyle(
-              color: _isLight ? Colors.black : Colors.white,
-            ),
-          ),
-          'iconTheme': Theme.of(context).iconTheme.copyWith(
+        baseParam: BaseParam(
+          cupertino: <String, dynamic>{
+            'title': const Text('设置'),
+            'backgroundColor': CupertinoTheme.of(context).scaffoldBackgroundColor,
+          },
+          material: <String, dynamic>{
+            'title': Text(
+              '设置',
+              style: TextStyle(
                 color: _isLight ? Colors.black : Colors.white,
               ),
-          'backgroundColor': Theme.of(context).scaffoldBackgroundColor,
-        },
+            ),
+            'iconTheme': Theme.of(context).iconTheme.copyWith(
+                  color: _isLight ? Colors.black : Colors.white,
+                ),
+            'backgroundColor': Theme.of(context).scaffoldBackgroundColor,
+          },
+        ),
       ),
       body: ListView.builder(
         itemCount: 1,
@@ -106,9 +108,11 @@ class WechatSettings extends StatelessWidget {
           );
         },
       ),
-      cupertino: const <String, dynamic>{
-        'backgroundColor': CupertinoColors.systemGroupedBackground,
-      },
+      baseParam: BaseParam(
+        cupertino: const <String, dynamic>{
+          'backgroundColor': CupertinoColors.systemGroupedBackground,
+        },
+      ),
     );
   }
 }

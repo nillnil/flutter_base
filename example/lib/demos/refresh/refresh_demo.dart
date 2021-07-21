@@ -62,11 +62,11 @@ class _RefreshPageState extends State<_RefreshPage> {
                         horizontal: 10.0,
                       ),
                       titleText: '${count - (index + 1) ~/ 2 + 1}',
-                      cupertino: <String, dynamic>{
-                        'backgroundColor': CupertinoColors
-                            .tertiarySystemBackground
-                            .resolveFrom(context),
-                      },
+                      baseParam: BaseParam(
+                        cupertino: <String, dynamic>{
+                          'backgroundColor': CupertinoColors.tertiarySystemBackground.resolveFrom(context),
+                        },
+                      ),
                     );
                   },
                 ),

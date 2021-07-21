@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb, Tar
 
 import 'mode/base_mode.dart';
 
-/// 个性化参数
+/// Base组件专属的个性化参数
 class BaseParam {
   BaseParam({
     this.cupertino,
@@ -15,18 +15,18 @@ class BaseParam {
     this.windows,
     this.web,
     this.others,
-    this.forceUseMaterial,
-    this.forceUseCupertino,
-    this.disabledOnMaterial,
-    this.disabledOnCupertino,
-    this.disabledOnAndroid,
-    this.disabledOnFuchsia,
-    this.disabledOniOS,
-    this.disabledOnLinux,
-    this.disabledOnMacOS,
-    this.disabledOnWindows,
-    this.disabledOnWeb,
-    this.disabledOnOthers,
+    this.forceUseMaterial = false,
+    this.forceUseCupertino = false,
+    this.disabledOnMaterial = false,
+    this.disabledOnCupertino = false,
+    this.disabledOnAndroid = false,
+    this.disabledOnFuchsia = false,
+    this.disabledOnIOS = false,
+    this.disabledOnLinux = false,
+    this.disabledOnMacOS = false,
+    this.disabledOnWindows = false,
+    this.disabledOnWeb = false,
+    this.disabledOnOthers = false,
     this.withoutSplashOnCupertino,
   });
 
@@ -72,51 +72,51 @@ class BaseParam {
 
   /// 强制使用material模式
   /// force use material mode
-  final bool? forceUseMaterial;
+  final bool forceUseMaterial;
 
   /// 强制使用cupertino模式
   /// force use cupertino mode
-  final bool? forceUseCupertino;
+  final bool forceUseCupertino;
 
   /// 在material模式下禁用，使用Container()代替
   /// on material's mode, use container() instead
-  final bool? disabledOnMaterial;
+  final bool disabledOnMaterial;
 
   /// 在cupertino模式下禁用，使用Container()代替
   /// on cupertino's mode, use container() instead
-  final bool? disabledOnCupertino;
+  final bool disabledOnCupertino;
 
   /// 在andriod下禁用，使用Container()代替
   /// on andriod, use container() instead
-  final bool? disabledOnAndroid;
+  final bool disabledOnAndroid;
 
   /// 在fuchsia下禁用，使用Container()代替
   /// on fuchsia, use container() instead
-  final bool? disabledOnFuchsia;
+  final bool disabledOnFuchsia;
 
   /// 在iOS下禁用，使用Container()代替
   /// on iOS, use container() instead
-  final bool? disabledOniOS;
+  final bool disabledOnIOS;
 
   /// 在linux下禁用，使用Container()代替
   /// on linux, use container() instead
-  final bool? disabledOnLinux;
+  final bool disabledOnLinux;
 
   /// 在macOS下禁用，使用Container()代替
   /// on macOS, use container() instead
-  final bool? disabledOnMacOS;
+  final bool disabledOnMacOS;
 
   /// 在windows下禁用，使用Container()代替
   /// on windows, use container() instead
-  final bool? disabledOnWindows;
+  final bool disabledOnWindows;
 
   /// 在web下禁用，使用Container()代替
   /// on web, use container() instead
-  final bool? disabledOnWeb;
+  final bool disabledOnWeb;
 
   /// 在others下禁用，使用Container()代替
   /// on others platform, use container() instead
-  final bool? disabledOnOthers;
+  final bool disabledOnOthers;
 
   /// 在cupertino模式下使用material组件是否禁用水波纹
   final bool? withoutSplashOnCupertino;
@@ -150,16 +150,16 @@ class BaseParam {
           _map = others;
           break;
       }
-    // 再根据模式取值
-    switch (currentBaseMode) {
-      case BaseMode.cupertino:
-        _map ??= cupertino;
-        break;
-      case BaseMode.material:
-        _map ??= material;
-        break;
-      default:
-    }
+      // 再根据模式取值
+      switch (currentBaseMode) {
+        case BaseMode.cupertino:
+          _map ??= cupertino;
+          break;
+        case BaseMode.material:
+          _map ??= material;
+          break;
+        default:
+      }
     }
     return _map != null ? _map[key] ?? value : value;
   }

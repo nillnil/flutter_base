@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart' show CupertinoTabView;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../base_param.dart';
 import '../base_stateful_widget.dart';
 import '../flutter/cupertino/bottom_tab_bar.dart';
 import '../flutter/cupertino/tab_scaffold.dart';
@@ -51,9 +52,8 @@ class BaseTabScaffold extends BaseStatefulWidget {
     this.tabViewKeys,
     this.onDrawerChanged,
     this.onEndDrawerChanged,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// *** general properties start ***
 
@@ -181,8 +181,8 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
   void initState() {
     super.initState();
     if (isMaterialMode) {
-      final BaseTabBar tabBar = valueFromMaterial('tabBar', widget.tabBar);
-      _currentIndex = tabBar.valueFromMaterial(
+      final BaseTabBar tabBar = valueOf('tabBar', widget.tabBar);
+      _currentIndex = tabBar.valueOf(
         'currentIndex',
         tabBar.currentIndex,
       );
@@ -191,8 +191,8 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final BaseTabBar tabBar = valueFromCupertino('tabBar', widget.tabBar);
-    final List<Widget> tabViews = valueFromCupertino(
+    final BaseTabBar tabBar = valueOf('tabBar', widget.tabBar);
+    final List<Widget> tabViews = valueOf(
       'tabViews',
       widget.tabViews,
     );
@@ -206,65 +206,65 @@ class _BaseTabScaffoldState extends BaseState<BaseTabScaffold> {
       tabBar: tabBar.build(context) as CupertinoTabBar,
       tabBuilder: (BuildContext context, int index) {
         return CupertinoTabView(
-          key: widget.tabViewKeys?[index],
-          navigatorKey: widget.navigatorKeys?[index],
+          key: valueOf('tabViewKeys', widget.tabViewKeys)?[index],
+          navigatorKey: valueOf('navigatorKeys', widget.navigatorKeys)?[index],
           builder: (BuildContext context) {
             return tabViews[index];
           },
-          routes: widget.routes,
-          defaultTitle: widget.defaultTitle,
-          onGenerateRoute: widget.onGenerateRoute,
-          onUnknownRoute: widget.onUnknownRoute,
-          navigatorObservers: widget.navigatorObservers,
-          restorationScopeId: widget.restorationScopeIds?[index],
+          routes: valueOf('routes', widget.routes),
+          defaultTitle: valueOf('defaultTitle', widget.defaultTitle),
+          onGenerateRoute: valueOf('onGenerateRoute', widget.onGenerateRoute),
+          onUnknownRoute: valueOf('onUnknownRoute', widget.onUnknownRoute),
+          navigatorObservers: valueOf('navigatorObservers', widget.navigatorObservers),
+          restorationScopeId: valueOf('restorationScopeIds', widget.restorationScopeIds)?[index],
         );
       },
-      controller: widget.controller,
-      backgroundColor: valueFromCupertino('backgroundColor', widget.backgroundColor),
-      resizeToAvoidBottomInset: valueFromCupertino('resizeToAvoidBottomInset', widget.resizeToAvoidBottomInset),
-      restorationId: valueFromCupertino('restorationId', widget.restorationId),
+      controller: valueOf('controller', widget.controller),
+      backgroundColor: valueOf('backgroundColor', widget.backgroundColor),
+      resizeToAvoidBottomInset: valueOf('resizeToAvoidBottomInset', widget.resizeToAvoidBottomInset),
+      restorationId: valueOf('restorationId', widget.restorationId),
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final BaseTabBar tabBar = valueFromMaterial('tabBar', widget.tabBar);
-    final List<Widget> tabViews = valueFromMaterial('tabViews', widget.tabViews);
+    final BaseTabBar tabBar = valueOf('tabBar', widget.tabBar);
+    final List<Widget> tabViews = valueOf('tabViews', widget.tabViews);
     return Scaffold(
-      key: valueFromMaterial('key', widget.key),
+      key: valueOf('key', widget.key),
       body: tabViews[_currentIndex],
       bottomNavigationBar: tabBar.copyWith(
         onTap: (int index) {
           setState(() {
             _currentIndex = index;
           });
-          final ValueChanged<int> onTap = tabBar.valueFromMaterial('onTap', tabBar.onTap);
+          final ValueChanged<int> onTap = tabBar.valueOf('onTap', tabBar.onTap);
           if (onTap != null) {
             onTap(index);
           }
         },
         currentIndex: _currentIndex,
       ),
-      floatingActionButton: widget.floatingActionButton,
-      floatingActionButtonLocation: widget.floatingActionButtonLocation,
-      floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
-      persistentFooterButtons: widget.persistentFooterButtons,
-      drawer: widget.drawer,
-      onDrawerChanged: widget.onDrawerChanged,
-      endDrawer: widget.endDrawer,
-      onEndDrawerChanged: widget.onEndDrawerChanged,
-      bottomSheet: widget.bottomSheet,
-      backgroundColor: valueFromMaterial('backgroundColor', widget.backgroundColor),
-      resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-      primary: widget.primary,
-      drawerDragStartBehavior: widget.drawerDragStartBehavior,
-      extendBody: widget.extendBody,
-      extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
-      drawerScrimColor: widget.drawerScrimColor,
-      drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
-      drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
-      endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
-      restorationId: widget.restorationId,
+      floatingActionButton: valueOf('floatingActionButton', widget.floatingActionButton),
+      floatingActionButtonLocation: valueOf('floatingActionButtonLocation', widget.floatingActionButtonLocation),
+      floatingActionButtonAnimator: valueOf('floatingActionButtonAnimator', widget.floatingActionButtonAnimator),
+      persistentFooterButtons: valueOf('persistentFooterButtons', widget.persistentFooterButtons),
+      drawer: valueOf('drawer', widget.drawer),
+      onDrawerChanged: valueOf('onDrawerChanged', widget.onDrawerChanged),
+      endDrawer: valueOf('endDrawer', widget.endDrawer),
+      onEndDrawerChanged: valueOf('onEndDrawerChanged', widget.onEndDrawerChanged),
+      bottomSheet: valueOf('bottomSheet', widget.bottomSheet),
+      backgroundColor: valueOf('backgroundColor', widget.backgroundColor),
+      resizeToAvoidBottomInset: valueOf('resizeToAvoidBottomInset', widget.resizeToAvoidBottomInset),
+      primary: valueOf('primary', widget.primary),
+      drawerDragStartBehavior: valueOf('drawerDragStartBehavior', widget.drawerDragStartBehavior),
+      extendBody: valueOf('extendBody', widget.extendBody),
+      extendBodyBehindAppBar: valueOf('extendBodyBehindAppBar', widget.extendBodyBehindAppBar),
+      drawerScrimColor: valueOf('drawerScrimColor', widget.drawerScrimColor),
+      drawerEdgeDragWidth: valueOf('drawerEdgeDragWidth', widget.drawerEdgeDragWidth),
+      drawerEnableOpenDragGesture: valueOf('drawerEnableOpenDragGesture', widget.drawerEnableOpenDragGesture),
+      endDrawerEnableOpenDragGesture: valueOf('endDrawerEnableOpenDragGesture', widget.endDrawerEnableOpenDragGesture),
+      restorationId: valueOf('restorationId', widget.restorationId),
     );
   }
 }

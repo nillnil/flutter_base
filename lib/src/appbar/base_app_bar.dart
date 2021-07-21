@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' hide AppBar;
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter/widgets.dart';
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 import '../flutter/cupertino/nav_bar.dart';
 import '../flutter/material/app_bar.dart';
@@ -68,9 +69,8 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
     this.toolbarTextStyle,
     this.titleTextStyle,
     this.systemOverlayStyle,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// *** general properties start ***
 
@@ -257,10 +257,10 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final Widget? _leading = valueFromCupertino('leading', leading);
+    final Widget? _leading = valueOf('leading', leading);
     // trailing为null，且actions不为null，数量大于1，取trailing = adctions[0];
-    Widget? _trailing = valueFromCupertino('trailing', trailing);
-    final List<Widget>? _actions = valueFromMaterial('actions', actions);
+    Widget? _trailing = valueOf('trailing', trailing);
+    final List<Widget>? _actions = valueOf('actions', actions);
     if (_actions != null && _actions.isNotEmpty && _trailing == null) {
       if (actions!.length == 1) {
         _trailing = _actions[0];
@@ -274,14 +274,14 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
       }
     }
     final BaseThemeData baseTheme = BaseTheme.of(context);
-    final Widget? _title = valueFromCupertino('middle', middle) ?? valueFromCupertino('title', title);
+    final Widget? _title = valueOf('middle', middle) ?? valueOf('title', title);
     // 没有backgroundColor使用CupertinoTheme里的barBackgroundColor，还没有使用原生的
-    final Color? _backgroundColor = valueFromCupertino('backgroundColor', backgroundColor);
-    final double _toolbarOpacity = valueFromCupertino('toolbarOpacity', toolbarOpacity);
+    final Color? _backgroundColor = valueOf('backgroundColor', backgroundColor);
+    final double _toolbarOpacity = valueOf('toolbarOpacity', toolbarOpacity);
 
     // 当背景颜色透明时，不加入高斯模糊
-    bool _backdropFilter = backdropFilter ??
-        baseTheme.valueFromCupertino(
+    bool _backdropFilter = valueOf('backdropFilter', backdropFilter) ??
+        baseTheme.valueOf(
           'appBarBackdropFilter',
           baseTheme.appBarBackdropFilter,
         ) ??
@@ -291,12 +291,13 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
       _backdropFilter = false;
     }
     CupertinoNavigationBar cupertinoNavigationBar;
-    final double? _height = valueFromCupertino('height', height) ?? baseTheme.valueFromCupertino('appBarHeight', baseTheme.appBarHeight);
-    final bool? transitionBetweenRoutes = this.transitionBetweenRoutes ?? baseTheme.appBarTransitionBetweenRoutes;
-    if (heroTag != null) {
+    final double? _height = valueOf('height', height) ?? baseTheme.valueOf('appBarHeight', baseTheme.appBarHeight);
+    final bool? _transitionBetweenRoutes = valueOf('transitionBetweenRoutes', transitionBetweenRoutes) ?? baseTheme.appBarTransitionBetweenRoutes;
+    final Object? _heroTag = valueOf('heroTag', heroTag);
+    if (_heroTag != null) {
       cupertinoNavigationBar = CupertinoNavigationBar(
         leading: _leading,
-        automaticallyImplyLeading: valueFromCupertino(
+        automaticallyImplyLeading: valueOf(
           'automaticallyImplyLeading',
           automaticallyImplyLeading,
         ),
@@ -304,23 +305,23 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
         previousPageTitle: previousPageTitle,
         middle: _title,
         trailing: _trailing,
-        border: border,
+        border: valueOf('border', border),
         backgroundColor: _backgroundColor,
-        brightness: valueFromCupertino('brightness', brightness),
-        padding: padding,
-        transitionBetweenRoutes: transitionBetweenRoutes!,
-        heroTag: heroTag!,
+        brightness: valueOf('brightness', brightness),
+        padding: valueOf('padding', padding),
+        transitionBetweenRoutes: _transitionBetweenRoutes!,
+        heroTag: _heroTag,
         backdropFilter: _backdropFilter,
         navBarPersistentHeight: _height,
-        bottom: valueFromCupertino('bottom', bottom),
-        bottomOpacity: valueFromCupertino('bottomOpacity', bottomOpacity),
+        bottom: valueOf('bottom', bottom),
+        bottomOpacity: valueOf('bottomOpacity', bottomOpacity),
         toolbarOpacity: _toolbarOpacity,
       );
     } else {
       cupertinoNavigationBar = CupertinoNavigationBar(
-        key: valueFromCupertino('key', key),
+        key: valueOf('key', key),
         leading: _leading,
-        automaticallyImplyLeading: valueFromCupertino(
+        automaticallyImplyLeading: valueOf(
           'automaticallyImplyLeading',
           automaticallyImplyLeading,
         ),
@@ -328,15 +329,15 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
         previousPageTitle: previousPageTitle,
         middle: _title,
         trailing: _trailing,
-        border: border,
+        border: valueOf('border', border),
         backgroundColor: _backgroundColor,
-        brightness: valueFromCupertino('brightness', brightness),
-        padding: padding,
-        transitionBetweenRoutes: transitionBetweenRoutes!,
+        brightness: valueOf('brightness', brightness),
+        padding: valueOf('padding', padding),
+        transitionBetweenRoutes: _transitionBetweenRoutes!,
         backdropFilter: _backdropFilter,
         navBarPersistentHeight: _height,
-        bottom: valueFromCupertino('bottom', bottom),
-        bottomOpacity: valueFromCupertino('bottomOpacity', bottomOpacity),
+        bottom: valueOf('bottom', bottom),
+        bottomOpacity: valueOf('bottomOpacity', bottomOpacity),
         toolbarOpacity: _toolbarOpacity,
       );
     }
@@ -345,9 +346,9 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final Widget? _title = valueFromMaterial('title', title) ?? valueFromMaterial('middle', middle);
-    Widget? _leading = valueFromMaterial('leading', leading);
-    final EdgeInsetsDirectional? _padding = valueFromMaterial(
+    final Widget? _title = valueOf('title', title) ?? valueOf('middle', middle);
+    Widget? _leading = valueOf('leading', leading);
+    final EdgeInsetsDirectional? _padding = valueOf(
       'padding',
       padding,
     );
@@ -358,54 +359,54 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
       );
     }
     // actions为null，且trailing不为nul,，取trailing = [ trailing ];
-    List<Widget>? _actions = valueFromMaterial('actions', actions);
-    final Widget? _trailing = valueFromMaterial('trailing', trailing);
+    List<Widget>? _actions = valueOf('actions', actions);
+    final Widget? _trailing = valueOf('trailing', trailing);
     if (_actions == null && _trailing != null) {
       _actions = <Widget>[_trailing];
     }
-    final Color? _backgroundColor = valueFromMaterial(
+    final Color? _backgroundColor = valueOf(
       'backgroundColor',
       backgroundColor,
     );
 
     final BaseThemeData baseTheme = BaseTheme.of(context);
-    final double? _height = valueFromMaterial('height', height) ?? baseTheme.valueFromMaterial('appBarHeight', baseTheme.appBarHeight);
+    final double? _height = valueOf('height', height) ?? baseTheme.valueOf('appBarHeight', baseTheme.appBarHeight);
     final bool centerTitle = this.centerTitle ??
-        baseTheme.valueFromMaterial(
+        baseTheme.valueOf(
           'appBarCenterTitle',
           baseTheme.appBarCenterTitle,
         ) ??
         Theme.of(context).platform == TargetPlatform.iOS;
     return AppBar(
       leading: _leading,
-      automaticallyImplyLeading: valueFromMaterial(
+      automaticallyImplyLeading: valueOf(
         'automaticallyImplyLeading',
         automaticallyImplyLeading,
       ),
       title: _title,
       actions: _actions,
-      flexibleSpace: flexibleSpace,
-      bottom: valueFromMaterial('bottom', bottom),
-      elevation: valueFromMaterial('elevation', elevation),
-      shadowColor: shadowColor,
-      shape: shape,
+      flexibleSpace: valueOf('flexibleSpace', flexibleSpace),
+      bottom: valueOf('bottom', bottom),
+      elevation: valueOf('elevation', elevation),
+      shadowColor: valueOf('shadowColor', shadowColor),
+      shape: valueOf('shape', shape),
       backgroundColor: _backgroundColor,
-      foregroundColor: foregroundColor,
-      brightness: valueFromMaterial('brightness', brightness),
-      iconTheme: valueFromMaterial('iconTheme', iconTheme),
-      actionsIconTheme: valueFromMaterial('actionsIconTheme', actionsIconTheme),
-      textTheme: valueFromMaterial('textTheme', textTheme),
-      primary: valueFromMaterial('primary', primary),
+      foregroundColor: valueOf('foregroundColor', foregroundColor),
+      brightness: valueOf('brightness', brightness),
+      iconTheme: valueOf('iconTheme', iconTheme),
+      actionsIconTheme: valueOf('actionsIconTheme', actionsIconTheme),
+      textTheme: valueOf('textTheme', textTheme),
+      primary: valueOf('primary', primary),
       centerTitle: centerTitle,
-      excludeHeaderSemantics: excludeHeaderSemantics,
-      titleSpacing: valueFromMaterial('titleSpacing', titleSpacing),
-      toolbarOpacity: valueFromMaterial('toolbarOpacity', toolbarOpacity),
-      bottomOpacity: valueFromMaterial('bottomOpacity', bottomOpacity),
+      excludeHeaderSemantics: valueOf('excludeHeaderSemantics', excludeHeaderSemantics),
+      titleSpacing: valueOf('titleSpacing', titleSpacing),
+      toolbarOpacity: valueOf('toolbarOpacity', toolbarOpacity),
+      bottomOpacity: valueOf('bottomOpacity', bottomOpacity),
       toolbarHeight: _height,
-      backwardsCompatibility: backwardsCompatibility,
-      toolbarTextStyle: toolbarTextStyle,
-      titleTextStyle: titleTextStyle,
-      systemOverlayStyle: systemOverlayStyle,
+      backwardsCompatibility: valueOf('backwardsCompatibility', backwardsCompatibility),
+      toolbarTextStyle: valueOf('toolbarTextStyle', toolbarTextStyle),
+      titleTextStyle: valueOf('titleTextStyle', titleTextStyle),
+      systemOverlayStyle: valueOf('systemOverlayStyle', systemOverlayStyle),
     );
   }
 
@@ -437,7 +438,7 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
   @override
   Size get preferredSize {
     double _height = height != null ? height! : (isCupertinoMode ? 44.0 : kToolbarHeight);
-    final Widget? middle = valueFromMaterial('title', title) ?? valueFromMaterial('middle', this.middle);
+    final Widget? middle = valueOf('title', title) ?? valueOf('middle', this.middle);
     if (middle != null && bottom != null) {
       _height += bottom!.preferredSize.height;
     }

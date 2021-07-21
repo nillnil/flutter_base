@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/material.dart';
 
 import '../appbar/base_app_bar.dart';
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 import '../theme/base_theme.dart';
 
@@ -44,9 +45,8 @@ class BaseScaffold extends BaseStatelessWidget {
     this.onDrawerChanged,
     this.onEndDrawerChanged,
     this.restorationId,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   /// *** general properties start ***
 
@@ -161,11 +161,11 @@ class BaseScaffold extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final Widget body = valueFromCupertino('body', this.body);
+    final Widget body = valueOf('body', this.body);
     assert(body != null, 'body can\'t be null');
-    final Color? backgroundColor = valueFromCupertino('backgroundColor', this.backgroundColor);
-    final BaseAppBar? appBar = valueFromMaterial('appBar', this.appBar) ?? valueFromMaterial('navBar', navBar);
-    final double? appBarHeight = BaseTheme.of(context).valueFromCupertino('appBarHeight', BaseTheme.of(context).appBarHeight);
+    final Color? backgroundColor = valueOf('backgroundColor', this.backgroundColor);
+    final BaseAppBar? appBar = valueOf('appBar', this.appBar) ?? valueOf('navBar', navBar);
+    final double? appBarHeight = BaseTheme.of(context).valueOf('appBarHeight', BaseTheme.of(context).appBarHeight);
     Widget? navigationBar;
     if (appBarHeight != null && appBar != null) {
       navigationBar = appBar.build(context);
@@ -183,18 +183,17 @@ class BaseScaffold extends BaseStatelessWidget {
       );
     }
     return CupertinoPageScaffold(
-      key: valueFromCupertino('key', key),
       navigationBar: navigationBar != null ? navigationBar as ObstructingPreferredSizeWidget : null,
       backgroundColor: backgroundColor,
-      resizeToAvoidBottomInset: valueFromCupertino('resizeToAvoidBottomInset', resizeToAvoidBottomInset),
+      resizeToAvoidBottomInset: valueOf('resizeToAvoidBottomInset', resizeToAvoidBottomInset),
       child: _child,
     );
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final BaseAppBar? appBar = valueFromMaterial('appBar', this.appBar) ?? valueFromMaterial('navBar', navBar);
-    final double? appBarHeight = BaseTheme.of(context).valueFromMaterial('appBarHeight', BaseTheme.of(context).appBarHeight);
+    final BaseAppBar? appBar = valueOf('appBar', this.appBar) ?? valueOf('navBar', navBar);
+    final double? appBarHeight = BaseTheme.of(context).valueOf('appBarHeight', BaseTheme.of(context).appBarHeight);
     Widget? _appBar;
     if (appBarHeight != null && appBar != null) {
       _appBar = appBar.build(context);
@@ -203,28 +202,28 @@ class BaseScaffold extends BaseStatelessWidget {
     }
     return Scaffold(
       appBar: _appBar != null ? _appBar as PreferredSizeWidget : null,
-      body: valueFromMaterial('body', body),
-      floatingActionButton: floatingActionButton,
-      floatingActionButtonLocation: floatingActionButtonLocation,
-      floatingActionButtonAnimator: floatingActionButtonAnimator,
-      persistentFooterButtons: persistentFooterButtons,
-      drawer: drawer,
-      onDrawerChanged: onDrawerChanged,
-      endDrawer: endDrawer,
-      onEndDrawerChanged: onEndDrawerChanged,
-      bottomNavigationBar: bottomNavigationBar,
-      bottomSheet: bottomSheet,
-      backgroundColor: valueFromMaterial('backgroundColor', backgroundColor),
-      resizeToAvoidBottomInset: valueFromMaterial('resizeToAvoidBottomInset', resizeToAvoidBottomInset),
-      primary: primary,
-      drawerDragStartBehavior: drawerDragStartBehavior,
-      extendBody: extendBody,
-      extendBodyBehindAppBar: extendBodyBehindAppBar,
-      drawerScrimColor: drawerScrimColor,
-      drawerEdgeDragWidth: drawerEdgeDragWidth,
-      drawerEnableOpenDragGesture: drawerEnableOpenDragGesture,
-      endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
-      restorationId: restorationId,
+      body: valueOf('body', body),
+      floatingActionButton: valueOf('floatingActionButton', floatingActionButton),
+      floatingActionButtonLocation: valueOf('floatingActionButtonLocation', floatingActionButtonLocation),
+      floatingActionButtonAnimator: valueOf('floatingActionButtonAnimator', floatingActionButtonAnimator),
+      persistentFooterButtons: valueOf('persistentFooterButtons', persistentFooterButtons),
+      drawer: valueOf('drawer', drawer),
+      onDrawerChanged: valueOf('onDrawerChanged', onDrawerChanged),
+      endDrawer: valueOf('endDrawer', endDrawer),
+      onEndDrawerChanged: valueOf('onEndDrawerChanged', onEndDrawerChanged),
+      bottomNavigationBar: valueOf('bottomNavigationBar', bottomNavigationBar),
+      bottomSheet: valueOf('bottomSheet', bottomSheet),
+      backgroundColor: valueOf('backgroundColor', backgroundColor),
+      resizeToAvoidBottomInset: valueOf('resizeToAvoidBottomInset', resizeToAvoidBottomInset),
+      primary: valueOf('primary', primary),
+      drawerDragStartBehavior: valueOf('drawerDragStartBehavior', drawerDragStartBehavior),
+      extendBody: valueOf('extendBody', extendBody),
+      extendBodyBehindAppBar: valueOf('extendBodyBehindAppBar', extendBodyBehindAppBar),
+      drawerScrimColor: valueOf('drawerScrimColor', drawerScrimColor),
+      drawerEdgeDragWidth: valueOf('drawerEdgeDragWidth', drawerEdgeDragWidth),
+      drawerEnableOpenDragGesture: valueOf('drawerEnableOpenDragGesture', drawerEnableOpenDragGesture),
+      endDrawerEnableOpenDragGesture: valueOf('endDrawerEnableOpenDragGesture', endDrawerEnableOpenDragGesture),
+      restorationId: valueOf('restorationId', restorationId),
     );
   }
 }

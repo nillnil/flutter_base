@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart' show CupertinoColors, CupertinoDynamicCo
 import 'package:flutter/material.dart';
 
 import '../base_class.dart';
+import '../base_param.dart';
 
 /// Brightness.light, Brightness.dark 分别使用2种颜色
 ///
@@ -16,10 +17,9 @@ class BaseColor extends BaseClass {
     this.color,
     this.darkColor,
     this.dynamicColor = CupertinoColors.secondarySystemBackground,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
+    BaseParam? baseParam,
   })  : assert(color != null || darkColor != null || dynamicColor != null),
-        super(cupertino: cupertino, material: material);
+        super(baseParam: baseParam);
 
   /// 高对比，一般用于背景色
   /// 默认Brightness.light取黑色，Brightness.dark取白色
@@ -30,10 +30,9 @@ class BaseColor extends BaseClass {
       color: Colors.black,
       darkColor: Colors.white,
     ),
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
+    BaseParam? baseParam,
   })  : assert(color != null || darkColor != null || dynamicColor != null),
-        super(cupertino: cupertino, material: material);
+        super(baseParam: baseParam);
 
   /// When brightness = Brightness.light
   ///
@@ -51,8 +50,13 @@ class BaseColor extends BaseClass {
   final CupertinoDynamicColor? dynamicColor;
 
   @override
+  dynamic valueOf(String key, dynamic value) {
+    return valueOfBaseParam(baseParam, key, value);
+  }
+
+  @override
   Color buildByCupertino(BuildContext context) {
-    final CupertinoDynamicColor? _dynamicColor = valueFromCupertino(
+    final CupertinoDynamicColor? _dynamicColor = valueOf(
       'dynamicColor',
       dynamicColor,
     );
@@ -61,8 +65,8 @@ class BaseColor extends BaseClass {
     }
     Brightness brightness = MediaQuery.of(context).platformBrightness;
     brightness = CupertinoTheme.of(context).brightness ?? Brightness.light;
-    final Color? color = valueFromCupertino('color', this.color);
-    final Color? darkColor = valueFromCupertino('color', this.darkColor);
+    final Color? color = valueOf('color', this.color);
+    final Color? darkColor = valueOf('color', this.darkColor);
     Color finalColor;
     if (brightness == Brightness.light) {
       finalColor = color ?? Colors.black;
@@ -74,9 +78,9 @@ class BaseColor extends BaseClass {
 
   @override
   Color buildByMaterial(BuildContext context) {
-    final Color? color = valueFromMaterial('color', this.color);
-    final Color? darkColor = valueFromMaterial('color', this.darkColor);
-    final CupertinoDynamicColor? dynamicColor = valueFromMaterial(
+    final Color? color = valueOf('color', this.color);
+    final Color? darkColor = valueOf('color', this.darkColor);
+    final CupertinoDynamicColor? dynamicColor = valueOf(
       'dynamicColor',
       this.dynamicColor,
     );
@@ -93,7 +97,6 @@ class BaseColor extends BaseClass {
     return finalColor;
   }
 }
-
 
 /// 随机颜色，不支持随机范围
 class BaseRandomColor extends Color {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../base_param.dart';
 import '../base_stateless_widget.dart';
 import '../mode/base_mode.dart';
 
@@ -17,9 +18,8 @@ class BaseGeneralDialog extends BaseStatelessWidget {
     this.useSafeArea = false,
     this.useRootNavigator = true,
     this.routeSettings,
-    Map<String, dynamic>? cupertino,
-    Map<String, dynamic>? material,
-  }) : super(key: key, cupertino: cupertino, material: material);
+    BaseParam? baseParam,
+  }) : super(key: key, baseParam: baseParam);
 
   final bool barrierDismissible;
   final String? barrierLabel;
@@ -34,26 +34,24 @@ class BaseGeneralDialog extends BaseStatelessWidget {
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    return valueFromCupertino('child', child);
+    return valueOf('child', child);
   }
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    return valueFromMaterial('child', child);
+    return valueOf('child', child);
   }
 
   Future<T?> show<T>(BuildContext context) {
-    final bool _barrierDismissible =
-        isCupertinoMode ? valueFromCupertino('barrierDismissible', barrierDismissible) : valueFromMaterial('barrierDismissible', barrierDismissible);
-    final String _barrierLabel = isCupertinoMode
-        ? valueFromCupertino('barrierLabel', barrierLabel) ?? ''
-        : valueFromMaterial('barrierLabel', barrierLabel) ?? MaterialLocalizations.of(context).modalBarrierDismissLabel;
-    final Color _barrierColor = isCupertinoMode ? valueFromCupertino('barrierColor', barrierColor) : valueFromMaterial('barrierColor', barrierColor);
-    final Duration _transitionDuration =
-        isCupertinoMode ? valueFromCupertino('transitionDuration', transitionDuration) : valueFromMaterial('transitionDuration', transitionDuration);
-    final RoutePageBuilder? _pageBuilder = isCupertinoMode ? valueFromCupertino('pageBuilder', pageBuilder) : valueFromMaterial('pageBuilder', pageBuilder);
-    final RouteTransitionsBuilder? _transitionBuilder =
-        isCupertinoMode ? valueFromCupertino('transitionBuilder', transitionBuilder) : valueFromMaterial('transitionBuilder', transitionBuilder);
+    final WidgetBuildMode _widgetBuildMode = getBuildMode(baseParam);
+    final bool _barrierDismissible = valueOf('barrierDismissible', barrierDismissible);
+    final String _barrierLabel = _widgetBuildMode == WidgetBuildMode.cupertino
+        ? valueOf('barrierLabel', barrierLabel) ?? ''
+        : valueOf('barrierLabel', barrierLabel) ?? MaterialLocalizations.of(context).modalBarrierDismissLabel;
+    final Color _barrierColor = valueOf('barrierColor', barrierColor);
+    final Duration _transitionDuration = valueOf('transitionDuration', transitionDuration);
+    final RoutePageBuilder? _pageBuilder = valueOf('pageBuilder', pageBuilder);
+    final RouteTransitionsBuilder? _transitionBuilder = valueOf('transitionBuilder', transitionBuilder);
 
     return showGeneralDialog<T>(
       context: context,
