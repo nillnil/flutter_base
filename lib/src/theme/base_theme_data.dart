@@ -1,9 +1,12 @@
-import 'package:flutter/cupertino.dart' show CupertinoThemeData;
+import 'package:flutter/cupertino.dart' show CupertinoApp, CupertinoThemeData;
 import 'package:flutter/foundation.dart' show Diagnosticable, immutable;
-import 'package:flutter/material.dart' show Brightness, Color, ThemeData;
+import 'package:flutter/material.dart' show Brightness, Color, MaterialApp, ThemeData;
 
+import '../app/base_app.dart';
+import '../appbar/base_app_bar.dart';
 import '../base_param.dart';
 import '../mode/base_mode.dart';
+import '../route/base_route.dart';
 
 /// BaseThemeData
 /// Special properties values global setting
@@ -17,6 +20,9 @@ class BaseThemeData with Diagnosticable {
     bool appBarTransitionBetweenRoutes = true,
     bool? appBarCenterTitle,
     ThemeData? materialTheme,
+    ThemeData? materialDarkTheme,
+    ThemeData? materialHighContrastTheme,
+    ThemeData? materialHighContrastDarkTheme,
     CupertinoThemeData? cupertinoTheme,
     bool routeFullscreenGackGesture = false,
     Color? sectionDividerColor,
@@ -34,6 +40,9 @@ class BaseThemeData with Diagnosticable {
       appBarTransitionBetweenRoutes: appBarTransitionBetweenRoutes,
       appBarCenterTitle: appBarCenterTitle,
       materialTheme: materialTheme,
+      materialDarkTheme: materialDarkTheme,
+      materialHighContrastTheme: materialHighContrastTheme,
+      materialHighContrastDarkTheme: materialHighContrastDarkTheme,
       cupertinoTheme: cupertinoTheme,
       routeFullscreenGackGesture: routeFullscreenGackGesture,
       sectionDividerColor: sectionDividerColor ?? (isDark ? const Color(0x1FFFFFFF) : const Color(0x1F000000)),
@@ -50,6 +59,9 @@ class BaseThemeData with Diagnosticable {
     this.appBarTransitionBetweenRoutes,
     this.appBarCenterTitle,
     this.materialTheme,
+    this.materialDarkTheme,
+    this.materialHighContrastTheme,
+    this.materialHighContrastDarkTheme,
     this.cupertinoTheme,
     this.routeFullscreenGackGesture = false,
     this.sectionDividerColor,
@@ -76,14 +88,35 @@ class BaseThemeData with Diagnosticable {
   /// [BaseRoute.fullscreenGackGesture]
   final bool routeFullscreenGackGesture;
 
-  /// [ThemeData]
+  /// [MaterialApp.theme]
   /// 在Cupertino模式下使用Material组件时，
   /// 可以使用 Theme.of(context) 获取到[BaseApp.materialTheme]
   ///
   /// Material模式下为null
   final ThemeData? materialTheme;
 
-  /// [CupertinoThemeData]
+  /// [MaterialApp.materialDarkTheme]
+  /// 在Cupertino模式下使用Material组件时，
+  /// 可以使用 Theme.of(context) 获取到[BaseApp.materialDarkTheme]
+  ///
+  /// Material模式下为null
+  final ThemeData? materialDarkTheme;
+
+  /// [MaterialApp.highContrastTheme]
+  /// 在Cupertino模式下使用Material组件时，
+  /// 可以使用 Theme.of(context) 获取到[BaseApp.highContrastTheme]
+  ///
+  /// Material模式下为null
+  final ThemeData? materialHighContrastTheme;
+
+  /// [MaterialApp.highContrastDarkTheme]
+  /// 在Cupertino模式下使用Material组件时，
+  /// 可以使用 Theme.of(context) 获取到[BaseApp.highContrastDarkTheme]
+  ///
+  /// Material模式下为null
+  final ThemeData? materialHighContrastDarkTheme;
+
+  /// [CupertinoApp.theme]
   /// 在Material模式下使用Mupertino组件时,
   /// 可以使用 CupertinoTheme.of(context) 获取到[BaseApp.cupertinoTheme]
   ///
@@ -120,6 +153,9 @@ class BaseThemeData with Diagnosticable {
     bool? appBarTransitionBetweenRoutes,
     bool? appBarCenterTitle,
     ThemeData? materialTheme,
+    ThemeData? materialDarkTheme,
+    ThemeData? materialHighContrastTheme,
+    ThemeData? materialHighContrastDarkTheme,
     CupertinoThemeData? cupertinoTheme,
     bool? routeFullscreenGackGesture,
     Color? sectionDividerColor,
@@ -135,6 +171,9 @@ class BaseThemeData with Diagnosticable {
       appBarTransitionBetweenRoutes: appBarTransitionBetweenRoutes ?? this.appBarTransitionBetweenRoutes,
       appBarCenterTitle: appBarCenterTitle ?? this.appBarCenterTitle,
       materialTheme: materialTheme ?? this.materialTheme,
+      materialDarkTheme: materialDarkTheme ?? this.materialDarkTheme,
+      materialHighContrastTheme: materialHighContrastTheme ?? this.materialHighContrastTheme,
+      materialHighContrastDarkTheme: materialHighContrastDarkTheme ?? this.materialHighContrastDarkTheme,
       cupertinoTheme: cupertinoTheme ?? this.cupertinoTheme,
       routeFullscreenGackGesture: routeFullscreenGackGesture ?? this.routeFullscreenGackGesture,
       sectionDividerColor: sectionDividerColor ?? this.sectionDividerColor,

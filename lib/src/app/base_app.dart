@@ -47,17 +47,11 @@ class BaseApp extends BaseStatelessWidget {
     this.debugShowCheckedModeBanner = true,
     this.restorationScopeId,
     this.scrollBehavior,
-    this.basePlatformMode,
     this.baseTheme,
     this.shortcuts,
     this.actions,
-    this.cupertinoTheme,
     this.withoutSplashOnCupertino = true,
     this.scaffoldMessengerKey,
-    this.materialTheme,
-    this.highContrastTheme,
-    this.highContrastDarkTheme,
-    this.darkTheme,
     this.themeMode = ThemeMode.system,
     this.debugShowMaterialGrid = false,
     BaseParam? baseParam,
@@ -175,10 +169,6 @@ class BaseApp extends BaseStatelessWidget {
   /// [MaterialApp.debugShowCheckedModeBanner]
   final bool debugShowCheckedModeBanner;
 
-  /// [BasePlatformMode]
-  @Deprecated('instead of baseTheme.platformMode')
-  final BasePlatformMode? basePlatformMode;
-
   /// [BaseThemeData]
   final BaseThemeData? baseTheme;
 
@@ -206,9 +196,6 @@ class BaseApp extends BaseStatelessWidget {
 
   /// *** cupertino properties start ***
 
-  /// [CupertinoApp.theme]
-  final CupertinoThemeData? cupertinoTheme;
-
   /// [withoutSplashOnCupertino], default is true
   ///
   /// forbidden ripple effect on cupertino mode
@@ -222,18 +209,6 @@ class BaseApp extends BaseStatelessWidget {
 
   /// [MaterialApp.scaffoldMessengerKey]
   final GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey;
-
-  /// [MaterialApp.theme]
-  final ThemeData? materialTheme;
-
-  /// [MaterialApp.darkTheme]
-  final ThemeData? darkTheme;
-
-  /// [MaterialApp.highContrastTheme]
-  final ThemeData? highContrastTheme;
-
-  /// [MaterialApp.highContrastDarkTheme]
-  final ThemeData? highContrastDarkTheme;
 
   /// [MaterialApp.themeMode]
   final ThemeMode? themeMode;
@@ -252,22 +227,19 @@ class BaseApp extends BaseStatelessWidget {
 
     /// 设置平台模式
     setBasePlatformMode(
-      basePlatformMode: baseTheme?.platformMode ?? basePlatformMode,
+      basePlatformMode: baseTheme?.platformMode ?? const BasePlatformMode(),
     );
   }
 
   @override
   Widget buildByCupertino(BuildContext context) {
-    final BaseThemeData _baseTheme = (valueOf('baseTheme', baseTheme) ?? BaseThemeData()).copyWith(
-      materialTheme: materialTheme,
-      cupertinoTheme: cupertinoTheme,
-    );
+    final BaseThemeData _baseTheme = valueOf('baseTheme', baseTheme) ?? BaseThemeData();
     return BaseTheme(
       data: _baseTheme,
       child: CupertinoApp(
         navigatorKey: valueOf('navigatorKey', navigatorKey),
         home: valueOf('home', home),
-        theme: cupertinoTheme,
+        theme: _baseTheme.cupertinoTheme,
         routes: valueOf('routes', routes),
         initialRoute: valueOf('initialRoute', initialRoute),
         onGenerateRoute: valueOf('onGenerateRoute', onGenerateRoute),
@@ -328,10 +300,7 @@ class BaseApp extends BaseStatelessWidget {
 
   @override
   Widget buildByMaterial(BuildContext context) {
-    final BaseThemeData _baseTheme = (valueOf('baseTheme', baseTheme) ?? BaseThemeData()).copyWith(
-      materialTheme: materialTheme,
-      cupertinoTheme: cupertinoTheme,
-    );
+    final BaseThemeData _baseTheme = valueOf('baseTheme', baseTheme) ?? BaseThemeData();
     return BaseTheme(
       data: _baseTheme,
       child: MaterialApp(
@@ -351,10 +320,10 @@ class BaseApp extends BaseStatelessWidget {
         title: valueOf('title', title),
         onGenerateTitle: valueOf('onGenerateTitle', onGenerateTitle),
         color: valueOf('color', color),
-        theme: valueOf('materialTheme', materialTheme),
-        darkTheme: valueOf('darkTheme', darkTheme),
-        highContrastTheme: valueOf('highContrastTheme', highContrastTheme),
-        highContrastDarkTheme: valueOf('highContrastDarkTheme', highContrastDarkTheme),
+        theme: _baseTheme.materialTheme,
+        darkTheme: _baseTheme.materialDarkTheme,
+        highContrastTheme: _baseTheme.materialHighContrastTheme,
+        highContrastDarkTheme: _baseTheme.materialHighContrastDarkTheme,
         themeMode: valueOf('themeMode', themeMode),
         locale: valueOf('locale', locale),
         localizationsDelegates: valueOf(

@@ -221,13 +221,9 @@ class Home extends StatelessWidget {
           )
         ],
       ),
-      body: Consumer<AppProvider>(
-        builder: (_, AppProvider appProvider, __) {
-          return GridView.count(
-            crossAxisCount: 3,
-            children: _children,
-          );
-        },
+      body: GridView.count(
+        crossAxisCount: 3,
+        children: _children,
       ),
       drawer: _MaterialTipsPage(),
     );

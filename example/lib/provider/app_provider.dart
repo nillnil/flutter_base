@@ -1,4 +1,4 @@
-import 'package:base/base.dart' show BasePlatformMode, isCupertinoMode;
+import 'package:base/base.dart' show BasePlatformMode;
 import 'package:flutter/material.dart';
 
 /// 默认PlatformMode
@@ -21,11 +21,7 @@ class AppProvider with ChangeNotifier {
     _platformMode = platformMode ?? _defaultPlatformMode;
     _brightness = brightness ?? _defaultBrightness;
     _themeMode = themeMode ?? _defaultThemeMode;
-    if (appBarHeight != null) {
-      _appBarHeight = appBarHeight;
-    } else {
-      _appBarHeight = isCupertinoMode ? 44.0 : 56.0;
-    }
+    _appBarHeight = appBarHeight;
     _routeFullscreenGackGesture = routeFullscreenGackGesture;
   }
 

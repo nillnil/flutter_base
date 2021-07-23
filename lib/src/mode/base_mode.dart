@@ -145,9 +145,8 @@ void setBasePlatformMode({
 }) {
   const BasePlatformMode defalutPlatformMode = BasePlatformMode();
   // web
-  if (kIsWeb && basePlatformMode!.web != null) {
+if (kIsWeb && basePlatformMode!.web != null) {
     _currentBaseMode = basePlatformMode.web!;
-    defaultBaseMode = basePlatformMode.web!;
     return;
   }
   switch (defaultTargetPlatform) {

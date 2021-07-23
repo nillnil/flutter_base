@@ -35,4 +35,5 @@ abstract class BaseStatelessWidget extends StatelessWidget with BaseMixin {
   Widget build(BuildContext context) {
     return commonBuild(context, baseParam);
   }
+
 }

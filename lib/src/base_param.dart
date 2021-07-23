@@ -153,10 +153,10 @@ class BaseParam {
       // 再根据模式取值
       switch (currentBaseMode) {
         case BaseMode.cupertino:
-          _map ??= cupertino;
+          _map ??= forceUseMaterial ? material : cupertino;
           break;
         case BaseMode.material:
-          _map ??= material;
+          _map ??= forceUseCupertino ? cupertino : material;
           break;
         default:
       }

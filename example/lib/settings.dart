@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'provider/app_provider.dart';
 
-const String _version = '2.2.2+2-pre';
+const String _version = '2.2.2+3-pre';
 const String _flutter_version = '2.2.2';
 
 const double _appBarMaxHeight = 100;
@@ -156,6 +156,8 @@ class _OtherSettingWidget extends StatelessWidget {
       appBar: const BaseAppBar(title: Text('个性化设置')),
       body: Consumer<AppProvider>(
         builder: (BuildContext context, AppProvider appProvider, _) {
+          double? _currentAppBarHeight = appProvider.appBarHeight;
+          _currentAppBarHeight ??= isCupertinoMode ? 44.0 : 56.0;
           return ListView(
             children: <Widget>[
               const SizedBox(height: 20),
@@ -171,7 +173,7 @@ class _OtherSettingWidget extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           Center(
-                            child: Text('${appProvider.appBarHeight!.toInt()}'),
+                            child: Text('${_currentAppBarHeight.toInt()}'),
                           ),
                           Row(
                             children: <Widget>[

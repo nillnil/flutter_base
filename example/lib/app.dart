@@ -26,7 +26,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Consumer<AppProvider>(
-      builder: (BuildContext context, AppProvider appProvider, _) {
+      builder: (BuildContext context, AppProvider appProvider, Widget? child) {
         CupertinoThemeData _cupertinoTheme = CupertinoTheme.of(context);
         _cupertinoTheme = _cupertinoTheme.copyWith(
           brightness: appProvider.brightness,
@@ -36,7 +36,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         _theme = _theme.copyWith(
           focusColor: Colors.transparent,
           hoverColor: Colors.transparent,
-          // cupertinoOverrideTheme: _cupertinoTheme,
+          cupertinoOverrideTheme: _cupertinoTheme,
           textTheme: _theme.textTheme.copyWith(
             bodyText2: _theme.textTheme.bodyText2?.copyWith(
               fontSize: 17.0,
@@ -72,47 +72,37 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           ),
         );
         return BaseApp(
-          title: 'Base Example',
-          cupertinoTheme: _cupertinoTheme,
-          materialTheme: _theme,
-          darkTheme: _darkTheme,
+          title: 'Base_Example',
           localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
             GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
           ],
-          locale: const Locale('en', 'US'),
-          supportedLocales: const <Locale>[
-            Locale('zh', 'CN'),
-            Locale('en', 'US')
-          ],
-          home: const Home(),
+          locale: const Locale('zh', 'CN'),
+          supportedLocales: const <Locale>[Locale('zh', 'CN'), Locale('en', 'US')],
+          home: child,
           baseTheme: BaseThemeData(
-            appBarHeight: appProvider.appBarHeight,
+            cupertinoTheme: _cupertinoTheme,
             materialTheme: _theme,
+            materialDarkTheme: _darkTheme,
+            appBarHeight: appProvider.appBarHeight,
             appBarTransitionBetweenRoutes: false,
             platformMode: appProvider.platformMode,
             routeFullscreenGackGesture: appProvider.routeFullscreenGackGesture!,
           ),
           debugShowCheckedModeBanner: false,
-          baseParam: BaseParam(
-            material: <String, dynamic> {
-              'themeMode': appProvider.themeMode,
-            },
-          ),
+          themeMode: appProvider.themeMode,
         );
       },
+      child: const Home(),
     );
   }
 
   @override
   void didChangePlatformBrightness() {
-    final Brightness? brightness =
-        WidgetsBinding.instance?.window.platformBrightness;
-    final AppProvider appProvider =
-        Provider.of<AppProvider>(context, listen: false);
-    if (appProvider != null &&
-        appProvider.themeMode == ThemeMode.system &&
-        brightness != appProvider.brightness) {
+    final Brightness? brightness = WidgetsBinding.instance?.window.platformBrightness;
+    final AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
+    if (appProvider != null && appProvider.themeMode == ThemeMode.system && brightness != appProvider.brightness) {
       appProvider.changeBrightness(brightness);
     }
   }
