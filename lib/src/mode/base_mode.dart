@@ -22,7 +22,7 @@ enum BaseMode {
   material,
 }
 
-/// 组件构建模式
+/// 组件实际的构建模式
 enum WidgetBuildMode {
   /// Cupertino模式
   cupertino,
@@ -36,7 +36,7 @@ enum WidgetBuildMode {
   /// 强制使用Material模式
   forceUseMaterial,
 
-  /// 静止构建，使用Container代替
+  /// 静止构建，使用Container()代替
   disabled,
 }
 

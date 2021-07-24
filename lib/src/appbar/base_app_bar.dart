@@ -370,13 +370,14 @@ class BaseAppBar extends BaseStatelessWidget implements ObstructingPreferredSize
     );
 
     final BaseThemeData baseTheme = BaseTheme.of(context);
+    final ThemeData theme = MediaQuery.of(context).platformBrightness == Brightness.light
+        ? (baseTheme.materialTheme ?? Theme.of(context))
+        : (baseTheme.materialDarkTheme ??
+            Theme.of(context).copyWith(
+              brightness: Brightness.dark,
+            ));
     final double? _height = valueOf('height', height) ?? baseTheme.valueOf('appBarHeight', baseTheme.appBarHeight);
-    final bool centerTitle = this.centerTitle ??
-        baseTheme.valueOf(
-          'appBarCenterTitle',
-          baseTheme.appBarCenterTitle,
-        ) ??
-        Theme.of(context).platform == TargetPlatform.iOS;
+    final bool centerTitle = this.centerTitle ?? theme.appBarTheme.centerTitle ?? theme.platform == TargetPlatform.iOS;
     return AppBar(
       leading: _leading,
       automaticallyImplyLeading: valueOf(

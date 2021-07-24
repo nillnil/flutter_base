@@ -18,7 +18,6 @@ class BaseThemeData with Diagnosticable {
     double? appBarHeight,
     bool appBarBackdropFilter = true,
     bool appBarTransitionBetweenRoutes = true,
-    bool? appBarCenterTitle,
     ThemeData? materialTheme,
     ThemeData? materialDarkTheme,
     ThemeData? materialHighContrastTheme,
@@ -38,7 +37,6 @@ class BaseThemeData with Diagnosticable {
       appBarHeight: appBarHeight,
       appBarBackdropFilter: appBarBackdropFilter,
       appBarTransitionBetweenRoutes: appBarTransitionBetweenRoutes,
-      appBarCenterTitle: appBarCenterTitle,
       materialTheme: materialTheme,
       materialDarkTheme: materialDarkTheme,
       materialHighContrastTheme: materialHighContrastTheme,
@@ -57,7 +55,6 @@ class BaseThemeData with Diagnosticable {
     this.appBarHeight,
     this.appBarBackdropFilter,
     this.appBarTransitionBetweenRoutes,
-    this.appBarCenterTitle,
     this.materialTheme,
     this.materialDarkTheme,
     this.materialHighContrastTheme,
@@ -81,9 +78,6 @@ class BaseThemeData with Diagnosticable {
 
   /// [BaseAppBar.appBarTransitionBetweenRoutes]
   final bool? appBarTransitionBetweenRoutes;
-
-  /// [BaseAppBar.appBarCenterTitle]
-  final bool? appBarCenterTitle;
 
   /// [BaseRoute.fullscreenGackGesture]
   final bool routeFullscreenGackGesture;
@@ -151,7 +145,6 @@ class BaseThemeData with Diagnosticable {
     double? appBarHeight,
     bool? appBarBackdropFilter,
     bool? appBarTransitionBetweenRoutes,
-    bool? appBarCenterTitle,
     ThemeData? materialTheme,
     ThemeData? materialDarkTheme,
     ThemeData? materialHighContrastTheme,
@@ -169,7 +162,6 @@ class BaseThemeData with Diagnosticable {
       appBarHeight: appBarHeight ?? this.appBarHeight,
       appBarBackdropFilter: appBarBackdropFilter ?? this.appBarBackdropFilter,
       appBarTransitionBetweenRoutes: appBarTransitionBetweenRoutes ?? this.appBarTransitionBetweenRoutes,
-      appBarCenterTitle: appBarCenterTitle ?? this.appBarCenterTitle,
       materialTheme: materialTheme ?? this.materialTheme,
       materialDarkTheme: materialDarkTheme ?? this.materialDarkTheme,
       materialHighContrastTheme: materialHighContrastTheme ?? this.materialHighContrastTheme,

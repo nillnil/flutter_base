@@ -79,43 +79,43 @@ class BaseParam {
   final bool forceUseCupertino;
 
   /// 在material模式下禁用，使用Container()代替
-  /// on material's mode, use container() instead
+  /// on material's mode, use Container() instead
   final bool disabledOnMaterial;
 
   /// 在cupertino模式下禁用，使用Container()代替
-  /// on cupertino's mode, use container() instead
+  /// on cupertino's mode, use Container() instead
   final bool disabledOnCupertino;
 
   /// 在andriod下禁用，使用Container()代替
-  /// on andriod, use container() instead
+  /// on andriod, use Container() instead
   final bool disabledOnAndroid;
 
   /// 在fuchsia下禁用，使用Container()代替
-  /// on fuchsia, use container() instead
+  /// on fuchsia, use Container() instead
   final bool disabledOnFuchsia;
 
   /// 在iOS下禁用，使用Container()代替
-  /// on iOS, use container() instead
+  /// on iOS, use Container() instead
   final bool disabledOnIOS;
 
   /// 在linux下禁用，使用Container()代替
-  /// on linux, use container() instead
+  /// on linux, use Container() instead
   final bool disabledOnLinux;
 
   /// 在macOS下禁用，使用Container()代替
-  /// on macOS, use container() instead
+  /// on macOS, use Container() instead
   final bool disabledOnMacOS;
 
   /// 在windows下禁用，使用Container()代替
-  /// on windows, use container() instead
+  /// on windows, use Container() instead
   final bool disabledOnWindows;
 
   /// 在web下禁用，使用Container()代替
-  /// on web, use container() instead
+  /// on web, use Container() instead
   final bool disabledOnWeb;
 
   /// 在others下禁用，使用Container()代替
-  /// on others platform, use container() instead
+  /// on others platform, use Container() instead
   final bool disabledOnOthers;
 
   /// 在cupertino模式下使用material组件是否禁用水波纹
@@ -163,5 +163,4 @@ class BaseParam {
     }
     return _map != null ? _map[key] ?? value : value;
   }
-
 }

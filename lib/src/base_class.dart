@@ -33,20 +33,4 @@ abstract class BaseClass with BaseMixin {
   dynamic build(BuildContext context) {
     return commonBuild(context, baseParam);
   }
-
-  // /// build之前调用
-  // void beforeBuild(BuildContext context) {}
-
-  // /// buildByMaterial之前调用
-  // void beforeBuildByMaterial(BuildContext context) {}
-
-  // /// buildByCupertino之前调用
-  // void beforeBuildByCupertino(BuildContext context) {}
-
-  // /// build on cupertino mode
-  // dynamic buildByCupertino(BuildContext context);
-
-  // /// build on material mode
-  // dynamic buildByMaterial(BuildContext context);
-
 }

@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'provider/app_provider.dart';
 
-const String _version = '2.2.2+3-pre';
+const String _version = '2.2.2+3';
 const String _flutter_version = '2.2.2';
 
 const double _appBarMaxHeight = 100;
@@ -367,7 +367,7 @@ class _PlatformWidget extends StatelessWidget {
           header: Padding(
             padding: const EdgeInsets.only(left: 10.0),
             child: Text(
-              '当前平台模式：${isCupertinoMode ? 'Cupertino' : 'Material'}',
+              '当前平台构建模式：${isCupertinoMode ? 'Cupertino' : 'Material'}',
               style: const TextStyle(
                 fontSize: 12.0,
                 color: Colors.grey,
@@ -379,7 +379,7 @@ class _PlatformWidget extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 10.0,
               ),
-              title: const Text('切换平台模式'),
+              title: const Text('切换平台构建模式'),
               trailing: BaseSwitch(
                 value: currentBaseMode != defaultBaseMode,
                 onChanged: (_) {

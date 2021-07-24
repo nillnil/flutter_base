@@ -1,4 +1,12 @@
-# 2.2.2+1 - 2021.07.18
+# 2.2.2+3 - 2021.07.25
+
+- add: 添加BaseParam类，用于在模式与平台中个性化参数
+- add: Base组件添加baseParam参数
+- remove: 移除Base组件中的material, cupertino参数，转移到baseParam参数中
+- doc 重命名为 docs，为了使用github pages
+- 不兼容旧版，要从旧版升级请看BaseParam类的介绍及使用
+
+## 2.2.2+1 - 2021.07.18
 
 - Refactor some widgets
 - Not compatible with the old version

@@ -12,7 +12,7 @@
 
 # 简介
 
-* 实现一套代码，2种模式，iOS, macOS 默认使用`Cupertino`风格组件，andriod、fuchsia、windows、linux、其他平台默认使用`Material`风格组件，也可以个性化设置各个平台所使用的模式
+* 实现一套代码，2种模式，iOS, macOS 默认使用`Cupertino`风格组件，andriod、fuchsia、windows、linux、其他平台默认使用`Material`风格组件，web默认是跟随系统的默认风格，也可以个性化设置各个平台所使用的模式
 
 * 当前只针对Cupertino模式iOS上进行了测试，Material组件相对比较完善了，后期也会补上Material模式跟其他平台的测试。
 
@@ -39,51 +39,52 @@ dependencies:
 
 ```javascript
 lib/
-	// BaseActionSheet, BaseActionSheetAction
-	action_sheet/
-	// BaseApp
-  app/
-  // BaseAppBar
-  appbar/
-  // BaseButton. BaseIconButton
-  button/
-  // 通用类, BaseColor, BaseRandomColor
-  common/
-  // 通用组件, BaseDrawer, BaseMaterialWidget
-  components/
-  // BaseAlertDialog, BaseAlertDialogAction, 
-  dialog/
-  // 修改过源码, CupertinoNavigationBar, AppBar
-  // 该目录不会export出来，只会在Base组件中用到，不会与原生的冲突
-  flutter/
-  // BaseIcon
-  icon/
-  // BaseIndicator
-  indicator/
-  // BaseMode, BasePlatformMode
-  mode/
-  // BaseRefresh
-  refresh/
-  // BaseRoute
-  route/
-  // BaseScaffold, BaseTabScaffold
- 	scaffold/
-  // BaseScrollBar
-  scroll_bar/
-  // BaseSection, BaseTile
-  section/
-  // BaseSlider
-  slider/
-  // BaseSwitch
-  switch/
-  // BaseTabBar, BaseBarItem
-  tabbar/
-  // BaseTextField
-  text_field/
-  // BaseTheme, BaseThemeData
-  theme/
-  // 工具类
-  tools/
+  src/
+    // BaseActionSheet, BaseActionSheetAction
+    action_sheet/
+    // BaseApp
+    app/
+    // BaseAppBar
+    appbar/
+    // BaseButton. BaseIconButton
+    button/
+    // 通用类, BaseColor, BaseRandomColor
+    common/
+    // 通用组件, BaseDrawer, BaseMaterialWidget
+    components/
+    // BaseAlertDialog, BaseAlertDialogAction, 
+    dialog/
+    // 修改过源码, CupertinoNavigationBar, AppBar
+    // 该目录不会export出来，只会在Base组件中用到，不会与原生的冲突
+    flutter/
+    // BaseIcon
+    icon/
+    // BaseIndicator
+    indicator/
+    // BaseMode, BasePlatformMode
+    mode/
+    // BaseRefresh
+    refresh/
+    // BaseRoute
+    route/
+    // BaseScaffold, BaseTabScaffold
+    scaffold/
+    // BaseScrollBar
+    scroll_bar/
+    // BaseSection, BaseTile
+    section/
+    // BaseSlider
+    slider/
+    // BaseSwitch
+    switch/
+    // BaseTabBar, BaseBarItem
+    tabbar/
+    // BaseTextField
+    text_field/
+    // BaseTheme, BaseThemeData
+    theme/
+    // 工具类
+    tools/
   // Base基类
   base_xxx.dart
 ```
@@ -93,66 +94,213 @@ lib/
 ## 差异化构建
 
 > * Baes组件会根据配置的模式，判断是用Cupertino组件还是Material组件构建
->
-> * 组件大多都是原生组件前缀加上Base命名，如BaseApp，`Cupertino`模式下使用CupertinoApp构建，`Material`模式下使用MaterialApp构建，同时可以使用`isCupertinoMode, isMaterialMode`
+>* 组件大多都是原生组件前缀加上Base命名，如BaseApp，`Cupertino`模式下使用CupertinoApp构建，`Material`模式下使用MaterialApp构建，同时可以使用`isCupertinoMode, isMaterialMode`
 >   这2个方法判断当前使用的模式，进行差异化构建。
->
-> * 每个Base组件都会有`Map<String, dynamic> cupertino`, `Map<String, dynamic> material`参数，用于在不同模式下的差异化构建，因为同一个参数在Cupertino组件下跟Material组件下的表现会出现一些不一致的情况，所以需要根据不同模式配置不同的值，`Cupertino`模式下参数会以cupertino参数里为准，`Material`模式下参数会以material参数里为准。
+> * 每个Base组件都会有[BaseParam baseParam](#BaseParam) 参数，用于在不同模式下的差异化构建，因为同一个参数在Cupertino组件下跟Material组件下的表现会出现一些不一致的情况，所以需要根据不同模式配置不同的值，还可以根据平台设置个性化参数值，参数值的取值顺序为：平台参数 -> 模式参数 -> 普通参数。
 
 ```dart
 // 示例
 BaseIcon(
-  // materil模式下先取material参数里的icon参数，取不到再取该值
+  // Materil模式下先取material参数里的icon参数，取不到再取该值
   icon: Icons.info,
-  cupertino: <String, dynamic>{
-    // cupertino模式下先取该值，因为取得到，所以不会取外层的icon
-    'icon': CupertinoIcons.info,
-  }
+  baseParam: BaseParam(
+    // Cupertino 模式会优先取该值
+    cupertino: <String, dynamic>{
+      'icon': CupertinoIcons.info,
+    },
+    // android 虽然是Material模式，但会优先取该值
+    android: <String, dynamic>{
+      'icon': CupertinoIcons.info,
+    }
+  )
 );
 ```
 
-  Cupertino模式下使用的是CupertinoIcons.info，material模式下使用的是Icons.info
+  Cupertino模式跟android下使用的是CupertinoIcons.info，Material模式跟其他平台下使用的是Icons.info
 
 <img src="https://github.com/nillnil/flutter_base/blob/master/screenshot/features_demo.png?raw=true" alt="features_demo" width="256" height="78">
 
 ### forceUseCupertino、forceUseMaterial
 
-> 每个Base组件的`cupertino、material`参数里都会有`forceUseCupertino、forceUseMaterial`2个参数，用于强制使用某种模式构建该组件，类型为Map<String, dynamic>
->
-> 由于很多Material组件都需要有Material组件的祖先节点，所以在`Cupertino`模式下使用`forceUseMaterial`参数时会默认套上一层`Material`，`BaseApp.withoutSplashOnCupertino = true`时还会去除Material组件上的水波纹效果，此时`BaseApp.theme`是不会生效的，所以`Theme.of(context)`是取不到正确的效果的。
+> 每个Base组件的`baseParam`参数里都会有`forceUseCupertino、forceUseMaterial`2个参数，用于强制使用某种模式构建该组件，由于很多Material组件都需要有Material组件的祖先节点，所以在`Cupertino`模式下使用`forceUseMaterial`参数时会默认套上一层`Material`，`BaseTheme.withoutSplashOnCupertino = true`时还会去除Material组件上的水波纹效果，此时`BaseApp.theme`是不会生效的，所以`Theme.of(context)`是取不到正确的效果的。
 >
 > `请慎用！慎用！慎用！避免出现样式混乱等不可预知的bug`
 
 ### disabled
 
-> 每个Base组件的`cupertino、material`参数里都会有`disabled`参数，disable = true 会使用Container()代替
-
-```dart
-cupertino: {
-  // 可使该组件强制使用Material构建
-  forceUseMaterial: true,
-  // 可使该组件不进行构建，但会使用Container()代替
-  disabled: true,
-}
-material: {
-  // 可使该组件强制使用Cupertino构建
-  forceUseCupertino: true,
-  // 可使该组件不进行构建，但会使用Container()代替
-  disabled: true,
-}
-```
+> 每个Base组件的`baseParam`参数里都会有`disabledOnXxx`参数，disabledOnXxx = true 会使用Container()代替，详情请查看[BaseParam](#BaseParam) 
 
 # Base组件基类
 
 ## BaseMixin
 
-基础通用类，有beforeBuild、beforeBuildByMaterial、beforeBuildByCupertino、valueFromMap四个方法，其中beforeBuild、beforeBuildByMaterial、beforeBuildByCupertino用于构建，valueFromMap用于取cupertino，material的值
+基础通用类，有beforeBuild、beforeBuildByMaterial、beforeBuildByCupertino、valueOf、getBuildMode五个方法，其中beforeBuild、beforeBuildByMaterial、beforeBuildByCupertino用于构建
 
 BaseClass、BaseStatelessWidget、BaseState都会混入该类，构建时执行顺序如下
 
-Cupertino模式：beforeBuild -> beforeBuildByCupertino -> buildByCupertino
+> Cupertino模式：beforeBuild -> beforeBuildByCupertino -> buildByCupertino
 
-Material模式：beforeBuild -> beforeBuildByMaterial -> buildByMaterial
+> Material模式：beforeBuild -> beforeBuildByMaterial -> buildByMaterial
+
+valueOf(String key, dynamic value)用于取个性化参数值，getBuildMode用于获取组件的实际构建模式，返回类型为`WidgetBuildMode`
+
+```dart
+/// 组件实际的构建模式
+enum WidgetBuildMode {
+  /// Cupertino模式
+  cupertino,
+  /// Material模式
+  material,
+  /// 强制使用Cupertino模式
+  forceUseCupertino,
+  /// 强制使用Material模式
+  forceUseMaterial,
+  /// 禁止构建，使用Container()代替
+  disabledOnXxx,
+}
+```
+
+## BaseParam
+
+组件个性化参数
+
+* cupertino - Cupertino 模式的个性化参数
+
+  类型：Map<String, dynamic>?
+
+  默认值：--
+
+* material - Material 模式的个性化参数
+
+  类型：Map<String, dynamic>?
+
+  默认值：--
+
+* andriod - android的个性化参数
+
+  类型：Map<String, dynamic>?
+
+  默认值：--
+
+* fuchsia - fuchsia的个性化参数
+
+  类型：Map<String, dynamic>?
+
+  默认值：--
+
+* iOS - iOS的个性化参数
+
+  类型：Map<String, dynamic>?
+
+  默认值：--
+
+* linux - linux的个性化参数
+
+  类型：Map<String, dynamic>?
+
+  默认值：--
+
+* macOS - macOS的个性化参数
+
+  类型：Map<String, dynamic>?
+
+  默认值：--
+
+* windows - windows的个性化参数
+
+  类型：Map<String, dynamic>?
+
+  默认值：--
+
+* web - web的个性化参数
+
+  类型：Map<String, dynamic>?
+
+  默认值：--
+
+* others - 其他平台的个性化参数
+
+  类型：Map<String, dynamic>?
+
+  默认值：--
+
+* forceUseMaterial - 强制使用Material模式构建
+
+  类型：bool
+
+  默认值：false
+
+* forceUseCupertino - 强制使用Cupertino模式构建
+
+  类型：bool
+
+  默认值：false
+
+* disabledOnMaterial - 在Material模式下禁止构建，使用Container()代替
+
+  类型：bool
+
+  默认值：false
+
+* disabledOnCupertino - 在Cupertino模式下禁止构建，使用Container()代替
+
+  类型：bool
+
+  默认值：false
+
+* disabledOnAndroid - 在android上禁止构建，使用Container()代替
+
+  类型：bool
+
+  默认值：false
+
+* disabledOnFuchsia - 在fuchsia上禁止构建，使用Container()代替
+
+  类型：bool
+
+  默认值：false
+
+* disabledOnIOS - 在iOS上禁止构建，使用Container()代替
+
+  类型：bool
+
+  默认值：false
+
+* disabledOnLinux - 在linux上禁止构建，使用Container()代替
+
+  类型：bool
+
+  默认值：false
+
+* disabledOnMacOS - 在macOS上禁止构建，使用Container()代替
+
+  类型：bool
+
+  默认值：false
+
+* disabledOnWindows - 在Windows上禁止构建，使用Container()代替
+
+  类型：bool
+
+  默认值：false
+
+* disabledOnWeb - 在web上禁止构建，使用Container()代替
+
+  类型：bool
+
+  默认值：false
+
+* disabledOnOthers - 在其他平台上禁止构建，使用Container()代替
+
+  类型：bool
+
+  默认值：false
+
+* withoutSplashOnCupertino - 在Cupertino模式下使用Material组件时是否去除水波纹效果
+
+  类型：bool
+
+  默认值：false
 
 ## BaseClass
 
@@ -160,35 +308,11 @@ Material模式：beforeBuild -> beforeBuildByMaterial -> buildByMaterial
 
 ## BaseStatelessWidget
 
-无状态Base组件，用于构建无状态组件，子类必须实现 `buildByCupertino、buildByMaterial` 方法，分别用于构建Cupertino、Material模式
-
-* cupertino - 取公共参数的值时，Cupertino模式下会先取该参数里的值，取不到再取公共参数的值，用于差异化构建，取值方法：valueFromCupertino(key, value)
-
-  类型：Map<String, dynamic>?
-
-  默认值：const <String, dynamic>{}
-
-* material -  取公共参数的值时，Material模式下会先取该参数里的值，取不到再取公共参数的值，用于差异化构建，取值方法：valueFromMaterial(key, value)
-
-  类型：Map<String, dynamic>?
-
-  默认值：const <String, dynamic>{}
+无状态Base组件，用于构建无状态组件，子类必须实现 `buildByCupertino、buildByMaterial` 方法，分别用于构建Cupertino、Material模式，组件里的参数取值都必须使用`valueOf`取值
 
 ## BaseStatefulWidget
 
-状态Base组件，用于构建有状态的组件，子类的State类必须继承 `BaseState` 类并实现`buildByCupertino、buildByMaterial` 方法，分别用于构建Cupertino、Material模式
-
-* cupertino - 取公共参数的值时，Cupertino模式下会先取该参数里的值，取不到再取公共参数的值，用于差异化构建，取值方法：valueFromCupertino(key, value)
-
-  类型：Map<String, dynamic>?
-
-  默认值：const <String, dynamic>{}
-
-* material -  取公共参数的值时，Material模式下会先取该参数里的值，取不到再取公共参数的值，用于差异化构建，取值方法：valueFromMaterial(key, value)
-
-  类型：Map<String, dynamic>?
-
-  默认值：const <String, dynamic>{}
+状态Base组件，用于构建有状态的组件，子类的State类必须继承 `BaseState` 类并实现`buildByCupertino、buildByMaterial` 方法，分别用于构建Cupertino、Material模式，组件里的参数取值都必须使用`valueOf`取值
 
 ## BasePlatformMode
 
@@ -234,12 +358,6 @@ Base组件样式，类似于Theme，CupertinoTheme
 
   默认值：--
 
-* centerTitle- 全局AppBar.centerTitle
-
-  类型：bool?
-
-  默认值：--
-
 * platformMode - 平台构建模式
 
   类型：BasePlatformMode?
@@ -274,6 +392,30 @@ Base组件样式，类似于Theme，CupertinoTheme
 * tileBackgroundColor - 全局BaseTile.backgroundColor
 
   类型：Color?
+
+  默认值：--
+
+* materialTheme - 同App.theme
+
+  类型：ThemeData?
+
+  默认值：--
+
+* materialDarkTheme - 同App.dartTheme
+
+  类型：ThemeData?
+
+  默认值：--
+
+* materialHighContrastTheme - 同App.highContrastTheme
+
+  类型：ThemeData?
+
+  默认值：--
+
+* materialHighContrastDarkTheme - 同App.highContrastDarkTheme
+
+  类型：ThemeData?
 
   默认值：--
 

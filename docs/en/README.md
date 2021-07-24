@@ -13,7 +13,7 @@
 
 # Introduction
 
-* One code, two mode, use `Cupertino` style widgets on iOS or macOs, use `Material` style widgets on andriod、fuchsia、windows、linux、others platform. You can also personalize the modes used by each platform.
+* One code, two mode, use `Cupertino` style widgets on iOS or macOs, use `Material` style widgets on andriod、fuchsia、windows、linux、others platform. Web follows the Default style of the system, you can also personalize the modes used by each platform.
 * At present, only the Cupertino mode is tested on IOS, and the material widget  is relatively perfect. Later, the material mode and other platform tests will be supplemented.
 
 >  The stable branch is used, and the version is consistent with the version of flutter
@@ -33,58 +33,59 @@ For some reasons,  on https://pub.dev/  is the older version，please use by git
         ref: x.x.x
   ```
 
-* use `BaseXxx ` widget s instead of native widget s，The parameters are basically the same as the original ones, such as: BaseApp, BaseAppBar, BaseButton, and other widget s，If a parameter only exists in the `Cupertinoxx` widget  or the `Materialxxx` widget , it will only take effect in this mode
+* use `BaseXxx ` widgets instead of native widget s，The parameters are basically the same as the original ones, such as: BaseApp, BaseAppBar, BaseButton, and other widget s，If a parameter only exists in the `Cupertinoxx` widget  or the `Materialxxx` widget , it will only take effect in this mode
 
 # Project structure
 
 ```javascript
 lib/
-	// BaseActionSheet, BaseActionSheetAction
-	action_sheet/
-	// BaseApp
-  app/
-  // BaseAppBar
-  appbar/
-  // BaseButton. BaseIconButton
-  button/
-  // Generic classes, BaseColor, BaseRandomColor
-  common/
-  // Generic components, BaseDrawer, BaseMaterialWidget
-  components/
-  // BaseAlertDialog, BaseAlertDialogAction, 
-  dialog/
-  // Modified the source code, CupertinoNavigationBar, AppBar
-  // The directory will not be exported
-  // it will only be used in the Base's widgets, and will not conflict with the original
-  flutter/
-  // BaseIcon
-  icon/
-  // BaseIndicator
-  indicator/
-  // BaseMode, BasePlatformMode
-  mode/
-  // BaseRefresh
-  refresh/
-  // BaseRoute
-  route/
-  // BaseScaffold, BaseTabScaffold
- 	scaffold/
-  // BaseScrollBar
-  scroll_bar/
-  // BaseSection, BaseTile
-  section/
-  // BaseSlider
-  slider/
-  // BaseSwitch
-  switch/
-  // BaseTabBar, BaseBarItem
-  tabbar/
-  // BaseTextField
-  text_field/
-  // BaseTheme, BaseThemeData
-  theme/
-  // Tools
-  tools/
+  src/
+    // BaseActionSheet, BaseActionSheetAction
+    action_sheet/
+    // BaseApp
+    app/
+    // BaseAppBar
+    appbar/
+    // BaseButton. BaseIconButton
+    button/
+    // Generic classes, BaseColor, BaseRandomColor
+    common/
+    // Generic components, BaseDrawer, BaseMaterialWidget
+    components/
+    // BaseAlertDialog, BaseAlertDialogAction, 
+    dialog/
+    // Modified the source code, CupertinoNavigationBar, AppBar
+    // The directory will not be exported
+    // it will only be used in the Base's widgets, and will not conflict with the original
+    flutter/
+    // BaseIcon
+    icon/
+    // BaseIndicator
+    indicator/
+    // BaseMode, BasePlatformMode
+    mode/
+    // BaseRefresh
+    refresh/
+    // BaseRoute
+    route/
+    // BaseScaffold, BaseTabScaffold
+    scaffold/
+    // BaseScrollBar
+    scroll_bar/
+    // BaseSection, BaseTile
+    section/
+    // BaseSlider
+    slider/
+    // BaseSwitch
+    switch/
+    // BaseTabBar, BaseBarItem
+    tabbar/
+    // BaseTextField
+    text_field/
+    // BaseTheme, BaseThemeData
+    theme/
+    // Tools
+    tools/
   // Base's classes
   base_xxx.dart
 ```
@@ -96,62 +97,213 @@ lib/
 > * The Baes widget  will determine whether to build with Cupertino's widget s or Material's widget s according to the configuration mode
 > * Most of the widget s are native widget s prefixed with the Base name, such as BaseApp, which is built with CupertinoApp in `Cupertino` mode, and MaterialApp is built in `Material` mode. At the same time, you can use `isCupertinoMode, isMaterialMode`
 >   These two methods determine the currently used mode and conduct differentiated construction.
-> * Each Base widget  will have `Map<String, dynamic> cupertino`, `Map<String, dynamic> material` parameters, which are used for differentiated construction in different modes, because the same parameter is under the Cupertino widget  and under the Material widget  There will be some inconsistencies in the performance, so you need to configure different values according to different modes. In the `Cupertino` mode, the parameters in the cupertino parameters will prevail, and in the `Material` mode the parameters will be in the material parameters.
+> * Each Base widget  will have [BaseParam baseParam](#BaseParam),  which are used for differentiated construction in different modes, because the same parameter is under the Cupertino widget  and under the Material widget  There will be some inconsistencies in the performance, so you can also set personalized parameter values according to the platform. The order of parameter values is: platform parameters - > mode parameters - > common parameters
 
 ```dart
 // Example
 BaseIcon(
   // In materil mode, first take the icon parameter in the material parameter, and then take the value if it is not available
   icon: Icons.info,
-  cupertino: <String, dynamic>{
-    // In cupertino mode, take this value first, because it is obtained, so the outer icon will not be taken
-    'icon': CupertinoIcons.info,
-  }
+  baseParam: BaseParam(
+    // Cupertino's will take this value first
+    cupertino: <String, dynamic>{
+      'icon': CupertinoIcons.info,
+    },
+    // android although it is in material mode, this value will take first
+    android: <String, dynamic>{
+      'icon': CupertinoIcons.info,
+    }
+  )
 );
 ```
 
-  In Cupertino mode, CupertinoIcons.info is used, and in material mode, Icons.info is used
+  In Cupertino mode and android, CupertinoIcons.info is used, and in material mode and others platform, Icons.info is used
 
 <img src="https://github.com/nillnil/flutter_base/blob/master/screenshot/features_demo.png?raw=true" alt="features_demo" width="256" height="78">
 
 ### forceUseCupertino、forceUseMaterial
 
-> The `cupertino, material` parameters of each Base widget  will have two parameters `forceUseCupertino, forceUseMaterial`, which are used to force a certain mode to build the widget , the type is `Map<String, dynamic>`
+> The `baseParam` parameters of each Base widget  will have two parameters `forceUseCupertino, forceUseMaterial`, which are used to force a certain mode to build the widget , the type is `Map<String, dynamic>`
 >
-> Since many Material widget s need to have the ancestor node of the Material widget , when using the `forceUseMaterial` parameter in the `Cupertino` mode, a layer of `Material` will be applied by default, and the Material widget  will be removed when `BaseApp.withoutSplashOnCupertino = true` At this time, `BaseApp.theme` will not take effect, so `Theme.of(context)` cannot get the correct effect.
+> Since many Material widget s need to have the ancestor node of the Material widget , when using the `forceUseMaterial` parameter in the `Cupertino` mode, a layer of `Material` will be applied by Default, and the Material widget  will be removed when `BaseApp.withoutSplashOnCupertino = true` At this time, `BaseApp.theme` will not take effect, so `Theme.of(context)` cannot get the correct effect.
 >
 > `Please use it with caution! Use with caution! Use with caution! Avoid unpredictable bugs such as chaotic styles`
 
 ### disabled
 
-> The `cupertino and material` parameters of each Base widget  will have the `disabled` parameter, and if disable = true, Container() will be used instead
-
-```dart
-cupertino: {
-  // Make the widget mandatory to use Material's mode to build
-  forceUseMaterial: true,
-  // The widget can be made not to be built, but Container() will be used instead
-  disabled: true,
-}
-material: {
-  // Make the widget mandatory to use Cupertino's mode to build
-  forceUseCupertino: true,
-  // The widget can be made not to be built, but Container() will be used instead
-  disabled: true,
-}
-```
+> The `baseParam` parameters of each Base widget  will have the `disabledOnXxx` parameter, and if disabledOnXxx = true, Container() will be used instead
 
 # Base component's base classes
 
 ## BaseMixin
 
-Basic general class, there are four methods `beforeBuild`, `beforeBuildByMaterial`, `beforeBuildByCupertino`, and `valueFromMap`. Among them, `beforeBuild`, `beforeBuildByMaterial`, and `beforeBuildByCupertino` are used for building, and` valueFromMap` is used for taking the values of cupertino and material.
+Basic general class, there are four methods `beforeBuild`, `beforeBuildByMaterial`, `beforeBuildByCupertino`,  `valueOf`, `getBuildMode`. Among them, `beforeBuild`, `beforeBuildByMaterial`, and `beforeBuildByCupertino` are used for building.
 
 BaseClass, BaseStatelessWidget, and BaseState will all be mixed into this class, and the execution order during construction is as follows
 
-Cupertino's mode：beforeBuild -> beforeBuildByCupertino -> buildByCupertino
+> Cupertino's mode：beforeBuild -> beforeBuildByCupertino -> buildByCupertino
 
-Material's mode：beforeBuild -> beforeBuildByMaterial -> buildByMaterial
+> Material's mode：beforeBuild -> beforeBuildByMaterial -> buildByMaterial
+
+`valueOf(String key, dynamic value)` It is used to get the personalized parameter value. `getbuildmode ` is used to get the actual build mode of the component. The return type is ` WidgetBuildMode`
+
+```dart
+/// Actual build mode of widgets
+enum WidgetBuildMode {
+  /// Cupertino's mode
+  cupertino,
+  /// Material's mode
+  material,
+  /// force use Cupertino's mode
+  forceUseCupertino,
+  /// force use Material's mode
+  forceUseMaterial,
+  /// Do not build, use Container() instead
+  disabled,
+}
+```
+
+## BaseParam
+
+Widgets personalization parameters
+
+* cupertino - Cupertino's mode personalization parameters
+
+  Type：Map<String, dynamic>?
+
+  Default：--
+
+* material - Material's mode personalization parameters
+
+  Type：Map<String, dynamic>?
+
+  Default：--
+
+* andriod - android's personalization parameters
+
+  Type：Map<String, dynamic>?
+
+  Default：--
+
+* fuchsia - fuchsia's personalization parameters
+
+  Type：Map<String, dynamic>?
+
+  Default：--
+
+* iOS - iOS's personalization parameters
+
+  Type：Map<String, dynamic>?
+
+  Default：--
+
+* linux - linux's personalization parameters
+
+  Type：Map<String, dynamic>?
+
+  Default：--
+
+* macOS - macOS's personalization parameters
+
+  Type：Map<String, dynamic>?
+
+  Default：--
+
+* windows - windows's personalization parameters
+
+  Type：Map<String, dynamic>?
+
+  Default：--
+
+* web - web's personalization parameters
+
+  Type：Map<String, dynamic>?
+
+  Default：--
+
+* others - 其他平台's personalization parameters
+
+  Type：Map<String, dynamic>?
+
+  Default：--
+
+* forceUseMaterial - force use Material's mode
+
+  Type：bool
+
+  Default：false
+
+* forceUseCupertino - force use Cupertino's mode
+
+  Type：bool
+
+  Default：false
+
+* disabledOnMaterial - on Material's do not build, use Container() instead
+
+  Type：bool
+
+  Default：false
+
+* disabledOnCupertino - on Cupertino's do not build, use Container() instead
+
+  Type：bool
+
+  Default：false
+
+* disabledOnAndroid - on android do not build, use Container() instead
+
+  Type：bool
+
+  Default：false
+
+* disabledOnFuchsia - on fuchsia do not build, use Container() instead
+
+  Type：bool
+
+  Default：false
+
+* disabledOnIOS - on iOS do not build, use Container() instead
+
+  Type：bool
+
+  Default：false
+
+* disabledOnLinux - on linux do not build, use Container() instead
+
+  Type：bool
+
+  Default：false
+
+* disabledOnMacOS - on macOS do not build, use Container() instead
+
+  Type：bool
+
+  Default：false
+
+* disabledOnWindows - on Windows do not build, use Container() instead
+
+  Type：bool
+
+  Default：false
+
+* disabledOnWeb - on web do not build, use Container() instead
+
+  Type：bool
+
+  Default：false
+
+* disabledOnOthers - on others's platform do not build, use Container() instead
+
+  Type：bool
+
+  Default：false
+
+* withoutSplashOnCupertino - Whether to remove the water ripple effect when using forceUseMaterial on Cupertino's mode
+
+  Type：bool
+
+  Default：false
 
 ## BaseClass
 
@@ -233,19 +385,13 @@ Base widget 's theme, similar to Theme，CupertinoTheme
 
   Default: --
 
-* centerTitle- Global AppBar.centerTitle
-
-  Type: bool?
-
-  Default: --
-
 * platformMode - Platform build mode
 
   Type: BasePlatformMode?
 
   Default: const BasePlatformMode()
 
-  iOS, macOS use `Cupertino's` mode widget by default，andriod、fuchsia、windows、linux、other platform use `Material's` mode widget
+  iOS, macOS use `Cupertino's` mode widget by Default，andriod、fuchsia、windows、linux、other platform use `Material's` mode widget
 
   ```dart
   // Modify the platform mode directly
@@ -340,7 +486,7 @@ Material's mode：modified's AppBar
 
   Default: true
 
-  on CupertinoNavigationBar gaussian blur will be added by default when the background color is transparent. 
+  on CupertinoNavigationBar gaussian blur will be added by Default when the background color is transparent. 
 
   BackdropFilter = false, gaussian blur will not be added, and a fully transparent navigation bar can be realized
 
